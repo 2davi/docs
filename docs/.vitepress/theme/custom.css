@@ -1119,3 +1119,58 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================
+   코드 블록 줄 번호 — CSS counter 방식 (VitePress + Shiki)
+   span.line에 직접 ::before 부착 → 간격 의존 없음
+   ============================================================ */
+
+/* lineNumbers: true 가 켜진 경우 VitePress가 추가하는 클래스
+   .vp-code-block-line-numbers 가 없으면 아래 전체가 비활성화됨 */
+.vp-doc div[class*="language-"].line-numbers-mode code,
+div[class*="language-"].line-numbers-mode code {
+  counter-reset: line-number;
+}
+
+.vp-doc div[class*="language-"].line-numbers-mode code .line,
+div[class*="language-"].line-numbers-mode code .line {
+  display: block;        /* 줄을 block으로 — inline이면 ::before가 흘러버림 */
+  counter-increment: line-number;
+  padding-left: 3.5rem; /* 번호 영역 예약 */
+  position: relative;
+  min-height: 1.5em;     /* 빈 줄도 번호가 표시되도록 */
+}
+
+.vp-doc div[class*="language-"].line-numbers-mode code .line::before,
+div[class*="language-"].line-numbers-mode code .line::before {
+  content: counter(line-number);
+  position: absolute;
+  left: 0;
+  width: 2.8rem;
+  text-align: right;
+  padding-right: 0.6rem;
+
+  /* 기존 .line-numbers 사이드바와 겹치지 않도록 z-index 보장 */
+  font-size: var(--vp-code-font-size, 0.875em);
+  font-family: var(--vp-font-family-mono);
+  line-height: inherit;  /* 코드 줄과 동일한 line-height 강제 상속 */
+
+  color: var(--vp-c-text-3, rgba(128,128,128,0.5));
+  user-select: none;
+  pointer-events: none;
+  border-right: 1px solid oklch(from currentColor l c h / 0.15);
+}
+
+/* VitePress 기본 .line-numbers 사이드바(절대위치 div) 숨기기
+   counter 방식으로 교체하므로 중복 제거 */
+.vp-doc div[class*="language-"].line-numbers-mode .line-numbers-wrapper,
+div[class*="language-"].line-numbers-mode .line-numbers-wrapper {
+  display: none !important;
+}
+
+/* 줄 하이라이트 (.line.highlighted) 와 충돌 방지 — 배경만 덮어쓰기 */
+.vp-doc div[class*="language-"].line-numbers-mode code .line.highlighted,
+div[class*="language-"].line-numbers-mode code .line.highlighted {
+  background-color: oklch(from var(--vp-c-brand-1, #C15F3C) 0.9 0.03 h / 0.12);
+  border-right: none;
+}
