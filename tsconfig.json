@@ -1,18 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "strict": true,
-    "jsx": "preserve",
-    "types": ["node"],
-    "allowJs": true,
-    "skipLibCheck": true
+    "target":              "ES2022",
+    "lib":                 ["ES2022", "DOM", "DOM.Iterable"],
+    "module":              "ESNext",
+    "moduleResolution":    "Bundler",
+    "strict":              true,
+    "jsx":                 "preserve",
+    "types":               ["node"],
+    "allowJs":             true,
+    "resolveJsonModule":   true,
+    "skipLibCheck":        true,
+    "isolatedModules":     true
   },
   "include": [
+    "*.d.ts",
     "docs/**/*.ts",
     "docs/**/*.mts",
     "docs/**/*.d.ts",
-    "docs/**/*.vue"
+    "docs/**/*.vue",
+    "docs/.vitepress/**/*.ts",
+    "docs/.vitepress/**/*.mts",
+    "docs/.vitepress/**/*.d.ts",
+    "docs/.vitepress/**/*.vue"
   ]
 }
