@@ -1,5 +1,39 @@
 # Frontmatter Convention (2026-04-07)
 
+## 0. 개정된 공통 frontmatter 템플릿
+
+```yaml
+---
+# ── 필수 공통 필드 ────────────────────────────────────
+title: ""
+date: 2026-04-07
+lastmod: 2026-04-07
+author: "Davi"
+description: ""           # 150~160자 권장
+slug: ""                  # kebab-case, URL 식별자
+
+# ── 분류 ─────────────────────────────────────────────
+section: ""               # articles | notes | deep-dive | translations
+category: ""              # 카테고리 (소문자, 하이픈)
+tags: []
+
+# ── 정렬 ─────────────────────────────────────────────
+order: 9999               # 섹션 내 수동 순서 (낮을수록 위)
+series: ~                 # 시리즈명 (null이면 ~)
+series_order: ~           # 시리즈 내 순서 (null이면 ~)
+
+# ── 상태 ─────────────────────────────────────────────
+status: "active"          # active | wip | archived
+draft: false
+search: true              # false면 검색 인덱스에서 제외
+
+# ── 선택 공통 ─────────────────────────────────────────
+toc: true
+difficulty: ~             # beginner | intermediate | advanced
+version: ~                # 대상 기술 버전 (notes 한정)
+---
+```
+
 ## 1. `articles/` - 블로그 포스트
 
 ```yaml

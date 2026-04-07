@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "docs:dev":   "vitepress dev docs",
+    "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/2davi/docs#readme",
   "devDependencies": {
-    "vitepress": "^1.x"
+    "vitepress": "^1.x",
+    "vitepress-sidebar": "^1.33.1"
   }
 }

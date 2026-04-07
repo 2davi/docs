@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { generateSidebar } from 'vitepress-sidebar'
 
 export default defineConfig({
   lang: 'ko-KR',
@@ -6,7 +7,7 @@ export default defineConfig({
   description: "백엔드·인프라·아키텍처 학습 기록",
 
   // GitHub Pages 배포 시 레포 이름이 서브패스인 경우
-  base: '/my-devlog/',
+  base: '/docs/',
 
   head: [
     ['link', { rel: 'icon', href: '/my-devlog/favicon.ico' }],
@@ -23,35 +24,46 @@ export default defineConfig({
       { text: 'Translations', link: '/translations/' },
     ],
 
-    sidebar: {
-      '/deep-dive/rest-domain-state-manager/': [
-        {
-          text: 'REST Domain State Manager',
-          items: [
-            { text: '프로젝트 개요', link: '/deep-dive/rest-domain-state-manager/' },
-            { text: '역공학 학습 가이드', link: '/deep-dive/rest-domain-state-manager/01-reverse-engineering-guide' },
-            { text: 'Technical Deep Dive', link: '/deep-dive/rest-domain-state-manager/02-technical-deep-dive' },
-          ],
-        },
-      ],
-      '/notes/': [
-        { text: 'Java', items: [
-          { text: 'JVM GC 튜닝', link: '/notes/java/jvm-gc-tuning' },
-        ]},
-        { text: 'Kubernetes', items: [
-          { text: 'Cilium 네트워크 정책', link: '/notes/kubernetes/cilium-network-policy' },
-        ]},
-        { text: 'Database', items: [
-          { text: 'PostgreSQL EXPLAIN ANALYZE', link: '/notes/database/postgresql-explain-analyze' },
-        ]},
-      ],
-    },
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/davi-dev' },
-    ],
+    sidebar: generateSidebar([
+      {
+        documentRootPath: 'docs',
+        scanStartPath:    'articles',
+        resolvePath:      '/articles/',
+        useTitleFromFrontmatter:    true,
+        sortMenusByFrontmatterDate: true,
+        sortMenusOrderByDescending: true,
+        excludeByGlobPattern:   ['**/index.md'],
+        excludeFilesByFrontmatterFieldName: 'draft'
+      },
+      {
+        documentRootPath: 'docs',
+        scanStartPath:    'notes',
+        resolvePath:      '/notes/',
+        useTitleFromFrontmatter:  true,
+        useFolderTitleFromIndexFile: true,
+        excludeByGlobPattern:   ['**/index.md'],
+      },
+      {
+        documentRootPath:    'docs',
+        scanStartPath:       'deep-dive',
+        resolvePath:         '/deep-dive/',
+        useTitleFromFrontmatter:   true,
+        useFolderTitleFromIndexFile: true,
+        sortMenusByFrontmatterOrder: true,   // series_order 기준 정렬
+        excludeByGlobPattern: ['**/index.md']
+      },
+      {
+        documentRootPath: 'docs',
+        scanStartPath:    'translations',
+        resolvePath:      '/translations/',
+        useTitleFromFrontmatter: true,
+        excludeByGlobPattern:   ['**/index.md'],
+      },
+    ]),
 
-    search: { provider: 'local' },  // 로컬 전문 검색 (무료, 모바일 지원)
+    search:      { provider: 'local' },
+    socialLinks: [{ icon: 'github', link: 'https://github.com/davi-dev' }],
   },
 
   // 마크다운 확장
