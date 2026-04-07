@@ -522,10 +522,10 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   7. CODE — Fira Code + JEP 스타일
+   7. CODE — D2Coding Ligature + JEP 스타일
    ───────────────────────────────────────────── */
 
-/* Inline code */
+/* ── Inline code ── */
 .vp-doc :not(pre) > code {
   font-family: var(--font-mono) !important;
   font-size: 0.85em !important;
@@ -536,7 +536,6 @@ html {
   border-radius: var(--radius-sm) !important;
   padding: 0.1em 0.4em !important;
   letter-spacing: -0.01em;
-  transition: background var(--transition-fast), border-color var(--transition-fast) !important;
 }
 
 .dark .vp-doc :not(pre) > code {
@@ -545,8 +544,9 @@ html {
   border-color: oklch(from var(--color-primary) l c h / 0.25) !important;
 }
 
-/* Code block wrapper */
+/* ── Code block wrapper ── */
 .vp-doc div[class*='language-'] {
+  position: relative;
   border-radius: var(--radius-lg) !important;
   border: 1px solid var(--color-border) !important;
   box-shadow: var(--shadow-sm) !important;
@@ -560,47 +560,64 @@ html {
   border-color: var(--color-border) !important;
 }
 
-/* Code block header bar */
+/* ── 언어 라벨 — span 태그로 직접 렌더 (attr 방식 폐기) ── */
+
+/* ::before 완전 제거 — attr(class) 오염 방지 */
 .vp-doc div[class*='language-']::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* VitePress가 자동 생성하는 .lang span 스타일링 */
+.vp-doc div[class*='language-'] > span.lang {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: block;
-  content: attr(class);
   padding: var(--space-2) var(--space-4);
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-display) !important;
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
   color: var(--color-text-faint);
   background: var(--color-surface-2);
   border-bottom: 1px solid var(--color-divider);
+  line-height: 1;
+  height: 2rem; /* 헤더 바 고정 높이 */
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.dark .vp-doc div[class*='language-']::before {
+.dark .vp-doc div[class*='language-'] > span.lang {
   background: var(--color-surface-offset);
 }
 
-/* 언어별 헤더 색상 */
-.vp-doc div.language-java::before   { color: var(--color-badge-java); content: "☕  java"; }
-.vp-doc div.language-javascript::before,
-.vp-doc div.language-js::before     { color: var(--color-badge-js); content: "⬡  javascript"; }
-.vp-doc div.language-typescript::before,
-.vp-doc div.language-ts::before     { color: var(--color-badge-ts); content: "TS  typescript"; }
-.vp-doc div.language-sh::before,
-.vp-doc div.language-bash::before   { color: var(--color-badge-shell); content: "▶  shell"; }
-.vp-doc div.language-yaml::before   { color: var(--color-text-muted); content: "⚙  yaml"; }
-.vp-doc div.language-json::before   { color: var(--color-text-muted); content: "{}  json"; }
-.vp-doc div.language-css::before    { color: var(--color-primary); content: "#  css"; }
-.vp-doc div.language-vue::before    { color: var(--color-badge-shell); content: "◈  vue"; }
-.vp-doc div.language-markdown::before,
-.vp-doc div.language-md::before     { color: var(--color-text-muted); content: "⌘  markdown"; }
-.vp-doc div.language-sql::before    { color: var(--color-info); content: "⊞  sql"; }
-.vp-doc div.language-text::before,
-.vp-doc div.language-txt::before    { content: ""; display: none; }
+/* 언어별 라벨 색상 */
+.vp-doc div.language-java > span.lang       { color: var(--color-badge-java); }
+.vp-doc div.language-javascript > span.lang,
+.vp-doc div.language-js > span.lang         { color: var(--color-badge-js); }
+.vp-doc div.language-typescript > span.lang,
+.vp-doc div.language-ts > span.lang         { color: var(--color-badge-ts); }
+.vp-doc div.language-sh > span.lang,
+.vp-doc div.language-bash > span.lang,
+.vp-doc div.language-powershell > span.lang,
+.vp-doc div.language-ps1 > span.lang        { color: var(--color-badge-shell); }
+.vp-doc div.language-yaml > span.lang       { color: var(--color-text-muted); }
+.vp-doc div.language-json > span.lang       { color: var(--color-text-muted); }
+.vp-doc div.language-css > span.lang        { color: var(--color-primary); }
+.vp-doc div.language-vue > span.lang        { color: var(--color-badge-shell); }
+.vp-doc div.language-markdown > span.lang,
+.vp-doc div.language-md > span.lang         { color: var(--color-text-muted); }
+.vp-doc div.language-sql > span.lang        { color: var(--color-info); }
 
-/* Code block: pre/code 내부 */
+/* ── pre/code 내부 — 헤더 바 높이(2rem)만큼 padding-top ── */
 .vp-doc div[class*='language-'] pre {
   background: transparent !important;
-  padding: var(--space-5) !important;
+  padding: calc(2rem + var(--space-4)) var(--space-5) var(--space-5) !important;
   margin: 0 !important;
   overflow-x: auto;
 }
@@ -614,35 +631,84 @@ html {
   border: none !important;
   padding: 0 !important;
   color: var(--color-text) !important;
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "liga" 1, "calt" 1;
 }
 
-/* Copy button */
-.vp-doc div[class*='language-'] .copy {
-  background: var(--color-surface-2) !important;
-  border: 1px solid var(--color-border) !important;
-  border-radius: var(--radius-sm) !important;
-  color: var(--color-text-faint) !important;
-  transition: all var(--transition-fast) !important;
-  top: calc(var(--space-2) + 2rem) !important; /* header bar 아래 */
-}
-
-.vp-doc div[class*='language-'] .copy:hover {
-  background: var(--color-primary-highlight) !important;
-  border-color: var(--color-primary) !important;
-  color: var(--color-primary) !important;
-}
-
-/* Line numbers */
+/* ── 라인 번호 — pre와 동일한 padding-top 맞추기 ── */
 .vp-doc div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
+  padding-top: calc(2rem + var(--space-4)) !important; /* 헤더 바 + pre의 top padding과 동일 */
+  padding-bottom: var(--space-5) !important;
+  padding-left: var(--space-3) !important;
+  padding-right: var(--space-3) !important;
   background: var(--color-surface-2) !important;
   border-right: 1px solid var(--color-divider) !important;
   color: var(--color-text-faint) !important;
   font-family: var(--font-mono) !important;
   font-size: 0.75rem !important;
-  padding: var(--space-5) var(--space-3) !important;
+  line-height: 1.7 !important; /* code의 line-height와 반드시 일치 */
+  min-width: 2.5rem;
+  text-align: right;
+  user-select: none;
 }
 
-/* Line highlight */
+.dark .vp-doc div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
+  background: var(--color-surface-offset) !important;
+}
+
+/* ── 복사 버튼 ── */
+.vp-doc div[class*='language-'] > button.copy {
+  /* 위치 — 헤더 바 내부 우측 정렬 */
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  /* 스타일 */
+  background: transparent !important;
+  border: none !important;
+  border-left: 1px solid var(--color-divider) !important;
+  border-radius: 0 !important;
+  color: var(--color-text-faint) !important;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast) !important;
+  z-index: 3;
+  opacity: 0;
+}
+
+/* 블록 hover 시 버튼 노출 */
+.vp-doc div[class*='language-']:hover > button.copy {
+  opacity: 1;
+}
+
+.vp-doc div[class*='language-'] > button.copy:hover {
+  background: var(--color-primary-subtle) !important;
+  color: var(--color-primary) !important;
+}
+
+.dark .vp-doc div[class*='language-'] > button.copy:hover {
+  background: var(--color-primary-highlight) !important;
+}
+
+/* 복사 완료 상태 */
+.vp-doc div[class*='language-'] > button.copy.copied {
+  color: var(--color-success) !important;
+  opacity: 1 !important;
+}
+
+/* VitePress 기본 copy 아이콘 크기 보정 */
+.vp-doc div[class*='language-'] > button.copy::before {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* ── Line highlight ── */
 .vp-doc div[class*='language-'] .highlighted {
   background: oklch(from var(--color-primary) l c h / 0.10) !important;
   border-left: 2px solid var(--color-primary) !important;
