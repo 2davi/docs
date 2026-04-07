@@ -4,6 +4,7 @@ import CategoryIndex  from './components/CategoryIndex.vue'
 import TagCloud       from './components/TagCloud.vue'
 import SeriesNav      from './components/SeriesNav.vue'
 import type { Theme } from 'vitepress'
+import './custom.css'
 
 export default {
   extends: DefaultTheme,

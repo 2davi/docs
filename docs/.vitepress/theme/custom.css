@@ -1,0 +1,1034 @@
+/* =============================================================
+   Davi Notes — VitePress Custom Theme
+   Art direction: JEP Docs 구조 × Claude.ai 컬러 시스템
+   Palette: Warm off-white surfaces, Claude coral-orange accent
+   Typography: Fira Code (display/headings) + Pretendard (body)
+   Density: balanced (docs 적합 — 조밀하지도 느슨하지도 않음)
+   ============================================================= */
+
+/* ─────────────────────────────────────────────
+   0. FONT IMPORTS
+   ───────────────────────────────────────────── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+
+/* ─────────────────────────────────────────────
+   1. DESIGN TOKENS — Light Mode
+   ───────────────────────────────────────────── */
+:root {
+  /* ── Surfaces (Claude Warm Off-White) ── */
+  --color-bg:               #FAF9F5;
+  --color-surface:          #F7F6F1;
+  --color-surface-2:        #F3F2EC;
+  --color-surface-offset:   #EDEAE2;
+  --color-surface-dynamic:  #E4E0D6;
+  --color-divider:          #D8D4CA;
+  --color-border:           #CCC8BE;
+
+  /* ── Text (Claude Brown-Gray) ── */
+  --color-text:             #1F1E1D;
+  --color-text-muted:       #6B6A67;
+  --color-text-faint:       #B0AEA8;
+  --color-text-inverse:     #FAF9F5;
+
+  /* ── Primary Accent (Claude Coral-Orange) ── */
+  --color-primary:          #C15F3C;
+  --color-primary-hover:    #A84E2E;
+  --color-primary-active:   #8C3F23;
+  --color-primary-highlight: #F2DDD5;
+  --color-primary-subtle:   #FBF0EB;
+
+  /* ── Semantic ── */
+  --color-success:          #3A7A2E;
+  --color-success-highlight:#D6EDD0;
+  --color-warning:          #A07020;
+  --color-warning-highlight:#F2E6C8;
+  --color-error:            #9B2A2A;
+  --color-error-highlight:  #F5D5D5;
+  --color-info:             #2A5F8A;
+  --color-info-highlight:   #D0E4F2;
+
+  /* ── Code block badge colors ── */
+  --color-badge-java:       #E07850;
+  --color-badge-js:         #B89B30;
+  --color-badge-ts:         #3B72B4;
+  --color-badge-shell:      #4A8A5A;
+
+  /* ── Shadows (warm-tinted) ── */
+  --shadow-sm:  0 1px 2px oklch(0.18 0.02 50 / 0.06);
+  --shadow-md:  0 4px 12px oklch(0.18 0.02 50 / 0.09);
+  --shadow-lg:  0 12px 32px oklch(0.18 0.02 50 / 0.14);
+
+  /* ── Radius ── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.375rem;
+  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;
+  --radius-full: 9999px;
+
+  /* ── Transitions ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 140ms var(--ease-out-expo);
+  --transition-base: 200ms var(--ease-out-expo);
+
+  /* ── Spacing (4px grid) ── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* ── Typography ── */
+  --font-body:    'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'Fira Code', 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  --font-display: 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── VitePress token overrides ── */
+  --vp-font-family-base:  var(--font-body);
+  --vp-font-family-mono:  var(--font-mono);
+
+  --vp-c-brand-1:         var(--color-primary);
+  --vp-c-brand-2:         var(--color-primary-hover);
+  --vp-c-brand-3:         var(--color-primary-active);
+  --vp-c-brand-soft:      var(--color-primary-highlight);
+
+  --vp-c-bg:              var(--color-bg);
+  --vp-c-bg-soft:         var(--color-surface);
+  --vp-c-bg-mute:         var(--color-surface-2);
+  --vp-c-bg-alt:          var(--color-surface-offset);
+
+  --vp-c-divider:         var(--color-divider);
+  --vp-c-border:          var(--color-border);
+
+  --vp-c-text-1:          var(--color-text);
+  --vp-c-text-2:          var(--color-text-muted);
+  --vp-c-text-3:          var(--color-text-faint);
+
+  --vp-c-tip-1:           var(--color-primary);
+  --vp-c-tip-2:           var(--color-primary-hover);
+  --vp-c-tip-soft:        var(--color-primary-highlight);
+
+  --vp-c-warning-1:       var(--color-warning);
+  --vp-c-warning-soft:    var(--color-warning-highlight);
+  --vp-c-danger-1:        var(--color-error);
+  --vp-c-danger-soft:     var(--color-error-highlight);
+}
+
+
+/* ─────────────────────────────────────────────
+   2. DESIGN TOKENS — Dark Mode
+   ───────────────────────────────────────────── */
+.dark {
+  /* ── Surfaces (Claude Warm Charcoal) ── */
+  --color-bg:               #1A1916;
+  --color-surface:          #201F1C;
+  --color-surface-2:        #252420;
+  --color-surface-offset:   #2C2B27;
+  --color-surface-dynamic:  #353430;
+  --color-divider:          #302F2B;
+  --color-border:           #3D3C37;
+
+  /* ── Text ── */
+  --color-text:             #E8E6E0;
+  --color-text-muted:       #8C8A84;
+  --color-text-faint:       #5A5954;
+  --color-text-inverse:     #1F1E1D;
+
+  /* ── Primary Accent (brighter for dark bg) ── */
+  --color-primary:          #E08060;
+  --color-primary-hover:    #E89070;
+  --color-primary-active:   #F0A080;
+  --color-primary-highlight: #3A2820;
+  --color-primary-subtle:   #2E2018;
+
+  /* ── Semantic ── */
+  --color-success:          #6AAA50;
+  --color-success-highlight:#1E3818;
+  --color-warning:          #C89838;
+  --color-warning-highlight:#3A2E10;
+  --color-error:            #D45050;
+  --color-error-highlight:  #3A1818;
+  --color-info:             #5090CC;
+  --color-info-highlight:   #18283A;
+
+  /* ── Code badge ── */
+  --color-badge-java:       #E8906A;
+  --color-badge-js:         #D4B848;
+  --color-badge-ts:         #5A98D8;
+  --color-badge-shell:      #68A878;
+
+  /* ── Shadows ── */
+  --shadow-sm:  0 1px 3px oklch(0 0 0 / 0.25);
+  --shadow-md:  0 4px 12px oklch(0 0 0 / 0.35);
+  --shadow-lg:  0 12px 32px oklch(0 0 0 / 0.50);
+
+  /* ── VitePress dark overrides ── */
+  --vp-c-brand-1:         var(--color-primary);
+  --vp-c-brand-2:         var(--color-primary-hover);
+  --vp-c-brand-3:         var(--color-primary-active);
+  --vp-c-brand-soft:      var(--color-primary-highlight);
+
+  --vp-c-bg:              var(--color-bg);
+  --vp-c-bg-soft:         var(--color-surface);
+  --vp-c-bg-mute:         var(--color-surface-2);
+  --vp-c-bg-alt:          var(--color-surface-offset);
+
+  --vp-c-divider:         var(--color-divider);
+  --vp-c-border:          var(--color-border);
+
+  --vp-c-text-1:          var(--color-text);
+  --vp-c-text-2:          var(--color-text-muted);
+  --vp-c-text-3:          var(--color-text-faint);
+
+  --vp-c-tip-1:           var(--color-primary);
+  --vp-c-tip-soft:        var(--color-primary-highlight);
+  --vp-c-warning-1:       var(--color-warning);
+  --vp-c-warning-soft:    var(--color-warning-highlight);
+  --vp-c-danger-1:        var(--color-error);
+  --vp-c-danger-soft:     var(--color-error-highlight);
+}
+
+
+/* ─────────────────────────────────────────────
+   3. GLOBAL BASE
+   ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--vp-nav-height, 64px);
+}
+
+::selection {
+  background: oklch(from var(--color-primary) l c h / 0.20);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+
+/* ─────────────────────────────────────────────
+   4. NAV — JEP-style clean header
+   ───────────────────────────────────────────── */
+.VPNav {
+  background-color: var(--color-bg) !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.VPNavBar {
+  background: transparent !important;
+  border-bottom: none !important;
+}
+
+/* Logo text — monospace feel */
+.VPNavBarTitle .title {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: -0.02em;
+  color: var(--color-text) !important;
+  transition: color var(--transition-fast);
+}
+
+.VPNavBarTitle .title:hover {
+  color: var(--color-primary) !important;
+}
+
+/* Nav links */
+.VPNavBarMenuLink {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: var(--color-text-muted) !important;
+  transition: color var(--transition-fast) !important;
+  padding: 0 var(--space-3) !important;
+}
+
+.VPNavBarMenuLink:hover,
+.VPNavBarMenuLink.active {
+  color: var(--color-primary) !important;
+}
+
+/* Search button */
+.VPNavBarSearch .DocSearch-Button {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--color-text-muted) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.VPNavBarSearch .DocSearch-Button:hover {
+  background: var(--color-surface-2) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-text) !important;
+}
+
+/* Local search */
+.VPLocalSearchBox {
+  --vp-local-search-highlight-bg: var(--color-primary-highlight);
+  --vp-local-search-highlight-text: var(--color-primary);
+}
+
+
+/* ─────────────────────────────────────────────
+   5. SIDEBAR — JEP index 느낌, compact & clean
+   ───────────────────────────────────────────── */
+.VPSidebar {
+  background-color: var(--color-surface) !important;
+  border-right: 1px solid var(--color-divider) !important;
+  padding-top: var(--space-6) !important;
+}
+
+/* Section title (category) */
+.VPSidebarItem.level-0 > .item > .text {
+  font-family: var(--font-display) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--color-text-faint) !important;
+  padding: var(--space-4) var(--space-4) var(--space-2) !important;
+  margin-top: var(--space-2) !important;
+}
+
+/* Sidebar links */
+.VPSidebarItem .item .link {
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  color: var(--color-text-muted) !important;
+  padding: var(--space-1) var(--space-4) !important;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-fast) !important;
+  line-height: 1.5 !important;
+}
+
+.VPSidebarItem .item .link:hover {
+  color: var(--color-text) !important;
+  background: var(--color-surface-2) !important;
+}
+
+/* Active link */
+.VPSidebarItem.is-active > .item .link,
+.VPSidebarItem .item .link.active {
+  color: var(--color-primary) !important;
+  background: var(--color-primary-subtle) !important;
+  font-weight: 500 !important;
+}
+
+.dark .VPSidebarItem.is-active > .item .link,
+.dark .VPSidebarItem .item .link.active {
+  background: var(--color-primary-highlight) !important;
+}
+
+/* Nested item indent */
+.VPSidebarItem.level-2 .item .link {
+  padding-left: var(--space-8) !important;
+  font-size: 0.8125rem !important;
+  color: var(--color-text-faint) !important;
+}
+
+.VPSidebarItem.level-3 .item .link {
+  padding-left: var(--space-12) !important;
+  font-size: 0.8125rem !important;
+}
+
+/* Sidebar section divider */
+.VPSidebarItem.level-0 + .VPSidebarItem.level-0 {
+  margin-top: var(--space-4) !important;
+  padding-top: var(--space-4) !important;
+  border-top: 1px solid var(--color-divider) !important;
+}
+
+/* Collapse chevron */
+.VPSidebarItem .caret-icon {
+  color: var(--color-text-faint) !important;
+  transition: transform var(--transition-fast), color var(--transition-fast) !important;
+}
+
+.VPSidebarItem.is-active .caret-icon,
+.VPSidebarItem:hover .caret-icon {
+  color: var(--color-primary) !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   6. CONTENT — JEP prose 레이아웃
+   ───────────────────────────────────────────── */
+.VPContent .vp-doc {
+  font-family: var(--font-body) !important;
+}
+
+/* Article max-width 제한 (JEP 스타일: 좁은 prose) */
+.vp-doc .container {
+  max-width: 860px !important;
+}
+
+/* Headings — Fira Code로 기술 문서 느낌 */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.2 !important;
+  color: var(--color-text) !important;
+  text-wrap: balance;
+}
+
+.vp-doc h1 {
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2rem) !important;
+  border-bottom: 2px solid var(--color-primary) !important;
+  padding-bottom: var(--space-3) !important;
+  margin-bottom: var(--space-8) !important;
+}
+
+.vp-doc h2 {
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem) !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  padding-bottom: var(--space-2) !important;
+  margin-top: var(--space-12) !important;
+  margin-bottom: var(--space-5) !important;
+}
+
+.vp-doc h3 {
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem) !important;
+  margin-top: var(--space-8) !important;
+  margin-bottom: var(--space-3) !important;
+  color: var(--color-text-muted) !important;
+}
+
+.vp-doc h4 {
+  font-size: 0.9375rem !important;
+  font-weight: 600 !important;
+  color: var(--color-text-muted) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem !important;
+  margin-top: var(--space-6) !important;
+  margin-bottom: var(--space-2) !important;
+}
+
+/* H1 헤더 옵션 링크 색 */
+.vp-doc h1 .header-anchor,
+.vp-doc h2 .header-anchor,
+.vp-doc h3 .header-anchor {
+  color: var(--color-text-faint) !important;
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast) !important;
+}
+
+.vp-doc h1:hover .header-anchor,
+.vp-doc h2:hover .header-anchor,
+.vp-doc h3:hover .header-anchor {
+  opacity: 1;
+  color: var(--color-primary) !important;
+}
+
+/* Body text */
+.vp-doc p,
+.vp-doc li {
+  font-size: 0.9375rem !important;
+  line-height: 1.75 !important;
+  color: var(--color-text) !important;
+  max-width: 72ch;
+}
+
+.vp-doc p + p {
+  margin-top: var(--space-4) !important;
+}
+
+/* Links */
+.vp-doc a {
+  color: var(--color-primary) !important;
+  text-decoration: underline;
+  text-decoration-color: oklch(from var(--color-primary) l c h / 0.35);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast) !important;
+  font-weight: 500;
+}
+
+.vp-doc a:hover {
+  color: var(--color-primary-hover) !important;
+  text-decoration-color: var(--color-primary-hover);
+}
+
+/* Strong */
+.vp-doc strong {
+  color: var(--color-text) !important;
+  font-weight: 650;
+}
+
+/* Lists */
+.vp-doc ul,
+.vp-doc ol {
+  padding-left: var(--space-6) !important;
+  margin: var(--space-4) 0 !important;
+}
+
+.vp-doc li + li {
+  margin-top: var(--space-2) !important;
+}
+
+.vp-doc ul > li::marker {
+  color: var(--color-primary) !important;
+}
+
+.vp-doc ol > li::marker {
+  color: var(--color-primary) !important;
+  font-family: var(--font-display);
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+
+/* ─────────────────────────────────────────────
+   7. CODE — Fira Code + JEP 스타일
+   ───────────────────────────────────────────── */
+
+/* Inline code */
+.vp-doc :not(pre) > code {
+  font-family: var(--font-mono) !important;
+  font-size: 0.85em !important;
+  font-weight: 500 !important;
+  background: var(--color-primary-subtle) !important;
+  color: var(--color-primary-hover) !important;
+  border: 1px solid oklch(from var(--color-primary) l c h / 0.20) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.1em 0.4em !important;
+  letter-spacing: -0.01em;
+  transition: background var(--transition-fast), border-color var(--transition-fast) !important;
+}
+
+.dark .vp-doc :not(pre) > code {
+  background: var(--color-primary-highlight) !important;
+  color: var(--color-primary) !important;
+  border-color: oklch(from var(--color-primary) l c h / 0.25) !important;
+}
+
+/* Code block wrapper */
+.vp-doc div[class*='language-'] {
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  margin: var(--space-6) 0 !important;
+  overflow: hidden;
+  background: var(--color-surface-offset) !important;
+}
+
+.dark .vp-doc div[class*='language-'] {
+  background: var(--color-surface-2) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Code block header bar */
+.vp-doc div[class*='language-']::before {
+  display: block;
+  content: attr(class);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.dark .vp-doc div[class*='language-']::before {
+  background: var(--color-surface-offset);
+}
+
+/* 언어별 헤더 색상 */
+.vp-doc div.language-java::before   { color: var(--color-badge-java); content: "☕  java"; }
+.vp-doc div.language-javascript::before,
+.vp-doc div.language-js::before     { color: var(--color-badge-js); content: "⬡  javascript"; }
+.vp-doc div.language-typescript::before,
+.vp-doc div.language-ts::before     { color: var(--color-badge-ts); content: "TS  typescript"; }
+.vp-doc div.language-sh::before,
+.vp-doc div.language-bash::before   { color: var(--color-badge-shell); content: "▶  shell"; }
+.vp-doc div.language-yaml::before   { color: var(--color-text-muted); content: "⚙  yaml"; }
+.vp-doc div.language-json::before   { color: var(--color-text-muted); content: "{}  json"; }
+.vp-doc div.language-css::before    { color: var(--color-primary); content: "#  css"; }
+.vp-doc div.language-vue::before    { color: var(--color-badge-shell); content: "◈  vue"; }
+.vp-doc div.language-markdown::before,
+.vp-doc div.language-md::before     { color: var(--color-text-muted); content: "⌘  markdown"; }
+.vp-doc div.language-sql::before    { color: var(--color-info); content: "⊞  sql"; }
+.vp-doc div.language-text::before,
+.vp-doc div.language-txt::before    { content: ""; display: none; }
+
+/* Code block: pre/code 내부 */
+.vp-doc div[class*='language-'] pre {
+  background: transparent !important;
+  padding: var(--space-5) !important;
+  margin: 0 !important;
+  overflow-x: auto;
+}
+
+.vp-doc div[class*='language-'] code {
+  font-family: var(--font-mono) !important;
+  font-size: 0.845rem !important;
+  line-height: 1.7 !important;
+  letter-spacing: -0.01em;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: var(--color-text) !important;
+}
+
+/* Copy button */
+.vp-doc div[class*='language-'] .copy {
+  background: var(--color-surface-2) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--color-text-faint) !important;
+  transition: all var(--transition-fast) !important;
+  top: calc(var(--space-2) + 2rem) !important; /* header bar 아래 */
+}
+
+.vp-doc div[class*='language-'] .copy:hover {
+  background: var(--color-primary-highlight) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+}
+
+/* Line numbers */
+.vp-doc div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
+  background: var(--color-surface-2) !important;
+  border-right: 1px solid var(--color-divider) !important;
+  color: var(--color-text-faint) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.75rem !important;
+  padding: var(--space-5) var(--space-3) !important;
+}
+
+/* Line highlight */
+.vp-doc div[class*='language-'] .highlighted {
+  background: oklch(from var(--color-primary) l c h / 0.10) !important;
+  border-left: 2px solid var(--color-primary) !important;
+  margin-left: -1px;
+}
+
+.dark .vp-doc div[class*='language-'] .highlighted {
+  background: oklch(from var(--color-primary) l c h / 0.15) !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   8. TABLES — JEP-style structured tables
+   ───────────────────────────────────────────── */
+.vp-doc table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: var(--space-6) 0 !important;
+  font-size: 0.875rem !important;
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.vp-doc thead {
+  background: var(--color-surface-offset) !important;
+}
+
+.vp-doc th {
+  font-family: var(--font-display) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+  color: var(--color-text-muted) !important;
+  padding: var(--space-3) var(--space-4) !important;
+  text-align: left !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  white-space: nowrap;
+}
+
+.vp-doc td {
+  padding: var(--space-3) var(--space-4) !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  color: var(--color-text) !important;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.vp-doc tr:last-child td {
+  border-bottom: none !important;
+}
+
+.vp-doc tbody tr:hover td {
+  background: var(--color-surface) !important;
+}
+
+.dark .vp-doc tbody tr:hover td {
+  background: var(--color-surface-2) !important;
+}
+
+/* 첫 번째 td가 코드일 때 강조 */
+.vp-doc td:first-child > code {
+  font-size: 0.8rem !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   9. BLOCKQUOTES & CALLOUTS
+   ───────────────────────────────────────────── */
+.vp-doc blockquote {
+  border-left: 3px solid var(--color-primary) !important;
+  background: var(--color-primary-subtle) !important;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+  padding: var(--space-4) var(--space-5) !important;
+  margin: var(--space-6) 0 !important;
+  color: var(--color-text-muted) !important;
+}
+
+.dark .vp-doc blockquote {
+  background: var(--color-primary-highlight) !important;
+}
+
+.vp-doc blockquote p {
+  color: var(--color-text-muted) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.65 !important;
+  max-width: none !important;
+}
+
+/* VitePress 커스텀 컨테이너 */
+.vp-doc .custom-block {
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid !important;
+  margin: var(--space-6) 0 !important;
+}
+
+.vp-doc .custom-block.tip {
+  border-color: oklch(from var(--color-primary) l c h / 0.30) !important;
+  background: var(--color-primary-subtle) !important;
+}
+
+.vp-doc .custom-block.warning {
+  border-color: oklch(from var(--color-warning) l c h / 0.30) !important;
+  background: var(--color-warning-highlight) !important;
+}
+
+.vp-doc .custom-block.danger {
+  border-color: oklch(from var(--color-error) l c h / 0.30) !important;
+  background: var(--color-error-highlight) !important;
+}
+
+.vp-doc .custom-block.info {
+  border-color: oklch(from var(--color-info) l c h / 0.30) !important;
+  background: var(--color-info-highlight) !important;
+}
+
+.vp-doc .custom-block-title {
+  font-family: var(--font-display) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.vp-doc .custom-block.tip .custom-block-title {
+  color: var(--color-primary) !important;
+}
+
+.vp-doc .custom-block.warning .custom-block-title {
+  color: var(--color-warning) !important;
+}
+
+.vp-doc .custom-block.danger .custom-block-title {
+  color: var(--color-error) !important;
+}
+
+.vp-doc .custom-block.info .custom-block-title {
+  color: var(--color-info) !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   10. TOC (Table of Contents)
+   ───────────────────────────────────────────── */
+.VPDocAsideOutline .outline-title {
+  font-family: var(--font-display) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  color: var(--color-text-faint) !important;
+}
+
+.VPDocOutlineItem a {
+  font-size: 0.8125rem !important;
+  color: var(--color-text-muted) !important;
+  transition: color var(--transition-fast) !important;
+  line-height: 1.5 !important;
+  text-decoration: none !important;
+}
+
+.VPDocOutlineItem a:hover,
+.VPDocOutlineItem.active > a {
+  color: var(--color-primary) !important;
+}
+
+.VPDocOutlineItem.active > a {
+  font-weight: 500 !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   11. PREV/NEXT NAV
+   ───────────────────────────────────────────── */
+.VPDocFooter .pager {
+  border-top: 1px solid var(--color-divider) !important;
+  padding-top: var(--space-8) !important;
+}
+
+.VPDocFooter .pager-link {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: var(--space-4) var(--space-5) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.VPDocFooter .pager-link:hover {
+  background: var(--color-primary-subtle) !important;
+  border-color: var(--color-primary) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+.dark .VPDocFooter .pager-link:hover {
+  background: var(--color-primary-highlight) !important;
+}
+
+.VPDocFooter .pager-link .desc {
+  font-family: var(--font-display) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--color-primary) !important;
+}
+
+.VPDocFooter .pager-link .title {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  color: var(--color-text) !important;
+  margin-top: var(--space-1) !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   12. HOME PAGE (index.md layout: home)
+   ───────────────────────────────────────────── */
+.VPHero {
+  padding: var(--space-16) 0 var(--space-12) !important;
+}
+
+.VPHero .name {
+  font-family: var(--font-display) !important;
+  font-size: clamp(1.75rem, 1rem + 3.5vw, 3rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--color-text) !important;
+  color: var(--color-text) !important;
+}
+
+/* "name" span 내 primary 색 강조 */
+.VPHero .clip {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.VPHero .tagline {
+  font-size: clamp(0.9375rem, 0.85rem + 0.4vw, 1.125rem) !important;
+  color: var(--color-text-muted) !important;
+  font-weight: 400 !important;
+  max-width: 52ch;
+  line-height: 1.65 !important;
+}
+
+/* Hero CTA buttons */
+.VPHero .actions .action .VPButton.brand {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #fff !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.VPHero .actions .action .VPButton.brand:hover {
+  background: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+.VPHero .actions .action .VPButton.alt {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-muted) !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.VPHero .actions .action .VPButton.alt:hover {
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+  background: var(--color-primary-subtle) !important;
+}
+
+/* Feature cards (home layout) */
+.VPFeature {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-xl) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.VPFeature:hover {
+  border-color: oklch(from var(--color-primary) l c h / 0.40) !important;
+  background: var(--color-primary-subtle) !important;
+  box-shadow: var(--shadow-md) !important;
+  transform: translateY(-2px);
+}
+
+.dark .VPFeature:hover {
+  background: var(--color-primary-highlight) !important;
+}
+
+.VPFeature .title {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  color: var(--color-text) !important;
+}
+
+.VPFeature .details {
+  font-size: 0.875rem !important;
+  color: var(--color-text-muted) !important;
+  line-height: 1.6 !important;
+}
+
+.VPFeature .icon {
+  background: var(--color-primary-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 1.125rem !important;
+}
+
+.dark .VPFeature .icon {
+  background: var(--color-primary-highlight) !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   13. BADGES & PILLS (frontmatter status)
+   ───────────────────────────────────────────── */
+.vp-badge {
+  font-family: var(--font-display) !important;
+  font-size: 0.65rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--radius-full) !important;
+  padding: 0.15em 0.6em !important;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1.6;
+}
+
+.vp-badge.tip    { background: var(--color-primary-highlight) !important; color: var(--color-primary) !important; }
+.vp-badge.info   { background: var(--color-info-highlight) !important; color: var(--color-info) !important; }
+.vp-badge.warning{ background: var(--color-warning-highlight) !important; color: var(--color-warning) !important; }
+.vp-badge.danger { background: var(--color-error-highlight) !important; color: var(--color-error) !important; }
+
+
+/* ─────────────────────────────────────────────
+   14. SCROLLBAR — subtle warm tone
+   ───────────────────────────────────────────── */
+::-webkit-scrollbar          { width: 6px; height: 6px; }
+::-webkit-scrollbar-track    { background: transparent; }
+::-webkit-scrollbar-thumb    { background: var(--color-surface-dynamic); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+.dark ::-webkit-scrollbar-thumb { background: var(--color-border); }
+.dark ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+
+/* ─────────────────────────────────────────────
+   15. HR — document separator
+   ───────────────────────────────────────────── */
+.vp-doc hr {
+  border: none !important;
+  border-top: 1px solid var(--color-divider) !important;
+  margin: var(--space-10) 0 !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   16. IMAGES — 문서 내 이미지 처리
+   ───────────────────────────────────────────── */
+.vp-doc img {
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-md) !important;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: var(--space-6) auto;
+}
+
+
+/* ─────────────────────────────────────────────
+   17. RESPONSIVE
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .vp-doc h1 { font-size: 1.5rem !important; }
+  .vp-doc h2 { font-size: 1.125rem !important; margin-top: var(--space-8) !important; }
+  .vp-doc p, .vp-doc li { font-size: 0.9375rem !important; }
+  .vp-doc div[class*='language-'] code { font-size: 0.8rem !important; }
+  .vp-doc table { font-size: 0.8125rem !important; }
+  .vp-doc th, .vp-doc td { padding: var(--space-2) var(--space-3) !important; }
+}
+
+
+/* ─────────────────────────────────────────────
+   18. REDUCED MOTION
+   ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
