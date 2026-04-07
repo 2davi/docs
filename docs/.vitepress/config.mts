@@ -31,7 +31,7 @@ export default defineConfig({
   lang:        'ko-KR',
   title:       "Davi's Devlog",
   description: '백엔드·인프라·아키텍처 학습 기록',
-  base:        '/docs/',
+  base:        '/',
 
   head: [
     ['link', { rel: 'icon',             href: '/docs/favicon.ico' }],
