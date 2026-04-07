@@ -23,7 +23,6 @@ function entry(
     useFolderTitleFromIndexFile:       true,
     excludeByGlobPattern:              ['**/index.md'],
     excludeFilesByFrontmatterFieldName:'draft',
-    sortMenusOrderNumericallyFromLink: true,   // 01-, 02- prefix 자동 정렬
     ...extra,
   }
 }
@@ -59,13 +58,14 @@ export default defineConfig({
 
         // ── Notes: 중주제/소주제 폴더 계층, depth 2 펼침 ─────────
         entry('notes', '/notes/', {
+          sortMenusOrderNumericallyFromLink: true,   // 파일명 01-, 02- prefix 정렬
           collapsed:    true,
           collapseDepth: 2,   // depth 1(중주제)은 펼침, depth 2(소주제)부터 접힘
         }),
 
         // ── Deep Dive: 프로젝트별 시리즈, order frontmatter 우선 ──
         entry('deep-dive', '/deep-dive/', {
-          sortMenusByFrontmatterOrder: true,
+          sortMenusByFrontmatterOrder: true,          // frontmatter order 정렬
           collapsed:                   true,
           collapseDepth:               2,
         }),
