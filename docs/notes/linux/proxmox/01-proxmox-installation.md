@@ -1,31 +1,22 @@
 ---
-# ── 필수 공통 필드 ────────────────────────────────────
 title: "Proxmox VE 9.1 초기 설정 가이드"
 date: 2026-04-07
 lastmod: 2026-04-07
 author: "Davi"
 description: "Proxmox VE ISO 부팅부터 초기 네트워크 설정까지 단계별 설치 과정을 정리한다."
-slug: "proxmox-installation"                  # kebab-case, URL 식별자
-
-# ── 분류 ─────────────────────────────────────────────
-section: "notes"               # articles | notes | deep-dive | translations
-category: "linux"              # 카테고리 (소문자, 하이픈)
+slug: "proxmox-installation"
+section: "notes"
+category: "linux"
 tags: [proxmox, virtualization, linux, debian, 64x-bit, cmp, cloud, cluster, ssh, partitioning]
-
-# ── 정렬 ─────────────────────────────────────────────
-order: 110               # 섹션 내 수동 순서 (낮을수록 위)
-series: "Proxmox 입문"                 # 시리즈명 (null이면 ~)
-series_order: 1           # 시리즈 내 순서 (null이면 ~)
-
-# ── 상태 ─────────────────────────────────────────────
-status: "active"          # active | wip | archived
+order: 110
+series: "Proxmox 입문"
+series_order: 1
+status: "active"
 draft: false
-search: true              # false면 검색 인덱스에서 제외
-
-# ── 선택 공통 ─────────────────────────────────────────
+search: true
 toc: true
-difficulty: intermediate             # beginner | intermediate | advanced
-version: "Proxmox VE 9.1"                # 대상 기술 버전 (notes 한정)
+difficulty: intermediate
+version: "Proxmox VE 9.1"
 ---
 
 ## 환경 정보
@@ -191,10 +182,10 @@ The key fingerprint is:
 The key's randomart image is:
 +--[ED25519 256]--+
 |       ■■■■■+ o■■|
-|       .■■■■■■■■■■■■■
-|     ■■ oo  ■■■■■■
+|       .■■■■■■■■■|
+|     ■■ oo  ■■■■■|
 |    ■■■■■■■■■■.=*|
-|        .+■■■■■■■■■■■■■
+|        .+■■■■■■■|
 |■■■■■■■■■■■■■■■■■|
 |            . +o■|
 +----[SHA256]-----+
