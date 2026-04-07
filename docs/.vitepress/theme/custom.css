@@ -11,7 +11,22 @@
    ───────────────────────────────────────────── */
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+/* D2Coding Ligature — local woff2 */
+@font-face {
+  font-family: 'D2Coding Ligature';
+  src: url('/fonts/D2Codingligature.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: 'D2Coding Ligature';
+  src: url('/fonts/D2Codingligature.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ─────────────────────────────────────────────
    1. DESIGN TOKENS — Light Mode
@@ -86,8 +101,8 @@
 
   /* ── Typography ── */
   --font-body:    'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono:    'Fira Code', 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
-  --font-display: 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+  --font-mono:    'D2Coding Ligature', 'Fira Code', ui-monospace, monospace;
+  --font-display: 'D2Coding Ligature', 'Fira Code', ui-monospace, monospace;
 
   /* ── VitePress token overrides ── */
   --vp-font-family-base:  var(--font-body);
@@ -120,6 +135,12 @@
   --vp-c-danger-soft:     var(--color-error-highlight);
 }
 
+/* 코드 블록에 합자 활성화 */
+.vp-doc div[class*='language-'] code,
+.vp-doc :not(pre) > code {
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
 
 /* ─────────────────────────────────────────────
    2. DESIGN TOKENS — Dark Mode

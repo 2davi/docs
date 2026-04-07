@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'D2Coding ligature';
+    src: url('D2CodingligatureBold.woff2') format('woff2'),
+        url('D2CodingligatureBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'D2Coding ligature';
+    src: url('D2Codingligature.woff2') format('woff2'),
+        url('D2Codingligature.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
