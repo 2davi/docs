@@ -9,7 +9,7 @@ section: "notes"
 category: "linux"
 tags: [proxmox, virtualization, linux, debian, 64x-bit, cmp, cloud, cluster, ssh, partitioning]
 order: 110
-series: "Proxmox 입문"
+series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
 series_order: 1
 status: "active"
 draft: false
@@ -28,7 +28,7 @@ version: "Proxmox VE 9.1"
 | 네트워크 모드 | NAT                                |
 | 호스트 OS     | Windows                            |
 | 디스크        | 64GB (단일)                        |
-| RAM           | 약 6GB                             |
+| RAM           | 약 8GB                             |
 | 호스트명      | kcy0122.proxmox.letech.kr          |
 | NIC           | enp0s3 (VirtualBox 가상 NIC)       |
 
