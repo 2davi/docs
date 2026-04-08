@@ -165,7 +165,7 @@ smbios1: uuid=a07e80f9-9f3e-4fa8-ad4d-72d83c2244c5
 vmgenid: f4d29804-ab1a-47cb-90ab-0d50dd55ebf8
 ```
 
-자세한 내용은 [Proxmox VE VM 설정 파일(qm.conf) 심화 레퍼런스](./03-proxmox-qm-conf-reference.md)을 확인.
+자세한 내용은 [Proxmox VE VM 설정 파일(qm.conf) 심화 레퍼런스](./91-proxmox-qm-conf-reference.md)을 확인.
 
 ### 3.2 생성한 VM 실행
 
