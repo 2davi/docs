@@ -1,9 +1,8 @@
 /* =============================================================
-   Davi Notes — VitePress Custom Theme
+   Davi Notes — VitePress Custom Theme  (v2 · 2026-04-08)
    Art direction: JEP Docs 구조 × Claude.ai 컬러 시스템
    Palette: Warm off-white surfaces, Claude coral-orange accent
    Typography: Fira Code (display/headings) + Pretendard (body)
-   Density: balanced (docs 적합 — 조밀하지도 느슨하지도 않음)
    ============================================================= */
 
 /* ─────────────────────────────────────────────
@@ -11,7 +10,7 @@
    ───────────────────────────────────────────── */
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
-/* D2Coding Ligature — local woff2 */
+
 @font-face {
   font-family: 'D2Coding Ligature';
   src: url('/fonts/D2Codingligature.woff2') format('woff2');
@@ -27,6 +26,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 
 /* ─────────────────────────────────────────────
    1. DESIGN TOKENS — Light Mode
@@ -104,6 +104,9 @@
   --font-mono:    'D2Coding Ligature', 'Fira Code', ui-monospace, monospace;
   --font-display: 'D2Coding Ligature', 'Fira Code', ui-monospace, monospace;
 
+  /* ── Code block header height ── */
+  --code-header-h: 2.25rem;
+
   /* ── VitePress token overrides ── */
   --vp-font-family-base:  var(--font-body);
   --vp-font-family-mono:  var(--font-mono);
@@ -135,18 +138,11 @@
   --vp-c-danger-soft:     var(--color-error-highlight);
 }
 
-/* 코드 블록에 합자 활성화 */
-.vp-doc div[class*='language-'] code,
-.vp-doc :not(pre) > code {
-  font-variant-ligatures: common-ligatures;
-  font-feature-settings: "liga" 1, "calt" 1;
-}
 
 /* ─────────────────────────────────────────────
    2. DESIGN TOKENS — Dark Mode
    ───────────────────────────────────────────── */
 .dark {
-  /* ── Surfaces (Claude Warm Charcoal) ── */
   --color-bg:               #1A1916;
   --color-surface:          #201F1C;
   --color-surface-2:        #252420;
@@ -155,20 +151,17 @@
   --color-divider:          #302F2B;
   --color-border:           #3D3C37;
 
-  /* ── Text ── */
   --color-text:             #E8E6E0;
   --color-text-muted:       #8C8A84;
   --color-text-faint:       #5A5954;
   --color-text-inverse:     #1F1E1D;
 
-  /* ── Primary Accent (brighter for dark bg) ── */
   --color-primary:          #E08060;
   --color-primary-hover:    #E89070;
   --color-primary-active:   #F0A080;
   --color-primary-highlight: #3A2820;
   --color-primary-subtle:   #2E2018;
 
-  /* ── Semantic ── */
   --color-success:          #6AAA50;
   --color-success-highlight:#1E3818;
   --color-warning:          #C89838;
@@ -178,18 +171,15 @@
   --color-info:             #5090CC;
   --color-info-highlight:   #18283A;
 
-  /* ── Code badge ── */
   --color-badge-java:       #E8906A;
   --color-badge-js:         #D4B848;
   --color-badge-ts:         #5A98D8;
   --color-badge-shell:      #68A878;
 
-  /* ── Shadows ── */
   --shadow-sm:  0 1px 3px oklch(0 0 0 / 0.25);
   --shadow-md:  0 4px 12px oklch(0 0 0 / 0.35);
   --shadow-lg:  0 12px 32px oklch(0 0 0 / 0.50);
 
-  /* ── VitePress dark overrides ── */
   --vp-c-brand-1:         var(--color-primary);
   --vp-c-brand-2:         var(--color-primary-hover);
   --vp-c-brand-3:         var(--color-primary-active);
@@ -258,7 +248,6 @@ html {
   border-bottom: none !important;
 }
 
-/* Logo text — monospace feel */
 .VPNavBarTitle .title {
   font-family: var(--font-display) !important;
   font-weight: 600 !important;
@@ -272,7 +261,6 @@ html {
   color: var(--color-primary) !important;
 }
 
-/* Nav links */
 .VPNavBarMenuLink {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
@@ -301,7 +289,6 @@ html {
   color: var(--color-text) !important;
 }
 
-/* Local search */
 .VPLocalSearchBox {
   --vp-local-search-highlight-bg: var(--color-primary-highlight);
   --vp-local-search-highlight-text: var(--color-primary);
@@ -309,7 +296,81 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   5. SIDEBAR — JEP index 느낌, compact & clean
+   4.1 MOBILE NAV SCREEN
+   모바일 햄버거 메뉴 펼침 화면. 기본 VitePress 스타일이
+   커스텀 토큰과 충돌하므로 명시적으로 재정의한다.
+   ───────────────────────────────────────────── */
+
+/* 모바일 햄버거 아이콘 */
+.VPNavBarHamburger .top,
+.VPNavBarHamburger .middle,
+.VPNavBarHamburger .bottom {
+  background-color: var(--color-text) !important;
+}
+
+/* 전체 화면 오버레이 */
+.VPNavScreen {
+  background-color: var(--color-bg) !important;
+  padding: var(--space-6) var(--space-6) var(--space-8) !important;
+}
+
+/* 메뉴 링크 목록 */
+.VPNavScreenMenu {
+  padding: 0 !important;
+}
+
+.VPNavScreenMenuLink {
+  font-family: var(--font-display) !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  color: var(--color-text-muted) !important;
+  border-bottom: 1px solid var(--color-divider) !important;
+  padding: var(--space-3) 0 !important;
+  transition: color var(--transition-fast) !important;
+}
+
+.VPNavScreenMenuLink:hover,
+.VPNavScreenMenuLink.active {
+  color: var(--color-primary) !important;
+}
+
+/* 드롭다운이 있는 메뉴 그룹 */
+.VPNavScreenMenuGroup {
+  border-bottom: 1px solid var(--color-divider) !important;
+  padding: var(--space-3) 0 !important;
+}
+
+.VPNavScreenMenuGroup .title {
+  font-family: var(--font-display) !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  color: var(--color-text-muted) !important;
+}
+
+.VPNavScreenMenuGroup .item a {
+  font-size: 0.875rem !important;
+  color: var(--color-text-faint) !important;
+  padding: var(--space-2) var(--space-4) !important;
+}
+
+.VPNavScreenMenuGroup .item a:hover {
+  color: var(--color-primary) !important;
+}
+
+/* 모바일 화면 하단 — Appearance toggle, Social links */
+.VPNavScreenAppearance {
+  padding: var(--space-4) 0 !important;
+  border-top: 1px solid var(--color-divider) !important;
+}
+
+.VPNavScreenSocialLinks {
+  padding-top: var(--space-4) !important;
+  justify-content: flex-start !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   5. SIDEBAR
    ───────────────────────────────────────────── */
 .VPSidebar {
   background-color: var(--color-surface) !important;
@@ -317,7 +378,6 @@ html {
   padding-top: var(--space-6) !important;
 }
 
-/* Section title (category) */
 .VPSidebarItem.level-0 > .item > .text {
   font-family: var(--font-display) !important;
   font-size: 0.7rem !important;
@@ -329,7 +389,6 @@ html {
   margin-top: var(--space-2) !important;
 }
 
-/* Sidebar links */
 .VPSidebarItem .item .link {
   font-size: 0.875rem !important;
   font-weight: 400 !important;
@@ -345,7 +404,6 @@ html {
   background: var(--color-surface-2) !important;
 }
 
-/* Active link */
 .VPSidebarItem.is-active > .item .link,
 .VPSidebarItem .item .link.active {
   color: var(--color-primary) !important;
@@ -358,7 +416,6 @@ html {
   background: var(--color-primary-highlight) !important;
 }
 
-/* Nested item indent */
 .VPSidebarItem.level-2 .item .link {
   padding-left: var(--space-8) !important;
   font-size: 0.8125rem !important;
@@ -370,14 +427,12 @@ html {
   font-size: 0.8125rem !important;
 }
 
-/* Sidebar section divider */
 .VPSidebarItem.level-0 + .VPSidebarItem.level-0 {
   margin-top: var(--space-4) !important;
   padding-top: var(--space-4) !important;
   border-top: 1px solid var(--color-divider) !important;
 }
 
-/* Collapse chevron */
 .VPSidebarItem .caret-icon {
   color: var(--color-text-faint) !important;
   transition: transform var(--transition-fast), color var(--transition-fast) !important;
@@ -396,12 +451,11 @@ html {
   font-family: var(--font-body) !important;
 }
 
-/* Article max-width 제한 (JEP 스타일: 좁은 prose) */
 .vp-doc .container {
   max-width: 860px !important;
 }
 
-/* Headings — Fira Code로 기술 문서 느낌 */
+/* ── Headings ── */
 .vp-doc h1,
 .vp-doc h2,
 .vp-doc h3,
@@ -437,7 +491,6 @@ html {
 }
 
 .vp-doc h4 {
-  font-size: 0.9375rem !important;
   font-weight: 600 !important;
   color: var(--color-text-muted) !important;
   text-transform: uppercase;
@@ -447,7 +500,6 @@ html {
   margin-bottom: var(--space-2) !important;
 }
 
-/* H1 헤더 옵션 링크 색 */
 .vp-doc h1 .header-anchor,
 .vp-doc h2 .header-anchor,
 .vp-doc h3 .header-anchor {
@@ -463,7 +515,7 @@ html {
   color: var(--color-primary) !important;
 }
 
-/* Body text */
+/* ── Body text ── */
 .vp-doc p,
 .vp-doc li {
   font-size: 0.9375rem !important;
@@ -476,7 +528,6 @@ html {
   margin-top: var(--space-4) !important;
 }
 
-/* Links */
 .vp-doc a {
   color: var(--color-primary) !important;
   text-decoration: underline;
@@ -492,13 +543,12 @@ html {
   text-decoration-color: var(--color-primary-hover);
 }
 
-/* Strong */
 .vp-doc strong {
   color: var(--color-text) !important;
   font-weight: 650;
 }
 
-/* Lists */
+/* ── Lists ── */
 .vp-doc ul,
 .vp-doc ol {
   padding-left: var(--space-6) !important;
@@ -522,7 +572,11 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   7. CODE — D2Coding Ligature + JEP 스타일
+   7. CODE BLOCKS — 완전 재설계
+   ─────────────────────────────────────────────
+   목표: 타이트한 줄간격, 명확한 언어 헤더 바,
+   복사 버튼에 아이콘 + 적절한 크기/위치,
+   줄번호는 CSS counter 단일 시스템으로 통합.
    ───────────────────────────────────────────── */
 
 /* ── Inline code ── */
@@ -536,6 +590,8 @@ html {
   border-radius: var(--radius-sm) !important;
   padding: 0.1em 0.4em !important;
   letter-spacing: -0.01em;
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "liga" 1, "calt" 1;
 }
 
 .dark .vp-doc :not(pre) > code {
@@ -560,22 +616,22 @@ html {
   border-color: var(--color-border) !important;
 }
 
-/* ── 언어 라벨 — span 태그로 직접 렌더 (attr 방식 폐기) ── */
-
-/* ::before 완전 제거 — attr(class) 오염 방지 */
+/* ── 기본 ::before (VitePress 기본 lang label) 완전 제거 ── */
 .vp-doc div[class*='language-']::before {
   content: none !important;
   display: none !important;
 }
 
-/* VitePress가 자동 생성하는 .lang span 스타일링 */
+/* ── 언어 헤더 바 — VitePress span.lang ── */
 .vp-doc div[class*='language-'] > span.lang {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  display: block;
-  padding: var(--space-2) var(--space-4);
+  height: var(--code-header-h);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
   font-family: var(--font-display) !important;
   font-size: 0.68rem !important;
   font-weight: 600 !important;
@@ -585,9 +641,6 @@ html {
   background: var(--color-surface-2);
   border-bottom: 1px solid var(--color-divider);
   line-height: 1;
-  height: 2rem; /* 헤더 바 고정 높이 */
-  display: flex;
-  align-items: center;
   pointer-events: none;
   z-index: 2;
 }
@@ -614,18 +667,19 @@ html {
 .vp-doc div.language-md > span.lang         { color: var(--color-text-muted); }
 .vp-doc div.language-sql > span.lang        { color: var(--color-info); }
 
-/* ── pre/code 내부 — 헤더 바 높이(2rem)만큼 padding-top ── */
+/* ── pre / code 내부 ── */
 .vp-doc div[class*='language-'] pre {
   background: transparent !important;
-  padding: calc(2rem + var(--space-4)) var(--space-5) var(--space-5) !important;
+  /* 헤더 바 높이 + 코드 상단 여백 */
+  padding: calc(var(--code-header-h) + var(--space-3)) var(--space-4) var(--space-3) !important;
   margin: 0 !important;
   overflow-x: auto;
 }
 
 .vp-doc div[class*='language-'] code {
   font-family: var(--font-mono) !important;
-  font-size: 0.845rem !important;
-  line-height: 1.7 !important;
+  font-size: 0.8125rem !important;     /* 13px — 기존 0.845rem 대비 축소 */
+  line-height: 1.5 !important;         /* 핵심: 1.7 → 1.5 타이트하게 */
   letter-spacing: -0.01em;
   background: transparent !important;
   border: none !important;
@@ -635,42 +689,18 @@ html {
   font-feature-settings: "liga" 1, "calt" 1;
 }
 
-/* ── 라인 번호 — pre와 동일한 padding-top 맞추기 ── */
-.vp-doc div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
-  padding-top: calc(2rem + var(--space-4)) !important; /* 헤더 바 + pre의 top padding과 동일 */
-  padding-bottom: var(--space-5) !important;
-  padding-left: var(--space-3) !important;
-  padding-right: var(--space-3) !important;
-  background: var(--color-surface-2) !important;
-  border-right: 1px solid var(--color-divider) !important;
-  color: var(--color-text-faint) !important;
-  font-family: var(--font-mono) !important;
-  font-size: 0.75rem !important;
-  line-height: 1.7 !important; /* code의 line-height와 반드시 일치 */
-  min-width: 2.5rem;
-  text-align: right;
-  user-select: none;
-}
-
-.dark .vp-doc div[class*='language-'].line-numbers-mode .line-numbers-wrapper {
-  background: var(--color-surface-offset) !important;
-}
-
-/* ── 복사 버튼 ── */
+/* ── 복사 버튼 — 헤더 바 우측, 아이콘 포함 ── */
 .vp-doc div[class*='language-'] > button.copy {
-  /* 위치 — 헤더 바 내부 우측 정렬 */
   position: absolute !important;
   top: 0 !important;
   right: 0 !important;
-  width: 2rem !important;
-  height: 2rem !important;
+  width: var(--code-header-h) !important;
+  height: var(--code-header-h) !important;
   padding: 0 !important;
   margin: 0 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-
-  /* 스타일 */
   background: transparent !important;
   border: none !important;
   border-left: 1px solid var(--color-divider) !important;
@@ -679,12 +709,15 @@ html {
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast) !important;
   z-index: 3;
-  opacity: 0;
+  /* 항상 표시 — opacity 토글 제거 (모바일에서 hover 불가) */
+  opacity: 1 !important;
 }
 
-/* 블록 hover 시 버튼 노출 */
-.vp-doc div[class*='language-']:hover > button.copy {
-  opacity: 1;
+/* 기본 VitePress copy 아이콘(::before) 크기 · 위치 보정 */
+.vp-doc div[class*='language-'] > button.copy::before {
+  width: 16px !important;
+  height: 16px !important;
+  /* VitePress 기본 background-image가 copy 아이콘을 그리므로 유지 */
 }
 
 .vp-doc div[class*='language-'] > button.copy:hover {
@@ -696,16 +729,8 @@ html {
   background: var(--color-primary-highlight) !important;
 }
 
-/* 복사 완료 상태 */
 .vp-doc div[class*='language-'] > button.copy.copied {
   color: var(--color-success) !important;
-  opacity: 1 !important;
-}
-
-/* VitePress 기본 copy 아이콘 크기 보정 */
-.vp-doc div[class*='language-'] > button.copy::before {
-  width: 14px !important;
-  height: 14px !important;
 }
 
 /* ── Line highlight ── */
@@ -721,10 +746,69 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   8. TABLES — JEP-style structured tables
+   7.1 LINE NUMBERS — CSS counter 단일 시스템
+   VitePress 기본 .line-numbers-wrapper는 완전 제거하고
+   span.line::before 카운터만 사용한다.
+   ───────────────────────────────────────────── */
+
+/* VitePress 기본 줄번호 사이드바 제거 */
+.vp-doc div[class*="language-"].line-numbers-mode .line-numbers-wrapper,
+div[class*="language-"].line-numbers-mode .line-numbers-wrapper {
+  display: none !important;
+}
+
+/* counter 초기화 */
+.vp-doc div[class*="language-"].line-numbers-mode code,
+div[class*="language-"].line-numbers-mode code {
+  counter-reset: line-number;
+}
+
+/* 각 줄 */
+.vp-doc div[class*="language-"].line-numbers-mode code .line,
+div[class*="language-"].line-numbers-mode code .line {
+  display: block;
+  counter-increment: line-number;
+  padding-left: 3.5rem;
+  position: relative;
+  min-height: 1.3em;  /* line-height 1.5 기준 — 빈 줄에도 번호 표시 */
+}
+
+/* 줄번호 ::before */
+.vp-doc div[class*="language-"].line-numbers-mode code .line::before,
+div[class*="language-"].line-numbers-mode code .line::before {
+  content: counter(line-number);
+  position: absolute;
+  left: 0;
+  width: 2.8rem;
+  text-align: right;
+  padding-right: 0.6rem;
+  font-size: inherit;
+  font-family: var(--vp-font-family-mono);
+  line-height: inherit;
+  color: var(--color-text-faint);
+  user-select: none;
+  pointer-events: none;
+  border-right: 1px solid oklch(from currentColor l c h / 0.15);
+}
+
+/* 줄 하이라이트와의 충돌 방지 */
+.vp-doc div[class*="language-"].line-numbers-mode code .line.highlighted,
+div[class*="language-"].line-numbers-mode code .line.highlighted {
+  background-color: oklch(from var(--vp-c-brand-1, #C15F3C) 0.9 0.03 h / 0.12);
+}
+
+
+/* ─────────────────────────────────────────────
+   8. TABLES — 내용에 맞춰 축소, 빈 공간 제거
+   ─────────────────────────────────────────────
+   핵심 변경: width: 100% → width: auto
+   테이블 래퍼(VitePress <table tabindex="0">)에
+   overflow-x: auto를 걸어 모바일에서 가로 스크롤.
    ───────────────────────────────────────────── */
 .vp-doc table {
-  width: 100% !important;
+  width: auto !important;         /* 셀 내용에 맞춰 수축 */
+  min-width: 50% !important;      /* 너무 좁아지지 않도록 최소 폭 */
+  max-width: 100% !important;     /* 문서 너비 초과 방지 */
   border-collapse: collapse !important;
   margin: var(--space-6) 0 !important;
   font-size: 0.875rem !important;
@@ -732,6 +816,7 @@ html {
   overflow: hidden;
   box-shadow: var(--shadow-sm) !important;
   border: 1px solid var(--color-border) !important;
+  display: table !important;      /* block 오버라이드 방지 */
 }
 
 .vp-doc thead {
@@ -771,9 +856,29 @@ html {
   background: var(--color-surface-2) !important;
 }
 
-/* 첫 번째 td가 코드일 때 강조 */
 .vp-doc td:first-child > code {
   font-size: 0.8rem !important;
+}
+
+/* 테이블 가로 스크롤 래퍼 — VitePress가 table에
+   tabindex="0"을 부여하므로, 래퍼가 없어도 table 자체의
+   부모(.vp-doc)에 overflow 처리가 필요함 */
+.vp-doc > div > table,
+.vp-doc > table {
+  display: block !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* block 표시 시 내부 구조 보존 */
+.vp-doc > div > table > *,
+.vp-doc > table > * {
+  display: table-row-group;
+}
+
+.vp-doc > div > table > thead,
+.vp-doc > table > thead {
+  display: table-header-group;
 }
 
 
@@ -800,7 +905,6 @@ html {
   max-width: none !important;
 }
 
-/* VitePress 커스텀 컨테이너 */
 .vp-doc .custom-block {
   border-radius: var(--radius-lg) !important;
   border: 1px solid !important;
@@ -835,21 +939,10 @@ html {
   text-transform: uppercase !important;
 }
 
-.vp-doc .custom-block.tip .custom-block-title {
-  color: var(--color-primary) !important;
-}
-
-.vp-doc .custom-block.warning .custom-block-title {
-  color: var(--color-warning) !important;
-}
-
-.vp-doc .custom-block.danger .custom-block-title {
-  color: var(--color-error) !important;
-}
-
-.vp-doc .custom-block.info .custom-block-title {
-  color: var(--color-info) !important;
-}
+.vp-doc .custom-block.tip .custom-block-title     { color: var(--color-primary) !important; }
+.vp-doc .custom-block.warning .custom-block-title  { color: var(--color-warning) !important; }
+.vp-doc .custom-block.danger .custom-block-title   { color: var(--color-error) !important; }
+.vp-doc .custom-block.info .custom-block-title     { color: var(--color-info) !important; }
 
 
 /* ─────────────────────────────────────────────
@@ -883,7 +976,7 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   11. PREV/NEXT NAV
+   11. PREV / NEXT NAV
    ───────────────────────────────────────────── */
 .VPDocFooter .pager {
   border-top: 1px solid var(--color-divider) !important;
@@ -927,7 +1020,7 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   12. HOME PAGE (index.md layout: home)
+   12. HOME PAGE
    ───────────────────────────────────────────── */
 .VPHero {
   padding: var(--space-16) 0 var(--space-12) !important;
@@ -943,7 +1036,6 @@ html {
   color: var(--color-text) !important;
 }
 
-/* "name" span 내 primary 색 강조 */
 .VPHero .clip {
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover)) !important;
   -webkit-background-clip: text !important;
@@ -996,7 +1088,7 @@ html {
   background: var(--color-primary-subtle) !important;
 }
 
-/* Feature cards (home layout) */
+/* Feature cards */
 .VPFeature {
   background: var(--color-surface) !important;
   border: 1px solid var(--color-border) !important;
@@ -1040,7 +1132,7 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   13. BADGES & PILLS (frontmatter status)
+   13. BADGES & PILLS
    ───────────────────────────────────────────── */
 .vp-badge {
   font-family: var(--font-display) !important;
@@ -1062,7 +1154,7 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   14. SCROLLBAR — subtle warm tone
+   14. SCROLLBAR
    ───────────────────────────────────────────── */
 ::-webkit-scrollbar          { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track    { background: transparent; }
@@ -1074,7 +1166,7 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   15. HR — document separator
+   15. HR
    ───────────────────────────────────────────── */
 .vp-doc hr {
   border: none !important;
@@ -1084,7 +1176,7 @@ html {
 
 
 /* ─────────────────────────────────────────────
-   16. IMAGES — 문서 내 이미지 처리
+   16. IMAGES
    ───────────────────────────────────────────── */
 .vp-doc img {
   border-radius: var(--radius-lg) !important;
@@ -1104,9 +1196,25 @@ html {
   .vp-doc h1 { font-size: 1.5rem !important; }
   .vp-doc h2 { font-size: 1.125rem !important; margin-top: var(--space-8) !important; }
   .vp-doc p, .vp-doc li { font-size: 0.9375rem !important; }
-  .vp-doc div[class*='language-'] code { font-size: 0.8rem !important; }
-  .vp-doc table { font-size: 0.8125rem !important; }
+  .vp-doc div[class*='language-'] code { font-size: 0.75rem !important; }
+  .vp-doc table { font-size: 0.8125rem !important; min-width: 0 !important; }
   .vp-doc th, .vp-doc td { padding: var(--space-2) var(--space-3) !important; }
+
+  /* 모바일에서 코드블럭 좌우 여백 축소 */
+  .vp-doc div[class*='language-'] pre {
+    padding-left: var(--space-3) !important;
+    padding-right: var(--space-3) !important;
+  }
+
+  /* 모바일 줄번호 padding 축소 */
+  .vp-doc div[class*="language-"].line-numbers-mode code .line {
+    padding-left: 2.8rem;
+  }
+
+  .vp-doc div[class*="language-"].line-numbers-mode code .line::before {
+    width: 2.2rem;
+    padding-right: 0.4rem;
+  }
 }
 
 
@@ -1118,59 +1226,4 @@ html {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* ============================================================
-   코드 블록 줄 번호 — CSS counter 방식 (VitePress + Shiki)
-   span.line에 직접 ::before 부착 → 간격 의존 없음
-   ============================================================ */
-
-/* lineNumbers: true 가 켜진 경우 VitePress가 추가하는 클래스
-   .vp-code-block-line-numbers 가 없으면 아래 전체가 비활성화됨 */
-.vp-doc div[class*="language-"].line-numbers-mode code,
-div[class*="language-"].line-numbers-mode code {
-  counter-reset: line-number;
-}
-
-.vp-doc div[class*="language-"].line-numbers-mode code .line,
-div[class*="language-"].line-numbers-mode code .line {
-  display: block;        /* 줄을 block으로 — inline이면 ::before가 흘러버림 */
-  counter-increment: line-number;
-  padding-left: 3.5rem; /* 번호 영역 예약 */
-  position: relative;
-  min-height: 1.5em;     /* 빈 줄도 번호가 표시되도록 */
-}
-
-.vp-doc div[class*="language-"].line-numbers-mode code .line::before,
-div[class*="language-"].line-numbers-mode code .line::before {
-  content: counter(line-number);
-  position: absolute;
-  left: 0;
-  width: 2.8rem;
-  text-align: right;
-  padding-right: 0.6rem;
-
-  /* 기존 .line-numbers 사이드바와 겹치지 않도록 z-index 보장 */
-  font-size: var(--vp-code-font-size, 0.875em);
-  font-family: var(--vp-font-family-mono);
-  line-height: inherit;  /* 코드 줄과 동일한 line-height 강제 상속 */
-
-  color: var(--vp-c-text-3, rgba(128,128,128,0.5));
-  user-select: none;
-  pointer-events: none;
-  border-right: 1px solid oklch(from currentColor l c h / 0.15);
-}
-
-/* VitePress 기본 .line-numbers 사이드바(절대위치 div) 숨기기
-   counter 방식으로 교체하므로 중복 제거 */
-.vp-doc div[class*="language-"].line-numbers-mode .line-numbers-wrapper,
-div[class*="language-"].line-numbers-mode .line-numbers-wrapper {
-  display: none !important;
-}
-
-/* 줄 하이라이트 (.line.highlighted) 와 충돌 방지 — 배경만 덮어쓰기 */
-.vp-doc div[class*="language-"].line-numbers-mode code .line.highlighted,
-div[class*="language-"].line-numbers-mode code .line.highlighted {
-  background-color: oklch(from var(--vp-c-brand-1, #C15F3C) 0.9 0.03 h / 0.12);
-  border-right: none;
 }

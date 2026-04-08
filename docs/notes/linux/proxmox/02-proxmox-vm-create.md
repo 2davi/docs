@@ -680,7 +680,8 @@ qm create 201 \
 #### 6.2 재부팅 후 ISO 제거 & 부팅 순서 변경 명령어
 
 ```bash
+qm stop 201
 qm set 201 --delete ide2
 qm set 201 --boot order=scsi0
-qm reboot 
+qm start 201
 ```
