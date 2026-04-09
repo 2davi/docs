@@ -21,14 +21,14 @@ version: "Proxmox VE 9.1"
 
 ## 환경 정보
 
-| 항목            | 내용                         |
-| --------------- | ---------------------------- |
-| Proxmox VE      | 9.1-1 (Debian Bookworm 기반) |
-| 선행 문서       | `02-proxmox-vm-create.md` |
-| 관리 인터페이스 | `https://127.0.0.1:8006`     |
-| 노드명          | kcy0122                      |
+| 항목            | 내용                                |
+| --------------- | ----------------------------------- |
+| Proxmox VE      | 9.1-1 (Debian Bookworm 기반)        |
+| 선행 문서       | `02-proxmox-vm-create-and-setup.md` |
+| 관리 인터페이스 | `https://127.0.0.1:8006`            |
+| 노드명          | kcy0122                             |
 
-> 이 문서는 `02-proxmox-vm-create.md`에서 초기 설정이 완료된 상태를 전제로 한다.
+> 이 문서는 `02-proxmox-vm-create-and-setup.md`에서 초기 설정이 완료된 상태를 전제로 한다.
 
 ---
 

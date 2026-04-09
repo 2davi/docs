@@ -86,5 +86,9 @@ export default defineConfig({
   markdown: {
     lineNumbers: true,
     toc: { level: [2, 3] },
+    theme: {
+      light: 'github-dark-dimmed',
+      dark: 'github-dark-dimmed'
+    }
   },
 })

@@ -1,10 +1,10 @@
 ---
-title: "Proxmox VE 실습 - VM 생성"
+title: "Proxmox VE 실습 - VM 생성/셋업"
 date: 2026-04-07
 lastmod: 2026-04-08
 author: "Davi"
 description: "VM 생성과 관련한 Proxmox 개념과 CLI 조작, Hypervisor 레이어에서 발생한 이슈의 트러블슈팅 과정을 다룬다."
-slug: "proxmox-vm-create"
+slug: "proxmox-vm-create-and-setup"
 section: "notes"
 category: "linux"
 tags: [proxmox, qemu, kvm, rest-api, cloud-init, guest-agent, vzdump, snapshot, clone, backup, restore, template, upid]

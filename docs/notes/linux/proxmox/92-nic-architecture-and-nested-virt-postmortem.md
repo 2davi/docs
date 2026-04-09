@@ -33,6 +33,12 @@ SSH 끊김, Web UI 접속 불가, 그러나 VirtualBox VM 자체는 `VMState="ru
 
 이 문서는 이 사건을 통해 가상 NIC의 아키텍처를 근본부터 이해하고, 디버깅 과정에서 배제한 모든 가설을 복기하여 학습 자산으로 남긴다.
 
+<DocEmbed
+  src="/notes/linux/proxmox/02-proxmox-vm-create-and-setup"
+  anchor="_3-1-생각-없이-생성"
+  title="VM 디스크 설정(참고)"
+/>
+
 ---
 
 ## 1. VM에서 NIC가 하는 역할
