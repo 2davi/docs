@@ -8,7 +8,7 @@ slug: "proxmox-vm-create-and-setup"
 section: "notes"
 category: "linux"
 tags: [proxmox, qemu, kvm, rest-api, cloud-init, guest-agent, vzdump, snapshot, clone, backup, restore, template, upid]
-order: 120
+order: 20
 series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
 series_order: 2
 status: "active"
@@ -41,7 +41,7 @@ version: "Proxmox VE 9.1"
 
 Proxmox에서 QEMU/KVM 가상 머신은 다음 라이프사이클을 따른다.
 
-```text
+```markdown
 생성(Create) → 실행(Start) → 스냅샷(Snapshot) → 복제(Clone) → 백업(Backup)
      ↑                              ↓
   복구(Restore)  ←  삭제(Destroy)  ←  복원(Rollback)

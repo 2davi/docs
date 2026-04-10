@@ -724,6 +724,8 @@ body {
 .vp-doc div[class*='language-shell'],
 .vp-doc div[class*='language-zsh']   { border-left: 3px solid #28c840; }
 
+.vp-doc div[class*='language-markdown'] { border-left: 3px solid #26211d; }
+
 .vp-doc div[class*='language-js'],
 .vp-doc div[class*='language-javascript'],
 .vp-doc div[class*='language-ts'],

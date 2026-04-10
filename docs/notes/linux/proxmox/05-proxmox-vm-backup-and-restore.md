@@ -8,7 +8,7 @@ slug: "proxmox-vm-backup-and-restore"
 section: "notes"
 category: "linux"
 tags: [proxmox, qemu, kvm, rest-api, cloud-init, guest-agent, vzdump, snapshot, clone, backup, restore, template, upid]
-order: 150
+order: 50
 series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
 series_order: 5
 status: "active"

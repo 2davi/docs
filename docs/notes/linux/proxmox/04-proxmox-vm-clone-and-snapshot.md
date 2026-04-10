@@ -8,7 +8,7 @@ slug: "proxmox-vm-clone-and-snapshot"
 section: "notes"
 category: "linux"
 tags: [proxmox, qemu, kvm, rest-api, cloud-init, guest-agent, vzdump, snapshot, clone, backup, restore, template, upid]
-order: 140
+order: 40
 series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
 series_order: 4
 status: "active"
@@ -39,7 +39,7 @@ qm clone <VMID> <NEWID> \
 
 VM 하나는 두 가지로 구성된다:
 
-```text
+```markdown
 ① /etc/pve/qemu-server/<VM_ID>.conf      ← 메타데이터(CPU, RAM, NIC 설정 등)
 ② Storage Pool의 Disk Volume             ← 실제 데이터(수 GB ~ 수백 GB)
 ```
@@ -48,7 +48,7 @@ VM 하나는 두 가지로 구성된다:
 
 아래 도식은 그 차이를 **Storage Layer**에서 설명한다.
 
-```text
+```markdown
 [Full Clone]
 ────────────────────────────────────────
   원본 VM 디스크:  [Block A][Block B][Block C]...
@@ -110,7 +110,7 @@ Linked Clone에서 Clone-1이 `Block B`를 수정하면:
 
 Linked Clone의 기반이 되는 개념이다. 원본 데이터를 즉시 복사하지 않고, **쓰기가 발생하는 시점에만** 해당 블록을 복사한다.
 
-```text
+```markdown
       [Template Disk -- Readonly]
                    ↑    읽기 참조
       ┌────────────┴────────────┐
@@ -125,7 +125,7 @@ QCOW2 포맷은 이 CoW 메커니즘을 파일 레벨에서 구현하고, ZFS와
 
 Linked Clone은 **생성은 빠르지만, 생성 직후 처음 쓰기(write)가 발생할 때마다 느려진다.** 그 이유가 CoW 메커니즘 때문이다.
 
-```text
+```markdown
 [Read]  템플릿 베이스 디스크 직접 읽기  →  빠름
 [Write] 해당 블록을 클론 레이어에 복사 후 기록  →  느림 (CoW 오버헤드)
 ```
@@ -221,7 +221,7 @@ qm snapshot <VMID> <SNAPNAME> [--description <string>] [--vmstate <bool>]
 
 **스냅샷이 무엇을 저장하는지**를 보면:
 
-```text
+```markdown
 스냅샷  =  ① 디스크 상태 (항상)
         +  ② VM 설정(.conf 내용) (항상)
         +  ③ RAM 상태 (--vmstate 1 옵션 시에만)
@@ -233,13 +233,13 @@ qm snapshot <VMID> <SNAPNAME> [--description <string>] [--vmstate <bool>]
 
 QCOW2 포맷에서 스냅샷을 찍으면, 그 시점의 디스크 상태가 "동결"되고, 이후의 모든 변경은 새로운 레이어에 기록된다. 스냅샷을 여러 번 찍으면 체인이 형성된다.
 
-```text
+```markdown
 [base] ← [snap1] ← [snap2] ← [current(live)]
 ```
 
 이 체인에서 `current`가 `Block X`를 읽으려 할 때의 동작:
 
-```text
+```markdown
 ① current 레이어에 Block X가 있나? → 있으면 반환
 ②                                      없으면 snap2 레이어 확인
 ③                                         없으면 snap1 레이어 확인
@@ -292,7 +292,7 @@ qm rollback <VMID> <SNAPNAME>
 
 ### 2.5 스냅샷은 백업이 아니다
 
-```text
+```markdown
 스냅샷: [물리 디스크 A] 위에 [base] + [snap1] + [snap2] 전부 존재
 백업  : [물리 디스크 A] → vzdump → [스토리지 B의 .vma 파일]
 ```

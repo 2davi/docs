@@ -8,7 +8,7 @@ slug: "proxmox-qm-conf-reference"
 section: "notes"
 category: "linux"
 tags: [proxmox, qemu, kvm, vm-config, qm-conf, scsi, virtio, cloud-init, cpu, memory, network, disk]
-order: 901
+order: 910
 series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
 series_order: 91
 status: "active"

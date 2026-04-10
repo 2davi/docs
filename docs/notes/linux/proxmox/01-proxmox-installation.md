@@ -8,7 +8,7 @@ slug: "proxmox-installation"
 section: "notes"
 category: "linux"
 tags: [proxmox, virtualization, linux, debian, 64x-bit, cmp, cloud, cluster, ssh, partitioning]
-order: 110
+order: 10
 series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
 series_order: 1
 status: "active"
@@ -240,7 +240,7 @@ systemctl restart sshd
 
 ### 4.1 초기 파티션 구조 (Proxmox 기본 설치)
 
-```text
+```markdown
 sda (64GB)
 ├─sda1        BIOS boot (1007K)
 ├─sda2        EFI (512M)
