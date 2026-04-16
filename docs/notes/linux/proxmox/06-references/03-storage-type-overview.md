@@ -1,9 +1,18 @@
-# Proxmox 스토리지 타입 완전 정리: Linux 디스크 레이어부터 Proxmox 스토리지까지
 ---
+title: "Proxmox 스토리지 타입 완전 정리(Temp.)"
+date: 2026-04-14
+lastmod: 2026-04-16
+section: "notes"
+category: "proxmox/references"
+order: 3
+series: "Proxmox VE 학습 시리즈"
+---
+
 ## 1. 전체 구조를 먼저 그려라
+
 스토리지를 이해하는 가장 빠른 방법은 "레이어(layer)"로 나눠 보는 것이다. Proxmox가 스토리지를 사용하는 흐름은 아래처럼 쌓인다.
 
-```
+```markdown
 [물리 디스크 / VirtualBox 디스크 이미지]
          ↓
 [파티션 / 블록 디바이스 (/dev/sda, /dev/vda 등)]

@@ -6,11 +6,10 @@ author: "Davi"
 description: "qm.conf의 모든 속성을 카테고리별로 분류하고, 각 값의 의미와 실전 선택 기준을 정리한다."
 slug: "proxmox-qm-conf-reference"
 section: "notes"
-category: "linux"
+category: "proxmox/references"
 tags: [proxmox, qemu, kvm, vm-config, qm-conf, scsi, virtio, cloud-init, cpu, memory, network, disk]
-order: 910
-series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
-series_order: 91
+order: 1
+series: "Proxmox VE 학습 시리즈"
 status: "active"
 draft: false
 search: true
