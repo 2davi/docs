@@ -1,16 +1,16 @@
 ---
-title: "Proxmox VE 실습 - VM 생성/셋업"
+title: "VM 생성 & 초기 설정"
 date: 2026-04-07
-lastmod: 2026-04-08
+lastmod: 2026-04-16
 author: "Davi"
-description: "VM 생성과 관련한 Proxmox 개념과 CLI 조작, Hypervisor 레이어에서 발생한 이슈의 트러블슈팅 과정을 다룬다."
-slug: "proxmox-vm-create-and-setup"
+description: "qm create 명령 구조, .conf 파일 해부, QEMU 가상화 레이어, QEMU Guest Agent, VirtualBox Nested 환경 제약사항까지."
+slug: "vm-create"
 section: "notes"
-category: "linux"
-tags: [proxmox, qemu, kvm, rest-api, cloud-init, guest-agent, vzdump, snapshot, clone, backup, restore, template, upid]
-order: 20
-series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
-series_order: 2
+category: "proxmox"
+tags: [proxmox, qemu, kvm, virtio, e1000, nested-virt, guest-agent, lvm-thin, vm-lifecycle]
+order: 1
+series: "Proxmox VE 학습 시리즈"
+series_order: 3
 status: "active"
 draft: false
 search: true
@@ -19,195 +19,389 @@ difficulty: intermediate
 version: "Proxmox VE 9.1"
 ---
 
-> 이 문서는 지난한 시행착오를 담고 있습니다.
-> 정제된 결과를 보고 싶으시면 [다음 문서](../06-references/02-nic-architecture-postmortem.md)를 확인하세요.
-
-<br/>
-
 ## 환경 정보
 
 | 항목            | 내용                         |
 | --------------- | ---------------------------- |
 | Proxmox VE      | 9.1-1 (Debian Bookworm 기반) |
-| 선행 문서       | `01-proxmox-installation.md` |
+| 선행 문서       | `01-setup/01-installation.md` |
 | 관리 인터페이스 | `https://127.0.0.1:8006`     |
 | 노드명          | kcy0122                      |
 
-> 이 문서는 `01-proxmox-installation.md`에서 초기 설정이 완료된 상태를 전제로 한다.
-
 ---
 
-## 1. VM 라이프사이클 (Lifecycle) 개요
+## 1. VM 라이프사이클 개요
 
-Proxmox에서 QEMU/KVM 가상 머신은 다음 라이프사이클을 따른다.
+Proxmox에서 QEMU/KVM 가상 머신은 다음 흐름을 따른다.
 
-```markdown
-생성(Create) → 실행(Start) → 스냅샷(Snapshot) → 복제(Clone) → 백업(Backup)
-     ↑                              ↓
-  복구(Restore)  ←  삭제(Destroy)  ←  복원(Rollback)
+```
+생성(Create) → 구성(Configure) → 시작(Start) → 운용
+     ↓                                            ↓
+  복제(Clone)                             스냅샷(Snapshot)
+     ↓                                            ↓
+  템플릿(Template)                        롤백(Rollback)
+                                                  ↓
+                          백업(Backup) ←─ 삭제(Destroy)
+                               ↓
+                          복구(Restore)
 ```
 
-모든 조작은 Web UI, CLI(`qm`, `vzdump`, `qmrestore`), 그리고 REST API(`/api2/json/`)를 통해 수행할 수 있다. Web UI에서 버튼 하나 누르는 행위도, 내부적으로는 REST API 호출이다. 이 사실을 항상 염두에 둬라. CMP(Cloud Management Platform)를 만든다는 건, 결국 이 API를 프로그래밍적으로 호출하는 것이다.
+Web UI에서 버튼 하나를 클릭하는 모든 행위는 내부적으로 `https://<host>:8006/api2/json/` 엔드포인트에 대한 REST API 호출이다. CLI(`qm`)도 마찬가지로 이 API를 내부적으로 사용한다. CMP를 개발한다는 것은 이 API를 프로그래밍적으로 호출하는 것이다. CLI로 먼저 손을 익히는 이유가 여기 있다.
 
-> [**공식 API 레퍼런스 |**](https://pve.proxmox.com/pve-docs/api-viewer/index.html)
-> [**공식 CLI 매뉴얼**](https://pve.proxmox.com/pve-docs/qm.1.html)
-
----
-
-## 2. VM 생성 (Create)
-
-### 2.1 CLI 기본
-
-```bash
-qm create <VMID> [OPTIONS]
-```
-
-`qm create`는 VM의 설정 파일(`/etc/pve/qemu-server/<VMID>.conf`)을 생성한다. 디스크를 붙이지 않으면 빈 껍데기만 만들어지는 것이며, 이후 `qm set`으로 디스크, NIC, CPU 등을 추가한다.
-
-### 2.2 VMID 체계 설계
-
-VMID는 클러스터 전체에서 고유한 정수값(100 이상)이다. 아무렇게나 쓰면 나중에 수백 개의 VM이 쌓였을 때 관리가 불가능해진다. 실무에서는 일반적으로 다음과 같은 체계를 설계한다.
-
-| 대역      | 용도              | 예시                        |
-| --------- | ----------------- | --------------------------- |
-| 100–199   | 인프라/관리용 VM  | DNS, DHCP, 모니터링         |
-| 200–299   | 개발/테스트 환경  | dev-api-server, test-db     |
-| 300–399   | 스테이징(Staging) | staging-web, staging-worker |
-| 500–599   | 운영(Production)  | prod-app-01, prod-db-master |
-| 9000–9099 | 템플릿(Template)  | ubuntu-cloud-template       |
-
-VMID 체계는 팀과 프로젝트 규모에 따라 달라지지만, 핵심 원칙은 **"VMID만 보고도 용도를 유추할 수 있어야 한다"**는 것이다. CMP를 개발할 때 이 체계는 자동 VMID 할당 로직의 기반이 된다.
-
-### 2.3 CPU/RAM 오버커밋 (Overcommit)
-
-오버커밋이란, 물리 호스트가 보유한 것보다 더 많은 자원을 VM에 "약속"하는 것이다.
-
-**CPU 오버커밋:** 가능하고 일반적이다. vCPU는 시분할(Time-Sharing)로 물리 코어를 공유하기 때문에, 물리 코어 4개인 호스트에 vCPU 합계 16개를 할당하는 것도 가능하다. 단, 모든 VM이 동시에 CPU를 100% 사용하면 경합(Contention)이 발생한다.
-
-**RAM 오버커밋:** 메모리 풍선(Memory Ballooning, `balloon` 장치)을 사용하면 가능하지만, CPU 오버커밋보다 훨씬 위험하다. 물리 메모리가 고갈되면 OOM Killer가 프로세스를 죽이거나 호스트 전체가 멈출 수 있다. 운영 환경에서는 RAM 오버커밋을 권장하지 않는다.
-
-**실무 가이드라인:**
-
-- CPU: 물리 코어 대비 2~4배까지는 보편적으로 허용
-- RAM: 1:1 또는 최대 1.2배 수준을 유지. Ballooning은 개발/테스트 환경에서만
-
-### 2.4 QEMU Machine Type
-
-`qm create` 시 `--machine` 옵션으로 QEMU 머신 타입(Machine Type)을 지정할 수 있다. 이것은 VM에게 "너는 어떤 하드웨어 보드 위에서 돌아가고 있다"고 알려주는 가상 칩셋 사양이다.
-
-| 타입              | 설명                                                                                                                 |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `i440fx` (기본값) | 전통적인 PC 칩셋 에뮬레이션. 호환성이 높고 안정적                                                                    |
-| `q35`             | PCIe(PCI Express) 네이티브 지원, UEFI/OVMF 부팅과 궁합이 좋음. GPU 패스스루(Passthrough), NVMe 디바이스 사용 시 권장 |
-
-`q35`는 최신 OS에서 더 나은 성능을 보이지만, 레거시(Legacy) OS에서는 호환성 이슈가 있을 수 있다. 특별한 이유가 없다면 Proxmox 기본값(`i440fx`)을 따르되, UEFI 부팅이나 PCIe 패스스루가 필요하면 `q35`를 선택하라.
-
-> **공식 문서:** https://pve.proxmox.com/pve-docs/pve-admin-guide.html#qm_virtual_machines_settings
+> - **공식 API 레퍼런스:** https://pve.proxmox.com/pve-docs/api-viewer/index.html
+> - **공식 CLI 매뉴얼:** https://pve.proxmox.com/pve-docs/qm.1.html
 
 ---
 
-## 3. VM 생성 실습
+## 2. VM이란 무엇인가 — QEMU 프로세스 관점
 
-### 3.1 생각 없이 생성
+Proxmox에서 "VM 하나"는 실질적으로 **QEMU 프로세스 하나**다. `qm start <VMID>`를 실행하면, Proxmox는 `/etc/pve/qemu-server/<VMID>.conf` 파일을 읽고, 그 내용대로 `qemu-system-x86_64` 프로세스를 띄운다.
 
-> `qm create 100`이 실제로 하는 일은, `100.conf`라는 텍스트 파일 하나를 만드는 것. 디스크도, NIC도, OS도 없다.
+`.conf` 파일은 QEMU에게 전달하는 **레시피**다. "CPU 몇 개, RAM 얼마, 디스크는 어디에, NIC 모델은 무엇"을 선언하는 텍스트 파일에 불과하다. VM의 실체는 이 파일이 아니라 이 파일을 읽고 생성된 프로세스다.
+
+### 2.1 `.conf` 파일 구조 해부
+
+`qm create 100`만 실행하면 생성되는 최소 설정 파일:
 
 ```bash
-qm create 100
 cat /etc/pve/qemu-server/100.conf
-```
 
-```bash
 boot:
 meta: creation-qemu=10.1.2,ctime=1775548839
 smbios1: uuid=5e4cc988-e5a2-4557-a09d-0f8311a0e455
 vmgenid: d4ef9356-c095-49a9-aeb3-d300f8ce7f3e
 ```
 
-**Proxmox**에서 **"VM"**이라는 건 **QEMU 프로세스 하나**를 가리킨다. **Proxmox**가 생성된 `.conf` 파일을 읽고 적혀있는 사양대로 `qemu-system-x86_64` 프로세스를 띄우는 것. `.conf` 파일은 QEMU한테 "너는 CPU 몇 개짜리고, RAM 얼마짜리고, 디스크는 여기 달려있고, NIC는 이거"라고 알려주는 **레시피**인 셈이다.
+각 필드의 의미:
 
-1. **디스크:** OS가 설치될 가상 하드디스크
-2. **부팅 매체:** ISO 이미지든 네트워크 부팅이든, 설치를 시작할 무언가
-3. **CPU/RAM 사양:** 얼마만큼의 자원을 할당할건지
+| 필드       | 의미                                                                  |
+| ---------- | --------------------------------------------------------------------- |
+| `boot`     | 부팅 순서. 비어있으면 Proxmox 기본값으로 자동 결정                     |
+| `meta`     | QEMU 버전, 생성 시각(Unix timestamp) — Proxmox 내부 추적용            |
+| `smbios1`  | SMBIOS(System Management BIOS) UUID. 게스트 OS가 하드웨어를 식별하는 값 |
+| `vmgenid`  | VM Generation ID. 스냅샷 롤백·클론 시 OS에게 "VM 상태가 바뀌었다"고 알리는 신호 |
 
-아래와 같이 `[OPTIONS]`를 때려넣어서 선언하면 된다.
+`vmgenid`는 Microsoft가 Hyper-V를 위해 만들고 QEMU가 구현한 메커니즘이다. Windows VM이 스냅샷에서 롤백될 때 Active Directory 복제 충돌을 방지하는 데 사용된다. Linux에서도 시간 동기화 데몬(chrony, ntpd)이 이 값을 감지하고 시계를 강제 재동기화하도록 설계할 수 있다.
+
+전체 `.conf` 필드 레퍼런스는 `06-references/01-qm-conf-reference.md`에서 다룬다.
+
+---
+
+## 3. VM 생성 명령어
 
 ```bash
-qm create 101 --name test-vm --memory 2048 --cores 2 \
-  --net0 virtio,bridge=vmbr0 \
-  --scsi0 local-lvm:32 \
-  --ide2 local:iso/debian-13.3.0-amd64-netinst.iso,media=cdrom \
-  --boot order=ide2 \
-  --scsihw virtio-scsi-single
+qm create <VMID> [OPTIONS]
 ```
 
-- **`--scsi0 local-lvm:32`:** **LVM-thin** Storage(local-lvm)에 **32GB** 가상 디스크를 생성하고, **SCSI** 컨트롤러의 **0**번 슬롯에 연결
-- **`--ide2 local:iso/debian-12.iso,media=cdrom`:** ISO 파일을 가상 **CD-ROM** 드라이브로 마운트
-- **`--boot order=ide2`:** CD-ROM에서 먼저 부팅(OS 설치를 위해)
-- **` --scsihw virtio-scsi-single`:** **SCSI** 컨트롤러 타입을 지정. **VirtIO SCSI**가 성능이 가장 좋다.
+`qm create`는 `.conf` 파일을 생성하는 명령이다. 디스크를 지정하면 스토리지 풀에서 LV(Logical Volume) 또는 ZFS dataset을 할당하고, NIC를 지정하면 tap 디바이스를 브릿지에 연결할 준비를 한다. 하지만 QEMU 프로세스가 실제로 뜨는 시점은 `qm start`를 실행할 때다.
 
-> ISO 파일은 **Proxmox Web UI**에서 `local` 스토리지에 미리 올려놓으면 된다.
+### 3.1 VMID 체계 설계
 
-![Proxmox Sidebar - local Storage](../assets/20260407_008.png)
-![Proxmox ISO Upload](../assets/20260407_009.png)
+VMID는 클러스터 전체에서 고유한 정수값(100 이상)이다. 체계 없이 쓰면 VM이 수십 개만 쌓여도 관리가 안 된다. 일반적인 범위 설계 패턴:
+
+| 대역        | 용도                       |
+| ----------- | -------------------------- |
+| 100–199     | 인프라·관리용 (DNS, 모니터링) |
+| 200–299     | 개발·테스트 환경            |
+| 300–399     | 스테이징(Staging)           |
+| 500–599     | 운영(Production)            |
+| 8000–8999   | 템플릿(Template)            |
+| 9000–9999   | 백업·스냅샷 보존용 클론     |
+
+CMP에서 자동 VMID 할당 로직을 구현할 때, 이 범위 정책을 기반으로 `GET /api2/json/cluster/nextid`로 다음 사용 가능한 VMID를 조회한 뒤 범위를 확인하는 방식으로 구성한다.
+
+### 3.2 주요 옵션 해설
 
 ```bash
-boot: order=ide2
-cores: 2
-ide2: local:iso/debian-13.3.0-amd64-netinst.iso,media=cdrom,size=754M
-memory: 2048
-meta: creation-qemu=10.1.2,ctime=1775550070
-name: test-vm
-net0: virtio=BC:24:11:BD:56:51,bridge=vmbr0
-scsi0: local-lvm:vm-101-disk-0,size=32G
-scsihw: virtio-scsi-single
-smbios1: uuid=a07e80f9-9f3e-4fa8-ad4d-72d83c2244c5
-vmgenid: f4d29804-ab1a-47cb-90ab-0d50dd55ebf8
+qm create <VMID> \
+  --name <이름>        \   # /etc/pve/qemu-server/<VMID>.conf의 name 필드
+  --cores <수>         \   # vCPU 수 (소켓은 기본 1)
+  --cpu <모델>         \   # CPU 모델. "host"는 물리 CPU 기능을 그대로 패스스루
+  --memory <MB>        \   # 메모리 (MiB 단위)
+  --balloon <0|1>      \   # 메모리 풍선 장치. 0=비활성화
+  --ostype <타입>      \   # OS 타입 힌트. l26=Linux 2.6+, win10, etc.
+  --agent enabled=1    \   # QEMU Guest Agent 활성화
+  --scsihw <컨트롤러>  \   # SCSI 컨트롤러 타입
+  --scsi0 <스토리지:크기> \ # 부팅 디스크
+  --net0 <모델,bridge=브릿지> \ # NIC
+  --serial0 socket     \   # 시리얼 콘솔 (Cloud-Init 사용 시 필수)
+  --ide2 <iso>,media=cdrom \ # 설치 ISO
+  --boot order=ide2        # 부팅 순서
 ```
 
-자세한 내용은 [Proxmox VE VM 설정 파일(qm.conf) 심화 레퍼런스](../06-references/01-qm-conf-reference.md)을 확인.
+---
 
-### 3.2 생성한 VM 실행
+## 4. CPU 가상화 레이어 — KVM과 TCG
 
-**ISSUE:** **VirtualBox 위에 Proxmox를 올린 환경**이기에 중첩 가상화(Nested Virtualization) 문제에 걸린다.
+`--cpu` 옵션과 `--kvm` 옵션을 설정하기 전에, Proxmox에서 VM을 실행하는 두 가지 CPU 가상화 경로를 이해해야 한다.
+
+### 4.1 KVM (Kernel-based Virtual Machine)
+
+KVM은 Linux 커널의 가상화 모듈이다. Intel VT-x 또는 AMD-V 하드웨어 가상화 명령어를 사용하여 게스트 CPU 명령어를 **거의 직접 실행**한다. 게스트가 특권 명령(Privileged Instruction)을 실행하면 VM Exit가 발생하여 KVM이 처리하고, 일반 명령은 물리 CPU에서 네이티브 속도로 실행된다.
+
+성능: 물리 CPU 대비 1~5% 오버헤드. 사실상 베어메탈과 동일하다.
+
+### 4.2 TCG (Tiny Code Generator)
+
+KVM을 사용할 수 없을 때의 폴백(Fallback)이다. QEMU가 게스트 CPU의 모든 명령어를 소프트웨어로 번역하여 호스트 CPU에서 실행한다. 완전한 소프트웨어 에뮬레이션이므로:
+
+- 게스트 CPU 아키텍처가 달라도 동작 (예: ARM 게스트를 x86 호스트에서)
+- 성능: KVM 대비 10~50배 느림
+- CPU 자원을 호스트에서 독점 소모하므로, 게스트 I/O 집중 구간에서 호스트 응답성이 저하될 수 있다
+
+`--kvm 0` 옵션으로 TCG 강제 활성화 가능하다.
+
+### 4.3 `--cpu host` vs CPU 모델 지정
+
+| 옵션 | 동작 | 적합 상황 |
+| ---- | ---- | --------- |
+| `--cpu host` | 물리 CPU의 모든 기능 플래그를 게스트에 그대로 노출 | 동일 호스트에서만 운영되는 VM, 최고 성능 필요 시 |
+| `--cpu kvm64` | KVM 기본 가상 CPU. 기능 플래그를 최소화 | VM 마이그레이션 시 CPU 기능 불일치 방지 |
+| `--cpu max`  | 현재 QEMU가 지원하는 모든 기능 활성화 | 테스트 목적 |
+
+클러스터 내 노드 간 **Live Migration**을 고려한다면 `--cpu host`는 위험하다. 노드 A(Intel)에서 `cpu: host`로 만든 VM을 노드 B(AMD)로 마이그레이션하면 CPU 기능 불일치로 VM이 크래시한다. 마이그레이션이 예상되는 VM에는 `--cpu kvm64`를 사용하거나, 클러스터의 모든 노드가 동일한 CPU 세대임을 보장해야 한다.
+
+### 4.4 QEMU Machine Type
+
+`--machine` 옵션으로 VM에게 어떤 가상 칩셋 위에서 돌고 있는지를 선언한다.
+
+| 타입      | 가상 칩셋          | 특징                                                          |
+| --------- | ------------------ | ------------------------------------------------------------- |
+| `i440fx`  | Intel 440FX PCIx   | 전통적 PC 칩셋 에뮬레이션. 레거시 PCI 버스. 기본값. 호환성 최고 |
+| `q35`     | Intel ICH9 PCIe    | PCIe 네이티브 지원. UEFI/OVMF, GPU 패스스루, NVMe 사용 시 권장 |
+
+특별한 이유가 없으면 `i440fx`를 그대로 두고, UEFI 부팅이나 PCIe 패스스루가 필요할 때 `q35`로 전환한다.
+
+---
+
+## 5. 스토리지 옵션 해설
+
+### 5.1 SCSI 컨트롤러 선택 (`--scsihw`)
+
+| 컨트롤러              | 특징                                                          |
+| --------------------- | ------------------------------------------------------------- |
+| `virtio-scsi-single`  | 디스크 하나에 컨트롤러 하나. iothread 지원. **권장**         |
+| `virtio-scsi-pci`     | 단일 컨트롤러에 디스크 여러 개. iothread 없음                 |
+| `lsi`                 | LSI 53C895A 에뮬레이션. 레거시 호환용                        |
+| `pvscsi`              | VMware 준가상화. VMware 마이그레이션 시 사용                  |
+
+`virtio-scsi-single`은 `iothread=1` 옵션과 함께 쓸 때 진가를 발휘한다. iothread는 디스크 I/O를 별도 스레드에서 처리하여 QEMU 메인 루프의 블로킹을 방지한다. 디스크 I/O가 많은 워크로드에서 눈에 띄는 성능 차이가 난다.
+
+### 5.2 디스크 옵션
 
 ```bash
-qm start 101
-
-> KVM virtualisation configured, but not available. Either disable in VM configuration or enable in BIOS.
+--scsi0 local-lvm:32,discard=on,iothread=1
+#         스토리지:크기(GB)  ^^^^^^^^^^^^^^ 추가 옵션
 ```
 
-- **Proxmox**가 **VM**을 띄우려고 **KVM**(하드웨어 가상화)를 쓰려는데, Proxmox 자체가 VIrtualBox 안에서 구동되고 있기 때문에 호스트 CPU의 VT-x/AMD-V 명령어에 접근하지 못하는 것.
-- VirtualBox가 "가상머신 안에서 또 가상머신을 만드는 것"을 허용하지 않도록 설정된 탓.
+| 옵션 | 설명 |
+| ---- | ---- |
+| `discard=on` | 게스트 내부 `fstrim` 명령이 실제 스토리지 레벨 TRIM으로 전달됨. LVM-thin에서 삭제된 블록을 물리적으로 반환 |
+| `iothread=1` | 해당 디스크의 I/O를 전용 스레드로 처리. `virtio-scsi-single`에서만 유효 |
+| `ssd=1`      | SSD 에뮬레이션 힌트. 게스트 OS가 회전식 디스크가 아님을 인식 |
+| `cache=none` | 호스트 페이지 캐시를 바이패스. 데이터 정합성 중요한 DB 워크로드에 사용 |
 
-**RESOLVE:** **VirtualBox에서 Nested VT-x 활성화**
+Proxmox 9.x에서 `discard` 속성 값이 `off` → `ignore`로 변경되었다. `discard=on`은 이전 버전과의 호환 표기이며, 최신 버전에서는 `discard=ignore`가 "TRIM 무시"를 의미한다.
 
-- Proxmox VM을 **완전히 종료**한 상태에서 Windows 호스트의 **PowerShell** 또는 **CMD**:
-  1. `VBoxManage list vms` - Proxmox 이름 확인
-     PATH 등록이 안 되어있으면, `& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" list vms`
-  2. `VBoxManage modifyvm "<Proxmox-VM-이름>" --nested-hw-virt on` - Nested VT-x 활성화
-     또는, `& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" modifyvm "Proxmos-9.1-1" --nested-hw-virt on`
+---
 
-만약 Windows 호스트에서 **Hyper-V가 활성화되어 있으면** VirtualBox의 Nested VT-x가 제대로 작동하지 못할 수 있다.
-VirtualBox Nested VT-x와 Hyper-V는 서로 공존할 수 없는 존재.
+## 6. NIC 모델 선택 — 에뮬레이션 vs 준가상화
 
-> WLS2를 구동하려면 Hyper-V가 필수적으로 활성화되어야 한다. WLS2나 Docker Desktop을 사용 중이라면, 감안해서 알아 해야 한다.
+VM의 네트워크 설정에서 가장 중요한 선택 중 하나다.
 
-- **확인:** PowerShell 관리자 권한:
-  1. `Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V` - 출력값이 없으면 Microsoft-Hyper-V가 설치되지 않았다는 뜻(무시해도 OK), `State: Enabled`면 활성화된 상태.
-  2. `bcdedit /enum | findstr hypervisorlaunchtype` - `hypervisorlaunchtype Auto`면 활성화된 상태.
-- **끄기:** PowerShell 관리자 권한:
-  1. `Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All`
-  2. `bcdedit /set hypervisorlaunchtype off` - 성공 시 `작업을 완료했습니다.` 출력.
-  3. **Windows Host를 재부팅한다.**
+### 6.1 에뮬레이션 방식 — `e1000`
 
+QEMU가 실제 존재하는 물리 하드웨어(Intel 82540EM)의 모든 동작을 소프트웨어로 재현한다. 게스트 OS의 e1000 드라이버가 하드웨어 레지스터에 값을 쓰면, QEMU가 해당 쓰기를 가로채서(VM Exit/Trap) "이 하드웨어라면 이렇게 반응했을 것"을 계산하여 응답한다.
 
-### 3.3 VM 옵션 조작하기
+- **장점:** 게스트 OS가 "가상화 환경에서 돌고 있다"는 사실을 모름. 수십 년 된 OS에도 드라이버 기본 탑재.
+- **단점:** 매 패킷마다 수많은 VM Exit가 발생. 컨텍스트 스위칭 비용이 쌓이면 처리량(Throughput) 감소, CPU 사용률 증가.
 
-VM의 자원 할당을 조절하여 `102.conf`를 생성하기를 시도한다. 하지만 여러 차례, 옵션 끝에 역슬래시 `\`를 빠뜨리면서 삭제, 재생성을 반복하였다.
+### 6.2 준가상화 방식 — `virtio`
+
+게스트 OS가 "가상 머신 안에 있다"는 사실을 인지하고, VirtIO 표준 인터페이스로 QEMU와 직접 통신한다. 핵심은 **공유 메모리 기반의 링 버퍼(VirtQueue)**다. 게스트가 패킷을 전송할 때 하드웨어 레지스터를 하나하나 건드리는 대신, 공유 메모리의 링 버퍼에 패킷을 쓰고 알림(Notification) 한 번만 보낸다.
+
+- **장점:** VM Exit 횟수가 극적으로 줄어 성능이 에뮬레이션 대비 수 배 이상 높음. CPU 오버헤드 최소화.
+- **단점:** 게스트 OS에 VirtIO 드라이버 필요 (현대 Linux 커널은 기본 탑재).
+
+### 6.3 NIC 모델 선택 기준
+
+| 환경 | 권장 모델 | 이유 |
+| ---- | --------- | ---- |
+| 물리 서버(베어메탈) Proxmox | `virtio` | 최고 성능, 드라이버 호환 문제 없음 |
+| VirtualBox 중첩 환경 | `e1000` | VirtIO의 VirtQueue 메모리 매핑이 중첩 가상화 레이어에서 충돌 (§9 참고) |
+| 레거시 OS (Windows XP 이전 등) | `e1000` | VirtIO 드라이버 없음 |
+| VMware에서 마이그레이션 | `vmxnet3` → `virtio` 전환 | 마이그레이션 직후 vmxnet3, 안정화 후 virtio로 교체 |
+
+---
+
+## 7. QEMU Guest Agent
+
+### 7.1 Guest Agent란
+
+QEMU Guest Agent(QGA)는 **게스트 OS 내부에서 실행되는 데몬**이다. 호스트(Proxmox)와 게스트(VM 내부 OS) 사이에 VirtIO Serial Port를 통한 통신 채널을 열어, 호스트가 게스트 내부 정보를 조회하거나 특정 동작을 요청할 수 있게 한다.
+
+일반적인 API(REST, SSH)가 네트워크 레이어를 통하는 것과 달리, QGA는 하이퍼바이저 레벨에서 직접 연결되므로 **네트워크 설정과 무관하게 동작**한다. 게스트의 네트워크가 끊겼어도 QGA는 살아있다.
+
+### 7.2 Guest Agent로 할 수 있는 것
+
+| 기능                   | API 경로                                 | 설명                                                  |
+| ---------------------- | ---------------------------------------- | ----------------------------------------------------- |
+| IP 주소 조회           | `GET .../agent/network-get-interfaces`   | DHCP 환경에서 VM IP를 호스트에서 확인. CMP VM 목록에 IP 표시 시 필수 |
+| 파일시스템 정지/재개   | `fsfreeze-freeze` / `fsfreeze-thaw`      | 일관성 있는 백업을 위한 I/O 정지                      |
+| 파일시스템 정보        | `GET .../agent/get-fsinfo`               | 마운트 포인트, 디스크 사용량 조회                      |
+| 안전한 종료            | `POST .../agent/shutdown`                | 게스트 OS에게 정상 종료 요청                           |
+| 명령 실행              | `POST .../agent/exec`                    | 게스트 내부에서 임의 명령 실행                         |
+
+**CMP 관점에서의 핵심:** Guest Agent가 없으면 VM의 QEMU 프로세스가 `running` 상태인지는 알 수 있지만, 게스트 OS가 실제로 부팅 완료되었는지, 네트워크 인터페이스가 올라왔는지, 애플리케이션이 정상 기동되었는지는 알 수 없다. "VM 기동 완료" 판별의 정확도가 크게 달라진다.
+
+### 7.3 설치 및 활성화
+
+**게스트 내부 (Debian/Ubuntu):**
 
 ```bash
-# 최종.
+apt install -y qemu-guest-agent
+systemctl enable --now qemu-guest-agent
+```
+
+**Proxmox 호스트 측:**
+
+```bash
+# VM 설정에서 Guest Agent 활성화 (VirtIO Serial Port 생성)
+qm set <VMID> --agent enabled=1
+
+# 또는 생성 시:
+qm create <VMID> --agent enabled=1,fstrim_cloned_disks=1
+```
+
+`fstrim_cloned_disks=1`은 이 VM을 클론한 뒤 첫 시작 시 게스트 내부에서 자동으로 `fstrim`을 실행한다. LVM-thin의 클론된 볼륨에서 실제 사용하지 않는 블록을 pool에 반환하여 공간 효율을 높인다.
+
+> **중요:** 호스트 측에서 `--agent enabled=1` 설정 후에는 VM을 **완전히 종료(Shutdown)했다가 재시작**해야 적용된다. 단순 Reboot로는 VirtIO Serial Port가 생성되지 않는다.
+
+---
+
+## 8. CPU 오버커밋과 메모리 풍선
+
+### 8.1 CPU 오버커밋 (vCPU Overcommit)
+
+vCPU는 시분할(Time-Sharing)로 물리 코어를 공유한다. 물리 코어 4개인 호스트에 vCPU 합계 16개를 할당하는 것은 기술적으로 가능하며, 모든 VM이 동시에 CPU를 최대로 쓰지 않는 한 문제없다.
+
+**실무 가이드라인:** 물리 코어 대비 2~4배. 10개 코어 호스트에 VM vCPU 합계 20~40개 정도. 워크로드 특성(CPU Bound vs I/O Bound)에 따라 달라진다.
+
+### 8.2 메모리 풍선 (Memory Ballooning)
+
+`--balloon` 장치를 활성화하면, Proxmox가 VM에 할당된 메모리를 런타임에 동적으로 증감할 수 있다. 메모리가 여유로운 VM에서 "풍선을 팽창"시켜 메모리를 뺏고, 필요한 VM에게 재분배한다.
+
+`--balloon 0`은 이 장치를 비활성화한다. 이유:
+- 풍선이 팽창하면 게스트 OS는 갑자기 메모리가 줄어드는 것을 경험하고, 이로 인해 스왑(Swap)을 사용하게 된다.
+- 성능 예측이 어렵고, DB나 캐시 집약적 애플리케이션에서는 예상치 못한 성능 저하를 유발한다.
+- 운영 환경에서는 `--balloon 0`으로 비활성화하고, 각 VM에 충분한 고정 메모리를 할당하는 것이 원칙이다.
+
+---
+
+## 9. VirtualBox Nested 환경 제약사항 — VirtIO NIC Hang
+
+### 9.1 문제 개요
+
+VirtualBox 위의 Proxmox 환경에서 VirtIO NIC(`--net0 virtio,...`)가 설정된 VM을 `qm start`하면 **Proxmox 호스트 전체가 Hang(무응답)** 된다. SSH 끊김, Web UI 접속 불가 상태가 된다. 그러나 VirtualBox의 VMState는 `"running"`이며 콘솔 화면은 정상 표시된다.
+
+가상화 스택의 구조:
+
+```
+Layer 4: 게스트 OS (Debian/Ubuntu)        ← VM 내부
+Layer 3: QEMU 프로세스                    ← Proxmox 안에서 실행
+Layer 2: Proxmox (Debian + KVM 모듈)      ← VirtualBox 게스트
+Layer 1: VirtualBox + Nested VT-x         ← Windows 호스트
+Layer 0: Windows + 물리 CPU (VT-x)        ← 실제 하드웨어
+```
+
+### 9.2 근본 원인 — VirtQueue 메모리 매핑
+
+VirtIO NIC는 게스트와 QEMU 사이에 **공유 메모리(VirtQueue)**를 설정한다. 정상 베어메탈 환경에서 이 메모리 매핑은 2단계다:
+
+```
+GPA → HPA  (Guest Physical Address → Host Physical Address)
+      EPT(Extended Page Table)로 하드웨어 처리
+```
+
+VirtualBox 중첩 환경에서는 이것이 **3단계**로 뻥튀기된다:
+
+```
+L2 GPA → L1 GPA → L0 HPA
+(게스트)  (Proxmox)  (Windows 물리)
+```
+
+각 단계의 주소 변환을 VirtualBox가 소프트웨어로 에뮬레이션하는 과정에서, `ioeventfd` 처리 경로가 Nested 환경에서 교착(Deadlock) 또는 무한 루프에 빠진다. 결과적으로 Proxmox의 모든 vCPU가 VirtualBox 내부 메모리 관리 코드에 갇혀 다른 작업을 스케줄링하지 못한다.
+
+**왜 콘솔은 정상으로 보였나:** VirtualBox 콘솔 렌더링은 VirtualBox 프로세스 자체의 스레드에서 처리되므로 Proxmox 내부 CPU 상태와 무관하게 마지막 렌더링된 화면을 계속 표시한다.
+
+### 9.3 해결: `e1000`으로 NIC 모델 교체
+
+`e1000` 에뮬레이션은 전통적인 MMIO + 인터럽트 경로를 사용한다. 이 경로는 VirtualBox의 Nested VT-x 구현에서 가장 잘 테스트된 코드 경로이며, VirtQueue 같은 복잡한 공유 메모리 매핑이 없다.
+
+```bash
+qm set <VMID> --net0 e1000,bridge=vmbr0,firewall=1
+```
+
+### 9.4 VirtualBox Nested 환경 제약 요약
+
+| 항목                   | 사용 가능 | 비고                                           |
+| ---------------------- | --------- | ---------------------------------------------- |
+| KVM 하드웨어 가속      | ✅        | `--nested-hw-virt on` 활성화 필요              |
+| `--cpu host`           | ✅        | 물리 CPU 기능 패스스루 동작                    |
+| VirtIO 디스크 (SCSI)   | ✅        | `virtio-scsi-single` + `iothread=1` 정상 동작  |
+| VirtIO NIC             | ❌        | **Hang 유발. `e1000`으로 대체 필수**           |
+
+> 이 제약은 VirtualBox 중첩 환경의 한계이지, VirtIO NIC 자체의 문제가 아니다. 물리 서버 Proxmox에서는 VirtIO NIC가 최선이다.
+
+VirtIO NIC 아키텍처와 디버깅 과정의 전체 분석은 `06-references/02-nic-architecture-postmortem.md`에서 다룬다.
+
+---
+
+## 10. 실습
+
+### 10.1 최소 VM 생성 (빈 껍데기)
+
+```bash
+qm create 100
+cat /etc/pve/qemu-server/100.conf
+
+# 출력
+# boot:
+# meta: creation-qemu=10.1.2,ctime=1775548839
+# smbios1: uuid=5e4cc988-e5a2-4557-a09d-0f8311a0e455
+# vmgenid: d4ef9356-c095-49a9-aeb3-d300f8ce7f3e
+```
+
+디스크도, NIC도, OS도 없는 빈 `.conf` 파일이다.
+
+### 10.2 옵션 포함 VM 생성 — 시행착오
+
+ISO 설치 VM 생성을 시도하였다. 옵션 끝의 `\`를 빠뜨리면서 불완전한 명령이 실행되는 실수를 반복하며 디스크가 쌓였다.
+
+```bash
+# 불완전 명령 실행으로 인해 디스크가 쌓인 상태
+lvs | grep 102
+#   vm-102-disk-0 pve Vwi-a-tz--  32.00g data  0.00
+#   vm-102-disk-1 pve Vwi-a-tz--  32.00g data  0.00
+#   vm-102-disk-2 pve Vwi-a-tz--  32.00g data  0.00
+#   vm-102-disk-3 pve Vwi-a-tz--  32.00g data  0.00
+```
+
+`qm destroy`로 `.conf`를 삭제했어도, `.conf`에서 참조 해제된 LV는 스토리지에 남는다. 이것이 **고아 디스크(Orphan Disk)**다.
+
+```bash
+# 고아 LV 수동 삭제
+# LV 이름에 하이픈(-)이 포함되면 lvremove 경로에서 --로 이스케이프됨에 주의
+lvremove /dev/pve/vm-102-disk-0
+lvremove /dev/pve/vm-102-disk-1
+lvremove /dev/pve/vm-102-disk-2
+# vm-102-disk-3은 102.conf에서 참조 중이므로 qm destroy 102로 같이 처리
+qm destroy 102
+```
+
+최종적으로 정상 생성된 102.conf:
+
+```bash
 qm create 102 \
   --cores 1 \
   --memory 1024 \
@@ -219,446 +413,69 @@ qm create 102 \
   --scsihw virtio-scsi-single \
   --net0 virtio,bridge=vmbr0,firewall=1 \
   --serial0 socket
+
+cat /etc/pve/qemu-server/102.conf
+# agent: enabled=1,fstrim_cloned_disks=1
+# balloon: 0
+# boot: order=scsi0;net0
+# cores: 1
+# cpu: host
+# memory: 1024
+# net0: virtio=BC:24:11:81:4D:55,bridge=vmbr0,firewall=1
+# scsi0: local-lvm:vm-102-disk-3,discard=on,iothread=1,size=32G
+# scsihw: virtio-scsi-single
+# serial0: socket
 ```
+
+### 10.3 VM 시작 — KVM 오류 및 Nested VT-x 활성화
 
 ```bash
-# 결과
-root@kcy0122:/etc/pve/qemu-server# cat 102.conf
-agent: enabled=1,fstrim_cloned_disks=1
-balloon: 0
-boot: order=scsi0;net0
-cores: 1
-cpu: host
-memory: 1024
-meta: creation-qemu=10.1.2,ctime=1775607323
-net0: virtio=BC:24:11:81:4D:55,bridge=vmbr0,firewall=1
-ostype: l26
-scsi0: local-lvm:vm-102-disk-3,discard=on,iothread=1,size=32G
-scsihw: virtio-scsi-single
-serial0: socket
-smbios1: uuid=bff67b48-32ca-4823-a07d-652f801b4a31
-vmgenid: 4726b5d3-c64c-47ce-be18-16db6c39b81b
-```
-
-<br/>
-
-> 이 과정에서, 시퀀스가 증가한 디스크가 쌓였다. `scsi0` 필드의 값을 보면 `vm-102-disk-3`을 가리키고 있다.
-
-```bash
-root@kcy0122:/etc/pve/qemu-server# lvs | grep 102
-  vm-102-disk-0 pve Vwi-a-tz--  32.00g data        0.00
-  vm-102-disk-1 pve Vwi-a-tz--  32.00g data        0.00
-  vm-102-disk-2 pve Vwi-a-tz--  32.00g data        0.00
-  vm-102-disk-3 pve Vwi-a-tz--  32.00g data        0.00
-```
-
-<br/>
-
-> 모두 삭제해주고 `102.conf`까지 새로 만들어주었다.
-
-```bash
-root@kcy0122:/etc/pve/qemu-server# lvremove /dev/pve/rm--102--disk--0
-  Failed to find logical volume "pve/rm--102--disk--0"
-root@kcy0122:/etc/pve/qemu-server# lvremove /dev/pve/vm--102--disk--0
-  Failed to find logical volume "pve/vm--102--disk--0"
-root@kcy0122:/etc/pve/qemu-server# lvremove /dev/pve/vm-102-disk-0
-Do you really want to remove active logical volume pve/vm-102-disk-0? [y/n]: y
-  Logical volume "vm-102-disk-0" successfully removed.
-root@kcy0122:/etc/pve/qemu-server# lvremove /dev/pve/vm-102-disk-1
-Do you really want to remove active logical volume pve/vm-102-disk-1? [y/n]: y
-  Logical volume "vm-102-disk-1" successfully removed.
-root@kcy0122:/etc/pve/qemu-server# lvremove /dev/pve/vm-102-disk-2
-Do you really want to remove active logical volume pve/vm-102-disk-2? [y/n]: y
-  Logical volume "vm-102-disk-2" successfully removed.
-root@kcy0122:/etc/pve/qemu-server# lvremove /dev/pve/vm-102-disk-3
-Do you really want to remove active logical volume pve/vm-102-disk-3? [y/n]: y
-  Logical volume "vm-102-disk-3" successfully removed.
-root@kcy0122:/etc/pve/qemu-server# rm 102.conf
-root@kcy0122:/etc/pve/qemu-server# qm create 102 \
-  # ...
-```
-
-### 3.4 또 뻗었다
-
-Proxmox VM의 RAM과 CPU를 아래와 같이 늘려주었다.
-Windows 호스트의 RAM이 15.8GB, CPU는 2코어에 논리 프로세서 4개. Proxmox에 여유를 더 주고 `102.conf`를 재실행한다.
-
-- **RAM:** 6144MB → 8192MB
-- **CPU:** 2개 → 4개
-
-<br/>
-
-> 그런데도 또 터졌다.
-
-진단을 위해, PowerShell을 열고 아래와 같이 로그를 살펴본다.
-
-```powershell
-# 여기서 VM 폴더 이름 확인하고
-Get-ChildItem "$env:USERPROFILE\VirtualBox VMs"
-
-# 여기에 적어넣었다.
-Get-Content "$env:USERPROFILE\VirtualBox VMs\Proxmos-9.1-1\Logs\VBox.log" -Tail 30
-```
-
-<br/>
-
-> 하지만 정상 종료 로그만 남아있었다. Tail을 더 늘려 `Pattern`을 주고 찔러보았지만 아무 기록도 없었다.
-
-```powershell
-Get-Content "$env:USERPROFILE\VirtualBox VMs\Proxmos-9.1-1\Logs\VBox.log" -Tail 200 | Select-String -Pattern "error|guru|fatal|oom|kill|abort|panic"
-```
-
-```powershell
-PS C:\Users\letech> Get-Content "$env:USERPROFILE\VirtualBox VMs\Proxmos-9.1-1\Logs\VBox.log" -Tail 30
-00:05:08.941773 E1000#0: Interrupts by TXQE: 0
-00:05:08.941780 E1000#0: TX int delay asked: 0
-00:05:08.941786 E1000#0: TX delayed:         0
-00:05:08.941792 E1000#0: TX delay expired:   0
-00:05:08.941798 E1000#0: TX no report asked: 4155
-00:05:08.941804 E1000#0: TX abs timer expd : 0
-00:05:08.941810 E1000#0: TX int timer expd : 0
-00:05:08.941816 E1000#0: RX abs timer expd : 0
-00:05:08.941822 E1000#0: RX int timer expd : 0
-00:05:08.941828 E1000#0: TX CTX descriptors: 2042
-00:05:08.941834 E1000#0: TX DAT descriptors: 4155
-00:05:08.941840 E1000#0: TX LEG descriptors: 74
-00:05:08.941845 E1000#0: Received frames   : 4103
-00:05:08.941851 E1000#0: Transmitted frames: 2116
-00:05:08.941857 E1000#0: TX frames up to 1514: 1825
-00:05:08.941862 E1000#0: TX frames up to 2962: 28
-00:05:08.941868 E1000#0: TX frames up to 4410: 147
-00:05:08.941874 E1000#0: TX frames up to 5858: 4
-00:05:08.941880 E1000#0: TX frames up to 7306: 11
-00:05:08.941885 E1000#0: TX frames up to 8754: 19
-00:05:08.941891 E1000#0: TX frames up to 16384: 51
-00:05:08.941902 E1000#0: TX frames up to 32768: 31
-00:05:08.941911 E1000#0: Larger TX frames    : 0
-00:05:08.941917 E1000#0: Max TX Delay        : 0
-00:05:08.943403 GIM: KVM: Resetting MSRs
-00:05:08.951132 vmmR3LogFlusher: Terminating (VERR_OBJECT_DESTROYED)
-00:05:08.951281 Changing the VM state from 'DESTROYING' to 'TERMINATED'
-00:05:08.951310 Console: Machine state changed to 'PoweredOff'
-00:05:08.951444 VBoxHeadless: processEventQueue: VERR_INTERRUPTED, termination requested
-00:05:09.086910 VBoxHeadless: exiting
-```
-
-<br/>
-
-> 이번엔 Proxmox VM이 실제로 RAM을 얼마나 사용하는지, OOM Killer가 작동한 것인지 확인한다.
-
-```bash
-# 현재 메모리 상태 확인
-free -h
-               total        used        free      shared  buff/cache   available
-Mem:           7.8Gi       1.4Gi       6.2Gi        28Mi       396Mi       6.3Gi
-Swap:          5.8Gi          0B       5.8Gi
-
-# dmesg에 OOM 기록이 있는지 확인
-dmesg | grep -i "oom\|out of memory\|killed"
-# ...아무것도 안 뜸
-```
-
-<br/>
-
-> 이번엔 `vmstat`으로 실시간 리소스 모니터링 로그를 출력해서 진단한다.
-
-```bash
-# 터미널 1: 리소스 모니터링 (1초 간격)
-vmstat 1
-
-# 터미널 2: VM 시작
-qm start 101
-```
-
-```bash
-root@kcy0122:~# vmstat 1
-procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
- r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
- 1  0      0 6517644  20096 386924    0    0  1043    42  712    0  2  2 96  0  0  0
- 1  0      0 6517828  20096 386988    0    0     0    48  862  363  0  1 98  0  0  0
- 1  0      0 6517828  20096 386988    0    0     0     0  539  180  0  0 100  0  0  0
- 1  0      0 6514568  20108 386988    0    0   512    72  974  429  2  3 96  0  0  0
- 2  0      0 6510632  20108 386988    0    0     0     0 1024  463  0  2 97  0  0  0
- 2  0      0 6511280  20108 386988    0    0     0     0  385  183  0  1 99  0  0  0
- 3  0      0 6511352  20108 386988    0    0     0     0  644  271  0  1 99  0  0  0
- 3  0      0 6510560  20108 386988    0    0     0     0  429  226  0  1 99  0  0  0
- 0  0      0 6510812  20108 386988    0    0     0     0  458  206  0  0 100  0  0  0
- 1  0      0 6511396  20108 386988    0    0    36     0  461  193  1  1 98  0  0  0
- 1  0      0 6417748  20140 387628    0    0   632     0 2367  352 23  3 75  0  0  0
- 1  0      0 6361380  20152 393920    0    0  2080    16 2151  709 12  4 84  0  0  0
- 2  0      0 6297568  20156 394076    0    0    52     0 1738  803  8  5 87  0  0  0
- 2  0      0 6345920  20168 389024    0    0  1500     4 3405 2501 10 10 77  0  0  3
- 0  0      0 6353912  20168 389048    0    0     0     0 2077 1475  1  5 88  0  0  5
- 0  0      0 6364088  20168 389048    0    0     0     0  547  240  0  1 99  0  0  0
- 4  0      0 6377760  20176 389048    0    0     0    64  718  281  0  1 99  0  0  0
- 0  0      0 6385056  20176 389048    0    0     1   184 2626  926  2  5 86  0  0  7
- 2  0      0 6396980  20176 389048    0    0     0     0  440  240  0  1 99  0  0  0
- 0  0      0 6406956  20176 389048    0    0     0     0  597  287  0  1 99  0  0  0
- 1  0      0 6415936  20176 389048    0    0     0     0 1512  479  0  3 94  0  0  3
- # 여기서 터미널이 딱 정지한 상태로 묵묵부답
-```
-
-1초 간격으로 로그가 찍히다가, 터미널 2에서 중첩 VM을 실행시키면 수 초 이내에 터미널 1이 뻗어버린다.
-한 줄씩 찍히던 로그가 묵묵부답이 되고, 그 상태로 터미널 화면이 굳는다.
-
-### 3.5 VirtualBox Nested VT-x 버그 의심
-
-메모리 충분하고, OOM 없고, `qm start` 치자마자 호스트 째로 얼어붙는다.
-VirtualBox가 Nested VMX 명령어를 처리하려다가 뻗는 것이 원인.
-VirtualBox의 Nested VT-x는 공식적으로도 "실험적 기능"이며, VirtualBox 7.1.14 내에서 알려진 불안정성이다.
-
-### 3.6 KVM을 끄고 소프트웨어 에뮬레이션으로 실행해본다
-
-> 가상화 하드웨어(KVM)을 사용하지 않고, Windows 호스트 OS를 직접 사용하도록 레시피를 고친다.
-> QEMU가 TCG(Tiny Code Generator)로 CPU를 직접 사용해 **소프트웨어 에뮬레이션**한다.
-> 체감 속도는 많이 느려지지만, Debian CLI 서버 하나 설치하기에는 충분하다.
-
-```bash
-qm set 102 --kvm 0 --cpu kvm64
 qm start 102
+# KVM virtualisation configured, but not available.
+# Either disable in VM configuration or enable in BIOS.
 ```
 
-> `--kvm` 사용을 취소하면 `--cpu` 설정을 **`kvm64`**로 고쳐주어야 한다. KVM 없이도 동작하는 범용 가상 CPU를 가리킨다.
-
-```bash
-root@kcy0122:~# qm start 102
-kvm: CPU model 'host' requires KVM or HVF
-start failed: QEMU exited with code 1
-```
-
-<br/>
-
-> 그럼에도 Proxmox가 뻗길래, 아예 재구동하면서 Nested VT-x를 비활성화 해버린다.
-
-```bash
-procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
- r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
- 1  0      0 6296796  19576 397736    0    0   260    64 1320  445  7  3 90  0  0  0
- 2  0      0 6289720  19576 397784    0    0   256     0 1193  424  3  2 94  0  0  0
- 5  0      0 6270480  19576 397804    0    0     4     0 2160  536 20  3 77  0  0  0
- 2  0      0 6279192  19584 391992    0    0   240     4 4114 2013 17  8 76  0  0  0
- 2  0      0 6301304  19584 391920    0    0     0     0  843  292  1  1 98  0  0  0
- 2  0      0 6322436  19592 391944    0    0   512    60 1138  590  2  2 95  0  0  0
- 1  0      0 6332092  19592 391940    0    0     1     0 1884  561  5  3 91  0  0  0
- 0  0      0 6351692  19592 391940    0    0     0     0  915  288  2  1 97  0  0  0
- 1  0      0 6366276  19592 391940    0    0     0     0  813  277  1  1 98  0  0  0
- 2  0      0 6380292  19592 391940    0    0     0     0  512  241  1  1 97  0  0  0
- 1  0      0 6392692  19592 391944    0    0     0     0 1367  371  8  1 91  0  0  0
- # 여기서 SSH 터미널이 멈춘다.
-```
-
-PowerShell로 nestedHwVirt 설정을 `off`:
+VirtualBox 위의 Proxmox는 기본적으로 Nested VT-x가 비활성화된 상태다. Windows 호스트 PowerShell에서:
 
 ```powershell
-& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" modifyvm "<VM_NAME>" --nested-hw-virt off
+# Proxmox VM을 완전히 종료한 상태에서 실행
+VBoxManage list vms
+VBoxManage modifyvm "<Proxmox-VM-이름>" --nested-hw-virt on
 ```
 
-<br/>
-
-> 여전히 뻗는다. ^0^
-> Nested VT-x 문제가 아닌 것으로 보여, 처음으로 돌아가는 마음으로 **`VMState`** 상태를 살펴보았다.
+Hyper-V가 활성화된 환경에서는 VirtualBox가 VT-x를 직접 사용할 수 없어 Nested VT-x도 동작하지 않는다. WSL2나 Docker Desktop을 사용 중이라면 이 제약이 있다.
 
 ```powershell
-& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" showvminfo "Proxmos-9.1-1" --machinereadable | Select-String "VMState="
+# Hyper-V 활성화 여부 확인
+bcdedit /enum | findstr hypervisorlaunchtype
+# hypervisorlaunchtype  Auto  → 활성화 상태
+
+# Hyper-V 비활성화 (재부팅 필요)
+bcdedit /set hypervisorlaunchtype off
+# → Windows 재부팅 후 VirtualBox Nested VT-x 사용 가능
 ```
 
-```powershell
-PS C:\Users\letech> & "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" showvminfo "Proxmos-9.1-1" --machinereadable | Select-String "VMState="
+### 10.4 VirtIO NIC Hang 발생 및 원인 추적
 
-VMState="running"  # ????
-```
+Nested VT-x 활성화 후 `qm start 102`를 실행하면 Proxmox 호스트 전체가 Hang된다. SSH 터미널이 끊기고 Web UI에 접근 불가 상태가 된다.
 
-<br/>
-
-> _`VMState="running"`_
-
-이건 VirtualBox VM이 살아있다는 뜻이다. 즉, Proxmox가 죽은 게 아니라 멈춘(**Hang**)\* 것이다.
-
-VirtualBox GUI에서 목록의 VM을 더블클릭하면 콘솔 창이 열리는데, 이때 보이는 콘솔은 로그인도 잘 되고 정상적으로 구동되는 것처럼 보인다.\*\*
-
-<br/>
-
-> 깡통 VM으로 테스트
-
-Proxmox 차원의 문제가 아니라는 생각이 들어, 최소 설정의 깡통 VM으로 다시 테스트한다.
-메모리와 CPU만 할당해 부팅조차 실패할 VM.
-하지만 이를 통해 **QEMU 프로세스가 뜨는 순간에 뻗는지 아닌지**를 확인할 수 있다.
+**이진 탐색 디버깅:** 깡통 VM 999(`kvm: 0`로 TCG 강제)는 정상 동작하고, 디스크 옵션을 추가한 VM 998도 정상 동작했다. `.conf` 옵션을 하나씩 제거하며 범위를 좁혔다.
 
 ```bash
-qm create 999 --name bare-test --memory 256 --kvm 0 --cpu kvm64
-qm start 999
-```
-
-_**정상 작동한다**_
-
-<br/>
-
-### 3.7 102.conf 디버깅 작업
-
-Proxmox가 관리할 중첩 VM의 `[OPTIONS]`에서 문제가 있는 것이라 판단 --
-VM 102에서 옵션 하나씩 벗겨서 **뭘 넣는 순간 뻗는지** 확인한다.
-
-> 실행 중인 모든 VM을 종료한 뒤 시작한다.
-
-```bash
-qm stop 999
-```
-
-- **1. memory 최소화**
-
-```bash
-qm set 102 --memory 256
-qm start 102
-# 뻗는다.
-```
-
-<br/>
-
-- **2. disk 최소화**
-
-**Thin Pool** 용량을 먼저 확인한다.
-
-```bash
-lvs -o lv_name,lv_size,pool_lv,data_percent
-
-root@kcy0122:~# lvs -o lv_name,lv_size,pool_lv,data_percent
-  LV            LSize   Pool Data%
-  data          <29.29g      0.00
-  root          <26.43g
-  swap           <5.79g
-  vm-101-disk-0  32.00g data
-  vm-102-disk-0  32.00g data
-  vm-999-disk-0   1.00g data
-```
-
-101, 102 VM이 각각 64GB를 할당받았지만 실제 데이터는 0.00%이므로 큰 문제가 아니다.
-102 VM 디스크 설정: `scsi0: 32G,discard=on,iothread=1`
-`iothread`와 `discard`를 제거한다.
-
-```bash
-qm set 102 --scsi0 local-lvm:vm-102-disk-0,size=32G
-qm start 102
-# 뻗는다.
-```
-
-이번엔 디스크 크기가 문제 원인인지 확인하기 위해, 앞선 설정을 되돌리고 32GB에서 4GB로 축소한다.
-이러면 기존 32GB는 `unused`로 빠지고 새로운 4GB disk가 붙는다.
-
-```bash
-qm set 102 --scsi0 local-lvm:4
-qm start 102
-# 뻗는다.
-```
-
-<br/>
-
-- **3. 깡통 VM에 디스크 옵션 붙이기**
-
-자꾸 안 되니까 빡치니까, 깡통 VM 998에 디스크 옵션을 덕지덕지 붙이고 테스트한다.
-
-```bash
-qm create 998 --name disk-test --memory 256 --kvm 0 --cpu kvm64 \
-  --scsi0 local-lvm:4 --scsihw virtio-scsi-single
-qm start 998
-# 잘만 된다.
-```
-
-> _로그 비교_
-
-```bash
-root@kcy0122:~# qm set 102 --scsi0 local-lvm:4
-update VM 102: -scsi0 local-lvm:4
-  WARNING: You have not turned on protection against thin pools running out of space.
-  WARNING: Set activation/thin_pool_autoextend_threshold below 100 to trigger automatic extension of thin pools before they get full.
-  Logical volume "vm-102-disk-1" created.
-  WARNING: Sum of all thin volume sizes (69.00 GiB) exceeds the size of thin pool pve/data and the size of whole volume group (<63.50 GiB).
-  Logical volume pve/vm-102-disk-1 changed.
-scsi0: successfully created disk 'local-lvm:vm-102-disk-1,size=4G'
-root@kcy0122:~# qm start 102
-root@kcy0122:~#
-# 뻗는다.
-```
-
-```bash
-root@kcy0122:~# qm create 998 --name disk-test --memory 256 --kvm 0 --cpu kvm64 --scsi0 local-lvm:4 --scsihw virtio-scsi-single
-  WARNING: You have not turned on protection against thin pools running out of space.
-  WARNING: Set activation/thin_pool_autoextend_threshold below 100 to trigger automatic extension of thin pools before they get full.
-  Logical volume "vm-998-disk-0" created.
-  WARNING: Sum of all thin volume sizes (73.00 GiB) exceeds the size of thin pool pve/data and the size of whole volume group (<63.50 GiB).
-  Logical volume pve/vm-998-disk-0 changed.
-scsi0: successfully created disk 'local-lvm:vm-998-disk-0,size=4G'
-root@kcy0122:~# qm start 998
-root@kcy0122:~#
-# 살아있다!! ^0^
-```
-
-<br/>
-
-- **4. net0 제거**
-
-이번엔 네트워크 설정을 제거한다.
-
-```bash
+# NIC 제거 후 시작 테스트
 qm set 102 --delete net0
 qm start 102
-# 살아있다!! ^~^???
-```
+# 정상 동작
 
-### 4. VirtIO NIC가 범인이다
-
-VirtualBox 안에서 QEMU가 VirtIO 네트워크를 에뮬레이션할 때, 이중 가상화 환경에서 충돌이 발생한 것이다.
-
-> NIC 모델을 `e1000`\***으로 고쳐서 시도한다.
-
-```bash
+# e1000으로 NIC 교체
 qm set 102 --net0 e1000,bridge=vmbr0,firewall=1
 qm start 102
-# 잘 된다 ^0^
+# 정상 동작
 ```
 
----
+원인 확정: VirtIO NIC(`net0: virtio,...`)의 VirtQueue 메모리 매핑이 VirtualBox 중첩 환경에서 충돌.
 
-`\*`, `\**`, `\***` 주석에 관한 자세한 사항은 [다음 문서](../06-references/02-nic-architecture-postmortem.md)에서 확인할 수 있습니다.
-
----
-
-### 5. Web UI에서 실행한 VM 확인하기
-
-![Proxmox WebUI - VM Console](../assets/20260408_003.png)
-
-#### 5.1 설치 중 WebUI 및 SSH 터미널 튕김 현상
-
-> OS를 설치하는 과정에서 **QEMU TCG 에뮬레이션이 CPU를 순간적으로 독점**할 수 있다.
-> 이 경우, Proxmox Host 자체가 일시적으로 응답 불능에 빠지는 것.
-
-TCG 모드는 모든 Guest CPU 명령어를 소프트웨어로 번역한다. 그렇기에 Debian 설치 중 패키지 압축 해제나 디스크 I/O가 몰리는 구간에서 호스트 CPU를 꽉 잡아먹는다. 그 순간 noVNC WebSocket 연결이 타임아웃 걸려서 끊기고, CPU 부하가 빠지면 다시 연결이 되는 패턴으로 볼 수 있겠다.
-
-_VM 자체가 죽은 것이 아니라 콘솔과의 연결이 잠깐 끊기는 것. 수십 초 이내에 다시 시도하면 연결된다._
-
-#### 5.2 설치 완료 후
-
-> Proxmox Web UI로 작업할 땐 이런 문제가 없다. 애초 "설치 완료 후 CD 제거 하시겠습니까?" 같은 안내가 뜨기 때문.
-> 하지만 나는 CLI로 작업했기에, ...
-
-설치가 완료되고 나면 **Reboot**를 시키는데, 재부팅한 중첩 VM 화면은 최초 설치 메뉴를 보여주고 있다.
-
-이건 부팅 순서(Boot Order) 때문으로, ISO(CD-ROM)가 1순위 우선 부팅 설정을 걸어두었기 때문에 발생한다.
-
-```bash
-qm create 101 \
-  # ... \
-  --boot order=ide2 # CD-ROM 우선 부팅 선언
-  # ...
-```
-
-**CLI에서 두 가지 작업을 진행한다.**
-
-1. ISO를 분리(Unmount): `qm set 101 --delete ide2` - 가상 CD-ROM 드라이브 자체가 `.conf`에서 빠진다.
-2. 부팅 순서를 디스크 우선으로 변경: `qm set 101 --boot order=scsi0` - 설치된 디스크에서 부팅하도록 명시적 지정
-
-### 6. 새 VM 생성 및 설치 (완전판)
-
-#### 6.1 `.conf` 생성 명령어
+### 10.5 최종 VM 생성 — `dev-api-01` (VM 201)
 
 ```bash
 qm create 201 \
@@ -677,11 +494,52 @@ qm create 201 \
   --boot order=ide2
 ```
 
-#### 6.2 재부팅 후 ISO 제거 & 부팅 순서 변경 명령어
+OS 설치 완료 후, ISO 마운트 제거 및 부팅 순서 변경:
 
 ```bash
 qm stop 201
 qm set 201 --delete ide2
 qm set 201 --boot order=scsi0
 qm start 201
+```
+
+게스트 내부에서 QEMU Guest Agent 설치:
+
+```bash
+# VM 201 내부 (Ubuntu 24.04)에서
+apt update && apt install -y qemu-guest-agent
+systemctl enable --now qemu-guest-agent
+```
+
+Guest Agent가 없으면 `journalctl -f`에서 아래 로그가 주기적으로 출력된다:
+
+```
+pvescheduler[32744]: VM 201 qga command failed - VM 201 qga command 'guest-ping' failed - got timeout
+```
+
+### 10.6 설치 중 WebUI/SSH 끊김 현상
+
+OS 설치 중 패키지 압축 해제나 파일시스템 포맷 구간에서 WebUI 연결이 끊기고 SSH 터미널이 멈추는 현상이 발생했다.
+
+**원인:** TCG 모드 또는 KVM 환경에서 게스트 I/O가 집중되는 구간에 QEMU 프로세스가 CPU를 순간적으로 독점한다. 그 순간 Proxmox 호스트의 noVNC WebSocket 연결이 타임아웃으로 끊기는 것이다. VM 자체가 죽은 것이 아니라 콘솔 연결만 잠시 끊기는 것이므로, 수십 초 뒤에 다시 연결하면 설치가 진행 중인 것을 확인할 수 있다.
+
+---
+
+## 부록: 검증 체크리스트
+
+```bash
+# VM 설정 확인
+qm config 201
+
+# 프로세스 상태 확인
+qm status 201
+# status: running
+
+# Guest Agent 통신 확인 (Agent 설치 후)
+qm agent 201 ping
+# 응답 없으면 에러, 응답 있으면 {result: null} 반환
+
+# API로 IP 조회 (Guest Agent 필요)
+curl -k -H "Authorization: PVEAPIToken=admin@pve!<token>=<uuid>" \
+  https://127.0.0.1:8006/api2/json/nodes/kcy0122/qemu/201/agent/network-get-interfaces
 ```

@@ -1,0 +1,59 @@
+notes
+|   index.md
+|   tree.txt
+|   
+\---linux
+    \---proxmox
+        +---01-setup
+        |       01-installation.md
+        |       02-cluster-setup.md
+        |       bak-installation.md
+        |       index.md
+        |       
+        +---02-vm-lifecycle
+        |       01-vm-create.md
+        |       02-vm-clone-and-snapshot.md
+        |       03-vm-destroy.md
+        |       bak-vm-clone-and-snapshot.md
+        |       bak-vm-create.md
+        |       bak-vm-destroy.md
+        |       index.md
+        |       
+        +---03-backup
+        |       01-backup-restore.md
+        |       02-backup-deep-dive.md
+        |       index.md
+        |       
+        +---04-storage
+        |       01-lvm-disk.md
+        |       02-nfs.md
+        |       index.md
+        |       
+        +---05-ha-and-network
+        |       01-cloud-init.md
+        |       02-ha-with-storage.md
+        |       index.md
+        |       
+        +---06-references
+        |       01-qm-conf-reference.md
+        |       02-nic-architecture-postmortem.md
+        |       03-storage-type-overview.md
+        |       04-lvm-snapshot-comparison.md
+        |       04-zfs-snapshot-mechanism.md
+        |       index.md
+        |       
+        +---assets
+        |       20260407_008.png
+        |       20260407_009.png
+        |       20260408_003.png
+        |       20260409_001.png
+        |       20260410_001.png
+        |       20260410_002.png
+        |       20260410_003.png
+        |       
+        \---_embeds
+                00-outline.md
+                99-ddddd.md
+                proxmox-ha-with-zfs-storage.md
+                temp.md
+                

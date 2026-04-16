@@ -6,7 +6,7 @@ author: "Davi"
 description: "pvecm으로 3노드 클러스터를 구성하고 Corosync·Quorum 동작 원리, 네트워크 품질 진단까지 다룬다."
 slug: "cluster-setup"
 section: "notes"
-category: "linux"
+category: "proxmox"
 tags: [proxmox, cluster, corosync, quorum, pvecm, split-brain, fencing, knet, omping]
 order: 2
 series: "Proxmox VE 학습 시리즈"

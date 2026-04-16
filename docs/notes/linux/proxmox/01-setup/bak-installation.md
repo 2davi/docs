@@ -6,7 +6,7 @@ author: "Davi"
 description: "Proxmox VE ISO 부팅부터 초기 네트워크 설정까지 단계별 설치 과정을 정리한다."
 slug: "proxmox-installation"
 section: "notes"
-category: "linux"
+category: "etc."
 tags: [proxmox, virtualization, linux, debian, 64x-bit, cmp, cloud, cluster, ssh, partitioning]
 order: 10
 series: "Proxmox VE VM 라이프사이클 & REST API 심화 학습"
