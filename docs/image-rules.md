@@ -12,11 +12,11 @@
 
 ```markdown
 <!-- 문서 로컬 이미지: 상대 경로 사용 -->
-![Proxy 구조 다이어그램](./assets/proxy-architecture.png)
+![Proxy 구조 다이어그램](../assets/proxy-architecture.png)
 
 <!-- 캡션이 필요한 경우 VitePress figure 컴포넌트 활용 -->
 <figure>
-  <img src="./assets/v8-hidden-class.png" alt="V8 Hidden Class 전이 다이어그램" />
+  <img src="../assets/v8-hidden-class.png" alt="V8 Hidden Class 전이 다이어그램" />
   <figcaption>V8 Hidden Class 전이: 프로퍼티 추가 순서에 따라 별도 Class가 생성된다</figcaption>
 </figure>
 ```

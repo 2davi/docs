@@ -148,8 +148,8 @@ qm create 101 --name test-vm --memory 2048 --cores 2 \
 
 > ISO 파일은 **Proxmox Web UI**에서 `local` 스토리지에 미리 올려놓으면 된다.
 
-![Proxmox Sidebar - local Storage](./assets/20260407_008.png)
-![Proxmox ISO Upload](./assets/20260407_009.png)
+![Proxmox Sidebar - local Storage](../assets/20260407_008.png)
+![Proxmox ISO Upload](../assets/20260407_009.png)
 
 ```bash
 boot: order=ide2
@@ -624,7 +624,7 @@ qm start 102
 
 ### 5. Web UI에서 실행한 VM 확인하기
 
-![Proxmox WebUI - VM Console](./assets/20260408_003.png)
+![Proxmox WebUI - VM Console](../assets/20260408_003.png)
 
 #### 5.1 설치 중 WebUI 및 SSH 터미널 튕김 현상
 

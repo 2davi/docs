@@ -49,11 +49,11 @@ version: "Proxmox VE 9.1"
 
 ### 1.1 가상 디스크이미지 추가
 
-![VirtualBox VM Setting - Proxmox Disk](./assets/20260410_001.png)
+![VirtualBox VM Setting - Proxmox Disk](../assets/20260410_001.png)
 
-![VirtualBox VM Setting - Add Disk](./assets/20260410_002.png)
+![VirtualBox VM Setting - Add Disk](../assets/20260410_002.png)
 
-![VirtualBox VM Setting - Create VirtualBox Disk Image](./assets/20260410_003.png)
+![VirtualBox VM Setting - Create VirtualBox Disk Image](../assets/20260410_003.png)
 가상 디스크 이미지(VDI)를 선택하여 적당한 용량의 디스크를 추가한다.
 
 ### 1.2 Proxmox에서 확인

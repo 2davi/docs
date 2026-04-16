@@ -331,7 +331,7 @@ qm template 8201
 
 ## 최종 VM 목록
 
-![Proxmox WebUI - clone and snapshot](./assets/20260409_001.png)
+![Proxmox WebUI - clone and snapshot](../assets/20260409_001.png)
 
 ---
 
