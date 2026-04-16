@@ -20,7 +20,7 @@ version: "Proxmox VE 9.1"
 ---
 
 > 이 문서는 지난한 시행착오를 담고 있습니다.
-> 정제된 결과를 보고 싶으시면 [다음 문서](./92-nic-architecture-and-nested-virt-postmortem.md)를 확인하세요.
+> 정제된 결과를 보고 싶으시면 [다음 문서](../06-references/02-nic-architecture-postmortem.md)를 확인하세요.
 
 <br/>
 
@@ -165,7 +165,7 @@ smbios1: uuid=a07e80f9-9f3e-4fa8-ad4d-72d83c2244c5
 vmgenid: f4d29804-ab1a-47cb-90ab-0d50dd55ebf8
 ```
 
-자세한 내용은 [Proxmox VE VM 설정 파일(qm.conf) 심화 레퍼런스](./91-proxmox-qm-conf-reference.md)을 확인.
+자세한 내용은 [Proxmox VE VM 설정 파일(qm.conf) 심화 레퍼런스](../06-references/01-qm-conf-reference.md)을 확인.
 
 ### 3.2 생성한 VM 실행
 
@@ -618,7 +618,7 @@ qm start 102
 
 ---
 
-`\*`, `\**`, `\***` 주석에 관한 자세한 사항은 [다음 문서](./92-nic-architecture-and-nested-virt-postmortem.md)에서 확인할 수 있습니다.
+`\*`, `\**`, `\***` 주석에 관한 자세한 사항은 [다음 문서](../06-references/02-nic-architecture-postmortem.md)에서 확인할 수 있습니다.
 
 ---
 
