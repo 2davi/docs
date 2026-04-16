@@ -21,7 +21,7 @@ function entry(
     resolvePath,
     useTitleFromFrontmatter:           true,
     useFolderTitleFromIndexFile:       true,
-    excludeByGlobPattern:              ['**/index.md'],
+    excludeByGlobPattern:              ['**/index.md', '**/_embeds/**'],
     excludeFilesByFrontmatterFieldName:'draft',
     ...extra,
   }

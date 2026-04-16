@@ -17,6 +17,7 @@ search: true
 toc: true
 difficulty: intermediate
 version: "Proxmox VE 9.1"
+embed_only: true
 ---
 
 
