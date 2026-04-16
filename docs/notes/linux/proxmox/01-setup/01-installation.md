@@ -1,16 +1,21 @@
 ---
 title: "초기 설치 & 기본 설정"
 date: 2026-04-07
-lastmod: 2026-04-07
+lastmod: 2026-04-16
+author: "Davi"
 description: "Proxmox VE ISO 부팅부터 네트워크·SSH·스토리지 초기 설정, 관리 계정 및 API 토큰 발급까지."
-category: "proxmox"
+slug: "installation"
+section: "notes"
+category: "linux"
 tags: [proxmox, virtualbox, lvm, ssh, apt, networking, api-token, postfix]
 order: 1
 series: "Proxmox VE 학습 시리즈"
 series_order: 1
 status: "active"
 draft: false
-difficulty: "intermediate"
+search: true
+toc: true
+difficulty: intermediate
 version: "Proxmox VE 9.1"
 ---
 
