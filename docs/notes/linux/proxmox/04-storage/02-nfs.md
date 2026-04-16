@@ -45,7 +45,7 @@ version: "Proxmox VE 9.1"
 
 Proxmox 웹 UI 및 CLI에서 `shared` 스토리지 활성화 실패.
 
-```
+```log
 unable to activate storage 'shared' - directory '/mnt/pve/shared' does not exist or is unreachable
 ```
 
@@ -116,7 +116,7 @@ root@kcy0122:~# ls -la /mnt/pve/
 
 `nfs-server.service` 시작 시각이 **당일 15:12**임을 통해 `pve-ksy`가 재부팅됐음을 확인.
 
-```
+```markdown
 Proxmox 클러스터 부팅 순서 문제:
 
   [클라이언트 노드 부팅 완료]

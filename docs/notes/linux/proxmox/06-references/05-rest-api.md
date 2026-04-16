@@ -621,7 +621,7 @@ wait
 
 ### 8.1 전형적인 CMP ↔ Proxmox 상호작용 패턴
 
-```
+```markdown
 사용자가 CMP UI에서 'VM 생성' 버튼 클릭
       │
       ▼

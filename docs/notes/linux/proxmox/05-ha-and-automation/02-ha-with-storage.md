@@ -259,7 +259,7 @@ qm set 301 --boot order=scsi0
 ```
 
 > `discard=ignore`와 `discard=on`의 차이: `discard=on`은 VM 내부의 TRIM 명령을 실시간으로 ZFS에 전달한다. 실무에서는 쓰기 발생마다 TRIM 오버헤드가 누적되어 I/O 성능에 영향을 줄 수 있으므로, `discard=ignore`로 설정하고 `zpool trim`을 배치(Batch)로 주기 실행하는 방식을 선호한다.
-
+&lt;br>
 > Proxmox 9.x에서 `discard=off` 값은 허용되지 않는다. 유효한 열거값은 `ignore`, `on`이다.
 
 ### 3.4 Cloud-Init 기본 설정
@@ -286,7 +286,7 @@ qm config 301
 
 Cloud-Init은 최초 부팅 시 **1회만** 실행된다. 이후 부팅에서는 `/var/lib/cloud/instance/` 디렉토리의 완료 마크를 확인하고 스킵한다.
 
-```
+```markdown
 [최초 부팅]
 package_update → packages → write_files → runcmd
 
@@ -331,7 +331,7 @@ runcmd:
 
 ### 4.4 완성된 user-data 구조
 
-```
+```markdown
 write_files
   ├── /etc/hosts                                  # 클러스터 노드 정적 임베드
   ├── /etc/ssh/sshd_config.d/99-override.conf     # SSH 패스워드 인증 허용
