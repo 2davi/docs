@@ -4,11 +4,13 @@ date: 2026-04-16
 lastmod: 2026-04-16
 author: "Davi"
 description: "인증(Ticket vs API Token), 엔드포인트 구조, 비동기 Task 추적(UPID), 핵심 시나리오 5가지, CMP 테스터 관점의 디버깅 전략까지."
+slug: "rest-api"
 section: "notes"
-category: "proxmox/references"
+category: "proxmox/ref."
 tags: [proxmox, rest-api, authentication, ticket, api-token, upid, task, curl, pvesh, cmp]
 order: 5
 series: "Proxmox VE 학습 시리즈"
+#series_order: 0
 status: "active"
 draft: false
 search: true

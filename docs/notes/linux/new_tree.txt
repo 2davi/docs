@@ -1,0 +1,76 @@
+proxmox
+|   index.md
+|   new_tree.txt
+|   
+\---proxmox
+    |   index.md
+    |   
+    +---01-setup
+    |       01-installation.md
+    |       02-cluster-setup.md
+    |       index.md
+    |       
+    +---02-vm-lifecycle
+    |       01-vm-create.md
+    |       02-vm-clone-and-snapshot.md
+    |       03-vm-destroy.md
+    |       index.md
+    |       
+    +---03-backup
+    |       01-backup-restore.md
+    |       02-backup-deep-dive.md
+    |       index.md
+    |       
+    +---04-storage
+    |       01-lvm-disk.md
+    |       02-nfs.md
+    |       03-zfs.md
+    |       04-pbs.md
+    |       index.md
+    |       
+    +---05-ha-and-automation
+    |       01-cloud-init.md
+    |       02-ha-with-storage.md
+    |       index.md
+    |       
+    +---06-references
+    |       01-nic-architecture-postmortem.md
+    |       02-qm-conf-reference.md
+    |       03-storage-type-overview.md
+    |       04-jobs-cfg-guide.md
+    |       05-rest-api.md
+    |       06-rest-api-nodes-qemu.md
+    |       07-troubleshooting.md
+    |       index.md
+    |       
+    +---assets
+    |       20260407_008.png
+    |       20260407_009.png
+    |       20260408_003.png
+    |       20260409_001.png
+    |       20260410_001.png
+    |       20260410_002.png
+    |       20260410_003.png
+    |       
+    +---_backups
+    |       bak-backup-deep-dive.md
+    |       bak-backup-restore.md
+    |       bak-ddddd.md
+    |       bak-ha-with-storage.md
+    |       bak-installation.md
+    |       bak-lvm-disk.md
+    |       bak-lvm-snapshot-comparison.md
+    |       bak-nfs.md
+    |       bak-Proxmox VE jobs.cfg 완전 가이드.md
+    |       bak-proxmox-ha-with-zfs-storage.md
+    |       bak-storage-type-overview.md
+    |       bak-temp.md
+    |       bak-troubleshooting.md
+    |       bak-vm-clone-and-snapshot.md
+    |       bak-vm-create.md
+    |       bak-vm-destroy.md
+    |       bak-zfs-snapshot-mechanism.md
+    |       
+    \---_embeds
+            00-outline.md
+            

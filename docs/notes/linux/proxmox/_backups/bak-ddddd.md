@@ -5,7 +5,7 @@ lastmod: 2026-04-10
 author: "Davi"
 description: "VM 복제와 관련한 Proxmox 개념과 CLI 조작을 다룬다."
 slug: "proxmox-vm-destroy"
-section: "notes"
+#section: "notes"
 category: "linux"
 tags: [proxmox, qemu, kvm, rest-api, cloud-init, guest-agent, vzdump, snapshot, clone, backup, restore, template, upid]
 order: 999

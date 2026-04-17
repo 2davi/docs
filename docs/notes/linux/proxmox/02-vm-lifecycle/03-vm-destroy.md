@@ -6,7 +6,7 @@ author: "Davi"
 description: "qm destroy의 동작 원리, 옵션별 차이, 고아 디스크 처리, TRIM과 스토리지 공간 회수, Linked Clone 삭제 시 의존성 관리까지."
 slug: "vm-destroy"
 section: "notes"
-category: "proxmox"
+category: "proxmox/vm-lifecycle"
 tags: [proxmox, qemu, destroy, lvm-thin, trim, orphan-disk, linked-clone]
 order: 3
 series: "Proxmox VE 학습 시리즈"

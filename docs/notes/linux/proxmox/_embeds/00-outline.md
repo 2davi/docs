@@ -5,7 +5,7 @@ lastmod: 2026-04-10
 author: "Davi"
 description: "Proxmox VE VM 라이프사이클 & REST API 심화 학습 - 개요"
 slug: "proxmox-outline"
-section: "notes"
+#section: "notes"
 category: "linux"
 tags: [proxmox, virtualization, linux, debian, 64x-bit, cmp, cloud, cluster, ssh, partitioning]
 order: 0

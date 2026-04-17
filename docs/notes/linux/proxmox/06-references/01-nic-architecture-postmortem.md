@@ -1,22 +1,19 @@
 ---
 title: "가상 NIC 아키텍처와 VirtualBox Nested 환경 장애 분석"
 date: 2026-04-08
-lastmod: 2026-04-08
+lastmod: 2026-04-17
 author: "Davi"
-description: "VM에서 NIC가 수행하는 역할, 에뮬레이션과 준가상화의 차이, VirtIO NIC가 VirtualBox Nested 환경에서 Hang을 유발한 근본 원인을 분석하고, 디버깅 과정의 모든 시행착오를 복기한다."
-slug: "nic-architecture-and-nested-virt-postmortem"
-
+description: "에뮬레이션 vs 준가상화 NIC 동작 원리, VirtIO NIC가 VirtualBox Nested 환경에서 Hang을 유발한 근본 원인 분석, 디버깅 과정 복기, VirtualBox 준가상화 NIC 전환으로 VirtIO 정상 동작 확인까지."
+slug: "nic-architecture-postmortem"
 section: "notes"
-category: "proxmox/references"
+category: "proxmox/ref."
 tags: [proxmox, qemu, kvm, virtio, e1000, nic, emulation, paravirtualization, nested-virtualization, virtualbox, postmortem, debugging]
-
-order: 2
+order: 1
 series: "Proxmox VE 학습 시리즈"
-
+#series_order: 0
 status: "active"
 draft: false
 search: true
-
 toc: true
 difficulty: intermediate
 version: "Proxmox VE 9.1"
@@ -31,12 +28,6 @@ SSH 끊김, Web UI 접속 불가, 그러나 VirtualBox VM 자체는 `VMState="ru
 수 시간에 걸친 원인 추적 끝에, **QEMU VirtIO NIC 에뮬레이션**이 유일한 원인임을 확인하고 `e1000` NIC로 대체하여 해결했다.
 
 이 문서는 이 사건을 통해 가상 NIC의 아키텍처를 근본부터 이해하고, 디버깅 과정에서 배제한 모든 가설을 복기하여 학습 자산으로 남긴다.
-
-<DocEmbed
-  src="/notes/linux/proxmox/02-proxmox-vm-create-and-setup"
-  anchor="_3-1-생각-없이-생성"
-  title="VM 디스크 설정(참고)"
-/>
 
 ---
 
@@ -250,48 +241,11 @@ VirtualBox 콘솔은 VirtualBox 프로세스 자체의 렌더링 스레드에서
 
 ## 5. 디버깅 과정 복기 — 모든 가설과 그 결과
 
-### 5.1 시간순 가설 목록
-
-| #   | 가설                            | 조치                                         | 결과                                    | 원인이었나?                                                             |
-| --- | ------------------------------- | -------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------- |
-| 1   | Hyper-V와 VirtualBox의 충돌     | Hyper-V 비활성화, `hypervisorlaunchtype off` | Nested VT-x 활성화 가능해짐             | **아니오.** Hyper-V는 VirtualBox 실행 자체를 방해했을 뿐, Hang과는 무관 |
-| 2   | Nested VT-x 미활성화            | `--nested-hw-virt on`                        | KVM 사용 가능해짐                       | **아니오.** 전제 조건이었을 뿐, 활성화해도 Hang 발생                    |
-| 3   | 메모리 부족 (OOM)               | VM RAM 2048→1024, 호스트 RAM 6G→8G           | Hang 계속 발생, `dmesg`에 OOM 기록 없음 | **아니오.** `free -h`에서 6.2GB 여유 확인                               |
-| 4   | CPU 과다 할당                   | VirtualBox CPU 4→2                           | Hang 계속 발생                          | **아니오.**                                                             |
-| 5   | KVM 하드웨어 가속 자체의 문제   | `kvm: 0` (소프트웨어 에뮬레이션)             | Hang 계속 발생                          | **아니오.** KVM 꺼도 뻗음                                               |
-| 6   | `cpu: host` 옵션                | `cpu: kvm64`로 변경                          | Hang 계속 발생                          | **아니오.**                                                             |
-| 7   | Nested VT-x 활성 상태 자체      | `--nested-hw-virt off`                       | Hang 계속 발생                          | **아니오.**                                                             |
-| 8   | QEMU 프로세스 기동 자체         | 디스크 없는 깡통 VM(999) 생성/시작           | 정상 동작                               | — (QEMU 자체는 무죄)                                                    |
-| 9   | LVM-thin 디스크                 | 999에 디스크 추가 후 시작                    | 정상 동작                               | **아니오.**                                                             |
-| 10  | 디스크 크기 (32GB)              | 102 디스크 32G→4G                            | Hang 발생                               | **아니오.**                                                             |
-| 11  | 디스크 옵션 (discard, iothread) | 102에서 옵션 제거                            | Hang 발생                               | **아니오.**                                                             |
-| 12  | **VirtIO NIC (net0: virtio)**   | **102에서 net0 삭제**                        | **정상 동작**                           | **예!!! 유일한 원인**                                                   |
-
-### 5.2 확정 검증
-
-| 테스트         | net0             | 결과     |
-| -------------- | ---------------- | -------- |
-| net0 삭제      | 없음             | 정상     |
-| `net0: e1000`  | e1000 에뮬레이션 | 정상     |
-| `net0: virtio` | VirtIO 준가상화  | **Hang** |
-
-### 5.3 왜 다른 가설들은 원인이 아니었나
-
-**가설 1~2 (Hyper-V, Nested VT-x):** 이것들은 **환경을 구성하기 위한 전제 조건**이었다. Hyper-V를 끄는 것은 VirtualBox가 VT-x를 직접 사용할 수 있게 하기 위함이고, Nested VT-x를 켜는 것은 KVM이 동작할 수 있게 하기 위함이다. 이것들은 "QEMU를 실행할 수 있는 환경을 만드는" 단계이지, Hang의 원인과는 무관했다.
-
-**가설 3 (메모리 부족):** 첫 번째 Hang은 실제로 메모리 부족이었을 수 있다 (6GB 호스트에 2GB VM). 하지만 호스트를 8GB로 올린 후에도 Hang이 발생했고, `free -h`에서 6.2GB 여유가 확인되었으며, `dmesg`에 OOM 기록이 없었다. 메모리는 첫 번째 사건의 **동시 발생 요인(Contributing Factor)**이었을 뿐, 근본 원인(Root Cause)은 아니었다.
-
-**가설 4 (CPU 과다 할당):** 2코어/4논리 프로세서 호스트에 VirtualBox 4 vCPU를 할당하면 Windows가 느려질 수 있지만, VirtualBox VM 내부의 Proxmox가 Hang되는 원인이 되지는 않는다. CPU 기아(Starvation)가 발생하면 느려지지 SSH가 끊기는 게 아니다.
-
-**가설 5~7 (KVM, cpu type, Nested VT-x):** 이것들은 QEMU의 **CPU 가상화 경로**에 영향을 준다. 하지만 원인은 CPU 가상화가 아니라 **NIC 가상화**였다. KVM을 끄고 소프트웨어 에뮬레이션(TCG)으로 돌려도 VirtIO NIC의 VirtQueue 메모리 매핑은 동일하게 수행되므로 Hang이 발생했다. 이 사실은 "CPU 가상화 방식과 무관하게, VirtIO NIC 초기화 자체가 문제다"는 것을 강하게 시사한다.
-
-**가설 8~11 (QEMU, 디스크):** 깡통 VM(999)이 정상 동작한 것은 "QEMU 프로세스의 기동과 디스크 I/O는 문제없다"는 것을 증명했다. 디스크 크기와 옵션을 바꿔도 Hang이 발생한 것은 디스크 쪽이 무관하다는 것을 증명했다.
-
-### 5.4 디버깅 방법론에 대한 반성
-
-돌이켜보면, **변수 격리(Variable Isolation)**를 더 일찍 했어야 했다. 첫 Hang 발생 시 "QEMU가 뻗었다"는 증상에서 곧바로 KVM, CPU, 메모리 등 "무거운" 변수들을 의심했지만, 실제로는 `.conf` 파일의 각 옵션을 하나씩 제거하면서 **최소 재현 조건(Minimum Reproducible Case)**을 찾는 것이 더 효율적이었다.
-
-998(깡통 VM)과 102의 차이를 줄여나가는 방식은 교과서적인 **이진 탐색(Binary Search) 디버깅**이었고, 이 방법이 결국 답을 줬다.
+<DocEmbed
+  src="notes/linux/proxmox/06-references/07-troubleshooting.md"
+  anchor="### 가상 NIC 아키텍처 & VirtualBox Nested 환경 장애 분석 (포스트모템)"
+  title="가상 NIC 아키텍처 & VirtualBox Nested 환경 장애 분석 (Postmortem)"
+/>
 
 ---
 
@@ -299,13 +253,14 @@ VirtualBox 콘솔은 VirtualBox 프로세스 자체의 렌더링 스레드에서
 
 ### 6.1 VirtualBox Nested 환경의 제약사항
 
-| 항목                        | 사용 가능 | 비고                                        |
-| --------------------------- | --------- | ------------------------------------------- |
-| KVM 하드웨어 가속           | OK        | `kvm: 1`                                    |
-| `cpu: host`                 | OK        | 호스트 CPU 기능 패스스루                    |
-| Nested VT-x                 | OK        | `--nested-hw-virt on`                       |
-| VirtIO 디스크 (virtio-scsi) | OK        | `scsihw: virtio-scsi-single` + `iothread=1` |
-| VirtIO NIC                  | disabled  | **Hang 유발. e1000으로 대체 필수**          |
+| 항목                                         | 사용 가능 | 비고                                        |
+| -------------------------------------------- | --------- | ------------------------------------------- |
+| KVM 하드웨어 가속                            | ✅        | `kvm: 1`                                    |
+| `cpu: host`                                  | ✅        | 호스트 CPU 기능 패스스루                    |
+| Nested VT-x                                  | ✅        | `--nested-hw-virt on`                       |
+| VirtIO 디스크 (virtio-scsi)                  | ✅        | `scsihw: virtio-scsi-single` + `iothread=1` |
+| VirtIO NIC (기본 구성)                       | ❌        | **Hang 유발. e1000으로 대체 필수**          |
+| VirtIO NIC (VirtualBox NIC 준가상화 전환 시) | ✅        | `§6.4` 참고                                 |
 
 ### 6.2 권장 VM 생성 명령어
 
@@ -336,6 +291,38 @@ qm set <VMID> --ide2 none,media=cdrom --boot order=scsi0
 apt install -y qemu-guest-agent
 systemctl enable qemu-guest-agent
 ```
+
+### 6.4 업데이트 (2026-04-17): VirtualBox 준가상화 NIC 전환 시 VirtIO 정상 동작
+
+**발견 내용:**
+
+VirtualBox VM(Proxmox 호스트)의 네트워크 어댑터 타입을 기본값인 "Intel PRO/1000 MT Desktop(Intel 에뮬레이션)"에서 **"반가상화 네트워크(KVM)"**으로 변경하고, 중첩 VM(L2)의 NIC도 `e1000`에서 `virtio`로 변경했을 때 Hang 없이 정상 동작함을 확인했다.
+
+```powershell
+# VirtualBox VM 종료 상태에서 Windows 호스트 PowerShell 실행
+VBoxManage modifyvm "Proxmos-9.1-1" --nictype1 virtio
+```
+
+**VirtualBox 어댑터 타입이 영향을 준 이유:**
+
+이 변경이 왜 유효한지에 대한 해석:
+
+L1 레이어(VirtualBox → Proxmox)에서 에뮬레이션 NIC(Intel)을 사용하면, 네트워크 I/O가 레지스터 단위의 VM Exit를 통해 처리된다. 이 상태에서 L2 레이어(Proxmox → QEMU)가 VirtIO NIC를 초기화하려 하면 VirtQueue의 공유 메모리 매핑이 두 계층의 메모리 관리 코드와 충돌을 일으켰던 것으로 추정된다.
+
+L1에서 VirtualBox가 준가상화 NIC(KVM/virtio-net)를 사용하면, 메모리 인터페이스가 공유 메모리 기반으로 처리되어 L2 VirtQueue 매핑과의 충돌이 해소된다.
+
+단, 두 가지 변경(L1 어댑터 타입 + L2 NIC 모델)이 동시에 이루어졌기 때문에 어느 쪽이 단독으로 문제를 해결하는지는 추가 검증이 필요하다. 현재로서는 **두 변경의 조합**이 문제를 해결한 것으로 결론 내린다.
+
+**환경별 적용 정리:**
+
+| 환경      | L1 (VirtualBox NIC) | L2 (중첩 VM NIC) | 결과    |
+| --------- | ------------------- | ---------------- | ------- |
+| 초기 구성 | Intel 에뮬레이션    | virtio           | ❌ Hang |
+| 임시 해결 | Intel 에뮬레이션    | e1000            | ✅ 정상 |
+| 최종 구성 | KVM 준가상화        | virtio           | ✅ 정상 |
+
+> 베어메탈 Proxmox에서는 L1/L2 구분이 없으므로 이 문제 자체가 발생하지 않는다.
+> VirtualBox Nested 환경 한정의 제약이다.
 
 ---
 

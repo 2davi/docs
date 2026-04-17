@@ -6,7 +6,7 @@ author: "Davi"
 description: "Proxmox VE ISO 부팅부터 네트워크·SSH·스토리지 초기 설정, 관리 계정 및 API 토큰 발급까지."
 slug: "installation"
 section: "notes"
-category: "proxmox"
+category: "proxmox/setup"
 tags: [proxmox, virtualbox, lvm, ssh, apt, networking, api-token, postfix]
 order: 1
 series: "Proxmox VE 학습 시리즈"
@@ -484,34 +484,11 @@ journalctl -t postfix/smtp -e --no-pager
 
 ## 8. 트러블슈팅
 
-### 8.1 rrdcached RRD update error
-
-**증상:** `journalctl -f`에서 아래 로그가 반복적으로 출력된다.
-
-```log
-pmxcfs[866]: [status] notice: RRD update error ... /var/lib/rrdcached/db/pve2-vm/<VMID>
-```
-
-Web UI의 VM Summary 탭에서 CPU/Memory 그래프가 표시되지 않는다.
-
-**원인:** `rrdcached`는 VM의 성능 지표를 RRD(Round-Robin Database) 형식으로 저장한다. VM이 삭제되거나 VMID가 변경되면 해당 RRD 파일이 남아있는 채로 업데이트 시도가 계속되어 에러가 발생한다. Proxmox 버전 업그레이드 후 RRD DB 경로 형식이 변경(`pve2-vm` → `pve-vm-9.0`)되는 경우에도 발생한다.
-
-**해결:**
-
-`rrdcached`는 대상 파일의 파일 디스크립터를 열어둔 채로 동작한다. 서비스가 살아있는 상태에서 파일을 삭제하면 inode가 유지된 채 데몬이 계속 해당 핸들을 붙들고 있어서 삭제가 실질적으로 반영되지 않는 경우가 있다. 서비스를 먼저 완전히 내린 뒤 작업해야 한다.
-
-```bash
-# 1. 서비스 명시적 중단 (파일 핸들 해제)
-systemctl stop rrdcached
-
-# 2. 문제 VM의 RRD 파일 삭제
-find /var/lib/rrdcached/db -name "*<VMID>*" -delete
-
-# 3. 서비스 재기동
-systemctl start rrdcached
-
-# → 다음 성능 데이터 수집 주기(기본 3분)에 파일이 자동 재생성된다
-```
+<DocEmbed
+  src="notes/linux/proxmox/06-references/07-troubleshooting"
+  anchor="_8-1-rrdcached-rrd-update-error"
+  title="`rrdcached` 에러 / 기타 초기 설정 트러블슈팅"
+/>
 
 ---
 

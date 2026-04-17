@@ -5,11 +5,12 @@ lastmod: 2026-04-07
 author: "Davi"
 description: "qm.conf의 모든 속성을 카테고리별로 분류하고, 각 값의 의미와 실전 선택 기준을 정리한다."
 slug: "proxmox-qm-conf-reference"
-section: "notes"
-category: "proxmox/references"
+#section: "notes"
+category: "proxmox/ref."
 tags: [proxmox, qemu, kvm, vm-config, qm-conf, scsi, virtio, cloud-init, cpu, memory, network, disk]
 order: 1
 series: "Proxmox VE 학습 시리즈"
+#series_order: 0
 status: "active"
 draft: false
 search: true

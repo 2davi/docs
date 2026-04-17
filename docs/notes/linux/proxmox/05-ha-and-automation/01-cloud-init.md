@@ -5,7 +5,7 @@ lastmod: 2026-04-14
 description: "Cloud Image 임포트부터 cicustom user-data 설계, Snippets 스토리지 연동, 부팅 후 자동화 패턴까지. Proxmox에서 Cloud-Init이 동작하는 전체 레이어를 다룬다."
 slug: "proxmox-cloud-init"
 section: "notes"
-category: "proxmox"
+category: "proxmox/ha"
 tags: [proxmox, cloud-init, cloud-image, cicustom, user-data, snippets, qemu, provisioning, automation]
 order: 1
 series: "Proxmox VE 학습 시리즈"
@@ -548,72 +548,29 @@ sudo reboot
 
 ## 8. 트러블슈팅
 
-### 8.1 SSH 접속 시 publickey 인증 강제 문제
+<DocEmbed
+  src="notes/linux/proxmox/06-references/07-troubleshooting.md"
+  anchor="### SSH publickey 강제"
+  title="8.1 SSH 접속 시 publickey 인증 강제 문제"
+/>
 
-**증상:** `No supported authentication methods available (server sent: publickey)`
+<DocEmbed
+  src="notes/linux/proxmox/06-references/07-troubleshooting.md"
+  anchor="### known_hosts 충돌"
+  title="8.2 known_hosts 호스트 키 충돌"
+/>
 
-**원인:** Windows `~/.ssh/` 경로에 개인키가 있으면, MobaXterm 같은 SSH 클라이언트가 자동으로 publickey 인증만 시도한다. 해당 키가 VM의 `authorized_keys`에 없으면 연결이 거부된다.
+<DocEmbed
+  src="notes/linux/proxmox/06-references/07-troubleshooting.md"
+  anchor="### cicustom 미반영"
+  title="8.3 `cicustom` 설정 후 변경이 반영 안 될 때"
+/>
 
-**해결:**
-
-```bash
-# 방법 1: VM에 해당 공개키 추가
-echo 'ssh-ed25519 AAAA...' >> ~/.ssh/authorized_keys
-
-# 방법 2: SSH 클라이언트에서 개인키 명시적 지정
-ssh -i ~/.ssh/id_ed25519 kcy0122@10.10.250.120
-
-# 방법 3: user-data의 sshd_config.d 오버라이드 확인
-cat /etc/ssh/sshd_config.d/99-override.conf
-# PasswordAuthentication yes 확인
-```
-
-### 8.2 known_hosts 호스트 키 충돌
-
-VM을 재생성하거나 같은 IP를 재사용하면 SSH 호스트 키가 변경된다. 기존 `known_hosts`의 이전 키와 충돌하면 연결이 거부된다.
-
-```bash
-# 충돌 키 제거
-ssh-keygen -f '/root/.ssh/known_hosts' -R '10.10.250.120'
-
-# 이후 재접속 시 새 키 자동 등록
-ssh kcy0122@10.10.250.120
-```
-
-### 8.3 `cicustom` 설정 후 변경이 반영 안 될 때
-
-```bash
-# Cloud-Init ISO 재생성 누락 여부 확인
-qm cloudinit dump 301 user   # 현재 ISO에 들어간 user-data 내용 출력
-
-# 재생성
-qm cloudinit update 301
-
-# VM 재시작 후 확인
-qm stop 301 && qm start 301
-```
-
-### 8.4 sshd 설정 적용 확인
-
-설정 파일을 직접 읽는 것보다 sshd가 실제로 읽고 있는 값을 확인하는 것이 정확하다:
-
-```bash
-sshd -T | grep -E 'passwordauthentication|permitrootlogin'
-# permitrootlogin yes
-# passwordauthentication yes
-```
-
-### 8.5 dpkg 손상 발생 시 수동 복구
-
-Cloud-Init이 `dpkg --configure -a` 처리 후에도 실패한 경우 수동 복구:
-
-```bash
-# VM 내부에서
-sudo rm /var/lib/dpkg/updates/*
-sudo dpkg --configure -a
-sudo DEBIAN_FRONTEND=noninteractive apt install -y qemu-guest-agent
-sudo systemctl enable --now qemu-guest-agent
-```
+<DocEmbed
+  src="notes/linux/proxmox/06-references/07-troubleshooting.md"
+  anchor="### sshd 설정 확인"
+  title="8.4 sshd 설정 적용 확인"
+/>
 
 ---
 

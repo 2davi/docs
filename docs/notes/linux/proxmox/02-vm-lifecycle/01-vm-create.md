@@ -6,7 +6,7 @@ author: "Davi"
 description: "qm create 명령 구조, .conf 파일 해부, QEMU 가상화 레이어, QEMU Guest Agent, VirtualBox Nested 환경 제약사항까지."
 slug: "vm-create"
 section: "notes"
-category: "proxmox"
+category: "proxmox/vm-lifecycle"
 tags: [proxmox, qemu, kvm, virtio, e1000, nested-virt, guest-agent, lvm-thin, vm-lifecycle]
 order: 1
 series: "Proxmox VE 학습 시리즈"
@@ -301,60 +301,11 @@ vCPU는 시분할(Time-Sharing)로 물리 코어를 공유한다. 물리 코어 
 
 ## 9. VirtualBox Nested 환경 제약사항 — VirtIO NIC Hang
 
-### 9.1 문제 개요
-
-VirtualBox 위의 Proxmox 환경에서 VirtIO NIC(`--net0 virtio,...`)가 설정된 VM을 `qm start`하면 **Proxmox 호스트 전체가 Hang(무응답)** 된다. SSH 끊김, Web UI 접속 불가 상태가 된다. 그러나 VirtualBox의 VMState는 `"running"`이며 콘솔 화면은 정상 표시된다.
-
-가상화 스택의 구조:
-
-```markdown
-Layer 4: 게스트 OS (Debian/Ubuntu)        ← VM 내부
-Layer 3: QEMU 프로세스                    ← Proxmox 안에서 실행
-Layer 2: Proxmox (Debian + KVM 모듈)      ← VirtualBox 게스트
-Layer 1: VirtualBox + Nested VT-x         ← Windows 호스트
-Layer 0: Windows + 물리 CPU (VT-x)        ← 실제 하드웨어
-```
-
-### 9.2 근본 원인 — VirtQueue 메모리 매핑
-
-VirtIO NIC는 게스트와 QEMU 사이에 **공유 메모리(VirtQueue)**를 설정한다. 정상 베어메탈 환경에서 이 메모리 매핑은 2단계다:
-
-```markdown
-GPA → HPA  (Guest Physical Address → Host Physical Address)
-      EPT(Extended Page Table)로 하드웨어 처리
-```
-
-VirtualBox 중첩 환경에서는 이것이 **3단계**로 뻥튀기된다:
-
-```markdown
-L2 GPA → L1 GPA → L0 HPA
-(게스트)  (Proxmox)  (Windows 물리)
-```
-
-각 단계의 주소 변환을 VirtualBox가 소프트웨어로 에뮬레이션하는 과정에서, `ioeventfd` 처리 경로가 Nested 환경에서 교착(Deadlock) 또는 무한 루프에 빠진다. 결과적으로 Proxmox의 모든 vCPU가 VirtualBox 내부 메모리 관리 코드에 갇혀 다른 작업을 스케줄링하지 못한다.
-
-**왜 콘솔은 정상으로 보였나:** VirtualBox 콘솔 렌더링은 VirtualBox 프로세스 자체의 스레드에서 처리되므로 Proxmox 내부 CPU 상태와 무관하게 마지막 렌더링된 화면을 계속 표시한다.
-
-### 9.3 해결: `e1000`으로 NIC 모델 교체
-
-`e1000` 에뮬레이션은 전통적인 MMIO + 인터럽트 경로를 사용한다. 이 경로는 VirtualBox의 Nested VT-x 구현에서 가장 잘 테스트된 코드 경로이며, VirtQueue 같은 복잡한 공유 메모리 매핑이 없다.
-
-```bash
-qm set <VMID> --net0 e1000,bridge=vmbr0,firewall=1
-```
-
-### 9.4 VirtualBox Nested 환경 제약 요약
-
-| 항목                 | 사용 가능 | 비고                                          |
-| -------------------- | --------- | --------------------------------------------- |
-| KVM 하드웨어 가속    | ✅         | `--nested-hw-virt on` 활성화 필요             |
-| `--cpu host`         | ✅         | 물리 CPU 기능 패스스루 동작                   |
-| VirtIO 디스크 (SCSI) | ✅         | `virtio-scsi-single` + `iothread=1` 정상 동작 |
-| VirtIO NIC           | ❌         | **Hang 유발. `e1000`으로 대체 필수**          |
-
-> 이 제약은 VirtualBox 중첩 환경의 한계이지, VirtIO NIC 자체의 문제가 아니다. 물리 서버 Proxmox에서는 VirtIO NIC가 최선이다.
-
-VirtIO NIC 아키텍처와 디버깅 과정의 전체 분석은 `06-references/02-nic-architecture-postmortem.md`에서 다룬다.
+<DocEmbed
+  src="notes/linux/proxmox/06-references/07-troubleshooting.md"
+  anchor="virtio-nic-virtualbox-중첩-환경-hang"
+  title="VirtIO NIC Hang 원인 분석 & 해결 (e1000 대체 / VirtualBox 준가상화 NIC)"
+/>
 
 ---
 

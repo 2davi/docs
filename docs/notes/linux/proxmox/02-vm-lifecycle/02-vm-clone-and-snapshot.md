@@ -6,7 +6,7 @@ author: "Davi"
 description: "Full Clone vs Linked Clone, CoW 메커니즘, 스냅샷 체인의 I/O 동작, Template 설계 전략, VMID 체계 실습까지."
 slug: "vm-clone-and-snapshot"
 section: "notes"
-category: "proxmox"
+category: "proxmox/vm-lifecycle"
 tags: [proxmox, qemu, clone, snapshot, template, cow, lvm-thin, linked-clone, full-clone]
 order: 2
 series: "Proxmox VE 학습 시리즈"
