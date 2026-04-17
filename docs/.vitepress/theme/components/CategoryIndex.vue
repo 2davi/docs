@@ -11,17 +11,29 @@ const props = withDefaults(defineProps<Props>(), {
   groupBy: 'category',
 })
 
+// 카테고리 최상위 세그먼트 추출 (linux/proxmox → linux)
+function topKey(item: DocItem): string {
+  const raw = String(item[props.groupBy as keyof DocItem] ?? '기타')
+  return raw.split('/')[0]
+}
+
+// 서브 카테고리 추출 (linux/proxmox → proxmox, linux → '')
+function subCat(item: DocItem): string {
+  const raw = String(item[props.groupBy as keyof DocItem] ?? '')
+  const parts = raw.split('/')
+  return parts.length > 1 ? parts.slice(1).join('/') : ''
+}
+
 const grouped = computed(() => {
   const map = new Map<string, DocItem[]>()
   const list = [...props.items].sort((a, b) =>
-    a.title.localeCompare(b.title, 'ko')
+    (Number(a.order) || 999) - (Number(b.order) || 999)
   )
   for (const item of list) {
-    const key = String(item[props.groupBy as keyof DocItem] ?? '기타')
+    const key = topKey(item)
     if (!map.has(key)) map.set(key, [])
     map.get(key)!.push(item)
   }
-  // 카테고리명 알파벳 정렬
   return new Map([...map.entries()].sort(([a], [b]) => a.localeCompare(b, 'ko')))
 })
 
@@ -45,8 +57,17 @@ function formatDate(dateStr: string): string {
       </h2>
 
       <ul class="category-index__list">
-        <li v-for="doc in catItems" :key="doc.url" class="category-index__item">
+        <li
+          v-for="(doc, idx) in catItems"
+          :key="doc.url"
+          class="category-index__item"
+        >
           <a :href="doc.url" class="category-index__link">
+            <span class="category-index__num">{{ idx + 1 }}</span>
+            <!-- 서브 카테고리가 있을 때만 표시 -->
+            <span v-if="subCat(doc)" class="category-index__subcat">
+              {{ subCat(doc) || ''}}
+            </span>
             <span class="category-index__title">{{ doc.title }}</span>
             <span class="category-index__right">
               <span v-if="doc.status === 'wip'" class="category-index__wip">WIP</span>
@@ -157,5 +178,37 @@ function formatDate(dateStr: string): string {
   font-variant-numeric: tabular-nums;
   min-width: 6rem;
   text-align: right;
+}
+
+.category-index__num {
+  flex-shrink: 0;
+  width: 1.6rem;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+  opacity: 0.7;
+  text-align: right;
+  padding-right: 0.5rem;
+}
+
+.category-index__link:hover .category-index__num {
+  opacity: 1;
+}
+
+.category-index__subcat {
+  flex-shrink: 0;
+  width: 5rem;           /* ← 고정 너비 추가 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;    /* ← 열 안에서 중앙 정렬 */
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--vp-c-text-3);
+  padding: 0.05rem 0.45rem;
+  border-radius: var(--dv-radius-sm);
+  background: var(--vp-c-bg-mute);
+  margin-right: 0.25rem;
 }
 </style>

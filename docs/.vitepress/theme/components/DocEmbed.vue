@@ -5,6 +5,53 @@ import MarkdownIt from 'markdown-it'
 // ── 설정 ─────────────────────────────────────────────────────
 const md = new MarkdownIt({ html: true, linkify: true, typographer: true })
 
+// md Custom Renderer
+md.renderer.rules.fence = (tokens, idx) => {
+  const token   = tokens[idx]
+  const lang    = token.info.trim() || 'text'
+  const raw     = token.content
+  const lines   = raw.split('\n')
+  // 마지막 빈 줄 제외
+  const lineCount = lines[lines.length - 1] === '' ? lines.length - 1 : lines.length
+
+  const escaped = raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+
+  const lineNums = Array.from({ length: lineCount }, (_, i) =>
+    `<span class="line-number">${i + 1}</span><br>`
+  ).join('')
+
+  return (
+    `<div class="language-${lang} vp-adaptive-theme line-numbers-mode">` +
+    `<button title="Copy Code" class="copy"></button>` +
+    `<span class="lang">${lang}</span>` +
+    `<pre class="vp-code"><code class="language-${lang}">${escaped}</code></pre>` +
+    `<div class="line-numbers-wrapper" aria-hidden="true">${lineNums}</div>` +
+    `</div>`
+  )
+}
+
+// Embed-body ref 추가 및 Copy 버튼 setup
+const embedBodyRef = ref(null)
+
+function setupCopyButtons() {
+  if (!embedBodyRef.value) return
+  embedBodyRef.value.querySelectorAll('.copy').forEach(btn => {
+    if (btn.dataset.bound) return   // 중복 바인딩 방지
+    btn.dataset.bound = '1'
+    btn.addEventListener('click', () => {
+      const code = btn.closest('[class*="language-"]')?.querySelector('code')
+      if (!code) return
+      navigator.clipboard.writeText(code.textContent ?? '').then(() => {
+        btn.classList.add('copied')
+        setTimeout(() => btn.classList.remove('copied'), 2000)
+      })
+    })
+  })
+}
+
 // glob 경로: 이 파일(docs/.vitepress/theme/components/) 기준 상대 경로
 // ../../../ → docs/ 이므로 docs/notes/**/*.md 를 가리킴
 const mdFiles = import.meta.glob('../../../notes/**/*.md', { query: '?raw', import: 'default' })
@@ -69,11 +116,26 @@ async function handleToggle(event) {
     const lines  = rawMd.split(/\r?\n/)  // Windows CRLF 대응
 
     // ── 헤딩 탐색 ────────────────────────────────────────────
-    const targetSlug = props.anchor.normalize('NFC')
+    const rawAnchor = props.anchor.trim()
+    const targetSlug = rawAnchor.startsWith('#')
+      ? slugify(rawAnchor.slice(1).trim()).normalize('NFC')   // 원문 → slug 변환
+      : rawAnchor.normalize('NFC')                            // 이미 slug
+    
     let startLine    = -1
     let headingLevel = 0
+    let inFence      = false   // ← 추가
 
     for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]
+
+      // 코드 펜스 토글 (``` 또는 ~~~)
+      if (/^[ \t]*(```|~~~)/.test(line)) {
+        inFence = !inFence
+      }
+
+      // 펜스 안에서는 헤딩 탐색 건너뜀
+      if (inFence) continue
+
       const match = lines[i].match(/^(#{1,6})\s+(.+)$/)
       if (!match) continue
 
@@ -99,10 +161,23 @@ async function handleToggle(event) {
 
     // ── 섹션 수집 ─────────────────────────────────────────────
     const contentLines = []
+    let inFence2 = false   // ← 추가 (헤딩 탐색 루프와 별도 상태)
+
     for (let i = startLine; i < lines.length; i++) {
-      const m = lines[i].match(/^(#{1,6})\s+/)
-      if (m && m[1].length <= headingLevel) break
-      contentLines.push(lines[i])
+      const line = lines[i]
+
+      // 코드 펜스 토글
+      if (/^[ \t]*(```|~~~)/.test(line)) {
+        inFence2 = !inFence2
+      }
+
+      // 펜스 밖에서만 종료 헤딩 체크
+      if (!inFence2) {
+        const m = line.match(/^(#{1,6})\s+/)
+        if (m && m[1].length <= headingLevel) break
+      }
+
+      contentLines.push(line)
     }
 
     const rendered = md.render(contentLines.join('\n').trim())
@@ -112,6 +187,9 @@ async function handleToggle(event) {
     error.value = e.message
   } finally {
     loading.value = false
+    // content가 세팅된 직후 버튼 초기화
+    await nextTick()
+    setupCopyButtons()
   }
 }
 
@@ -140,7 +218,7 @@ function closeEmbed(event) {
     <div v-if="loading" class="embed-loading">불러오는 중...</div>
     <div v-else-if="error" class="embed-error" style="white-space: pre-wrap">⚠ {{ error }}</div>
     <template v-else-if="content !== null">
-      <div class="embed-body vp-doc" v-html="content" />
+      <div class="embed-body vp-doc" ref="embedBodyRef" v-html="content" />
       <button class="embed-close-btn" @click="closeEmbed">↑ 접기</button>
     </template>
   </details>

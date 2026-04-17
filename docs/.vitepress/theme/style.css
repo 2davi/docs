@@ -69,7 +69,7 @@
   --dv-radius:       8px;
   --dv-radius-sm:    5px;
   --dv-code-bg:      #302b27;
-  --dv-code-header:  #26211d;
+  --dv-code-header:  #363028;
   --dv-code-text:    #ede0d4;
   --dv-lang-color:   #c46040;
   --dv-shadow-soft:  0 2px 14px rgba(30, 20, 14, 0.08);
@@ -95,8 +95,8 @@
   --vp-c-divider: #2e2018;
   --vp-c-gutter:  #3a2a20;
 
-  --dv-code-bg:     #0e0a07;
-  --dv-code-header: #1a1210;
+  --dv-code-bg:     #16100b;
+  --dv-code-header: #1a1a18;
   --dv-shadow-soft: 0 2px 14px rgba(0, 0, 0, 0.32);
   --dv-shadow-mid:  0 4px 28px rgba(0, 0, 0, 0.44);
 }
@@ -954,6 +954,57 @@ body {
   font-size: 0.82rem;
   color: #e04b3a;
   background: rgba(255, 95, 87, 0.06);
+}
+
+.doc-embed .embed-body pre {
+  position: relative;
+  overflow-x: auto;
+  margin: 14px 0;
+  padding: 16px 20px;
+  background: var(--dv-code-bg);
+  border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 15%, var(--vp-c-divider));
+  border-radius: var(--dv-radius);
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.9rem;
+  line-height: 1.72;
+  white-space: pre;
+  /* 헤더·터미널 크롬 없음 — 텍스트 색만 표시 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(218, 119, 86, 0.28) transparent;
+}
+.doc-embed .embed-body pre::-webkit-scrollbar { height: 4px; }
+.doc-embed .embed-body pre::-webkit-scrollbar-thumb {
+  background: rgba(218, 119, 86, 0.32);
+  border-radius: 2px;
+}
+
+.doc-embed .embed-body pre code {
+  display: block;
+  background: transparent;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--dv-code-text);      /* fallback */
+  white-space: inherit;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.doc-embed .embed-body .shiki span {
+  color: var(--shiki-dark, inherit) !important;
+}
+
+/* DocEmbed 내부 코드블럭 — cool-gray 틴트로 영역 구분 */
+.doc-embed .embed-body div[class*='language-'] {
+  --dv-code-bg:     #323437;   /* warm #383838 → cool-gray */
+  --dv-code-header: #272a2d;   /* warm #2a2620 → cool-gray */
+}
+
+.dark .doc-embed .embed-body div[class*='language-'] {
+  --dv-code-bg:     #1c1e20;   /* warm #1e1e1e → cool-gray */
+  --dv-code-header: #141618;   /* warm #1a1a18 → cool-gray */
 }
 
 /* ── MOBILE RESPONSIVE ─────────────────────────────────────── */
