@@ -23,10 +23,10 @@ version: "Proxmox VE 9.1"
 | 항목          | 내용                                                      |
 | ------------- | --------------------------------------------------------- |
 | 선행 문서     | `02-vm-lifecycle/01-vm-create.md`                         |
-| 클러스터      | test (3노드: pve / pve-ksy / kcy0122)                     |
-| 스토리지      | local-zfs (ZFS, 각 노드 로컬), shared (NFS, pve-ksy 제공) |
+| 클러스터      | test (3노드: pve / pve-nodeB / pve-nodeA)                     |
+| 스토리지      | local-zfs (ZFS, 각 노드 로컬), shared (NFS, pve-nodeB 제공) |
 | 실습 대상 VM  | VM 301 `cld-api` (Ubuntu 24.04 Cloud Image 기반)          |
-| 네트워크 대역 | 10.10.250.0/24, GW 10.10.250.1                            |
+| 네트워크 대역 | 192.0.2.0/24, GW 192.0.2.1                            |
 
 ---
 
@@ -179,11 +179,11 @@ qm set 301 --boot order=scsi0
 
 ```bash
 # 계정 설정
-qm set 301 --ciuser kcy0122
+qm set 301 --ciuser pve-nodeA
 qm set 301 --cipassword <패스워드>
 
 # 네트워크 설정
-qm set 301 --ipconfig0 ip=10.10.250.120/24,gw=10.10.250.1
+qm set 301 --ipconfig0 ip=192.0.2.120/24,gw=192.0.2.1
 qm set 301 --nameserver 8.8.8.8
 
 # SSH 공개키 주입 (패스워드 없이 키 인증 접속 가능)
@@ -329,9 +329,9 @@ write_files:
     content: |
 
       # Proxmox Cluster Nodes (injected by cloud-init)
-      10.10.250.115 pve.example.com pve
-      10.10.250.117 pve-ksy.letech.local pve-ksy
-      10.10.250.119 kcy0122.proxmox.letech.kr kcy0122
+      192.0.2.115 pve.example.com pve
+      192.0.2.117 pve-nodeB.internal-user.local pve-nodeB
+      192.0.2.119 pve-nodeA.proxmox.internal.example pve-nodeA
 
   # SSH 패스워드 인증 허용 오버라이드 (sshd_config.d 방식)
   - path: /etc/ssh/sshd_config.d/99-override.conf

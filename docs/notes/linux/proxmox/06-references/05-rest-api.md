@@ -73,7 +73,7 @@ CMP가 Proxmox를 제어하는 방법은 오직 REST API뿐이다. Web UI도, Pr
 > ```bash
 > pvesh get /nodes                                   # 전체 노드 목록 조회
 > pvesh get /cluster/resources                       # 클러스터 리소스 조회
-> pvesh create /nodes/kcy0122/qemu --vmid 999 --memory 1024   # VM 생성
+> pvesh create /nodes/pve-nodeA/qemu --vmid 999 --memory 1024   # VM 생성
 > ```
 >
 > 테스터 관점에서 `pvesh`는 'API 탐험 도구'로 최고다. 실제 CMP 백엔드가 curl을 쓰든 Python requests를 쓰든, 어차피 내부적으로 보내는 HTTP 요청은 동일하기 때문에 `pvesh`로 먼저 동작을 확인한 후 CMP가 어떻게 호출하는지 비교하면 된다.
@@ -106,8 +106,8 @@ API Viewer 구조:
 
 ```bash
 curl -k \
-  -d "username=root@pam&password=YOUR_PASSWORD" \
-  https://10.10.250.119:8006/api2/json/access/ticket
+  -d "username=root@pam&password=<YOUR_PASSWORD>" \
+  https://192.0.2.119:8006/api2/json/access/ticket
 
 # 응답
 # {
@@ -129,7 +129,7 @@ curl -k \
 ```bash
 curl -k \
   -b "PVEAuthCookie=PVE:root@pam:68001234::abcDEFgh..." \
-  https://10.10.250.119:8006/api2/json/nodes
+  https://192.0.2.119:8006/api2/json/nodes
 ```
 
 **POST/PUT/DELETE 요청 (쓰기) — Cookie + CSRF 헤더 모두 필요:**
@@ -139,7 +139,7 @@ curl -k -X POST \
   -b "PVEAuthCookie=PVE:root@pam:68001234::abcDEFgh..." \
   -H "CSRFPreventionToken: 68001234:hAshV4lue..." \
   -d "vmid=999&memory=1024" \
-  https://10.10.250.119:8006/api2/json/nodes/kcy0122/qemu
+  https://192.0.2.119:8006/api2/json/nodes/pve-nodeA/qemu
 ```
 
 > **⚠ CSRF 토큰 누락 — 가장 자주 만나는 에러**
@@ -192,13 +192,13 @@ pveum acl modify / --tokens 'root@pam!cmp-backend' --roles PVEVMAdmin
 # GET 요청
 curl -k \
   -H "Authorization: PVEAPIToken=root@pam!cmp-backend=a1b2c3d4-5e6f-7890-abcd-ef1234567890" \
-  https://10.10.250.119:8006/api2/json/nodes
+  https://192.0.2.119:8006/api2/json/nodes
 
 # POST 요청 — CSRF 토큰 불필요
 curl -k -X POST \
   -H "Authorization: PVEAPIToken=root@pam!cmp-backend=a1b2c3d4-..." \
   -d "vmid=999&memory=1024" \
-  https://10.10.250.119:8006/api2/json/nodes/kcy0122/qemu
+  https://192.0.2.119:8006/api2/json/nodes/pve-nodeA/qemu
 ```
 
 > **API Token이 CSRF 토큰을 요구하지 않는 이유**
@@ -283,8 +283,8 @@ CMP 백엔드가 가장 많이 호출하는 영역은 `/nodes/{node}` 하위다.
 {
   "data": [
     {"node": "pve",     "status": "online", "cpu": 0.02, "maxmem": 8589934592},
-    {"node": "pve-ksy", "status": "online"},
-    {"node": "kcy0122", "status": "online"}
+    {"node": "pve-nodeB", "status": "online"},
+    {"node": "pve-nodeA", "status": "online"}
   ]
 }
 ```
@@ -296,9 +296,9 @@ CMP 백엔드가 가장 많이 호출하는 영역은 `/nodes/{node}` 하위다.
 VM 생성, 마이그레이션, 백업 같은 시간이 걸리는 작업은 즉시 완료되지 않는다. Proxmox는 요청을 받으면 즉시 응답하되, 결과 대신 Task 식별자를 돌려준다.
 
 ```json
-// POST /nodes/kcy0122/qemu (VM 생성 요청)
+// POST /nodes/pve-nodeA/qemu (VM 생성 요청)
 {
-  "data": "UPID:kcy0122:00001234:00005678:68001ABC:qmcreate:999:root@pam:"
+  "data": "UPID:pve-nodeA:00001234:00005678:68001ABC:qmcreate:999:root@pam:"
 }
 ```
 
@@ -307,7 +307,7 @@ VM 생성, 마이그레이션, 백업 같은 시간이 걸리는 작업은 즉�
 | 필드 | 값 (예시) | 의미 |
 | ---- | --------- | ---- |
 | 접두사 | `UPID` | 이것이 UPID임을 나타냄 |
-| 노드 | `kcy0122` | 작업이 실행된 노드 이름 |
+| 노드 | `pve-nodeA` | 작업이 실행된 노드 이름 |
 | PID | `00001234` | Process ID (16진수) |
 | PID 시작 틱 | `00005678` | 16진수 |
 | 시작 타임스탬프 | `68001ABC` | Unix 타임스탬프 (16진수) |
@@ -361,14 +361,14 @@ Proxmox의 해법: 요청을 받으면 즉시 "Task를 시작했다"고 응답�
 ```bash
 # GET /nodes/{node}/tasks/{upid}/status
 curl -k -H "Authorization: PVEAPIToken=..." \
-  "https://10.10.250.119:8006/api2/json/nodes/kcy0122/tasks/UPID:kcy0122:.../status"
+  "https://192.0.2.119:8006/api2/json/nodes/pve-nodeA/tasks/UPID:pve-nodeA:.../status"
 
 # 실행 중인 응답
 # {
 #   "data": {
 #     "status": "running",
-#     "upid": "UPID:kcy0122:...",
-#     "node": "kcy0122",
+#     "upid": "UPID:pve-nodeA:...",
+#     "node": "pve-nodeA",
 #     "type": "qmcreate",
 #     "user": "root@pam",
 #     "starttime": 1744444444
@@ -414,7 +414,7 @@ curl -k -H "Authorization: PVEAPIToken=..." \
 #   start=0&limit=50     ← 페이지네이션
 
 curl -k -H "Authorization: ..." \
-  "https://10.10.250.119:8006/api2/json/nodes/kcy0122/tasks?source=active"
+  "https://192.0.2.119:8006/api2/json/nodes/pve-nodeA/tasks?source=active"
 ```
 
 ### 5.3 Task 추적 패턴 — 올바른 폴링 전략
@@ -453,11 +453,11 @@ CMP 백엔드가 비동기 Task를 추적하는 전형적인 패턴:
 ```bash
 # 방법 A: 클러스터 전체 VM을 한 번에 조회
 curl -k -H "Authorization: PVEAPIToken=root@pam!cmp-backend=SECRET" \
-  "https://10.10.250.119:8006/api2/json/cluster/resources?type=vm"
+  "https://192.0.2.119:8006/api2/json/cluster/resources?type=vm"
 
 # 방법 B: 특정 노드의 VM만
 curl -k -H "Authorization: ..." \
-  "https://10.10.250.119:8006/api2/json/nodes/kcy0122/qemu"
+  "https://192.0.2.119:8006/api2/json/nodes/pve-nodeA/qemu"
 ```
 
 방법 A는 클러스터 차원에서 모든 VM을 한 번에 보여줘 CMP 대시보드에 적합하고, 방법 B는 노드별로 나눠서 조회해야 한다. 성능과 용도가 다르다.
@@ -475,14 +475,14 @@ curl -k -X POST \
   -d "net0=virtio,bridge=vmbr0" \
   -d "scsi0=local-lvm:8" \
   -d "ostype=l26" \
-  "https://10.10.250.119:8006/api2/json/nodes/kcy0122/qemu"
-# 응답: {"data":"UPID:kcy0122:..."}
+  "https://192.0.2.119:8006/api2/json/nodes/pve-nodeA/qemu"
+# 응답: {"data":"UPID:pve-nodeA:..."}
 
 # Step 2: Task 상태 폴링
-UPID="UPID:kcy0122:..."
+UPID="UPID:pve-nodeA:..."
 while true; do
   STATUS=$(curl -ks -H "Authorization: ..." \
-    "https://.../api2/json/nodes/kcy0122/tasks/$UPID/status" \
+    "https://.../api2/json/nodes/pve-nodeA/tasks/$UPID/status" \
     | jq -r ".data.status")
   echo "Status: $STATUS"
   [ "$STATUS" = "stopped" ] && break
@@ -491,24 +491,24 @@ done
 
 # Step 3: 최종 결과 확인
 curl -ks -H "Authorization: ..." \
-  "https://.../api2/json/nodes/kcy0122/tasks/$UPID/status" | jq .
+  "https://.../api2/json/nodes/pve-nodeA/tasks/$UPID/status" | jq .
 ```
 
 ### 6.3 시나리오 3: VM 시작/중지/상태 조회
 
 ```bash
 # VM 상태 조회 (즉시 응답)
-# GET /nodes/kcy0122/qemu/999/status/current
+# GET /nodes/pve-nodeA/qemu/999/status/current
 
 # VM 시작 (비동기, UPID 반환)
-# POST /nodes/kcy0122/qemu/999/status/start
+# POST /nodes/pve-nodeA/qemu/999/status/start
 
 # VM 정지 — 두 가지
-# POST /nodes/kcy0122/qemu/999/status/stop      ← 강제 종료 (전원 뽑기)
-# POST /nodes/kcy0122/qemu/999/status/shutdown  ← graceful (OS에게 shutdown 요청)
+# POST /nodes/pve-nodeA/qemu/999/status/stop      ← 강제 종료 (전원 뽑기)
+# POST /nodes/pve-nodeA/qemu/999/status/shutdown  ← graceful (OS에게 shutdown 요청)
 
 # VM 재시작
-# POST /nodes/kcy0122/qemu/999/status/reboot
+# POST /nodes/pve-nodeA/qemu/999/status/reboot
 ```
 
 **테스터 포인트:** `stop`과 `shutdown`의 차이는 중요하다. `stop`은 전원을 즉시 끊어 데이터 손실 위험이 있고, `shutdown`은 Guest OS에 정상 종료를 요청한다(Guest Agent 필요). CMP UI에 'VM 종료' 버튼이 있을 때 어떤 API를 호출하는지 반드시 확인해야 한다.
@@ -520,7 +520,7 @@ curl -ks -H "Authorization: ..." \
 curl -k -X PUT \
   -H "Authorization: ..." \
   -d "memory=2048" \
-  "https://.../api2/json/nodes/kcy0122/qemu/999/config"
+  "https://.../api2/json/nodes/pve-nodeA/qemu/999/config"
 
 # 여러 항목 동시 변경
 curl -k -X PUT \
@@ -528,7 +528,7 @@ curl -k -X PUT \
   -d "memory=2048" \
   -d "cores=2" \
   -d "description=Test VM - updated via API" \
-  "https://.../api2/json/nodes/kcy0122/qemu/999/config"
+  "https://.../api2/json/nodes/pve-nodeA/qemu/999/config"
 
 # 일부 변경은 즉시 반영되지 않고 VM 재시작 필요
 # → 응답의 "pending" 섹션 확인
@@ -540,7 +540,7 @@ curl -k -X PUT \
 # 주의: VM이 중지된 상태여야 함
 curl -k -X DELETE \
   -H "Authorization: ..." \
-  "https://.../api2/json/nodes/kcy0122/qemu/999"
+  "https://.../api2/json/nodes/pve-nodeA/qemu/999"
 # 응답: {"data":"UPID:..."} ← 비동기
 
 # 디스크도 함께 삭제
@@ -548,7 +548,7 @@ curl -k -X DELETE \
   -H "Authorization: ..." \
   -d "destroy-unreferenced-disks=1" \
   -d "purge=1" \
-  "https://.../api2/json/nodes/kcy0122/qemu/999"
+  "https://.../api2/json/nodes/pve-nodeA/qemu/999"
 ```
 
 ---
@@ -665,8 +665,8 @@ CMP Backend가 응답 반환 (UI에 'Creating...' 표시)
 set -euo pipefail
 
 TOKEN="PVEAPIToken=root@pam!cmp-backend=SECRET"
-BASE="https://10.10.250.119:8006/api2/json"
-NODE="kcy0122"
+BASE="https://192.0.2.119:8006/api2/json"
+NODE="pve-nodeA"
 
 # 1. 현재 상태 기록
 echo "=== 초기 상태 ==="

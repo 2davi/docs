@@ -26,7 +26,7 @@ version: "Proxmox VE 9.1"
 | 선행 문서   | `04-storage/01-lvm-disk.md`                        |
 | ZFS 풀 이름 | `local-zfs`                                        |
 | 물리 디스크 | `ata-VBOX_HARDDISK_VB17cb9e23-ac9d7e33` (100G VDI) |
-| 클러스터    | test (3노드: pve / pve-ksy / kcy0122)              |
+| 클러스터    | test (3노드: pve / pve-nodeB / pve-nodeA)              |
 
 ---
 
@@ -178,12 +178,12 @@ Proxmox Replication은 **`zfs send | zfs receive`를 자동화한 것**이다. Z
 
 ```markdown
 최초 복제:
-  kcy0122: vm-301-disk-0 (2GB)
-         ─── zfs send ────────────→ pve-ksy: local-zfs/vm-301-disk-0 (2GB)
+  pve-nodeA: vm-301-disk-0 (2GB)
+         ─── zfs send ────────────→ pve-nodeB: local-zfs/vm-301-disk-0 (2GB)
 
 5분 후 복제:
-  kcy0122: @snap1 → @snap2 (변경분: 50MB)
-         ─── zfs send -i @snap1 @snap2 ────→ pve-ksy: (델타 50MB만 전송)
+  pve-nodeA: @snap1 → @snap2 (변경분: 50MB)
+         ─── zfs send -i @snap1 @snap2 ────→ pve-nodeB: (델타 50MB만 전송)
 ```
 
 현재 로그에서 확인된 Replication 스냅샷:
@@ -207,11 +207,11 @@ zfs list -t all | grep vm-301
 pvesr status
 
 # JobID  Enabled  Target        LastSync              NextSync              Duration  State
-# 301-0  Yes      local/pve-ksy  2026-04-17_09:45:00  2026-04-17_09:50:00   4.49s   OK
+# 301-0  Yes      local/pve-nodeB  2026-04-17_09:45:00  2026-04-17_09:50:00   4.49s   OK
 # 301-1  Yes      local/pve      2026-04-17_09:40:35  2026-04-17_09:50:00  34.59s   SYNCING
 ```
 
-`301-0`(→ pve-ksy)는 4.49초에 완료된 반면, `301-1`(→ pve)은 34.59초가 걸리고 있다. 같은 데이터를 전송하는데 노드에 따라 소요 시간이 다른 것은 네트워크 상태나 대상 노드의 ZFS 풀 상태 차이를 반영한다.
+`301-0`(→ pve-nodeB)는 4.49초에 완료된 반면, `301-1`(→ pve)은 34.59초가 걸리고 있다. 같은 데이터를 전송하는데 노드에 따라 소요 시간이 다른 것은 네트워크 상태나 대상 노드의 ZFS 풀 상태 차이를 반영한다.
 
 **`pvesr run --id` vs `pvesr schedule-now`:**
 
@@ -222,7 +222,7 @@ pvesr status
 
 ### 4.4 페일오버 시 Replication 방향 자동 전환
 
-VM 301이 `kcy0122 → pve-ksy`로 페일오버되면, Proxmox CRM이 복제 작업의 소스 노드를 자동으로 `pve-ksy`로 전환한다. 페일백 시에도 자동으로 원래 방향으로 복원된다.
+VM 301이 `pve-nodeA → pve-nodeB`로 페일오버되면, Proxmox CRM이 복제 작업의 소스 노드를 자동으로 `pve-nodeB`로 전환한다. 페일백 시에도 자동으로 원래 방향으로 복원된다.
 
 페일오버 이후 수동 개입 없이 복제가 재개되는 것이 Proxmox Replication의 핵심 특징이다.
 
@@ -233,12 +233,12 @@ Replication은 내부적으로 SSH를 통해 `zfs receive`를 실행한다. 이�
 ```bash
 # 세 노드 전부에 동일하게 적용 필요
 cat /etc/hosts
-# 10.10.250.115 pve.proxmox.letech.kr    pve
-# 10.10.250.117 pve-ksy.proxmox.letih.kr pve-ksy
-# 10.10.250.119 kcy0122.proxmox.letech.kr kcy0122
+# 192.0.2.115 pve.proxmox.internal.example    pve
+# 192.0.2.117 pve-nodeB.proxmox.letih.kr pve-nodeB
+# 192.0.2.119 pve-nodeA.proxmox.internal.example pve-nodeA
 
 # hostname으로 SSH 접근 가능 여부 확인
-ssh root@pve-ksy "zpool list"
+ssh root@pve-nodeB "zpool list"
 ```
 
 ---
@@ -307,7 +307,7 @@ GET /api2/json/nodes/{node}/disks/zfs
 # Replication Job 생성
 POST /api2/json/nodes/{node}/replication
   id=301-0
-  target=pve-ksy
+  target=pve-nodeB
   schedule=*/5
 
 # Replication 상태 조회

@@ -206,8 +206,8 @@ Proxmox는 스토리지를 크게 두 가지 종류로 나눈다.
 | `local` | Directory | `/var/lib/vz` | ISO, 스크립트, 백업 |
 | `local-lvm` | LVM-Thin | `pve` VG의 `data` thin-pool | VM 디스크 기본 위치 |
 | `local-zfs` | ZFS | `local-zfs` zpool (별도 디스크) | VM 디스크, Replication, HA |
-| `shared` | NFS | pve-ksy:/mnt/nfs_shared | 멀티 노드 공유, 백업 파일 |
-| `local-pbs` | PBS | VM 501 bkp-api (10.10.250.120) | 증분 백업, Verify |
+| `shared` | NFS | pve-nodeB:/mnt/nfs_shared | 멀티 노드 공유, 백업 파일 |
+| `local-pbs` | PBS | VM 501 bkp-api (192.0.2.120) | 증분 백업, Verify |
 
 "VM 디스크를 어디에 올릴까" = `local-lvm` 또는 `local-zfs`, "백업을 어디에 저장할까" = `shared` 또는 `local-pbs`로 역할이 나뉘어져 있다.
 

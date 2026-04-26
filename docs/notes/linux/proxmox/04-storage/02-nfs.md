@@ -23,13 +23,13 @@ version: "Proxmox VE 9.1"
 
 ```markdown
 [Cluster] Proxmox VE 9.1 — 3 Nodes
-  ├─ pve        10.10.250.115  (NFS 클라이언트)
-  ├─ pve-ksy    10.10.250.117  (NFS 서버 겸 클라이언트)
-  └─ kcy0122    10.10.250.119  (NFS 클라이언트)
+  ├─ pve        192.0.2.115  (NFS 클라이언트)
+  ├─ pve-nodeB    192.0.2.117  (NFS 서버 겸 클라이언트)
+  └─ pve-nodeA    192.0.2.119  (NFS 클라이언트)
 
 [Storage]
-  └─ shared (nfs) — pve-ksy:/mnt/nfs_shared
-       클라이언트: pve, kcy0122 두 노드
+  └─ shared (nfs) — pve-nodeB:/mnt/nfs_shared
+       클라이언트: pve, pve-nodeA 두 노드
 ```
 
 ---
@@ -43,16 +43,16 @@ VM 디스크가 특정 노드의 로컬 스토리지(`local-lvm`, `local-zfs`)�
 NFS는 이 요구를 네트워크 파일시스템 방식으로 충족한다. NFS 서버가 특정 디렉터리를 네트워크로 공개하면, 클라이언트 노드들이 이것을 마운트하여 로컬 경로처럼 사용한다. 모든 노드가 `/mnt/pve/shared`라는 동일한 경로로 동일한 파일에 접근하게 된다.
 
 ```markdown
-[pve-ksy] — NFS 서버
+[pve-nodeB] — NFS 서버
   /mnt/nfs_shared (실제 데이터 위치)
        ↑ exports
-  10.10.250.0/24 대역에게 공개
+  192.0.2.0/24 대역에게 공개
 
 [pve]     — NFS 클라이언트
-  /mnt/pve/shared → mount → pve-ksy:/mnt/nfs_shared
+  /mnt/pve/shared → mount → pve-nodeB:/mnt/nfs_shared
 
-[kcy0122] — NFS 클라이언트
-  /mnt/pve/shared → mount → pve-ksy:/mnt/nfs_shared
+[pve-nodeA] — NFS 클라이언트
+  /mnt/pve/shared → mount → pve-nodeB:/mnt/nfs_shared
 ```
 
 ### 1.2 NFS의 구조적 약점
@@ -72,7 +72,7 @@ NFS는 단순하고 설정이 쉽지만 결정적 약점이 있다. **가용성�
 이 상태에서 해당 마운트 포인트 경로에 접근하면(`ls`, `cat`, `open` 등), 커널은 마운트 레코드가 있다고 판단하여 NFS 서버에 요청을 시도하지만, 실제 세션이 없으므로 무한 대기 상태(Hang)가 된다.
 
 ```bash
-# Stale NFS Handle 증상 — kcy0122에서
+# Stale NFS Handle 증상 — testerSelf에서
 ls -la /mnt/pve/
 ^C   # 응답 없음 — Ctrl+C로 강제 종료 필요
 ```
@@ -90,13 +90,13 @@ ls -la /mnt/pve/
 이번 실습 환경에서의 실제 발생 경로:
 
 ```markdown
-pve-ksy 노드가 재부팅됨 (nfs-server 시작 시각: 15:12)
+pve-nodeB 노드가 재부팅됨 (nfs-server 시작 시각: 15:12)
     │
-    ↓ 클라이언트 노드(kcy0122)는 이미 부팅 완료 상태
+    ↓ 클라이언트 노드(pve-nodeA)는 이미 부팅 완료 상태
     │
     ↓ pvestatd가 shared 스토리지를 활성화하려 함
     │
-    ↓ pvestatd가 NFS 마운트 시도 → pve-ksy 아직 NFS 준비 안 됨
+    ↓ pvestatd가 NFS 마운트 시도 → pve-nodeB 아직 NFS 준비 안 됨
     │
     ↓ 마운트 실패 → 커널에 Stale 마운트 레코드만 남음
     │
@@ -145,16 +145,16 @@ systemctl status remount-nfs-shared.service
 #      Active: active (exited) since Tue 2026-04-14 16:07:58 KST; 1s ago
 #     Process: 40371 ExecStart=/usr/local/bin/nfs-shared-mount.sh (code=exited, status=0/SUCCESS)
 #
-# Apr 14 16:07:56 pve nfs-shared-mount.sh[40371]: [nfs-shared-mount] Waiting for NFS server 10.10.250.117...
+# Apr 14 16:07:56 pve nfs-shared-mount.sh[40371]: [nfs-shared-mount] Waiting for NFS server 192.0.2.117...
 # Apr 14 16:07:56 pve nfs-shared-mount.sh[40371]: [nfs-shared-mount] NFS server reachable (attempt 1)
 # Apr 14 16:07:56 pve nfs-shared-mount.sh[40371]: [nfs-shared-mount] Stale mount detected. Lazy unmounting...
-# Apr 14 16:07:57 pve nfs-shared-mount.sh[40371]: [nfs-shared-mount] Mounting 10.10.250.117:/mnt/nfs_shared -> /mnt/pve/shared
+# Apr 14 16:07:57 pve nfs-shared-mount.sh[40371]: [nfs-shared-mount] Mounting 192.0.2.117:/mnt/nfs_shared -> /mnt/pve/shared
 # Apr 14 16:07:58 pve nfs-shared-mount.sh[40371]: [nfs-shared-mount] Mount successful.
 ```
 
 ### 5.2 재부팅 후 검증
 
-`pve-ksy` 재부팅 후 클라이언트 노드에서 자동 복구 확인:
+`pve-nodeB` 재부팅 후 클라이언트 노드에서 자동 복구 확인:
 
 ```bash
 pvesm status | grep shared
@@ -193,7 +193,7 @@ systemctl cat pvestatd.service       # 하단에 nfs-shared.conf 섹션 확인
 | 구분          | 내용                                                                                 |
 | ------------- | ------------------------------------------------------------------------------------ |
 | **증상**      | `unable to activate storage 'shared'` — 마운트 포인트 접근 불가 (Hang)               |
-| **원인**      | `pve-ksy` 재부팅 → 클라이언트 `pvestatd`의 NFS 마운트 타이밍 실패 → Stale NFS Handle |
+| **원인**      | `pve-nodeB` 재부팅 → 클라이언트 `pvestatd`의 NFS 마운트 타이밍 실패 → Stale NFS Handle |
 | **즉시 조치** | `umount -l` → `mount -t nfs` 수동 재마운트                                           |
 | **재발 방지** | `remount-nfs-shared.service` + `pvestatd` Drop-In으로 부팅 순서 강제                 |
-| **적용 노드** | NFS 클라이언트 노드 모두 (`pve`, `kcy0122`)                                          |
+| **적용 노드** | NFS 클라이언트 노드 모두 (`pve`, `pve-nodeA`)                                          |

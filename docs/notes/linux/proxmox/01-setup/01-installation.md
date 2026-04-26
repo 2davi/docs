@@ -29,7 +29,7 @@ version: "Proxmox VE 9.1"
 | 호스트 OS     | Windows                                   |
 | 디스크        | 64GB (단일 가상 디스크)                   |
 | RAM           | 약 8GB                                    |
-| 호스트명      | kcy0122.proxmox.letech.kr                 |
+| 호스트명      | pve-nodeA.proxmox.internal.example                 |
 | NIC           | enp0s3 (VirtualBox 가상 NIC)              |
 
 > 이 문서는 단일 노드 기준의 초기 설치 과정을 다룬다. 클러스터 구성은 `02-cluster-setup.md`에서 다룬다.
@@ -43,7 +43,7 @@ version: "Proxmox VE 9.1"
 | 항목                 | 입력값                       |
 | -------------------- | ---------------------------- |
 | Management Interface | enp0s3 (VirtualBox 가상 NIC) |
-| Hostname (FQDN)      | kcy0122.proxmox.letech.kr    |
+| Hostname (FQDN)      | pve-nodeA.proxmox.internal.example    |
 | IP Address (CIDR)    | 10.0.2.15/24                 |
 | Gateway              | 10.0.2.2                     |
 | DNS Server           | 10.0.2.3                     |
@@ -167,7 +167,7 @@ source /etc/network/interfaces.d/*
 #### `/etc/resolv.conf`
 
 ```bash
-search proxmox.letech.kr
+search proxmox.internal.example
 nameserver 8.8.8.8
 nameserver 1.1.1.1
 ```
@@ -395,8 +395,8 @@ postconf -e "smtp_sasl_security_options = noanonymous"
 postconf -e "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt"
 postconf -e "smtp_generic_maps = hash:/etc/postfix/generic"
 postconf -e "sender_canonical_maps = hash:/etc/postfix/sender_canonical"
-postconf -e "myorigin = letech.kr"
-postconf -e "myhostname = kcy0122.proxmox.letech.kr"
+postconf -e "myorigin = internal.example"
+postconf -e "myhostname = pve-nodeA.proxmox.internal.example"
 postconf -e "smtputf8_enable = no"               # Daum SMTP의 UTF-8 엔벨로프 미지원 대응
 ```
 
@@ -417,7 +417,7 @@ echo "[smtp.daum.net]:465 your_id@daum.net:<앱-비밀번호>" > /etc/postfix/sa
 
 # /etc/postfix/generic — 시스템 내부 주소를 외부 발신 주소로 리라이팅
 cat > /etc/postfix/generic << 'EOF'
-@kcy0122.proxmox.letech.kr  your_id@daum.net
+@pve-nodeA.proxmox.internal.example  your_id@daum.net
 root                         your_id@daum.net
 MAILER-DAEMON                your_id@daum.net
 EOF
@@ -432,7 +432,7 @@ EOF
 ```bash
 cat > /etc/postfix/sender_canonical << 'EOF'
 root    your_id@daum.net
-kcy0122 your_id@daum.net
+pve-nodeA your_id@daum.net
 EOF
 ```
 

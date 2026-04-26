@@ -24,8 +24,8 @@ version: "Proxmox VE 9.1"
 | 항목          | 내용                                           |
 | ------------- | ---------------------------------------------- |
 | 선행 문서     | `03-backup/01-backup-restore.md`               |
-| 클러스터      | test (3노드: pve / pve-ksy / kcy0122)          |
-| 백업 스토리지 | `shared` (NFS, 10.10.250.117 — pve-ksy 제공)   |
+| 클러스터      | test (3노드: pve / pve-nodeB / pve-nodeA)          |
+| 백업 스토리지 | `shared` (NFS, 192.0.2.117 — pve-nodeB 제공)   |
 | 백업 대상     | VM 201 (dev-api-01), VM 300, VM 301, VM 900 등 |
 
 ---
@@ -156,7 +156,7 @@ Proxmox schedule은 systemd Calendar Event 문법을 기반으로 한다.
 | 전체 백업 | vmid 미지정        | 클러스터 내 모든 VM/CT 백업 |
 | `exclude` | `exclude 999`      | 특정 VM을 백업에서 제외     |
 | `pool`    | `pool production`  | 특정 리소스 풀의 VM만 백업  |
-| `node`    | `node kcy0122`     | 특정 노드의 VM만 백업       |
+| `node`    | `node pve-nodeA`     | 특정 노드의 VM만 백업       |
 
 전체 백업(vmid 미지정)을 기본으로 쓰면 새로 만든 VM도 자동으로 백업 대상에 포함된다. 특정 VM만 제외하고 싶으면 `exclude`를 쓰는 것이 관리가 편하다. 반대로 `vmid`로 지정하면 새 VM을 만들 때마다 Job을 수정해야 하므로 누락 위험이 있다.
 
@@ -168,7 +168,7 @@ Proxmox schedule은 systemd Calendar Event 문법을 기반으로 한다.
 | --------------- | ------------------------------ |
 | `{{cluster}}`   | 클러스터 이름 (예: `test`)     |
 | `{{guestname}}` | VM/CT 이름 (예: `dev-api-01`)  |
-| `{{node}}`      | 실행 노드 이름 (예: `kcy0122`) |
+| `{{node}}`      | 실행 노드 이름 (예: `pve-nodeA`) |
 | `{{vmid}}`      | VM ID (예: `201`)              |
 
 Web UI의 Backup 목록에서 이 메모가 표시되어 어느 클러스터·노드에서 만든 백업인지 식별할 수 있다.

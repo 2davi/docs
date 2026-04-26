@@ -24,7 +24,7 @@ version: "Proxmox VE 9.1"
 | 항목          | 내용                                          |
 | ------------- | --------------------------------------------- |
 | 선행 문서     | `02-vm-lifecycle/02-vm-clone-and-snapshot.md` |
-| 노드명        | kcy0122                                       |
+| 노드명        | pve-nodeA                                       |
 | 백업 스토리지 | `local` (dir, /var/lib/vz)                    |
 
 ---

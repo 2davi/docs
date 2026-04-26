@@ -1,7 +1,7 @@
 ---
 title: "VM 생성 & 초기 설정"
 date: 2026-04-07
-lastmod: 2026-04-16
+lastmod: 2026-04-26
 author: "Davi"
 description: "qm create 명령 구조, .conf 파일 해부, QEMU 가상화 레이어, QEMU Guest Agent, VirtualBox Nested 환경 제약사항까지."
 slug: "vm-create"
@@ -17,6 +17,7 @@ search: true
 toc: true
 difficulty: intermediate
 version: "Proxmox VE 9.1"
+masking_policy: "v4"
 ---
 
 ## 환경 정보
@@ -26,7 +27,7 @@ version: "Proxmox VE 9.1"
 | Proxmox VE      | 9.1-1 (Debian Bookworm 기반)  |
 | 선행 문서       | `01-setup/01-installation.md` |
 | 관리 인터페이스 | `https://127.0.0.1:8006`      |
-| 노드명          | kcy0122                       |
+| 노드명          | pve-localhost                 |
 
 ---
 
@@ -493,5 +494,5 @@ qm agent 201 ping
 
 # API로 IP 조회 (Guest Agent 필요)
 curl -k -H "Authorization: PVEAPIToken=admin@pve!<token>=<uuid>" \
-  https://127.0.0.1:8006/api2/json/nodes/kcy0122/qemu/201/agent/network-get-interfaces
+  https://127.0.0.1:8006/api2/json/nodes/pve-localhost/qemu/201/agent/network-get-interfaces
 ```

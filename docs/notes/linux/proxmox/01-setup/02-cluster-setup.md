@@ -24,8 +24,8 @@ version: "Proxmox VE 9.1"
 | 항목          | 내용                                                   |
 | ------------- | ------------------------------------------------------ |
 | 클러스터명    | test                                                   |
-| 노드 수       | 3 (`pve` / `pve-ksy` / `kcy0122`)                      |
-| 네트워크 대역 | 10.10.250.0/24 (NAT Network, GW 10.10.250.1)           |
+| 노드 수       | 3 (`pve` / `pve-nodeB` / `pve-nodeA`)                      |
+| 네트워크 대역 | 192.0.2.0/24 (NAT Network, GW 192.0.2.1)           |
 | 가상화 플랫폼 | Oracle VirtualBox 7.1.14 — 물리 PC 3대에 각각 1개 노드 |
 | 선행 문서     | `01-setup/01-installation.md`                          |
 
@@ -93,7 +93,7 @@ VirtualBox 메뉴 `File → Tools → Network Manager → NAT Networks → Creat
 
 ```markdown
 이름: ProxmoxNet
-CIDR: 10.10.250.0/24
+CIDR: 192.0.2.0/24
 DHCP 활성화: 해제 (정적 IP 사용)
 ```
 
@@ -106,9 +106,9 @@ NAT Network로 전환 후 각 노드의 `/etc/network/interfaces`에서 IP를 �
 
 | 노드    | IP               |
 | ------- | ---------------- |
-| pve     | 10.10.250.115/24 |
-| pve-ksy | 10.10.250.117/24 |
-| kcy0122 | 10.10.250.119/24 |
+| pve     | 192.0.2.115/24 |
+| pve-nodeB | 192.0.2.117/24 |
+| pve-nodeA | 192.0.2.119/24 |
 
 ### 3.2 `/etc/hosts` 등록
 
@@ -119,9 +119,9 @@ Proxmox 클러스터는 노드 간 통신에 IP가 아닌 **hostname을 사용**
 127.0.0.1 localhost.localdomain localhost
 
 # Cluster Nodes
-10.10.250.115 pve.proxmox.letech.kr     pve
-10.10.250.117 pve-ksy.proxmox.letech.kr pve-ksy
-10.10.250.119 kcy0122.proxmox.letech.kr kcy0122
+192.0.2.115 pve.proxmox.internal.example     pve
+192.0.2.117 pve-nodeB.proxmox.internal.example pve-nodeB
+192.0.2.119 pve-nodeA.proxmox.internal.example pve-nodeA
 ```
 
 > `/etc/hosts` 미등록 시 증상: ZFS Replication이 `SYNCING` 상태에서 무한 대기하거나, `pvesr`이 아무 로그도 출력하지 않는다. 의심될 때는 `ssh root@<노드명>` 으로 hostname 해석 가능 여부를 먼저 확인한다.
@@ -133,7 +133,7 @@ Proxmox 클러스터는 노드 간 통신에 IP가 아닌 **hostname을 사용**
 ### 4.1 클러스터 생성 (첫 번째 노드에서 실행)
 
 ```bash
-# pve 노드 (10.10.250.115)에서 실행
+# pve 노드 (192.0.2.115)에서 실행
 pvecm create test
 # "test"라는 이름의 클러스터를 생성하고 이 노드를 첫 번째 멤버로 등록
 
@@ -151,13 +151,13 @@ pvecm status
 ### 4.2 노드 참여 (나머지 노드에서 실행)
 
 ```bash
-# pve-ksy 노드 (10.10.250.117)에서 실행
-pvecm add 10.10.250.115
+# pve-nodeB 노드 (192.0.2.117)에서 실행
+pvecm add 192.0.2.115
 # 기존 클러스터 멤버(pve)의 IP를 지정하여 참여 요청
 # 패스워드 확인 후 인증 키와 corosync.conf가 자동으로 복사됨
 
-# kcy0122 노드 (10.10.250.119)에서 실행
-pvecm add 10.10.250.115
+# pve-nodeA 노드 (192.0.2.119)에서 실행
+pvecm add 192.0.2.115
 ```
 
 > `pvecm add` 실행 전에 참여할 노드의 pmxcfs가 비어있어야 한다. 이미 다른 클러스터에 참여한 이력이 있다면 클러스터를 탈퇴 처리한 후 진행해야 한다.
@@ -186,8 +186,8 @@ pvecm status
 # ----------------------
 # Nodeid      Votes Name
 # 0x00000001    1   pve
-# 0x00000002    1   pve-ksy
-# 0x00000003    1   kcy0122 (local)
+# 0x00000002    1   pve-nodeB
+# 0x00000003    1   pve-nodeA (local)
 
 pvecm nodes
 # 클러스터 멤버 노드 목록 출력
@@ -294,7 +294,7 @@ apt install -y omping
 
 ### 7.2 진단 사례: 마이그레이션 중 노드 다운
 
-**발생 상황:** VM 301을 `kcy0122` 노드로 마이그레이션 시도 중, 타겟 노드가 강제 재부팅되며 클러스터 쿼럼이 붕괴됨.
+**발생 상황:** VM 301을 `pve-nodeA` 노드로 마이그레이션 시도 중, 타겟 노드가 강제 재부팅되며 클러스터 쿼럼이 붕괴됨.
 
 **표면적 에러 로그:**
 
@@ -308,14 +308,14 @@ corosync token timed out
 
 ```bash
 # 10,000개 패킷, 간격 1ms, 부하 집중 모드(-F)
-# pve-ksy(.117)에서 pve(.115) 방향
-omping -c 10000 -i 0.001 -F -q 10.10.250.117 10.10.250.115
+# pve-nodeB(.117)에서 pve(.115) 방향
+omping -c 10000 -i 0.001 -F -q 192.0.2.117 192.0.2.115
 
-# kcy0122(.119)에서 pve(.115) 방향
-omping -c 10000 -i 0.001 -F -q 10.10.250.119 10.10.250.115
+# pve-nodeA(.119)에서 pve(.115) 방향
+omping -c 10000 -i 0.001 -F -q 192.0.2.119 192.0.2.115
 
-# kcy0122(.119)에서 pve-ksy(.117) 방향 (대조군)
-omping -c 10000 -i 0.001 -F -q 10.10.250.119 10.10.250.117
+# pve-nodeA(.119)에서 pve-nodeB(.117) 방향 (대조군)
+omping -c 10000 -i 0.001 -F -q 192.0.2.119 192.0.2.117
 ```
 
 **결과:**
@@ -330,7 +330,7 @@ omping -c 10000 -i 0.001 -F -q 10.10.250.119 10.10.250.117
 
 **멀티캐스트 100% 손실 (pve .115 방향):**
 
-`pve` 노드(10.10.250.115)로 향하는 멀티캐스트 패킷이 전면 차단되고 있다. 원인 후보:
+`pve` 노드(192.0.2.115)로 향하는 멀티캐스트 패킷이 전면 차단되고 있다. 원인 후보:
 
 - 해당 노드의 방화벽이 멀티캐스트 대역(`224.0.0.0/4`)을 드롭
 - 물리 스위치의 IGMP Snooping이 해당 포트를 멀티캐스트 그룹 멤버로 인식하지 못함

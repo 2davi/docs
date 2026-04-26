@@ -24,10 +24,10 @@ version: "Proxmox VE 9.1"
 | 항목          | 내용                                                      |
 | ------------- | --------------------------------------------------------- |
 | 선행 문서     | `01-setup/02-cluster-setup.md`                            |
-| 클러스터      | test (3노드: pve / pve-ksy / kcy0122)                     |
-| 스토리지      | local-zfs (ZFS, 각 노드 로컬), shared (NFS, pve-ksy 제공) |
+| 클러스터      | test (3노드: pve / pve-nodeB / pve-nodeA)                     |
+| 스토리지      | local-zfs (ZFS, 각 노드 로컬), shared (NFS, pve-nodeB 제공) |
 | HA 관리 VM    | VM 101 (에러 복구), VM 301 `cld-api` (신규 HA 등록)       |
-| 네트워크 대역 | 10.10.250.0/24, GW 10.10.250.1                            |
+| 네트워크 대역 | 192.0.2.0/24, GW 192.0.2.1                            |
 
 ---
 
@@ -103,7 +103,7 @@ HA 페일오버의 핵심 동작은 **VM 디스크 이미지에 페일오버 대
 Proxmox Storage Replication은 `zfs snapshot` + `zfs send | zfs receive`를 자동화한 래퍼다.
 
 ```markdown
-[kcy0122 노드]                    [pve-ksy 노드]
+[pve-nodeA 노드]                    [pve-nodeB 노드]
 local-zfs/vm-301-disk-0           local-zfs/vm-301-disk-0
        │                                  │
        │   zfs snapshot → zfs send        │
@@ -111,8 +111,8 @@ local-zfs/vm-301-disk-0           local-zfs/vm-301-disk-0
        │   (SSH 터널, 노드명 hostname으로 연결)
 ```
 
-1. 소스 노드(`kcy0122`)에서 VM 디스크의 ZFS 스냅샷 생성
-2. SSH를 통해 타겟 노드(`pve-ksy`)로 스냅샷 전송
+1. 소스 노드(`pve-nodeA`)에서 VM 디스크의 ZFS 스냅샷 생성
+2. SSH를 통해 타겟 노드(`pve-nodeB`)로 스냅샷 전송
 3. 타겟 노드의 동일 이름 ZFS 풀에 수신 (`zfs receive`)
 4. 다음 복제 시에는 이전 스냅샷과의 **증분(Incremental) 변경분만** 전송
 
@@ -146,13 +146,13 @@ RPO(Recovery Point Objective) 0이 필요한 프로덕션 환경에서는 Ceph R
 Proxmox Replication은 `zfs receive`를 타겟 노드의 **동일 이름 풀**에 수신한다. 풀 이름이 다르면 복제가 불가능하다.
 
 ```bash
-# 소스 노드 (kcy0122)
+# 소스 노드 (pve-nodeA)
 zpool list
 # NAME        SIZE  ALLOC   FREE  HEALTH
 # local-zfs  99.5G  3.11G  96.4G  ONLINE
 
-# 타겟 노드 (pve-ksy)
-ssh root@pve-ksy "zpool list"
+# 타겟 노드 (pve-nodeB)
+ssh root@pve-nodeB "zpool list"
 # NAME        SIZE  ALLOC   FREE  HEALTH
 # local-zfs  99.5G  3.12G  96.4G  ONLINE
 # ↑ 이름 동일 확인
@@ -166,7 +166,7 @@ cat /etc/pve/storage.cfg | grep -A6 local-zfs
 #     pool local-zfs
 #     content rootdir,images
 #     mountpoint /local-zfs
-#     nodes pve,kcy0122,pve-ksy   ← 세 노드 모두 등록됨을 확인
+#     nodes pve,pve-nodeA,pve-nodeB   ← 세 노드 모두 등록됨을 확인
 #     sparse 1
 ```
 
@@ -178,25 +178,25 @@ cat /etc/hosts
 # 127.0.0.1 localhost.localdomain localhost
 #
 # # Proxmox Cluster Nodes
-# 10.10.250.115 pve.example.com pve
-# 10.10.250.117 pve-ksy.letech.local pve-ksy
-# 10.10.250.119 kcy0122.proxmox.letech.kr kcy0122
+# 192.0.2.115 pve.example.com pve
+# 192.0.2.117 pve-nodeB.internal-user.local pve-nodeB
+# 192.0.2.119 pve-nodeA.proxmox.internal.example pve-nodeA
 ```
 
-`/etc/hosts` 미등록 시 증상: `pvesr status`에서 `SYNCING` 상태가 지속되고, `journalctl -t pvesr`에 아무 로그도 찍히지 않는다. `ssh root@pve-ksy "zpool list"`로 hostname resolution 가능 여부를 먼저 확인한다.
+`/etc/hosts` 미등록 시 증상: `pvesr status`에서 `SYNCING` 상태가 지속되고, `journalctl -t pvesr`에 아무 로그도 찍히지 않는다. `ssh root@pve-nodeB "zpool list"`로 hostname resolution 가능 여부를 먼저 확인한다.
 
 ### 3.2 복제 작업 등록 (Proxmox 9.x)
 
 ```bash
-# kcy0122 → pve-ksy 복제 (5분 주기)
-pvesr create-local-job 301-0 pve-ksy --schedule "*/5"
+# pve-nodeA → pve-nodeB 복제 (5분 주기)
+pvesr create-local-job 301-0 pve-nodeB --schedule "*/5"
 
-# kcy0122 → pve 복제 (5분 주기)
+# pve-nodeA → pve 복제 (5분 주기)
 pvesr create-local-job 301-1 pve --schedule "*/5"
 
 # 옵션 해설:
 # 301-0  : Job ID. {VMID}-{순번} 형식 권장
-# pve-ksy: 타겟 노드명
+# pve-nodeB: 타겟 노드명
 # */5    : systemd Calendar Event 형식. 매 5분마다. 최소값 */1
 ```
 
@@ -217,7 +217,7 @@ pvesr schedule-now 301-0
 # 상태 확인
 pvesr status
 # JobID  Enabled  Target        LastSync              NextSync              Duration  State
-# 301-0  Yes      local/pve-ksy  2026-04-14_10:36:56  2026-04-14_10:40:00  2.875168  OK
+# 301-0  Yes      local/pve-nodeB  2026-04-14_10:36:56  2026-04-14_10:40:00  2.875168  OK
 # 301-1  Yes      local/pve      2026-04-14_10:36:07  2026-04-14_10:40:00  3.991381  OK
 ```
 
@@ -232,7 +232,7 @@ pvesr status
 
 ### 3.4 페일오버 시 복제 방향 자동 전환
 
-VM이 `kcy0122 → pve-ksy`로 페일오버되면, Proxmox CRM이 복제 작업의 소스 노드를 자동으로 `pve-ksy`로 전환한다. `pve-ksy`가 새 소스가 되어 나머지 노드로 복제를 이어간다. 페일백 시에도 방향이 자동으로 원래대로 돌아온다. 수동 개입 불필요.
+VM이 `pve-nodeA → pve-nodeB`로 페일오버되면, Proxmox CRM이 복제 작업의 소스 노드를 자동으로 `pve-nodeB`로 전환한다. `pve-nodeB`가 새 소스가 되어 나머지 노드로 복제를 이어간다. 페일백 시에도 방향이 자동으로 원래대로 돌아온다. 수동 개입 불필요.
 
 ---
 
@@ -254,15 +254,15 @@ Proxmox 9.x에서 기존의 **HA 그룹(Group)** 개념이 **룰(Rules)** 시스
 ha-manager add vm:301 --state started
 
 # Step 2. node-affinity 룰 생성
-# kcy0122가 우선순위 5(가장 높음), pve/pve-ksy는 폴백(우선순위 1)
+# testerSelf가 우선순위 5(가장 높음), pve/pve-ksy는 폴백(우선순위 1)
 ha-manager rules add node-affinity vm301-ha-rule \
   --resources vm:301 \
-  --nodes kcy0122:5,pve:1,pve-ksy:1
+  --nodes pve-nodeA:5,pve:1,pve-nodeB:1
 
 # Step 3. strict 옵션 설정 (--nodes도 함께 명시해야 동작)
 # strict=0: 우선 노드 없을 때 다른 노드로 페일오버 허용
 ha-manager rules set node-affinity vm301-ha-rule \
-  --nodes kcy0122:5,pve:1,pve-ksy:1 \
+  --nodes pve-nodeA:5,pve:1,pve-nodeB:1 \
   --strict 0
 
 # 상태 확인
@@ -278,9 +278,9 @@ Priority 값이 높을수록 해당 노드를 선호한다. 동일 Priority면 �
 
 | 시나리오                       | 설정 예시                                   |
 | ------------------------------ | ------------------------------------------- |
-| 특정 노드 고정, 나머지는 폴백  | `kcy0122:5,pve:1,pve-ksy:1`                 |
-| 두 노드를 동등한 1순위로       | `kcy0122:3,pve-ksy:3,pve:1`                 |
-| 모든 노드 동등 (CRM 자율 선택) | `kcy0122:1,pve:1,pve-ksy:1`                 |
+| 특정 노드 고정, 나머지는 폴백  | `pve-nodeA:5,pve:1,pve-nodeB:1`                 |
+| 두 노드를 동등한 1순위로       | `pve-nodeA:3,pve-nodeB:3,pve:1`                 |
+| 모든 노드 동등 (CRM 자율 선택) | `pve-nodeA:1,pve:1,pve-nodeB:1`                 |
 | 특정 노드 완전 배제            | 해당 노드를 `--nodes`에서 제외 + `strict=1` |
 
 `strict=1`은 `--nodes`에 정의된 노드에서만 VM을 실행하고, 모두 다운된 경우 VM을 기동하지 않는다. `strict=0`은 정의된 노드가 없을 때 다른 노드로 폴백한다. 서비스 가용성을 우선하면 `strict=0`, 특정 노드 격리가 중요하면 `strict=1`.
@@ -290,7 +290,7 @@ Priority 값이 높을수록 해당 노드를 선호한다. 동일 Priority면 �
 ```bash
 cat /etc/pve/ha/rules.cfg
 # node-affinity: vm301-ha-rule
-#     nodes kcy0122:5,pve:1,pve-ksy:1
+#     nodes pve-nodeA:5,pve:1,pve-nodeB:1
 #     resources vm:301
 #     strict 0
 
@@ -404,7 +404,7 @@ zpool status -t local-zfs
 ```bash
 # 현재 상태
 ha-manager status
-# service vm:101 (kcy0122, error)
+# service vm:101 (pve-nodeA, error)
 
 # error 해소
 ha-manager set vm:101 --state disabled
@@ -412,12 +412,12 @@ ha-manager set vm:101 --state disabled
 #  OK
 
 ha-manager status
-# service vm:101 (kcy0122, disabled)
+# service vm:101 (pve-nodeA, disabled)
 
 ha-manager set vm:101 --state started
 
 watch ha-manager status
-# service vm:101 (kcy0122, started)   ← 정상 복구 확인
+# service vm:101 (pve-nodeA, started)   ← 정상 복구 확인
 ```
 
 ### 7.2 ZFS Replication SYNCING 고착 문제
@@ -426,7 +426,7 @@ watch ha-manager status
 
 ```bash
 pvesr status
-# 301-0  Yes  local/pve-ksy  -  pending  -  0  SYNCING   ← 고착
+# 301-0  Yes  local/pve-nodeB  -  pending  -  0  SYNCING   ← 고착
 # 301-1  Yes  local/pve      -  pending  -  0  OK
 
 journalctl -t pvesr -n 50 --no-pager
@@ -440,8 +440,8 @@ systemctl status pvesr
 # Unit pvesr.service could not be found.
 # → pvesr 데몬 자체는 서비스가 아닌 systemd timer로 동작
 
-ssh root@pve-ksy "zpool list"
-# ssh: Could not resolve hostname pve-ksy: Name or service not known
+ssh root@pve-nodeB "zpool list"
+# ssh: Could not resolve hostname pve-nodeB: Name or service not known
 # → /etc/hosts에 노드 hostname 미등록
 ```
 
@@ -451,13 +451,13 @@ ssh root@pve-ksy "zpool list"
 
 ```bash
 # ZFS Replication Job 등록
-pvesr create-local-job 301-0 pve-ksy --schedule "*/5"
+pvesr create-local-job 301-0 pve-nodeB --schedule "*/5"
 pvesr create-local-job 301-1 pve --schedule "*/5"
 
 # 즉시 동기화 (hosts 수정 후)
 pvesr run
 pvesr status
-# 301-0  Yes  local/pve-ksy  2026-04-14_10:36:56  2026-04-14_10:40:00  2.875168  OK
+# 301-0  Yes  local/pve-nodeB  2026-04-14_10:36:56  2026-04-14_10:40:00  2.875168  OK
 # 301-1  Yes  local/pve      2026-04-14_10:36:07  2026-04-14_10:40:00  3.991381  OK
 
 # HA 등록
@@ -466,16 +466,16 @@ ha-manager add vm:301 --state started
 # node-affinity 룰 등록
 ha-manager rules add node-affinity vm301-ha-rule \
   --resources vm:301 \
-  --nodes kcy0122:5,pve:1,pve-ksy:1
+  --nodes pve-nodeA:5,pve:1,pve-nodeB:1
 
 ha-manager rules set node-affinity vm301-ha-rule \
-  --nodes kcy0122:5,pve:1,pve-ksy:1 \
+  --nodes pve-nodeA:5,pve:1,pve-nodeB:1 \
   --strict 0
 
 # 최종 확인
 cat /etc/pve/ha/rules.cfg
 # node-affinity: vm301-ha-rule
-#     nodes kcy0122:5,pve:1,pve-ksy:1
+#     nodes pve-nodeA:5,pve:1,pve-nodeB:1
 #     resources vm:301
 #     strict 0
 ```
@@ -492,13 +492,13 @@ pvesr status
 # HA 리소스 상태
 ha-manager status
 # quorum OK
-# service vm:301 (kcy0122, running) 확인
+# service vm:301 (pve-nodeA, running) 확인
 
 # ZFS TRIM 타이머 등록 확인
 systemctl list-timers | grep zpool
 
 # 페일오버 테스트 (선택)
-# kcy0122 노드를 VirtualBox에서 강제 중단
+# pve-nodeA 노드를 VirtualBox에서 강제 중단
 # pve 또는 pve-ksy에서 VM 301이 자동 기동되는지 확인
 ha-manager status   # migrate → started → running 전환 확인
 ```

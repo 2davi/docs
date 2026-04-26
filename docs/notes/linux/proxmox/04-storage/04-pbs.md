@@ -24,10 +24,10 @@ version: "Proxmox VE 9.1"
 | 항목        | 내용                                       |
 | ----------- | ------------------------------------------ |
 | 선행 문서   | `03-backup/02-backup-deep-dive.md`         |
-| PBS VM      | VM 501 `bkp-api` (kcy0122 노드, local-zfs) |
-| PBS 서버 IP | 10.10.250.120                              |
+| PBS VM      | VM 501 `bkp-api` (pve-nodeA 노드, local-zfs) |
+| PBS 서버 IP | 192.0.2.120                              |
 | Datastore   | `backup_storage`                           |
-| 연결 노드   | kcy0122, pve, pve-ksy (전체)               |
+| 연결 노드   | pve-nodeA, pve, pve-nodeB (전체)               |
 
 ---
 
@@ -143,10 +143,10 @@ cat /etc/pve/storage.cfg | grep -A10 pbs
 # pbs: local-pbs
 #     disable                           ← 현재 비활성화 상태
 #     datastore backup_storage
-#     server 10.10.250.120
+#     server 192.0.2.120
 #     content backup
 #     fingerprint 4b:e2:32:...:5f
-#     nodes kcy0122,pve,pve-ksy
+#     nodes pve-nodeA,pve,pve-nodeB
 #     prune-backups keep-all=1
 #     username root@pam
 ```
@@ -218,7 +218,7 @@ pvesm status | grep local-pbs
 # VM 301을 PBS에 즉시 백업
 vzdump 301 --storage local-pbs --mode snapshot --compress zstd
 
-# 응답: UPID:kcy0122:...:vzdump:301:root@pam:
+# 응답: UPID:pve-nodeA:...:vzdump:301:root@pam:
 # → 비동기 Task. UPID로 상태 추적
 ```
 
@@ -285,13 +285,13 @@ vzdump: backup-a8df1866-0407
     compress zstd
     enabled 0                 ← 비활성화
     mode stop                 ← VM 정지 모드 (완전한 일관성)
-    node pve-ksy              ← pve-ksy 노드에서만 실행
+    node pve-nodeB              ← pve-nodeB 노드에서만 실행
     performance max-workers=16 ← 병렬 작업자 16개
     storage shared
     vmid 901
 ```
 
-`node pve-ksy`는 이 Job이 pve-ksy 노드에서만 실행된다는 제약이다. VM 901이 pve-ksy에 있거나, 해당 노드에서 실행하는 것이 네트워크·스토리지 접근에 유리한 경우에 사용한다.
+`node pve-nodeB`는 이 Job이 pve-nodeB 노드에서만 실행된다는 제약이다. VM 901이 pve-ksy에 있거나, 해당 노드에서 실행하는 것이 네트워크·스토리지 접근에 유리한 경우에 사용한다.
 
 ---
 
@@ -319,7 +319,7 @@ PBS 백업도 PVE API의 UPID 기반 비동기 Task로 실행된다. 완료 여�
 
 ```markdown
 POST /api2/json/nodes/{node}/vzdump
-  → {data: "UPID:kcy0122:..."}
+  → {data: "UPID:pve-nodeA:..."}
 
 GET /api2/json/nodes/{node}/tasks/{upid}/status
   → {data: {status: "stopped", exitstatus: "OK"}}
@@ -359,11 +359,11 @@ proxmox-backup-manager cert info | grep Fingerprint
 pvesm status | grep local-pbs
 
 # PBS 서버 응답 확인
-curl -sk https://10.10.250.120:8007/api2/json/version \
+curl -sk https://192.0.2.120:8007/api2/json/version \
   -H "Authorization: PBSAPIToken=root@pam!cmp-token:<secret>"
 
 # 백업 목록 조회 (PVE API)
-pvesh get /nodes/kcy0122/storage/local-pbs/content
+pvesh get /nodes/pve-nodeA/storage/local-pbs/content
 
 # Datastore 사용량 확인 (PBS VM 내부에서)
 proxmox-backup-manager datastore info backup_storage
@@ -372,7 +372,7 @@ proxmox-backup-manager datastore info backup_storage
 # PBS Web UI: Datastore → Verify Jobs → 상태 확인
 
 # 백업 복구 테스트 (다른 VMID로)
-qmrestore /nodes/kcy0122/storage/local-pbs/... 399
+qmrestore /nodes/pve-nodeA/storage/local-pbs/... 399
 qm start 399 && qm status 399
 qm destroy 399 --purge
 ```

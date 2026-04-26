@@ -49,8 +49,8 @@ Proxmox VE는 전체 관리 기능을 REST API로 노출하며, `/nodes/{node}/q
 
 | 메서드 | 설명                                                                                                                             | 위험도 | 필수 파라미터  | pvesh 예시                                                         |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- | ------ | -------------- | ------------------------------------------------------------------ |
-| `GET`  | 해당 노드의 VM 전체 목록 반환. `VM.Audit` 권한이 있는 VM만 표시                                                                  | ✅     | `node`         | `pvesh get /nodes/kcy0122/qemu`                                    |
-| `POST` | 신규 VM 생성 또는 백업에서 복원. 필수: `vmid`, `node`. 선택: `name`, `memory`, `cores`, `net[n]`, `scsi[n]`, `ostype` 등 수십 개 | ⚠️     | `node`, `vmid` | `pvesh create /nodes/kcy0122/qemu -vmid 200 -memory 2048 -cores 2` |
+| `GET`  | 해당 노드의 VM 전체 목록 반환. `VM.Audit` 권한이 있는 VM만 표시                                                                  | ✅     | `node`         | `pvesh get /nodes/pve-nodeA/qemu`                                    |
+| `POST` | 신규 VM 생성 또는 백업에서 복원. 필수: `vmid`, `node`. 선택: `name`, `memory`, `cores`, `net[n]`, `scsi[n]`, `ostype` 등 수십 개 | ⚠️     | `node`, `vmid` | `pvesh create /nodes/pve-nodeA/qemu -vmid 200 -memory 2048 -cores 2` |
 
 **참고:** `POST` 생성 시 반환값은 `UPID` (Proxmox 내부 비동기 작업 ID) 문자열이며, 즉시 완료가 아닌 백그라운드 태스크로 처리됩니다.
 
@@ -252,10 +252,10 @@ Guest Agent 엔드포인트는 **VM 내부에 `qemu-guest-agent` 데몬이 설�
 
 ```bash
 # 1단계: 명령 실행 → pid 반환
-pvesh create /nodes/kcy0122/qemu/100/agent/exec -command '["hostname"]'
+pvesh create /nodes/pve-nodeA/qemu/100/agent/exec -command '["hostname"]'
 
 # 2단계: pid로 결과 폴링
-pvesh get /nodes/kcy0122/qemu/100/agent/exec-status -pid &lt;PID>
+pvesh get /nodes/pve-nodeA/qemu/100/agent/exec-status -pid &lt;PID>
 ```
 
 PVE 8.x 이후 `command` 파라미터는 문자열이 아닌 **배열 형식**으로 변경되었습니다.

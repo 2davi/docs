@@ -101,11 +101,11 @@ TOTEM은 논리적인 링(Ring) 구조로 노드를 연결하고, **토큰(Token
 
 ```markdown
 정상 상태:
-  [pve] → token → [pve-ksy] → token → [kcy0122] → token → [pve] ...
+  [pve] → token → [pve-nodeB] → token → [pve-nodeA] → token → [pve] ...
            1ms 이내              1ms 이내              1ms 이내
 
 CPU 기아 발생:
-  [pve] → token → [kcy0122]  ← token 처리 불능 (CPU 없음)
+  [pve] → token → [pve-nodeA]  ← token 처리 불능 (CPU 없음)
                       ↑
               3650ms 경과 → token timed out
 ```
@@ -284,9 +284,9 @@ journalctl -u zpool-trim.service -n 20
 # ----------------------------------------------------------
 
 # authentication failure
-# Apr 16 14:28:56 pvedaemon[1386]: authentication failure; rhost=::ffff:10.10.250.119 user=root@pam
+# Apr 16 14:28:56 pvedaemon[1386]: authentication failure; rhost=::ffff:192.0.2.119 user=root@pam
 
-# 10.10.250.119는 kcy0122 자기 자신의 IP다. 자기 자신에게 로그인을 시도했다가
+# 192.0.2.119는 pve-nodeA 자기 자신의 IP다. 자기 자신에게 로그인을 시도했다가
 # 실패한 것이다. pmxcfs 쿼럼 붕괴 후 복구 과정에서 pvedaemon이 자동 재인증을
 # 시도하는 과정에서 발생하는 경우가 있다. 1회성이면 무시.
 
@@ -295,8 +295,8 @@ journalctl -u zpool-trim.service -n 20
 # Backup of VM 201 failed - unable to find VM '201'
 # Apr 16 16:39:21 pvescheduler[1552]: ERROR: Backup of VM 201 failed - unable to find VM '201'
 
-# VM 201이 이 시점에 kcy0122 노드에 없었다. 클러스터 환경에서 VM은
-# 어느 노드에도 있을 수 있는데, 백업 스케줄러가 VM 201을 kcy0122에서
+# VM 201이 이 시점에 pve-nodeA 노드에 없었다. 클러스터 환경에서 VM은
+# 어느 노드에도 있을 수 있는데, 백업 스케줄러가 VM 201을 testerSelf에서
 # 찾으려 했지만 실제로는 다른 노드에 있거나 HA 페일오버로 이전된 상태.
 # 백업 Job 설정에서 노드를 고정하지 말고 VM ID 기준으로만 설정했는지 확인.
 ```
@@ -397,13 +397,13 @@ corosync[...]: Exiting.
 
 **해결 ─ 정상 노드에서 설정 파일 강제 복사 후 데몬 재시작:**
 
-pve 노드에서 `/etc/pve/`가 Read-Only이므로, 정상 노드(kcy0122)에서 직접 **로컬 경로**(`/etc/corosync/`)로 최신 설정 파일을 복사한다.
+pve 노드에서 `/etc/pve/`가 Read-Only이므로, 정상 노드(pve-nodeA)에서 직접 **로컬 경로**(`/etc/corosync/`)로 최신 설정 파일을 복사한다.
 
 ```bash
-# 1. 정상 노드(kcy0122)에서 장애 노드(pve)로 최신 설정 파일 강제 복사
+# 1. 정상 노드(pve-nodeA)에서 장애 노드(pve)로 최신 설정 파일 강제 복사
 #    /etc/pve/가 아닌 /etc/corosync/ 로컬 경로를 직접 덮어씀
-scp root@10.10.250.119:/etc/corosync/corosync.conf \
-    root@10.10.250.115:/etc/corosync/corosync.conf
+scp root@192.0.2.119:/etc/corosync/corosync.conf \
+    root@192.0.2.115:/etc/corosync/corosync.conf
 
 # 2. 장애 노드(pve)에서 실행 — Corosync 데몬 재시작
 systemctl restart corosync
@@ -498,19 +498,19 @@ VirtIO NIC 아키텍처와 디버깅 과정의 전체 분석은 `06-references/0
 #### 3.1 NFS 서버 상태 먼저 확인
 
 ```bash
-# NFS 서버 노드(pve-ksy)에서
+# NFS 서버 노드(pve-nodeB)에서
 systemctl status nfs-server
 # Active: active (exited) → 정상
 
 # Export 목록 확인
 exportfs -v
-# /mnt/nfs_shared  10.10.250.0/24(sync,wdelay,hide,no_subtree_check,
+# /mnt/nfs_shared  192.0.2.0/24(sync,wdelay,hide,no_subtree_check,
 #                                  sec=sys,rw,secure,no_root_squash,no_all_squash)
 
 # 클라이언트에서 NFS 서버 Export 목록 조회 가능 여부 확인
-showmount -e 10.10.250.117
-# Export list for 10.10.250.117:
-# /mnt/nfs_shared 10.10.250.0/24
+showmount -e 192.0.2.117
+# Export list for 192.0.2.117:
+# /mnt/nfs_shared 192.0.2.0/24
 ```
 
 `showmount`가 정상 응답하면 네트워크 레이어 문제가 아니고, 클라이언트 쪽 Stale 마운트 상태임이 확인된다.
@@ -533,7 +533,7 @@ umount -l /mnt/pve/shared
 mkdir -p /mnt/pve/shared
 
 # 4. 수동 재마운트
-mount -t nfs 10.10.250.117:/mnt/nfs_shared /mnt/pve/shared
+mount -t nfs 192.0.2.117:/mnt/nfs_shared /mnt/pve/shared
 
 # 5. 복구 확인
 pvesm status | grep shared
@@ -572,7 +572,7 @@ network-online.target → NFS 서버 응답 확인 → pvestatd 시작
 # Executed by remount-nfs-shared.service before pvestatd starts.
 # Waits for NFS server to become reachable, then forces a clean mount.
 
-NFS_SERVER="10.10.250.117"
+NFS_SERVER="192.0.2.117"
 NFS_EXPORT="/mnt/nfs_shared"
 MOUNT_POINT="/mnt/pve/shared"
 MAX_RETRY=12        # 12회 × 5초 = 최대 60초 대기
@@ -664,7 +664,7 @@ Wants=remount-nfs-shared.service
 
 #### 4.5 배포 절차
 
-`pve`(.115)와 `kcy0122`(.119) **두 클라이언트 노드 모두**에 적용한다.
+`pve`(.115)와 `pve-nodeA`(.119) **두 클라이언트 노드 모두**에 적용한다.
 
 ```bash
 # 1. 스크립트 배포 및 실행 권한 부여
@@ -720,7 +720,7 @@ VBoxManage storageattach "Proxmos-9.1-1" `
   --port 3 `
   --device 0 `
   --type hdd `
-  --medium "C:\Users\letech\VirtualBox VMs\Proxmos-9.1-1\Proxmos-9.1-1_3.vdi" `
+  --medium "C:\Users\internal-user\VirtualBox VMs\Proxmos-9.1-1\Proxmos-9.1-1_3.vdi" `
   --nonrotational on `
   --discard on
 ```
@@ -782,7 +782,7 @@ systemctl status zpool-trim.service
      Active: inactive (dead) since Fri 2026-04-17 10:14:45 KST; 1min 12s ago
     Process: 1797 ExecStart=/sbin/zpool trim local-zfs (code=exited, status=0/SUCCESS)
 
-Apr 17 10:14:45 kcy0122 systemd[1]: Finished zpool-trim.service - ZFS Pool TRIM - local-zfs.
+Apr 17 10:14:45 pve-nodeA systemd[1]: Finished zpool-trim.service - ZFS Pool TRIM - local-zfs.
 ```
 
 `Type=oneshot` 서비스는 명령이 성공적으로 종료되면 `inactive (dead)` 상태가 된다. 이것은 에러 상태가 아니라 **정상적인 완료 상태**다.
@@ -816,7 +816,7 @@ Apr 17 10:14:45 kcy0122 systemd[1]: Finished zpool-trim.service - ZFS Pool TRIM 
 echo 'ssh-ed25519 AAAA...' >> ~/.ssh/authorized_keys
 
 # 방법 2: SSH 클라이언트에서 개인키 명시적 지정
-ssh -i ~/.ssh/id_ed25519 kcy0122@10.10.250.120
+ssh -i ~/.ssh/id_ed25519 pve-nodeA@192.0.2.120
 
 # 방법 3: user-data의 sshd_config.d 오버라이드 확인
 cat /etc/ssh/sshd_config.d/99-override.conf
@@ -831,10 +831,10 @@ VM을 재생성하거나 같은 IP를 재사용하면 SSH 호스트 키가 변�
 
 ```bash
 # 충돌 키 제거
-ssh-keygen -f '/root/.ssh/known_hosts' -R '10.10.250.120'
+ssh-keygen -f '/root/.ssh/known_hosts' -R '192.0.2.120'
 
 # 이후 재접속 시 새 키 자동 등록
-ssh kcy0122@10.10.250.120
+ssh pve-nodeA@192.0.2.120
 ```
 
 ### cicustom 미반영
@@ -888,7 +888,7 @@ VM 기동 시도가 반복 실패하면 CRM은 해당 리소스를 `error` 상�
 
 ```bash
 ha-manager status
-# service vm:101 (kcy0122, error)   ← error 상태
+# service vm:101 (pve-nodeA, error)   ← error 상태
 ```
 
 ##### 5.2 Proxmox 9.x 에러 복구 절차
@@ -903,7 +903,7 @@ ha-manager set vm:101 --state disabled
 
 # 전환 확인
 ha-manager status
-# service vm:101 (kcy0122, disabled)
+# service vm:101 (pve-nodeA, disabled)
 
 # Step 2. 기동 요청
 ha-manager set vm:101 --state started
@@ -922,7 +922,7 @@ watch ha-manager status
 ```bash
 ha-manager status
 # lrm pve (old timestamp - dead?, Mon Apr 13 17:39:50 2026)   ← 노드 사망 감지
-# service vm:101 (kcy0122, starting)                          ← 자동 페일오버 진행
+# service vm:101 (pve-nodeA, starting)                          ← 자동 페일오버 진행
 ```
 
 ZFS Replication이 정상적으로 동작하고 있었다면, 마지막 복제 스냅샷을 기준으로 VM이 페일오버 노드에서 기동된다.
