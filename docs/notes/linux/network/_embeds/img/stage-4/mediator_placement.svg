@@ -1,0 +1,69 @@
+<svg viewBox="0 0 772 484" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="aArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/>
+  </marker>
+  <marker id="dArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/>
+  </marker>
+  <marker id="nArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/>
+  </marker>
+  <marker id="nArrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/>
+  </marker>
+</defs>
+<rect x="13" y="13" width="746" height="458" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start" >신뢰 구역 사이의 매개체 배치</text>
+<text x="36" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start" >신뢰 비대칭이 클수록 매개체 필수 · latency·timeout이 결정적일수록 직접 허용</text>
+<text x="36" y="104" font-size="12" fill="#da7756" font-weight="700" text-anchor="start" >매개체 필수 (Crossing Point)</text>
+<rect x="36" y="124" width="108" height="66" rx="9" stroke="#cc5b53" stroke-width="1.4" fill="#fbeae8" />
+<text x="90.0" y="152" font-size="13" fill="#cc5b53" font-weight="700" text-anchor="middle" >외부</text>
+<text x="90.0" y="170" font-size="9" fill="#c0584f" font-weight="normal" text-anchor="middle" >Internet · Untrusted</text>
+<rect x="200" y="116" width="176" height="210" rx="11" stroke="#e2dcd2" stroke-width="1.3" fill="#f7f3ec" />
+<text x="288.0" y="136" font-size="11.5" fill="#6b6258" font-weight="700" text-anchor="middle" >검문 계층</text>
+<rect x="214" y="146" width="148" height="40" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="288.0" y="164" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="middle" >Bastion / Jump</text>
+<text x="288.0" y="178" font-size="8.7" fill="#6b6258" font-weight="normal" text-anchor="middle" >→ 관리망 · 단일 진입점·감사</text>
+<rect x="214" y="194" width="148" height="40" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="288.0" y="212" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="middle" >Reverse Proxy / LB</text>
+<text x="288.0" y="226" font-size="8.7" fill="#6b6258" font-weight="normal" text-anchor="middle" >→ 서비스 · TLS·표면 축소</text>
+<rect x="214" y="242" width="148" height="40" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="288.0" y="260" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="middle" >API Gateway</text>
+<text x="288.0" y="274" font-size="8.7" fill="#6b6258" font-weight="normal" text-anchor="middle" >→ MSA · 인증·rate limit</text>
+<text x="288.0" y="316" font-size="9" fill="#da7756" font-weight="600" text-anchor="middle" >pfSense = L3/L4 게이트웨이</text>
+<rect x="430" y="120" width="138" height="52" rx="9" stroke="#5b86c4" stroke-width="1.4" fill="#eaf0f9" />
+<text x="499.0" y="144" font-size="12.5" fill="#5b86c4" font-weight="700" text-anchor="middle" >관리망 MGMT</text>
+<text x="499.0" y="161" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="middle" >Management</text>
+<rect x="430" y="196" width="138" height="52" rx="9" stroke="#e0a64e" stroke-width="1.4" fill="#fdf3e3" />
+<text x="499.0" y="220" font-size="12.5" fill="#e0a64e" font-weight="700" text-anchor="middle" >서비스 DMZ</text>
+<text x="499.0" y="237" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="middle" >노출 서비스</text>
+<rect x="606" y="196" width="138" height="52" rx="9" stroke="#4a9d7f" stroke-width="1.4" fill="#e8f3ee" />
+<text x="675.0" y="220" font-size="12.5" fill="#4a9d7f" font-weight="700" text-anchor="middle" >워크로드</text>
+<text x="675.0" y="237" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="middle" >Internal · VMNET</text>
+<line x1="144" y1="157.0" x2="197" y2="157.0" stroke="#6b6258" stroke-width="1.6" marker-end="url(#nArrow)"/>
+<path d="M376 166 C 400 166, 400 146.0, 427 146.0" fill="none" stroke="#5b86c4" stroke-width="1.6" marker-end="url(#nArrow)"/>
+<line x1="376" y1="232" x2="427" y2="222.0" stroke="#e0a64e" stroke-width="1.6" marker-end="url(#nArrow)"/>
+<line x1="568" y1="222.0" x2="603" y2="222.0" stroke="#4a9d7f" stroke-width="1.6" marker-end="url(#nArrow)" marker-start="url(#nArrowS)"/>
+<rect x="535.0" y="209.0" width="104" height="26" rx="13" stroke="#8a6db5" stroke-width="1.1" fill="#efeaf5" />
+<text x="587.0" y="226.0" font-size="9.5" fill="#8a6db5" font-weight="700" text-anchor="middle" >Service Mesh</text>
+<text x="587.0" y="258" font-size="8.6" fill="#6b6258" font-weight="normal" text-anchor="middle" >mTLS · eBPF (East-West)</text>
+<line x1="36" y1="348" x2="736" y2="348" stroke="#e2dcd2" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="36" y="370" font-size="12" fill="#4a9d7f" font-weight="700" text-anchor="start" >직접 통신 OK (매개체 없음)</text>
+<text x="736" y="370" font-size="10.5" fill="#6b6258" font-weight="normal" text-anchor="end" >latency·timeout이 생명 → 검문 비용을 감당 못 함</text>
+<rect x="70" y="392" width="96" height="38" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="118" y="416" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle" >node A</text>
+<rect x="266" y="392" width="96" height="38" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="314" y="416" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle" >node B</text>
+<line x1="168" y1="411" x2="264" y2="411" stroke="#4a9d7f" stroke-width="1.8" marker-end="url(#nArrow)" marker-start="url(#nArrowS)"/>
+<text x="216" y="386" font-size="9.5" fill="#4a9d7f" font-weight="600" text-anchor="middle" >Storage (전용 NIC)</text>
+<rect x="440" y="392" width="96" height="38" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="488" y="416" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle" >node A</text>
+<rect x="636" y="392" width="96" height="38" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="684" y="416" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle" >node B</text>
+<line x1="538" y1="411" x2="634" y2="411" stroke="#4a9d7f" stroke-width="1.8" marker-end="url(#nArrow)" marker-start="url(#nArrowS)"/>
+<text x="586" y="386" font-size="9.5" fill="#4a9d7f" font-weight="600" text-anchor="middle" >Corosync (heartbeat)</text>
+</svg>

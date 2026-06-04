@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 472" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="734" height="446" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">Corosync Totem — 단방향 토큰 링</text>
+<text x="40" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">토큰을 쥔 노드만 발언(전순서) · 토큰 순환 = 생존 신호 · 복잡도 O(N)</text>
+<line x1="213.0058833710016" y1="211.9882332579968" x2="166.9941166289984" y2="304.0117667420032" stroke="#da7756" stroke-width="2.2" marker-end="url(#aTerra)"/>
+<line x1="188.0" y1="338.0" x2="272.0" y2="338.0" stroke="#da7756" stroke-width="2.2" marker-end="url(#aTerra)"/>
+<line x1="293.0058833710016" y1="304.0117667420032" x2="246.9941166289984" y2="211.9882332579968" stroke="#da7756" stroke-width="2.2" marker-end="url(#aTerra)"/>
+<circle cx="230" cy="178" r="34" fill="#eaf0f9"/>
+<circle cx="230" cy="178" r="34" fill="none" stroke="#5b86c4" stroke-width="1.8"/>
+<text x="230" y="185" font-size="19" fill="#5b86c4" font-weight="700" text-anchor="middle">A</text>
+<circle cx="150" cy="338" r="34" fill="#eaf0f9"/>
+<circle cx="150" cy="338" r="34" fill="none" stroke="#5b86c4" stroke-width="1.8"/>
+<text x="150" y="345" font-size="19" fill="#5b86c4" font-weight="700" text-anchor="middle">B</text>
+<circle cx="310" cy="338" r="34" fill="#eaf0f9"/>
+<circle cx="310" cy="338" r="34" fill="none" stroke="#5b86c4" stroke-width="1.8"/>
+<text x="310" y="345" font-size="19" fill="#5b86c4" font-weight="700" text-anchor="middle">C</text>
+<rect x="142.0" y="243.0" width="80" height="30" rx="13" stroke="#da7756" stroke-width="1" fill="#da7756"/>
+<text x="182.0" y="263.0" font-size="11.5" fill="#ffffff" font-weight="700" text-anchor="middle">TOKEN</text>
+<text x="230" y="410" font-size="11.5" fill="#6b6258" font-weight="600" text-anchor="middle">A → B → C → A  (한 방향 회전)</text>
+<text x="230" y="430" font-size="9.8" fill="#8a8076" font-weight="400" text-anchor="middle">토큰을 쥔 노드만 메시지 전송 → 모두 같은 순서로 수신</text>
+<rect x="440" y="150" width="272" height="66" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="576.0" y="177" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">토큰이 timeout 안에</text>
+<text x="576.0" y="197" font-size="9.8" fill="#6b6258" font-weight="400" text-anchor="middle">한 바퀴 못 돌아옴  (기본 ~1초)</text>
+<line x1="576.0" y1="219" x2="576.0" y2="239" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="440" y="242" width="272" height="66" rx="10" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="576.0" y="269" font-size="12.5" fill="#c0584f" font-weight="700" text-anchor="middle">"링이 깨졌다" 판단</text>
+<text x="576.0" y="289" font-size="9.8" fill="#6b6258" font-weight="400" text-anchor="middle">false positive 위험 → Corosync 망 분리 권장</text>
+<line x1="576.0" y1="311" x2="576.0" y2="331" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="440" y="334" width="272" height="66" rx="10" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="576.0" y="361" font-size="12.5" fill="#4a9d7f" font-weight="700" text-anchor="middle">멤버십 재협상</text>
+<text x="576.0" y="381" font-size="9.8" fill="#6b6258" font-weight="400" text-anchor="middle">새 링 구성 → 새 quorum 확정</text>
+<text x="576.0" y="458" font-size="10" fill="#da7756" font-weight="700" text-anchor="middle">상호 ping O(N²) 대신 토큰 회전 O(N) — 확장성</text>
+</svg>

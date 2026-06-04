@@ -1,0 +1,94 @@
+<svg viewBox="0 0 784 452" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="aArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/>
+  </marker>
+  <marker id="dArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/>
+  </marker>
+  <marker id="nArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/>
+  </marker>
+  <marker id="nArrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/>
+  </marker>
+</defs>
+<rect x="13" y="13" width="758" height="426" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start" >Zone 기반 망 설계 — 신뢰 등급과 횡단 지점</text>
+<text x="36" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start" >바깥(Untrusted) → 안(Critical) · 각 경계의 횡단 지점에서 정책을 강제</text>
+<line x1="60" y1="100" x2="724" y2="100" stroke="#e2dcd2" stroke-width="1.4" marker-end="url(#nArrow)"/>
+<text x="60" y="93" font-size="10.5" fill="#8a8076" font-weight="600" text-anchor="start" >신뢰 낮음</text>
+<text x="718" y="93" font-size="10.5" fill="#8a8076" font-weight="600" text-anchor="end" >신뢰 높음</text>
+<rect x="44" y="120" width="120" height="232" rx="11" stroke="#cc5b53" stroke-width="1.6" fill="#fbeae8" filter="url(#soft)"/>
+<rect x="44" y="120" width="120" height="30" rx="11" fill="#cc5b53" />
+<rect x="44" y="136" width="120" height="14" rx="0" fill="#cc5b53" />
+<text x="104.0" y="140" font-size="12" fill="#ffffff" font-weight="700" text-anchor="middle" >Untrusted</text>
+<text x="104.0" y="178" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle" >WAN</text>
+<text x="104.0" y="198" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle" >외부 인터넷</text>
+<text x="104.0" y="306" font-size="10" fill="#cc5b53" font-weight="700" text-anchor="middle" >Trust L0</text>
+<rect x="56" y="316" width="96" height="24" rx="6" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="104.0" y="332" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="middle" >deny by default</text>
+<line x1="177.0" y1="116" x2="177.0" y2="356" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4"/>
+<rect x="168.0" y="224.0" width="18" height="24" rx="4" stroke="#da7756" stroke-width="1.4" fill="#ffffff" />
+<line x1="177.0" y1="224.0" x2="177.0" y2="248.0" stroke="#da7756" stroke-width="1.2"/>
+<text x="177.0" y="374" font-size="8.6" fill="#da7756" font-weight="600" text-anchor="middle" >검문</text>
+<rect x="190" y="120" width="120" height="232" rx="11" stroke="#e0a64e" stroke-width="1.6" fill="#fdf3e3" filter="url(#soft)"/>
+<rect x="190" y="120" width="120" height="30" rx="11" fill="#e0a64e" />
+<rect x="190" y="136" width="120" height="14" rx="0" fill="#e0a64e" />
+<text x="250.0" y="140" font-size="12" fill="#ffffff" font-weight="700" text-anchor="middle" >DMZ</text>
+<text x="250.0" y="178" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle" >노출 서비스</text>
+<text x="250.0" y="198" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle" >Reverse Proxy 뒤</text>
+<text x="250.0" y="306" font-size="10" fill="#e0a64e" font-weight="700" text-anchor="middle" >Trust L1</text>
+<rect x="202" y="316" width="96" height="24" rx="6" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="250.0" y="332" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="middle" >deny by default</text>
+<line x1="323.0" y1="116" x2="323.0" y2="356" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4"/>
+<rect x="314.0" y="224.0" width="18" height="24" rx="4" stroke="#da7756" stroke-width="1.4" fill="#ffffff" />
+<line x1="323.0" y1="224.0" x2="323.0" y2="248.0" stroke="#da7756" stroke-width="1.2"/>
+<text x="323.0" y="374" font-size="8.6" fill="#da7756" font-weight="600" text-anchor="middle" >검문</text>
+<rect x="336" y="120" width="120" height="232" rx="11" stroke="#4a9d7f" stroke-width="1.6" fill="#e8f3ee" filter="url(#soft)"/>
+<rect x="336" y="120" width="120" height="30" rx="11" fill="#4a9d7f" />
+<rect x="336" y="136" width="120" height="14" rx="0" fill="#4a9d7f" />
+<text x="396.0" y="140" font-size="12" fill="#ffffff" font-weight="700" text-anchor="middle" >Internal</text>
+<text x="396.0" y="178" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle" >VMNET</text>
+<text x="396.0" y="198" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle" >워크로드 VM</text>
+<text x="396.0" y="306" font-size="10" fill="#4a9d7f" font-weight="700" text-anchor="middle" >Trust L2</text>
+<rect x="348" y="316" width="96" height="24" rx="6" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="396.0" y="332" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="middle" >deny by default</text>
+<line x1="469.0" y1="116" x2="469.0" y2="356" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4"/>
+<rect x="460.0" y="224.0" width="18" height="24" rx="4" stroke="#da7756" stroke-width="1.4" fill="#ffffff" />
+<line x1="469.0" y1="224.0" x2="469.0" y2="248.0" stroke="#da7756" stroke-width="1.2"/>
+<text x="469.0" y="374" font-size="8.6" fill="#da7756" font-weight="600" text-anchor="middle" >검문</text>
+<rect x="482" y="120" width="120" height="232" rx="11" stroke="#5b86c4" stroke-width="1.6" fill="#eaf0f9" filter="url(#soft)"/>
+<rect x="482" y="120" width="120" height="30" rx="11" fill="#5b86c4" />
+<rect x="482" y="136" width="120" height="14" rx="0" fill="#5b86c4" />
+<text x="542.0" y="140" font-size="12" fill="#ffffff" font-weight="700" text-anchor="middle" >Management</text>
+<text x="542.0" y="178" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle" >MGMT</text>
+<text x="542.0" y="198" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle" >관리·OOB</text>
+<text x="542.0" y="306" font-size="10" fill="#5b86c4" font-weight="700" text-anchor="middle" >Trust L3</text>
+<rect x="494" y="316" width="96" height="24" rx="6" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="542.0" y="332" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="middle" >deny by default</text>
+<line x1="615.0" y1="116" x2="615.0" y2="356" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4"/>
+<rect x="606.0" y="224.0" width="18" height="24" rx="4" stroke="#da7756" stroke-width="1.4" fill="#ffffff" />
+<line x1="615.0" y1="224.0" x2="615.0" y2="248.0" stroke="#da7756" stroke-width="1.2"/>
+<text x="615.0" y="374" font-size="8.6" fill="#da7756" font-weight="600" text-anchor="middle" >검문</text>
+<rect x="628" y="120" width="120" height="232" rx="11" stroke="#8a6db5" stroke-width="1.6" fill="#efeaf5" filter="url(#soft)"/>
+<rect x="628" y="120" width="120" height="30" rx="11" fill="#8a6db5" />
+<rect x="628" y="136" width="120" height="14" rx="0" fill="#8a6db5" />
+<text x="688.0" y="140" font-size="12" fill="#ffffff" font-weight="700" text-anchor="middle" >Critical</text>
+<text x="688.0" y="178" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle" >Storage·Corosync</text>
+<text x="688.0" y="198" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle" >양보 불가</text>
+<text x="688.0" y="306" font-size="10" fill="#8a6db5" font-weight="700" text-anchor="middle" >Trust L4</text>
+<rect x="640" y="316" width="96" height="24" rx="6" stroke="#e2dcd2" stroke-width="1" fill="#ffffff" />
+<text x="688.0" y="332" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="middle" >deny by default</text>
+<text x="392.0" y="374" font-size="1" fill="#2b2722" font-weight="normal" text-anchor="start" ></text>
+<text x="177.0" y="110" font-size="9.5" fill="#da7756" font-weight="600" text-anchor="start" >← 횡단 지점 = pfSense / 매개체</text>
+<line x1="36" y1="396" x2="748" y2="396" stroke="#e2dcd2" stroke-width="1"/>
+<line x1="44" y1="410" x2="78" y2="410" stroke="#3f8e70" stroke-width="2" marker-start="url(#nArrowS)"/>
+<text x="86" y="414" font-size="11" fill="#4a443c" font-weight="normal" text-anchor="start" >높음→낮음: 기본 허용</text>
+<line x1="262" y1="410" x2="296" y2="410" stroke="#c0584f" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#dArrow)"/>
+<text x="304" y="414" font-size="11" fill="#4a443c" font-weight="normal" text-anchor="start" >낮음→높음: 기본 차단 (명시적 허용만)</text>
+<text x="748" y="414" font-size="11" fill="#da7756" font-weight="600" text-anchor="end" >각 경계 = Crossing Point</text>
+</svg>

@@ -1,0 +1,113 @@
+<svg viewBox="0 0 722 476" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="aArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/>
+  </marker>
+  <marker id="dArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/>
+  </marker>
+  <marker id="nArrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/>
+  </marker>
+  <marker id="nArrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/>
+  </marker>
+</defs>
+<rect x="13" y="13" width="696" height="450" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start" >신뢰 비대칭 — 망 간 통신 방향성 매트릭스</text>
+<text x="36" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start" >행(FROM) → 열(TO) · 신뢰 수준의 차이가 기본 정책의 방향을 결정한다</text>
+<rect x="36" y="96" width="118" height="44" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6" />
+<text x="95.0" y="114" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="middle" >FROM ↓</text>
+<text x="95.0" y="129" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="middle" >TO →</text>
+<rect x="160" y="96" width="114" height="44" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="178" cy="118" r="5" fill="#cc5b53"/>
+<text x="190" y="122" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >WAN</text>
+<text x="217.0" y="135" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="middle" >신뢰 0</text>
+<rect x="282" y="96" width="114" height="44" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="300" cy="118" r="5" fill="#e0a64e"/>
+<text x="312" y="122" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >DMZ</text>
+<text x="339.0" y="135" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="middle" >신뢰 1</text>
+<rect x="404" y="96" width="114" height="44" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="422" cy="118" r="5" fill="#4a9d7f"/>
+<text x="434" y="122" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >Internal</text>
+<text x="461.0" y="135" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="middle" >신뢰 2</text>
+<rect x="526" y="96" width="114" height="44" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="544" cy="118" r="5" fill="#5b86c4"/>
+<text x="556" y="122" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >MGMT</text>
+<text x="583.0" y="135" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="middle" >신뢰 3</text>
+<rect x="36" y="140" width="118" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="52" cy="165.0" r="5" fill="#cc5b53"/>
+<text x="64" y="169.0" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >WAN</text>
+<text x="144" y="187" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="end" >신뢰 0</text>
+<rect x="160" y="140" width="114" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6" />
+<text x="217.0" y="165.0" font-size="13.5" fill="#9a9388" font-weight="700" text-anchor="middle" >동일</text>
+<text x="217.0" y="181.0" font-size="9" fill="#9a9388" font-weight="normal" text-anchor="middle" >정책에 따라</text>
+<rect x="282" y="140" width="114" height="54" rx="7" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8" />
+<text x="339.0" y="165.0" font-size="13.5" fill="#c0584f" font-weight="700" text-anchor="middle" >차단</text>
+<text x="339.0" y="181.0" font-size="9" fill="#c0584f" font-weight="normal" text-anchor="middle" >명시적 허용만</text>
+<rect x="404" y="140" width="114" height="54" rx="7" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8" />
+<text x="461.0" y="165.0" font-size="13.5" fill="#c0584f" font-weight="700" text-anchor="middle" >차단</text>
+<text x="461.0" y="181.0" font-size="9" fill="#c0584f" font-weight="normal" text-anchor="middle" >명시적 허용만</text>
+<rect x="526" y="140" width="114" height="54" rx="7" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8" />
+<text x="583.0" y="165.0" font-size="13.5" fill="#c0584f" font-weight="700" text-anchor="middle" >차단</text>
+<text x="583.0" y="181.0" font-size="9" fill="#c0584f" font-weight="normal" text-anchor="middle" >명시적 허용만</text>
+<rect x="36" y="202" width="118" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="52" cy="227.0" r="5" fill="#e0a64e"/>
+<text x="64" y="231.0" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >DMZ</text>
+<text x="144" y="249" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="end" >신뢰 1</text>
+<rect x="160" y="202" width="114" height="54" rx="7" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee" />
+<text x="217.0" y="227.0" font-size="13.5" fill="#3f8e70" font-weight="700" text-anchor="middle" >허용</text>
+<text x="217.0" y="243.0" font-size="9" fill="#3f8e70" font-weight="normal" text-anchor="middle" >높음→낮음 (egress)</text>
+<rect x="282" y="202" width="114" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6" />
+<text x="339.0" y="227.0" font-size="13.5" fill="#9a9388" font-weight="700" text-anchor="middle" >동일</text>
+<text x="339.0" y="243.0" font-size="9" fill="#9a9388" font-weight="normal" text-anchor="middle" >정책에 따라</text>
+<rect x="404" y="202" width="114" height="54" rx="7" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8" />
+<text x="461.0" y="227.0" font-size="13.5" fill="#c0584f" font-weight="700" text-anchor="middle" >차단</text>
+<text x="461.0" y="243.0" font-size="9" fill="#c0584f" font-weight="normal" text-anchor="middle" >명시적 허용만</text>
+<rect x="526" y="202" width="114" height="54" rx="7" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8" />
+<text x="583.0" y="227.0" font-size="13.5" fill="#c0584f" font-weight="700" text-anchor="middle" >차단</text>
+<text x="583.0" y="243.0" font-size="9" fill="#c0584f" font-weight="normal" text-anchor="middle" >명시적 허용만</text>
+<rect x="36" y="264" width="118" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="52" cy="289.0" r="5" fill="#4a9d7f"/>
+<text x="64" y="293.0" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >Internal</text>
+<text x="144" y="311" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="end" >신뢰 2</text>
+<rect x="160" y="264" width="114" height="54" rx="7" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee" />
+<text x="217.0" y="289.0" font-size="13.5" fill="#3f8e70" font-weight="700" text-anchor="middle" >허용</text>
+<text x="217.0" y="305.0" font-size="9" fill="#3f8e70" font-weight="normal" text-anchor="middle" >높음→낮음 (egress)</text>
+<rect x="282" y="264" width="114" height="54" rx="7" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee" />
+<text x="339.0" y="289.0" font-size="13.5" fill="#3f8e70" font-weight="700" text-anchor="middle" >허용</text>
+<text x="339.0" y="305.0" font-size="9" fill="#3f8e70" font-weight="normal" text-anchor="middle" >높음→낮음 (egress)</text>
+<rect x="404" y="264" width="114" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6" />
+<text x="461.0" y="289.0" font-size="13.5" fill="#9a9388" font-weight="700" text-anchor="middle" >동일</text>
+<text x="461.0" y="305.0" font-size="9" fill="#9a9388" font-weight="normal" text-anchor="middle" >정책에 따라</text>
+<rect x="526" y="264" width="114" height="54" rx="7" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8" />
+<text x="583.0" y="289.0" font-size="13.5" fill="#c0584f" font-weight="700" text-anchor="middle" >차단</text>
+<text x="583.0" y="305.0" font-size="9" fill="#c0584f" font-weight="normal" text-anchor="middle" >명시적 허용만</text>
+<rect x="36" y="326" width="118" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f7f3ec" />
+<circle cx="52" cy="351.0" r="5" fill="#5b86c4"/>
+<text x="64" y="355.0" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start" >MGMT</text>
+<text x="144" y="373" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="end" >신뢰 3</text>
+<rect x="160" y="326" width="114" height="54" rx="7" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee" />
+<text x="217.0" y="351.0" font-size="13.5" fill="#3f8e70" font-weight="700" text-anchor="middle" >허용</text>
+<text x="217.0" y="367.0" font-size="9" fill="#3f8e70" font-weight="normal" text-anchor="middle" >높음→낮음 (egress)</text>
+<rect x="282" y="326" width="114" height="54" rx="7" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee" />
+<text x="339.0" y="351.0" font-size="13.5" fill="#3f8e70" font-weight="700" text-anchor="middle" >허용</text>
+<text x="339.0" y="367.0" font-size="9" fill="#3f8e70" font-weight="normal" text-anchor="middle" >높음→낮음 (egress)</text>
+<rect x="404" y="326" width="114" height="54" rx="7" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee" />
+<text x="461.0" y="351.0" font-size="13.5" fill="#3f8e70" font-weight="700" text-anchor="middle" >허용</text>
+<text x="461.0" y="367.0" font-size="9" fill="#3f8e70" font-weight="normal" text-anchor="middle" >높음→낮음 (egress)</text>
+<rect x="526" y="326" width="114" height="54" rx="7" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6" />
+<text x="583.0" y="351.0" font-size="13.5" fill="#9a9388" font-weight="700" text-anchor="middle" >동일</text>
+<text x="583.0" y="367.0" font-size="9" fill="#9a9388" font-weight="normal" text-anchor="middle" >정책에 따라</text>
+<line x1="36" y1="412" x2="686" y2="412" stroke="#e2dcd2" stroke-width="1"/>
+<rect x="36" y="418" width="16" height="16" rx="4" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee" />
+<text x="58" y="430" font-size="11.5" fill="#4a443c" font-weight="normal" text-anchor="start" >허용</text>
+<rect x="110" y="418" width="16" height="16" rx="4" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8" />
+<text x="132" y="430" font-size="11.5" fill="#4a443c" font-weight="normal" text-anchor="start" >차단</text>
+<rect x="184" y="418" width="16" height="16" rx="4" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6" />
+<text x="206" y="430" font-size="11.5" fill="#4a443c" font-weight="normal" text-anchor="start" >동일</text>
+<text x="686" y="430" font-size="11.5" fill="#da7756" font-weight="600" text-anchor="end" >기본 = default deny + explicit allow</text>
+</svg>

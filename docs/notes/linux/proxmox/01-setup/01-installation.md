@@ -75,6 +75,35 @@ apt update && apt full-upgrade -y
 
 > No-Subscription 빌드는 공식 릴리스보다 약간 앞선 스테이징(Staging) 채널이다. 학습·테스트 환경에서는 문제없지만, 프로덕션에서는 Enterprise 구독을 사용해야 한다.
 
+> .list는 옛날 방식이다. deb822 대로라면 source 파일만 있을 것이다.
+
+```bash
+# Enterprise repo 비활성화
+sed -i '1i Enabled: no' /etc/apt/sources.list.d/pve-enterprise.sources
+sed -i '1i Enabled: no' /etc/apt/sources.list.d/ceph.sources
+
+# (deb822 방식) No-subscription repo 추가
+## 예전 방식인 .list 가이드가 인터넷에 많은데, 이렇게 섞어쓰면 pveversion GUI에서 경고 아이콘이 뜬다.
+cat > /etc/apt/sources.list.d/pve-no-subscription.sources << 'EOF'
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+EOF
+
+# Subscription Nag 제거
+(1)서드파티 설치 (free-pmx-no-subscription)
+(2)dpkg post-invoke hook으로 영속화
+```
+
+> VirtualBox의 Enable Nested VT-x/AMD-V 체크박스는 GUI 상에서 조작 불가하게 막혀있다.
+
+```powershell
+& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" modifyvm "Proxmos-9.1-1" --nested-hw-virt on
+```
+
+
 ### 2.2 기본 패키지 설치
 
 ```bash

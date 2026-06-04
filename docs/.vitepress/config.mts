@@ -21,7 +21,7 @@ function entry(
     resolvePath,
     useTitleFromFrontmatter:           true,
     useFolderTitleFromIndexFile:       true,
-    excludeByGlobPattern:              ['**/index.md', '**/_embeds/**', '**/_backups/**', '**/bak-*.md'],
+    excludeByGlobPattern:              ['**/index.md', '**/_embeds/**', '**/_backups/**', '**/bak-*.md', '**/_history/**'],
     excludeFilesByFrontmatterFieldName:'draft',
     ...extra,
   }
@@ -91,4 +91,6 @@ export default defineConfig({
       dark: 'github-dark-dimmed'
     }
   },
+
+  ignoreDeadLinks: 'localhostLinks',
 })
