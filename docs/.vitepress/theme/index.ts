@@ -72,27 +72,19 @@ function setupSidebar(router: ReturnType<typeof useRouter>) {
 /* ── 사이드바 리사이즈 ─────────────────────────────────────── */
 const SIDEBAR_BREAKPOINT = 1280   // VitePress lg 기준
 
-function setupSidebarResize(): void {
-  // lg 미만(드로어 모드)에서는 리사이즈 비활성
+function ensureResizeHandle(): void {
   if (window.innerWidth < SIDEBAR_BREAKPOINT) {
-    // 혹시 이전에 붙은 핸들이 있으면 제거
-    document.querySelector('.sidebar-resize-handle')?.remove()
-    return
+    document.querySelector('.sidebar-resize-handle')?.remove(); return
   }
-
-  if (document.querySelector('.sidebar-resize-handle')) return
-
   const sidebar = document.querySelector('.VPSidebar') as HTMLElement | null
-  if (!sidebar) return
+  if (!sidebar) return                                                  // 아직 없음 → observer가 재호출
+  if (sidebar.querySelector(':scope > .sidebar-resize-handle')) return  // 이미 있음(idempotent)
 
-  const STORAGE_KEY   = 'vp-sidebar-width'
-  const MIN_WIDTH     = 200
-  const MAX_WIDTH     = 520
-  const DEFAULT_WIDTH = 284
+  console.log('[resize] attaching handle')                             // 임시 진단
 
-  const saved   = localStorage.getItem(STORAGE_KEY)
-  const initial = saved ? parseInt(saved, 10) : DEFAULT_WIDTH
-  document.documentElement.style.setProperty('--vp-sidebar-width', `${initial}px`)
+  const KEY = 'vp-sidebar-width', MIN = 200, MAX = 520, DEF = 284
+  const saved = localStorage.getItem(KEY)
+  document.documentElement.style.setProperty('--vp-sidebar-width', `${saved ? parseInt(saved,10) : DEF}px`)
 
   const handle = document.createElement('div')
   handle.className = 'sidebar-resize-handle'
@@ -100,40 +92,29 @@ function setupSidebarResize(): void {
 
   handle.addEventListener('mousedown', (e: MouseEvent) => {
     e.preventDefault()
-
-    const startX     = e.clientX
-    const startWidth = parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue('--vp-sidebar-width'),
-      10
-    ) || DEFAULT_WIDTH
-
+    const x0 = e.clientX
+    const w0 = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--vp-sidebar-width'), 10) || DEF
     handle.classList.add('dragging')
-    document.body.style.userSelect = 'none'
-    document.body.style.cursor     = 'col-resize'
-
-    const onMove = (e: MouseEvent): void => {
-      const newWidth = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, startWidth + (e.clientX - startX)))
-      document.documentElement.style.setProperty('--vp-sidebar-width', `${newWidth}px`)
-    }
-
-    const onUp = (): void => {
+    document.body.style.userSelect = 'none'; document.body.style.cursor = 'col-resize'
+    const move = (ev: MouseEvent) =>
+      document.documentElement.style.setProperty('--vp-sidebar-width',
+        `${Math.min(MAX, Math.max(MIN, w0 + ev.clientX - x0))}px`)
+    const up = () => {
       handle.classList.remove('dragging')
-      document.body.style.userSelect = ''
-      document.body.style.cursor     = ''
-
-      const current = parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--vp-sidebar-width'),
-        10
-      )
-      localStorage.setItem(STORAGE_KEY, String(current))
-
-      document.removeEventListener('mousemove', onMove)
-      document.removeEventListener('mouseup',   onUp)
+      document.body.style.userSelect = ''; document.body.style.cursor = ''
+      localStorage.setItem(KEY, String(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--vp-sidebar-width'), 10)))
+      document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up)
     }
-
-    document.addEventListener('mousemove', onMove)
-    document.addEventListener('mouseup',   onUp)
+    document.addEventListener('mousemove', move); document.addEventListener('mouseup', up)
   })
+}
+
+function setupSidebarResize(): void {
+  ensureResizeHandle()
+  // 사이드바가 늦게 뜨거나 라우트 이동으로 재렌더돼도 핸들 보장
+  new MutationObserver(() => ensureResizeHandle())
+    .observe(document.body, { childList: true, subtree: true })
+  window.addEventListener('resize', ensureResizeHandle, { passive: true })
 }
 
 /* ── Theme export ──────────────────────────────────────────── */
@@ -145,23 +126,12 @@ export default {
     app.component('TagCloud',      TagCloud)
     app.component('SeriesNav',     SeriesNav)
     app.component('DocEmbed',      DocEmbed)
-    if(inBrowser) setupSidebar(router)
+    if(inBrowser){
+       setupSidebar(router)
+       setupSidebarResize()
+    }
   },
   setup() {
     const route = useRoute()
-    
-    onMounted(() => {
-      setupSidebarResize()
-
-      // 브라우저 크기 변경 시 핸들 재평가
-      window.addEventListener('resize', () => {
-        setupSidebarResize()
-      }, { passive: true })
-    })
-
-    // SPA 라우팅 후 사이드바가 재마운트됐을 경우 대비
-    watch(() => route.path, () => {
-      nextTick(() => setupSidebarResize())
-    })
   }
 } satisfies Theme

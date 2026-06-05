@@ -22,7 +22,7 @@ version: ""
 
 ## 개요 ─ Stage 2 {#overview}
 
-Stage 1이 *패킷을 보내는 도구*(`ip`, 라우팅 테이블, 브리지)였다면, Stage 2는 그 패킷을 **거르고(filter) 변환하는(NAT)** 계층이다. 리눅스 커널 안에서 패킷이 지나가는 검문소들 — **netfilter** — 과, 그 위에 세워진 **방화벽(Firewall)**의 원리를 다룬다.
+Stage 1이 *패킷을 보내는 도구*(`ip`, 라우팅 테이블, 브리지)였다면, Stage 2는 그 패킷을 **거르고(filter) 변환하는(NAT)** 계층이다. 리눅스 커널 안에서 패킷이 지나가는 검문소들 — **netfilter** — 과, 그 위에 세워진 **방화벽(Firewall)** 의 원리를 다룬다.
 
 그리고 이 stage는 네 환경의 *두 얼굴*을 나란히 본다. 리눅스 Proxmox의 `iptables`와 FreeBSD pfSense의 `pf`. **같은 개념(필터·변환·연결 추적)을 두 OS가 어떻게 다르게 구현하는지**가 Stage 2의 숨은 축이다.
 
