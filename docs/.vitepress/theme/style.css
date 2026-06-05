@@ -1161,3 +1161,29 @@ body {
 .VPSidebarItem.level-0 > .item,
 .VPSidebarItem.level-1 > .item { cursor: pointer; }          /* 클릭 가능 암시 */
 .VPSidebarItem.cat-active > .item > .text { color: var(--vp-c-brand-1); }  /* 선택된 카테고리 강조 */
+
+
+/* 뱃지 컨테이너: 고정 너비(한 군데서 조절) */
+.ci-morph--badge { width: var(--ci-badge-w, 5rem); margin-right: 0.25rem; }
+.ci-morph--badge .ci-morph__b { left: 0; }   /* 절대배치 __b도 width:100%로 꽉 참 */
+
+/* subcat·difficulty 공통 박스: 글자 수와 무관하게 고정 */
+.category-index__subcat,
+.category-index__difficulty {
+  box-sizing: border-box;
+  width: 100%;                 /* 컨테이너 너비 꽉 채움 → 안 줄어듦 */
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: var(--dv-radius-sm);
+}
+
+/* subcat 고유색 */
+.category-index__subcat {
+  font-weight: 500;
+  color: var(--vp-c-text-3);
+  background: var(--vp-c-bg-mute);
+}

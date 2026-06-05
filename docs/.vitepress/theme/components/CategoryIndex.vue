@@ -18,19 +18,39 @@ const subCat  = (d: DocItem) => {
   return parts.length > 1 ? parts.slice(1).join('/') : ''
 }
 
-// 목차 = series_order 오름차순(동률이면 order→date), 최근 = date 내림차순
 function sortDocs(list: DocItem[]): DocItem[] {
   const arr = [...list]
   if (sortMode.value === 'recent') {
-    arr.sort((a, b) => +new Date(b.date) - +new Date(a.date))
-  } else {
-    arr.sort((a, b) =>
-      (a.seriesOrder ?? 9999) - (b.seriesOrder ?? 9999) ||
-      (Number(a.order) || 9999) - (Number(b.order) || 9999) ||
-      +new Date(a.date) - +new Date(b.date)
+    return arr.sort((a, b) =>
+      (+new Date(b.date) - +new Date(a.date))                 // 1) 최신 날짜 먼저
+      || ((b.seriesOrder ?? -1) - (a.seriesOrder ?? -1))      // 2) 같은 날 → 뒤 챕터(높은 series_order) 먼저
+      || ((Number(b.order) || 0) - (Number(a.order) || 0))    // 3) series_order 없으면 파일 order 역순
     )
   }
-  return arr
+
+  // 목차 모드: ① series끼리 클러스터(series 시작일 순) → ② series 안에서 series_order(→order→date)
+  const NO_SERIES = '\uffff'                          // series 없는 문서는 맨 끝 클러스터로
+  const key = (d: DocItem) => d.series || NO_SERIES
+
+  // series별 '시작일'(그 series 내 최소 date) 계산 → series 간 순서 결정용
+  const seriesStart = new Map<string, number>()
+  for (const d of arr) {
+    const s = key(d)
+    const t = d.date ? +new Date(d.date) : Infinity
+    if (!seriesStart.has(s) || t < seriesStart.get(s)!) seriesStart.set(s, t)
+  }
+  const rank = (s: string) => (s === NO_SERIES ? Infinity : seriesStart.get(s) ?? Infinity)
+
+  return arr.sort((a, b) => {
+    const sa = key(a), sb = key(b)
+    if (sa !== sb) {
+      return rank(sa) - rank(sb) || sa.localeCompare(sb, 'ko')   // 시작일 같으면 이름순
+    }
+    // 같은 series 안 = 목차순
+    return (a.seriesOrder ?? 9999) - (b.seriesOrder ?? 9999)
+        || (Number(a.order) || 9999) - (Number(b.order) || 9999)
+        || (+new Date(a.date) - +new Date(b.date))
+  })
 }
 
 const grouped = computed<Map<string, DocItem[]>>(() => {
@@ -81,6 +101,15 @@ function updateHeading() {
   if (text) text.nodeValue = label + ' '
 }
 watch(activeFilter, updateHeading)
+
+// difficulty 표시 약어 (frontmatter 원본은 유지 → lv- 색 매핑·컨벤션 그대로)
+const DIFF_LABEL: Record<string, string> = {
+  beginner:     'beginner',
+  intermediate: 'intermed.',
+  advanced:     'advanced',
+  expert:       'expert',
+}
+const diffLabel = (d?: string) => DIFF_LABEL[d ?? ''] ?? (d ?? '')
 </script>
 
 <template>
@@ -107,9 +136,9 @@ watch(activeFilter, updateHeading)
             <span v-if="subCat(doc) || doc.difficulty" class="ci-morph ci-morph--badge">
               <template v-if="subCat(doc)">
                 <span class="ci-morph__a category-index__subcat">{{ subCat(doc) }}</span>
-                <span v-if="doc.difficulty" class="ci-morph__b category-index__difficulty">{{ doc.difficulty }}</span>
+                <span v-if="doc.difficulty" class="ci-morph__b category-index__difficulty" :class="'lv-' + doc.difficulty" :title="doc.difficulty">{{ diffLabel(doc.difficulty) }}</span>
               </template>
-              <span v-else class="category-index__difficulty">{{ doc.difficulty }}</span>
+              <span v-else class="category-index__difficulty" :class="'lv-' + doc.difficulty" :title="doc.difficulty">{{ diffLabel(doc.difficulty) }}</span>
             </span>
 
             <span class="category-index__title">{{ doc.title }}</span>
@@ -298,4 +327,16 @@ watch(activeFilter, updateHeading)
   padding: 0.05rem 0.45rem; border-radius: var(--dv-radius-sm);
   background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1);
 }
+
+/* 기본(폴백) */
+.category-index__difficulty {
+  font-weight: 600;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+/* 난이도 4단계 — 낮음→높음 */
+.category-index__difficulty.lv-beginner     { background: var(--vp-c-green-soft);  color: var(--vp-c-green-1); }
+.category-index__difficulty.lv-intermediate { background: var(--vp-c-indigo-soft); color: var(--vp-c-indigo-1); }
+.category-index__difficulty.lv-advanced     { background: var(--vp-c-yellow-soft); color: var(--vp-c-yellow-1); }
+.category-index__difficulty.lv-expert       { background: var(--vp-c-red-soft);    color: var(--vp-c-red-1); }
 </style>

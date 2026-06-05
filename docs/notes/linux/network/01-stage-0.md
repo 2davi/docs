@@ -15,7 +15,7 @@ status: "active"
 draft: false
 search: true
 toc: true
-difficulty: intermediate
+difficulty: beginner
 version: ""
 ---
 
