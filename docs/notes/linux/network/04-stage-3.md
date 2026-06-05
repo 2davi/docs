@@ -5,7 +5,8 @@ lastmod: 2026-06-02
 author: "Davi"
 description: "Linux Bridge의 내부 구조, 무작위 모드가 왜 가상 환경에서 까다로운지, VLAN 802.1Q 태깅, MAC 주소 학습과 broadcast storm의 원리, 하이퍼바이저 방화벽이 라우터 어플라이언스 앞에 있으면 왜 안 되는가"
 slug: stage3
-category: "network"
+section: "notes"
+category: "linux/network"
 tags: [bridge, FDB, MAC-learning, promiscuous-mode, broadcast-storm, STP, VLAN, 802.1Q, access, trunk]
 order: 4
 series: "네트워크 학습"

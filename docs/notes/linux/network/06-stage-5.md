@@ -5,7 +5,8 @@ lastmod: 2026-06-02
 author: "Davi"
 description: "합의(consensus)의 본질과 FLP 불가능성, split-brain과 CAP 정리, Quorum·Fence·Watchdog 세 층 방어, Corosync Totem 프로토콜, Control/Data Plane 분리, HA Manager(CRM·LRM)와 failover 흐름, 디스크 위치와 RPO, Ceph(RADOS·CRUSH·HCI)"
 slug: stage5
-category: "network"
+section: "notes"
+category: "linux/network"
 tags: [cluster, consensus, FLP, CAP, split-brain, quorum, fence, watchdog, corosync, totem, HA-manager, CRM, LRM, RPO, ZFS-replication, ceph, RADOS, CRUSH, erasure-coding, HCI]
 order: 6
 series: "네트워크 학습"
@@ -53,7 +54,7 @@ Stage 4까지가 *"패킷이 어떻게 흐르는가"* 였다면, Stage 5는 **"�
 <none/>
 
 > **질문 4.**<br/>
-> 토큰 timeout으로 *"링이 깨졌다"*고 판단되는 순간, 살아있는 노드들이 *새 멤버십을 협상*한다. 그 협상에도 시간이 걸린다. **그 동안 클러스터는 정상 동작을 멈출까, 계속할까?** 그리고 그 위에서 돌고 있는 **VM은 어떻게 되어야 안전할까?**<br/>
+> 토큰 timeout으로 **링이 깨졌다**고 판단되는 순간, 살아있는 노드들이 *새 멤버십을 협상*한다. 그 협상에도 시간이 걸린다. **그 동안 클러스터는 정상 동작을 멈출까, 계속할까?** 그리고 그 위에서 돌고 있는 **VM은 어떻게 되어야 안전할까?**<br/>
 > 힌트 — split-brain 방지가 최우선이므로, 새 멤버십이 확정되지 *않은 상태*에서 *결정을 내리는 건* 위험하다. 협상 중엔 클러스터가 *어떤 상태*에 머물러야 할까?
 
 <none/>
@@ -65,7 +66,7 @@ Stage 4까지가 *"패킷이 어떻게 흐르는가"* 였다면, Stage 5는 **"�
 >> - **(나)** VM 디스크가 *외부 공유 스토리지*(NAS·SAN·Ceph 등)에 있어, 살아있는 모든 노드가 *동시 접근* 가능.
 >> - **(다)** VM 디스크는 각 노드 *로컬 SSD*에 있지만 *주기적으로 다른 노드에 복제*된다. A가 죽었을 때 가장 최근 복제본이 B에 있다.
 >
-> 각 시나리오에서 — **(Q-1)** Failover가 가능한가? **(Q-2)** 가능하다면 어떤 *trade-off*(데이터 손실·성능·비용·복잡도)가 있나? **(Q-3)** *네 환경(VirtualBox 위 nested Proxmox)*의 제약에서 어느 시나리오가 현실적인가?
+> 각 시나리오에서 — **(Q-1)** Failover가 가능한가? **(Q-2)** 가능하다면 어떤 *trade-off*(데이터 손실·성능·비용·복잡도)가 있나? **(Q-3)** **네 환경(VirtualBox 위 nested Proxmox)** 의 제약에서 어느 시나리오가 현실적인가?
 
 <none/>
 

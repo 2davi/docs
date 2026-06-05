@@ -9,6 +9,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const docRoot   = resolve(__dirname, '../')
 
 
+// ── 사이드바 후처리: depth-1 그룹에만 폴더 index 링크 주입 (A′) ──────────
+type SidebarItem = { text?: string; link?: string; items?: SidebarItem[]; [k: string]: unknown }
+
 function entry(
   scanStartPath: string,
   resolvePath:   string,

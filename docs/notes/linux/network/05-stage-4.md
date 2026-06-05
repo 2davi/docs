@@ -5,7 +5,8 @@ lastmod: 2026-06-02
 author: "Davi"
 description: "망 분리의 의미와 분리 이유, pfSense 방화벽 규칙의 평가 순서(top-down, first-match), Unbound DNS Resolver로 내부 도메인 만들기, IP 대역 설계 원칙(RFC 1918)"
 slug: stage4
-category: "network"
+section: "notes"
+category: "linux/network"
 tags: [network-segmentation, defense-in-depth, trust-asymmetry, zone, bastion, reverse-proxy, API-gateway, service-mesh, VLAN, RFC1918, pfSense, Unbound, DNS]
 order: 5
 series: "네트워크 학습"

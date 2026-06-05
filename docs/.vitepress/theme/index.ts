@@ -1,6 +1,6 @@
 import DefaultTheme from 'vitepress/theme'
 import { onMounted, nextTick, watch } from 'vue'
-import { useRoute }   from 'vitepress'
+import { useRoute, inBrowser, useRouter }   from 'vitepress'
 import type { Theme } from 'vitepress'
 import ContentList    from './components/ContentList.vue'
 import CategoryIndex  from './components/CategoryIndex.vue'
@@ -9,6 +9,65 @@ import SeriesNav      from './components/SeriesNav.vue'
 //import './custom.css'
 import './style.css'
 import DocEmbed  from './components/DocEmbed.vue'
+
+/* ── .item 통합 클릭 + active 동기화 ───────────────────────── */
+const NOTES_BASE = 1 // '/notes/' 의 세그먼트 수(notes)
+
+// 그룹 .item 에서 '카테고리 폴더 경로' 도출 → 해시
+// level-0 → '#linux',  level-1 → '#linux/proxmox'
+function groupHash(groupEl: Element): string | null {
+  const leaf = groupEl.querySelector('a[href*="/notes/"]') as HTMLAnchorElement | null
+  if (!leaf) return null
+  const level = groupEl.classList.contains('level-0') ? 0
+              : groupEl.classList.contains('level-1') ? 1 : -1
+  if (level < 0) return null
+  const segs = new URL(leaf.href).pathname.split('/').filter(Boolean) // [notes, linux, proxmox, …]
+  const path = segs.slice(NOTES_BASE, NOTES_BASE + level + 1).join('/')
+  return path ? '#' + path : null
+}
+
+function setupSidebar(router: ReturnType<typeof useRouter>) {
+  const goFilter = (hash: string) => {
+    const onNotes = location.pathname.replace(/\/+$/, '') === '/notes'
+    if (onNotes) {
+      if (location.hash === hash) window.dispatchEvent(new HashChangeEvent('hashchange'))
+      else location.hash = hash                  // hashchange 발화 → CategoryIndex 필터
+    } else {
+      router.go('/notes/' + hash)                // 다른 페이지 → SPA로 /notes/ 이동 + 해시
+    }
+  }
+
+  const syncActive = () => {
+    const hash = decodeURIComponent(location.hash || '')
+    document.querySelectorAll('.VPSidebarItem.cat-active').forEach(el => el.classList.remove('cat-active'))
+    if (!hash) return
+    document.querySelectorAll('.VPSidebarItem.level-0.collapsible, .VPSidebarItem.level-1.collapsible')
+      .forEach(el => { if (groupHash(el) === hash) el.classList.add('cat-active') })
+  }
+
+  // .item 단위 클릭: 펼침은 VitePress가 role="button"으로 처리, 우리는 필터만 얹음
+  document.addEventListener('click', (e) => {
+    const item = (e.target as Element).closest(
+      '.VPSidebarItem.level-0 > .item, .VPSidebarItem.level-1 > .item'
+    )
+    if (!item) return
+    const group = item.parentElement!
+    if (!group.classList.contains('collapsible')) return
+
+    // (2) /notes/ 인덱스 위에 있을 때만 필터 발화
+    const onNotes = location.pathname.replace(/\/+$/, '') === '/notes'
+    if (!onNotes) return
+
+    const hash = groupHash(group)
+    if (!hash) return
+    if (location.hash === hash) window.dispatchEvent(new HashChangeEvent('hashchange'))
+    else location.hash = hash
+  }, true)
+
+  window.addEventListener('hashchange', syncActive)
+  router.onAfterRouteChanged = () => setTimeout(syncActive, 0) // 라우트 바뀌면 사이드바 재생성 → 재반영
+  setTimeout(syncActive, 0)
+}
 
 /* ── 사이드바 리사이즈 ─────────────────────────────────────── */
 const SIDEBAR_BREAKPOINT = 1280   // VitePress lg 기준
@@ -80,12 +139,13 @@ function setupSidebarResize(): void {
 /* ── Theme export ──────────────────────────────────────────── */
 export default {
   ...DefaultTheme,
-  enhanceApp({ app }) {
+  enhanceApp({ app, router }) {
     app.component('ContentList',   ContentList)
     app.component('CategoryIndex', CategoryIndex)
     app.component('TagCloud',      TagCloud)
     app.component('SeriesNav',     SeriesNav)
     app.component('DocEmbed',      DocEmbed)
+    if(inBrowser) setupSidebar(router)
   },
   setup() {
     const route = useRoute()

@@ -159,8 +159,7 @@ body {
 /* 아이콘 공통 베이스 */
 .VPSidebarItem.level-0 > .item > .text::before,
 .VPSidebarItem.level-1 > .item > .text::before,
-.VPSidebarItem.level-2 > .item > .VPLink::before,
-.VPSidebarItem.level-2 > .item > a::before {
+.VPSidebarItem.level-2.collapsible > .item > .text::before {
   content: '';
   display: inline-block;
   flex-shrink: 0;
@@ -277,53 +276,59 @@ body {
 }
 
 .VPSidebarItem.level-1 > .items {
-  padding-bottom: 6px;
+  margin-bottom: 6px;
+  margin-left: 16px;
 }
 
-/* ── level-2: 개별 문서 링크 ──────────────────────────────── */
-.VPSidebarItem.level-2 {
+/* ── 문서 링크 (is-link) — 계층 무관 공통 정체성 ──────────────── */
+.VPSidebarItem.is-link {
   position: relative;
 }
 
-.VPSidebarItem.level-2 > .item {
+.VPSidebarItem.is-link > .item {
   padding: 0;
 }
 
-.VPSidebarItem.level-2 > .item > .VPLink,
-.VPSidebarItem.level-2 > .item > a {
+.VPSidebarItem.is-link > .item > .VPLink,
+.VPSidebarItem.is-link > .item > a {
   display: flex;
-  align-items: flex-start;      /* 줄바꿈 시 아이콘이 첫 줄에 고정 */
+  align-items: flex-start;          /* 제목 줄바꿈 시 아이콘을 첫 줄에 고정 */
   gap: 6px;
-  padding: 5px 10px 5px 22px;
+  padding: 2px 10px 1px 22px;       /* 기본 들여쓰기 (Network 문서 = level-2) */
   font-size: 0.82rem;
   color: var(--vp-c-text-3);
   text-decoration: none;
   border: none;
   border-radius: 0 var(--dv-radius-sm) var(--dv-radius-sm) 0;
   transition: color .15s, background .15s;
-  line-height: 1.45;
-  /* 줄바꿈 허용 */
+  line-height: 0.6;
   white-space: normal;
-  word-break: keep-all;         /* 한글 단어 단위 줄바꿈 */
+  word-break: keep-all;
   overflow-wrap: break-word;
 }
 
-.VPSidebarItem.level-2 > .item > .VPLink:hover,
-.VPSidebarItem.level-2 > .item > a:hover {
+/* 깊이별로 '들여쓰기만' 차등 — 정체성은 공유 */
+.VPSidebarItem.level-3.is-link > .item > .VPLink,
+.VPSidebarItem.level-3.is-link > .item > a {
+  padding-left: 14px;               /* Proxmox 서브카테고리 하위 문서 */
+}
+
+.VPSidebarItem.is-link > .item > .VPLink:hover,
+.VPSidebarItem.is-link > .item > a:hover {
   color: var(--vp-c-text-1);
   background: var(--vp-c-bg-soft);
 }
 
-.VPSidebarItem.level-2.is-active > .item > .VPLink,
-.VPSidebarItem.level-2.is-active > .item > a {
+.VPSidebarItem.is-link.is-active > .item > .VPLink,
+.VPSidebarItem.is-link.is-active > .item > a {
   color: var(--vp-c-brand-1);
   font-weight: 600;
   background: var(--vp-c-brand-soft);
 }
 
 /* 활성 마커 */
-.VPSidebarItem.level-2.is-active > .item > .VPLink::after,
-.VPSidebarItem.level-2.is-active > .item > a::after {
+.VPSidebarItem.is-link.is-active > .item > .VPLink::after,
+.VPSidebarItem.is-link.is-active > .item > a::after {
   content: '';
   position: absolute;
   left: -1px;
@@ -334,50 +339,82 @@ body {
   border-radius: 1px;
 }
 
-/* 문서 아이콘 — ::before는 링크 내부 첫 자식 역할 */
-.VPSidebarItem.level-2 > .item > .VPLink::before,
-.VPSidebarItem.level-2 > .item > a::before {
-  font-family: 'Material Icons Round';
-  content: '\ee68';             /* draft (문서 초안 느낌) */
-  font-size: 0.88rem;
-  font-weight: 400;
-  color: var(--vp-c-text-3);
-  line-height: 1.45;            /* 링크 line-height와 일치 */
+/* 문서 아이콘 — box 높이를 '한 줄 높이'에 맞추고 글리프를 center로 두어 첫 줄에 정렬 */
+/* 문서 아이콘 — 글리프 크기 box + margin-top으로 첫 줄에 정렬 */
+.VPSidebarItem.is-link > .item > .VPLink::before,
+.VPSidebarItem.is-link > .item > a::before {
+  content: '';
   flex-shrink: 0;
-  transition: color .15s;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.335em;              /* ★ 여기를 0.15~0.28em에서 눈으로 조정 */
   background-color: var(--vp-c-text-3);
-  width: 0.88em;
-  height: 0.88em;
-  margin-top: 0.28em;             /* line-height 내 수직 정렬 */
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+          mask-position: center;
+  -webkit-mask-size: contain;
+          mask-size: contain;
   transition: background-color .15s;
 }
-.VPSidebarItem.level-2.is-active > .item > .VPLink::before,
-.VPSidebarItem.level-2.is-active > .item > a::before {
-  content: '\e873';             /* description — 활성일 때 다른 아이콘 */
-  color: var(--vp-c-brand-1);
+
+.VPSidebarItem.is-link.is-active > .item > .VPLink::before,
+.VPSidebarItem.is-link.is-active > .item > a::before {
   background-color: var(--vp-c-brand-1);
 }
 
-/* p.text 기본 마진 제거 */
-.VPSidebarItem.level-2 .text {
+/* 문서 제목 p.text — '직계(>)'로만 한정해 하위 계층 누수 차단 */
+.VPSidebarItem.is-link > .item > .VPLink > .text,
+.VPSidebarItem.is-link > .item > a > .text {
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
   color: inherit;
   white-space: normal;
+  line-height: 1.26;
 }
 
-/* indicator 숨김 */
-.VPSidebarItem .indicator { display: none; }
-
-/* caret 회전 */
-.VPSidebarItem .caret-icon {
-  transition: transform .2s ease;
+/* ── level-2 폴더: Proxmox 서브카테고리 ───────────────────────── */
+.VPSidebarItem.level-2.collapsible > .item {
+  padding: 5px 10px 5px 12px;
+  border-radius: 0 var(--dv-radius-sm) var(--dv-radius-sm) 0;
+  cursor: pointer;
+  transition: background .15s;
 }
-.VPSidebarItem.collapsible:not(.collapsed) > .item > .caret > .caret-icon {
-  transform: rotate(90deg);
+.VPSidebarItem.level-2.collapsible > .item:hover {
+  background: var(--vp-c-brand-soft);
+}
+.VPSidebarItem.level-2.collapsible > .item > .text {
+  margin: 0; padding: 0; border: none; background: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.VPSidebarItem.level-2.collapsible > .item > .text::before {
+  content: '';
+  font-size: 0.85rem;               /* em 기준점 — 폴더 아이콘 크기 */
+  background-color: var(--vp-c-text-3);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E");
+}
+.VPSidebarItem.level-2.collapsible.has-active > .item > .text {
+  color: var(--vp-c-text-1);
+}
+.VPSidebarItem.level-2.collapsible.has-active > .item > .text::before {
+  background-color: var(--vp-c-brand-1);
+}
+.VPSidebarItem.level-2.collapsible > .item > .caret {
+  margin-left: auto;
+  color: var(--vp-c-text-3);
+}
+.VPSidebarItem.level-2.collapsible > .items {
+  padding-bottom: 4px;
 }
 
 /* ── 사이드바 리사이즈 핸들 ──────────────────────────────── */
@@ -1038,3 +1075,89 @@ body {
   .vp-doc h1 { font-size: 1.45rem; }
   .vp-doc :not(pre) > code { white-space: break-spaces; }
 }
+
+/* level-3 문서를 담는 컨테이너 — 세로 가이드라인 위치 */
+.VPSidebar .VPSidebarItem.level-2 > .items {
+  margin-left: 16px;   /* 값 조정해 정렬. 안 먹으면 뒤에 !important */
+  padding-left: 0px;
+}
+
+.VPSidebarItem.level-1 .items,
+  .VPSidebarItem.level-2 .items,
+   .VPSidebarItem.level-3 .items,
+    .VPSidebarItem.level-4 .items,
+     .VPSidebarItem.level-5 .items {
+    border-left: 1px solid var(--vp-c-divider);
+    padding-left: 0px !important;
+}
+
+.indicator {
+  left: -1.145em !important;
+  width: 2.5px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   링크가 된 '디렉토리(카테고리)' = .collapsible.is-link
+   ─ 문서(.is-link:not(.collapsible))와 달리 자식을 가진 그룹이
+     링크가 된 경우. level 무관 — proxmox/network든, 향후 level-2
+     디렉토리든 동일 식별자로 잡힌다.
+   ─ VitePress가 .is-link를 붙이며 새는 '문서' 스타일을 덮어
+     폴더 정체성을 되돌린다. (.collapsible.is-link 5클래스 >
+     .is-link 4클래스 → 특정성으로 이김, 붙이는 순서 무관)
+   ══════════════════════════════════════════════════════════════ */
+
+/* 폴더 제목 박스 (look은 계층 무관) */
+.VPSidebarItem.collapsible.is-link > .item > .VPLink,
+.VPSidebarItem.collapsible.is-link > .item > a {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: center;          /* 문서용 flex-start 복원 */
+  padding: 7px 10px 7px 12px;   /* 문서 들여쓰기 → 폴더 패딩 */
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--vp-c-text-2);
+  line-height: 1.2;
+}
+.VPSidebarItem.collapsible.is-link > .item > .VPLink:hover,
+.VPSidebarItem.collapsible.is-link > .item > a:hover {
+  background: var(--vp-c-brand-soft);
+}
+
+/* 파일 아이콘 → 폴더 아이콘 */
+.VPSidebarItem.collapsible.is-link > .item > .VPLink::before,
+.VPSidebarItem.collapsible.is-link > .item > a::before {
+  margin-top: 0;                /* 문서 첫 줄 정렬 offset 제거 */
+  font-size: 0.95rem;
+  background-color: var(--vp-c-text-3);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E");
+}
+
+/* 활성: 이 카테고리 페이지에 진입했을 때 (has-active 톤과 통일) */
+.VPSidebarItem.collapsible.is-link.is-active {
+  border-left-color: color-mix(in srgb, var(--vp-c-brand-1) 45%, var(--vp-c-divider));
+}
+.VPSidebarItem.collapsible.is-link.is-active > .item > .VPLink,
+.VPSidebarItem.collapsible.is-link.is-active > .item > a {
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-brand-soft);
+}
+.VPSidebarItem.collapsible.is-link.is-active > .item > .VPLink::before,
+.VPSidebarItem.collapsible.is-link.is-active > .item > a::before {
+  background-color: var(--vp-c-brand-1);
+}
+
+/* 문서용 활성 막대(::after)는 폴더엔 불필요 — border-left로 대체 */
+.VPSidebarItem.collapsible.is-link.is-active > .item > .VPLink::after,
+.VPSidebarItem.collapsible.is-link.is-active > .item > a::after {
+  display: none;
+}
+
+/* indicator 차단 */
+.VPSidebarItem.collapsible.is-link > .item > .indicator {
+  display: none;
+}
+
+.VPSidebarItem.level-0 > .item,
+.VPSidebarItem.level-1 > .item { cursor: pointer; }          /* 클릭 가능 암시 */
+.VPSidebarItem.cat-active > .item > .text { color: var(--vp-c-brand-1); }  /* 선택된 카테고리 강조 */

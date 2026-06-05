@@ -5,7 +5,8 @@ lastmod: 2026-06-01
 author: "Davi"
 description: "netfilter hook(PREROUTING, INPUT, FORWARD, OUTPUT, POSTROUTING), netfilter table(filter, nat, mangle, raw), SNAT/DNAT/MASQUERADE, conntrack(connection tracking), Firewall Architecture"
 slug: stage2
-category: "network"
+section: "notes"
+category: "linux/network"
 tags: [netfilter, iptables, nftables, NAT, conntrack, firewall, pf, SNAT, DNAT, MASQUERADE]
 order: 3
 series: "네트워크 학습"

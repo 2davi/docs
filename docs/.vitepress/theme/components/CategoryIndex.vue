@@ -1,78 +1,126 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import type { DocItem } from '../../data/content.data'
 
 interface Props {
-  items:   DocItem[]
+  items: DocItem[]
   groupBy?: 'category' | 'section'
+  flat?: boolean              // 카테고리 페이지: 그룹 헤더 없이 단일 목록
 }
+const props = withDefaults(defineProps<Props>(), { groupBy: 'category', flat: false })
 
-const props = withDefaults(defineProps<Props>(), {
-  groupBy: 'category',
-})
+type SortMode = 'toc' | 'recent'
+const sortMode = ref<SortMode>('toc')   // 기본 = 목차(series_order)
 
-// 카테고리 최상위 세그먼트 추출 (linux/proxmox → linux)
-function topKey(item: DocItem): string {
-  const raw = String(item[props.groupBy as keyof DocItem] ?? '기타')
-  return raw.split('/')[0]
-}
-
-// 서브 카테고리 추출 (linux/proxmox → proxmox, linux → '')
-function subCat(item: DocItem): string {
-  const raw = String(item[props.groupBy as keyof DocItem] ?? '')
-  const parts = raw.split('/')
+const topKey  = (d: DocItem) => String(d[props.groupBy as keyof DocItem] ?? '기타').split('/')[0]
+const subCat  = (d: DocItem) => {
+  const parts = String(d[props.groupBy as keyof DocItem] ?? '').split('/')
   return parts.length > 1 ? parts.slice(1).join('/') : ''
 }
 
-const grouped = computed(() => {
-  const map = new Map<string, DocItem[]>()
-  const list = [...props.items].sort((a, b) =>
-    (Number(a.order) || 999) - (Number(b.order) || 999)
-  )
-  for (const item of list) {
-    const key = topKey(item)
-    if (!map.has(key)) map.set(key, [])
-    map.get(key)!.push(item)
+// 목차 = series_order 오름차순(동률이면 order→date), 최근 = date 내림차순
+function sortDocs(list: DocItem[]): DocItem[] {
+  const arr = [...list]
+  if (sortMode.value === 'recent') {
+    arr.sort((a, b) => +new Date(b.date) - +new Date(a.date))
+  } else {
+    arr.sort((a, b) =>
+      (a.seriesOrder ?? 9999) - (b.seriesOrder ?? 9999) ||
+      (Number(a.order) || 9999) - (Number(b.order) || 9999) ||
+      +new Date(a.date) - +new Date(b.date)
+    )
   }
-  return new Map([...map.entries()].sort(([a], [b]) => a.localeCompare(b, 'ko')))
+  return arr
+}
+
+const grouped = computed<Map<string, DocItem[]>>(() => {
+  const list = visible.value                          // ← props.items 대신 '필터 반영된' 목록
+  // 필터 걸렸거나(특정 카테고리 진입) flat prop이면 → 단일 목록(헤더 숨김)
+  if (props.flat || activeFilter.value) {
+    return new Map([['', sortDocs(list)]])
+  }
+  // 전체 뷰(해시 없음): 최상위 폴더(linux / blog-ops)로 그룹
+  const map = new Map<string, DocItem[]>()
+  for (const d of list) {
+    const k = topFolder(d)                            // ← topKey(category) → topFolder(URL)
+    if (!map.has(k)) map.set(k, [])
+    map.get(k)!.push(d)
+  }
+  return new Map(
+    [...map.entries()]
+      .sort(([a], [b]) => a.localeCompare(b, 'ko'))
+      .map(([k, v]) => [k, sortDocs(v)] as [string, DocItem[]])
+  )
 })
 
-function formatDate(dateStr: string): string {
-  if (!dateStr) return ''
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+const formatDate = (s: string) =>
+  s ? new Date(s).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }) : ''
+
+
+const activeFilter = ref('')                       // 해시의 폴더경로, '' = 전체
+const readHash = () => { activeFilter.value = decodeURIComponent((location.hash || '').replace(/^#/, '')) }
+onMounted(() => { readHash(); updateHeading(); window.addEventListener('hashchange', readHash) })
+onUnmounted(() => window.removeEventListener('hashchange', readHash))
+
+const notesPath = (d: DocItem) => d.url.replace(/^\/notes\//, '').replace(/\.html$/, '')
+const topFolder = (d: DocItem) => notesPath(d).split('/')[0]    // 'linux' | 'blog-ops'
+
+const visible = computed(() => {
+  if (!activeFilter.value) return props.items
+  const pre = activeFilter.value + '/'
+  return props.items.filter(d => { const p = notesPath(d); return p === activeFilter.value || p.startsWith(pre) })
+})
+// grouped: 필터 있으면 flat, 없으면 topFolder로 그룹 (기존 topKey를 topFolder로 교체)
+
+function updateHeading() {
+  const h = document.getElementById('notes')
+  if (!h) return
+  const seg   = activeFilter.value.split('/').pop() ?? ''
+  const label = activeFilter.value ? seg.charAt(0).toUpperCase() + seg.slice(1) : 'Notes'
+  const text  = [...h.childNodes].find(n => n.nodeType === 3) // TEXT_NODE만
+  if (text) text.nodeValue = label + ' '
 }
+watch(activeFilter, updateHeading)
 </script>
 
 <template>
   <div class="category-index">
-    <section
-      v-for="[catKey, catItems] in grouped"
-      :key="catKey"
-      class="category-index__section"
-    >
-      <h2 class="category-index__heading">
+    <!-- 정렬 토글: 한 줄, 우측 정렬 -->
+    <div class="ci-toolbar">
+      <button class="ci-sort" :class="{ 'ci-sort--active': sortMode === 'toc' }"    @click="sortMode = 'toc'">목차</button>
+      <span class="ci-sort__sep">|</span>
+      <button class="ci-sort" :class="{ 'ci-sort--active': sortMode === 'recent' }" @click="sortMode = 'recent'">최근</button>
+    </div>
+
+    <section v-for="[catKey, catItems] in grouped" :key="catKey || '_flat'" class="category-index__section">
+      <h2 v-if="!flat && catKey" class="category-index__heading">
         <span class="category-index__heading-text">{{ catKey }}</span>
         <span class="category-index__count">{{ catItems.length }}</span>
       </h2>
 
       <ul class="category-index__list">
-        <li
-          v-for="(doc, idx) in catItems"
-          :key="doc.url"
-          class="category-index__item"
-        >
+        <li v-for="(doc, idx) in catItems" :key="doc.url" class="category-index__item">
           <a :href="doc.url" class="category-index__link">
             <span class="category-index__num">{{ idx + 1 }}</span>
-            <!-- 서브 카테고리가 있을 때만 표시 -->
-            <span v-if="subCat(doc)" class="category-index__subcat">
-              {{ subCat(doc) || ''}}
+
+            <!-- 뱃지 슬롯: subcat ⇄ difficulty (hover 1초 후 crossfade) -->
+            <span v-if="subCat(doc) || doc.difficulty" class="ci-morph ci-morph--badge">
+              <template v-if="subCat(doc)">
+                <span class="ci-morph__a category-index__subcat">{{ subCat(doc) }}</span>
+                <span v-if="doc.difficulty" class="ci-morph__b category-index__difficulty">{{ doc.difficulty }}</span>
+              </template>
+              <span v-else class="category-index__difficulty">{{ doc.difficulty }}</span>
             </span>
+
             <span class="category-index__title">{{ doc.title }}</span>
+
             <span class="category-index__right">
               <span v-if="doc.status === 'wip'" class="category-index__wip">WIP</span>
-              <span v-if="doc.version" class="category-index__version">{{ doc.version }}</span>
-              <span class="category-index__date">{{ formatDate(doc.lastmod || doc.date) }}</span>
+              <!-- 날짜 슬롯: date(작성 시작일) ⇄ lastmod(수정일) -->
+              <span class="ci-morph ci-morph--date">
+                <span class="ci-morph__a category-index__date">{{ formatDate(doc.date) }}</span>
+                <span class="ci-morph__b category-index__date category-index__date--mod">{{ formatDate(doc.lastmod || doc.date) }}</span>
+              </span>
             </span>
           </a>
         </li>
@@ -210,5 +258,44 @@ function formatDate(dateStr: string): string {
   border-radius: var(--dv-radius-sm);
   background: var(--vp-c-bg-mute);
   margin-right: 0.25rem;
+}
+/* ── 정렬 토글 ── */
+.ci-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.ci-sort {
+  background: none; border: none; cursor: pointer; padding: 0;
+  font-size: 0.78rem; font-family: inherit;
+  color: var(--vp-c-text-3); transition: color 0.15s;
+}
+.ci-sort:hover            { color: var(--vp-c-text-2); }
+.ci-sort--active          { color: var(--vp-c-brand-1); font-weight: 600; }
+.ci-sort__sep             { color: var(--vp-c-divider); font-size: 0.78rem; }
+
+/* ── hover morph: 1초 hold 후 crossfade, 마우스 떼면 즉시 복귀 ── */
+.ci-morph              { position: relative; display: inline-flex; align-items: center; }
+.ci-morph__a,
+.ci-morph__b           { transition: opacity 0.4s ease; transition-delay: 0s; }
+.ci-morph__a           { opacity: 1; }
+.ci-morph__b           { position: absolute; top: 50%; transform: translateY(-50%); opacity: 0; white-space: nowrap; }
+.category-index__item:hover .ci-morph__a { opacity: 0; transition-delay: 0.4s; }
+.category-index__item:hover .ci-morph__b { opacity: 1; transition-delay: 0.4s; }
+
+/* 날짜 슬롯: 우측 정렬, b는 오른쪽에 겹침 */
+.ci-morph--date        { min-width: 6rem; justify-content: flex-end; }
+.ci-morph--date .ci-morph__b { right: 0; }
+.category-index__date--mod   { color: var(--vp-c-text-2); }   /* 수정일 = 더 진한 회색 */
+
+/* 뱃지 슬롯: 좌측 정렬, b는 왼쪽에 겹침 */
+.ci-morph--badge       { width: 5rem; }
+.ci-morph--badge .ci-morph__b { left: 0; }
+.category-index__difficulty {
+  font-size: 0.72rem; font-weight: 600;
+  padding: 0.05rem 0.45rem; border-radius: var(--dv-radius-sm);
+  background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1);
 }
 </style>

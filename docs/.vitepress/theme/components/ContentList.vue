@@ -80,6 +80,7 @@ const statusLabel: Record<string, string> = {
         <span v-if="doc.difficulty" class="content-list__badge content-list__badge--difficulty">
           {{ doc.difficulty }}
         </span>
+        <span v-if="doc.series" class="content-list__series">{{ doc.series }}</span>
       </div>
       <h3 class="content-list__title">{{ doc.title }}</h3>
       <p v-if="!compact && doc.description" class="content-list__desc">{{ doc.description }}</p>
@@ -168,7 +169,10 @@ const statusLabel: Record<string, string> = {
 .content-list__badge--wip      { background: var(--vp-c-yellow-soft); color: var(--vp-c-yellow-1); }
 .content-list__badge--archived { background: var(--vp-c-default-soft); color: var(--vp-c-text-3); }
 .content-list__badge--difficulty { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
-
+.content-list__series {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-3);   /* 가장 연한 회색 */
+}
 .content-list__title {
   font-size: 1.05rem;
   font-weight: 600;

@@ -5,7 +5,8 @@ lastmod: 2026-06-01
 author: "Davi"
 description: "Frame vs Packet vs Segment, MAC vs IP vs Port, ARP의 동작, Broadcast Domain, Collision Domain"
 slug: stage0
-category: "network"
+section: "notes"
+category: "linux/network"
 tags: [MAC, IP, L2, L3, OSI]
 order: 1
 series: "네트워크 학습"

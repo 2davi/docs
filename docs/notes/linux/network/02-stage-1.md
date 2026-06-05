@@ -5,7 +5,8 @@ lastmod: 2026-06-01
 author: "Davi"
 description: "ip 명령어 (a, r, n 서브커맨드), 라우팅 테이블, ARP 캐시, /proc/sys/net/ipv4/ip_forward의 의미, /etc/network/interfaces의 문법(auto, iface, inet, manual vs static vs dhcp, bridge-ports, post-up), systemd predictable interface names와 .link 파일로 이름 바꾸기"
 slug: stage1
-category: "network"
+section: "notes"
+category: "linux/network"
 tags: [ip, addr, route, neigh, ARP, ip_forward, interface, bridge]
 order: 2
 series: "네트워크 학습"
