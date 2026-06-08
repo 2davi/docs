@@ -109,7 +109,7 @@ route add 10.10.3.0 mask 255.255.255.0 192.168.10.102 -p
   - VMNM: router-pfsense
   - ISO: netgate-installer-v1.2-RELEASE-amd64.iso
   - QEMU Guest: disable
-  - Disk: (scsi0) VirtIO Block / local-lvm
+  - Disk: (virtio0) VirtIO Block / local-lvm
   - 2 Core, 2048 MiB Mem.
   - (net0) vmbr0로 임시 진행
 - VM > Hardware
