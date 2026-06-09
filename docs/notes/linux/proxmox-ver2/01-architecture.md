@@ -6,7 +6,7 @@ author: "Davi"
 description: ""
 slug: architecture
 section: "notes"
-category: "linux/Proxmox-v2"
+category: "linux/proxmox-ver2"
 tags: []
 order: 1
 series: "Proxmox 실습 v2."
