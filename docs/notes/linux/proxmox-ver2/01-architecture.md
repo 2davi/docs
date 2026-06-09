@@ -20,6 +20,16 @@ version: ""
 ---
 
 
+## 실습 목표
+
+1. 네트워크 학습
+2. 스토리지 학습
+3. pveproxy 학습
+
+## Proxmox 단일 노드 환경 설계
+
+
+
 ## VirtualBox ─ 중첩 가상화 환경에서 ProxmoxVE 노드의 "완전히 꼬임"
 
 Proxmox 노드를 띄워놓고 Spring Boot를 작업하고 있으면, 어느 순간 PVE VM이 '완전히 꼬임' 상태로 뻗어있는 경우가 종종 발생한다. 4Core 16GiB 랩탑 위에서 구동하기에 리소스를 충분히 할당하지 못하는 것이 원인인 줄로 판단하고 있다.
@@ -244,6 +254,6 @@ Get-ScheduledTask -TaskName ProxmoxWatchdog | Select-Object State # Running이�
 Get-Content "$env:USERPROFILE\proxmox-watchdog.log" -Wait # 노드가 문제 없을 땐 작동 안 함.
 ```
 
-> ProxmoxVE9.2-NODE VM을 실행시키면서 lab-up.bat 파일 실행.
+> lab-up.bat 파일을 실행하는 것으로 ProxmoxVE9.2-NODE VM을 시작한다.
 >
-> 작업을 마치고 종료할 땐 lab-down.bat 파일 실행.
+> 작업을 마치고 종료할 땐 lab-down.bat 파일 실행하여 VM을 종료한다.
