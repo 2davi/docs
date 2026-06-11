@@ -29,6 +29,7 @@
     "vitepress-sidebar": "^1.33.1"
   },
   "dependencies": {
-    "markdown-it": "^14.1.1"
+    "markdown-it": "^14.1.1",
+    "photoswipe": "^5.4.4"
   }
 }

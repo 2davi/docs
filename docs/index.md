@@ -5,9 +5,9 @@ description: 백엔드·인프라·아키텍처 학습 기록
 search: false
 
 hero:
-  name: "Davi's Devlog"
+  name: "Devlog"
   text: "백엔드 · 인프라 · 아키텍처"
-  tagline: "실무에서 마주친 개념을 구조적으로 기록합니다"
+  tagline: "개인 블로그"
   actions:
     - theme: brand
       text: Notes 보기

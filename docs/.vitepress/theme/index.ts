@@ -10,6 +10,66 @@ import SeriesNav      from './components/SeriesNav.vue'
 import './style.css'
 import DocEmbed  from './components/DocEmbed.vue'
 
+import 'photoswipe/style.css'
+
+const isCoarse = () => window.matchMedia('(pointer: coarse)').matches
+
+function docImages(): HTMLImageElement[] {
+  return [...document.querySelectorAll<HTMLImageElement>('.vp-doc img')]
+    .filter(img => !img.closest('a') && !img.classList.contains('no-zoom'))
+}
+
+async function openLightbox(clicked: HTMLImageElement): Promise<void> {
+  const imgs = docImages()
+  const index = imgs.indexOf(clicked)
+  if (index < 0) return
+
+  const { default: PhotoSwipe } = await import('photoswipe')  // 열 때만 로드(코드 스플릿)
+
+  new PhotoSwipe({
+    dataSource: imgs.map(img => ({
+      src: img.currentSrc || img.src,
+      msrc: img.currentSrc || img.src,     // 로딩 중 플레이스홀더
+      width:  img.naturalWidth  || 1600,   // SVG처럼 intrinsic 0이면 안전값
+      height: img.naturalHeight || 1200,
+      element: img,                        // 썸네일→확대 애니메이션 기준점
+      alt: img.alt,
+    })),
+    index,
+    showHideAnimationType: 'zoom',
+    wheelToZoom: true,        // 데스크탑: Ctrl 없이 휠로 배율
+    initialZoomLevel: 'fit',  // 열릴 때 화면 맞춤
+    secondaryZoomLevel: 2,    // 더블클릭/더블탭 토글 배율 (원본의 2배)
+    maxZoomLevel: 5,
+    bgOpacity: 0.92,
+    padding: { top: 24, bottom: 24, left: 24, right: 24 },
+  }).init()
+}
+
+function setupImageLightbox(): void {
+  // 데스크탑(정밀 포인터): 클릭 즉시
+  document.addEventListener('click', (e) => {
+    if (isCoarse()) return
+    const img = (e.target as HTMLElement).closest?.('.vp-doc img') as HTMLImageElement | null
+    if (img && !img.closest('a') && !img.classList.contains('no-zoom')) {
+      e.preventDefault()
+      openLightbox(img)
+    }
+  })
+  // 모바일: 더블탭 수동 판정 — iOS Safari는 dblclick 이벤트를 안 쏜다
+  let t0 = 0, x0 = 0, y0 = 0
+  document.addEventListener('pointerup', (e) => {
+    if (e.pointerType !== 'touch') return
+    const img = (e.target as HTMLElement).closest?.('.vp-doc img') as HTMLImageElement | null
+    if (!img || img.closest('a') || img.classList.contains('no-zoom')) return
+    const now = performance.now()
+    const double = now - t0 < 350 && Math.hypot(e.clientX - x0, e.clientY - y0) < 32
+    t0 = double ? 0 : now
+    x0 = e.clientX; y0 = e.clientY
+    if (double) openLightbox(img)
+  })
+}
+
 /* ── .item 통합 클릭 + active 동기화 ───────────────────────── */
 const NOTES_BASE = 1 // '/notes/' 의 세그먼트 수(notes)
 
@@ -129,6 +189,7 @@ export default {
     if(inBrowser){
        setupSidebar(router)
        setupSidebarResize()
+       setupImageLightbox()
     }
   },
   setup() {

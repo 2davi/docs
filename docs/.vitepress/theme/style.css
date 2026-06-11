@@ -109,7 +109,17 @@ body {
 }
 
 /* ── NAV BAR ─────────────────────────────────────────────────── */
-.VPNav {
+/* .VPNav {
+  border-bottom: 1px solid var(--vp-c-divider) !important;
+  background: color-mix(in srgb, var(--vp-c-bg) 86%, transparent) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+} */
+/* ── NAV BAR ─────────────────────────────────────────────────── */
+/* ⚠ backdrop-filter를 .VPNav에 두지 말 것: filter류는 fixed 자손의
+   containing block을 자신으로 바꿈 → 모바일 메뉴(.VPNavScreen, fixed)가
+   60px 박스에 갇혀 height 0. 효과는 형제인 .VPNavBar에만 건다. */
+.VPNavBar {
   border-bottom: 1px solid var(--vp-c-divider) !important;
   background: color-mix(in srgb, var(--vp-c-bg) 86%, transparent) !important;
   backdrop-filter: blur(14px);
@@ -1187,3 +1197,6 @@ body {
   color: var(--vp-c-text-3);
   background: var(--vp-c-bg-mute);
 }
+
+/* 문서 내 이미지 확대 기능 */
+.vp-doc img { cursor: zoom-in; touch-action: manipulation; }
