@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import type { DocItem } from '../../data/content.data'
+import { sortRecent, sortToc } from '../utils/docSort'
 
 interface Props {
   items: DocItem[]
@@ -18,40 +19,8 @@ const subCat  = (d: DocItem) => {
   return parts.length > 1 ? parts.slice(1).join('/') : ''
 }
 
-function sortDocs(list: DocItem[]): DocItem[] {
-  const arr = [...list]
-  if (sortMode.value === 'recent') {
-    return arr.sort((a, b) =>
-      (+new Date(b.date) - +new Date(a.date))                 // 1) 최신 날짜 먼저
-      || ((b.seriesOrder ?? -1) - (a.seriesOrder ?? -1))      // 2) 같은 날 → 뒤 챕터(높은 series_order) 먼저
-      || ((Number(b.order) || 0) - (Number(a.order) || 0))    // 3) series_order 없으면 파일 order 역순
-    )
-  }
-
-  // 목차 모드: ① series끼리 클러스터(series 시작일 순) → ② series 안에서 series_order(→order→date)
-  const NO_SERIES = '\uffff'                          // series 없는 문서는 맨 끝 클러스터로
-  const key = (d: DocItem) => d.series || NO_SERIES
-
-  // series별 '시작일'(그 series 내 최소 date) 계산 → series 간 순서 결정용
-  const seriesStart = new Map<string, number>()
-  for (const d of arr) {
-    const s = key(d)
-    const t = d.date ? +new Date(d.date) : Infinity
-    if (!seriesStart.has(s) || t < seriesStart.get(s)!) seriesStart.set(s, t)
-  }
-  const rank = (s: string) => (s === NO_SERIES ? Infinity : seriesStart.get(s) ?? Infinity)
-
-  return arr.sort((a, b) => {
-    const sa = key(a), sb = key(b)
-    if (sa !== sb) {
-      return rank(sa) - rank(sb) || sa.localeCompare(sb, 'ko')   // 시작일 같으면 이름순
-    }
-    // 같은 series 안 = 목차순
-    return (a.seriesOrder ?? 9999) - (b.seriesOrder ?? 9999)
-        || (Number(a.order) || 9999) - (Number(b.order) || 9999)
-        || (+new Date(a.date) - +new Date(b.date))
-  })
-}
+const sortDocs = (list: DocItem[]) =>
+  sortMode.value === 'recent' ? sortRecent(list) : sortToc(list)
 
 const grouped = computed<Map<string, DocItem[]>>(() => {
   const list = visible.value                          // ← props.items 대신 '필터 반영된' 목록

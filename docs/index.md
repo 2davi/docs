@@ -26,3 +26,7 @@ const recentDocs = allDocs.slice(0, 6)
 ## 최근 문서
 
 <ContentList :items="recentDocs" compact />
+
+## 태그
+
+<TagCloud :items="allDocs" :limit="12" navigate />

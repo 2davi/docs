@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { DocItem } from '../../data/content.data'
+import { compareRecent } from '../utils/docSort'
 
 interface Props {
   items:       DocItem[]
@@ -21,7 +22,7 @@ const sorted = computed(() => {
   const list = [...props.items]
   list.sort((a, b) => {
     if (props.sortBy === 'date') {
-      const diff = +new Date(b.date) - +new Date(a.date)
+      const diff = compareRecent(a, b)
       return props.descending ? diff : -diff
     }
     if (props.sortBy === 'title') {

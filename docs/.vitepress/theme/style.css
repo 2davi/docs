@@ -1200,3 +1200,9 @@ body {
 
 /* 문서 내 이미지 확대 기능 */
 .vp-doc img { cursor: zoom-in; touch-action: manipulation; }
+
+/* /tags/ 전용 폭 확장 — 캡을 쥔 컨테이너가 테마 버전에 따라 달라 둘 다 푼다.
+   1152px가 좁거나 넓으면 devtools로 .container/.content-container 중 누가 캡인지 보고 조정 */
+/* .tags-wide .VPDoc .container         { max-width: 1252px; }
+.tags-wide .VPDoc .content-container { max-width: none; } */
+.tags-wide .VPDoc:not(.has-sidebar) .content { max-width: 1200px; }

@@ -6,7 +6,6 @@ import ContentList    from './components/ContentList.vue'
 import CategoryIndex  from './components/CategoryIndex.vue'
 import TagCloud       from './components/TagCloud.vue'
 import SeriesNav      from './components/SeriesNav.vue'
-//import './custom.css'
 import './style.css'
 import DocEmbed  from './components/DocEmbed.vue'
 

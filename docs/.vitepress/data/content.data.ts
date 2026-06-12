@@ -1,4 +1,5 @@
 import { createContentLoader } from 'vitepress'
+import { compareRecent } from '../theme/utils/docSort'
 
 interface DocItem {
   url:         string
@@ -56,6 +57,7 @@ export default createContentLoader(
           excerpt:     p.excerpt,
         }))
         .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+        .sort(compareRecent)
     },
   }
 )
