@@ -8,7 +8,7 @@ slug: "handbook-readme"
 section: "notes"
 category: "proxmox/cmp-test"
 tags: [readme, handbook, index, cmp, proxmox]
-status: "active"
+status: "handbook"
 draft: false
 search: true
 toc: true

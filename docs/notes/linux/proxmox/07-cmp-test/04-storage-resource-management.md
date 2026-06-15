@@ -11,7 +11,7 @@ tags: [proxmox, storage, agenda, governance, cmp]
 order: 4
 series: "CMP Pre-Test Reconnaissance Handbook"
 series_order: 4
-status: "agenda-pending-meeting"
+status: "active"
 draft: false
 search: true
 toc: true
