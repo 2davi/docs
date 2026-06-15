@@ -10,6 +10,7 @@
  //content.data.ts와 SortableDoc 사이의 순환 의존을 방지하기 위해 DocItem으로부터 정렬에 필요한 필드만 요구한다.
 export interface SortableDoc {
     date: string
+    lastmod?: string | null
     series?: string | null
     seriesOrder?: number | null
     order?: number | string | null
