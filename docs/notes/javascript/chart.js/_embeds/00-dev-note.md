@@ -3,7 +3,7 @@
 ## 개발노트 ─ 테마 전환 메뉴얼 (Line Charts && Vue 2) {#dev-note-line-vue2}
 
 1. themeMixinx JS 스크립트 불러오기
-2. new VueApp에 `mixinx: [themeMixin],` 선언
+2. new VueApp에 `mixins: [themeMixin],` 선언
 3. watch: 블록에 theme 감지기 추가
 4. Chart Instance 설정 변수들을 created() 블록에 추가
   - chartMetas 항목:
