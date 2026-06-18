@@ -139,14 +139,44 @@ async function handleToggle(event) {
       const match = lines[i].match(/^(#{1,6})\s+(.+)$/)
       if (!match) continue
 
-      const slug = slugify(match[2].trim())
-      if (slug.normalize('NFC') === targetSlug) {
+      // 여기까지 내려왔으면 헤더 걸려든 것임.
+
+      // 커스텀 앵커 유무로 slug 결정
+      const customAnchor = match[2].match(/\s*\{#([\w-]+)\}\s*$/)
+      let slug
+      if (customAnchor?.[1]) {
+        slug = customAnchor[1]
+      } else {
+        slug = slugify(match[2].trim().normalize('NFC'))
+      }
+
+      // slug가 targetSlug와 일치하면 찾아낸 것임. 못찾았으면 반복 순회.
+      if (slug === targetSlug) {
         startLine    = i + 1
         headingLevel = match[1].length
         break
       }
+
+      // if (customAnchor[1]) {
+      //   console.debug("customAnchor: ", customAnchor[1])
+      //   slug = customAnchor[1]
+      //   if (slug === targetSlug) {
+      //     startLine    = i + 1
+      //     headingLevel = match[1].length
+      //     break
+      //   }
+      // }
+
+      // //const slug = slugify(match[2].trim())
+      // slug = slugify(match[2].trim())
+      // if (slug.normalize('NFC') === targetSlug) {
+      //   startLine    = i + 1
+      //   headingLevel = match[1].length
+      //   break
+      // }
     }
 
+    // 반복 순회 돌렸는데 startLine = -1이면, 못 찾은 것임. error.
     if (startLine === -1) {
       const slugList = lines
         .filter(l => /^#{1,6}\s/.test(l))
@@ -164,7 +194,7 @@ async function handleToggle(event) {
     let inFence2 = false   // ← 추가 (헤딩 탐색 루프와 별도 상태)
 
     for (let i = startLine; i < lines.length; i++) {
-      const line = lines[i]
+      let line = lines[i]
 
       // 코드 펜스 토글
       if (/^[ \t]*(```|~~~)/.test(line)) {
@@ -175,6 +205,11 @@ async function handleToggle(event) {
       if (!inFence2) {
         const m = line.match(/^(#{1,6})\s+/)
         if (m && m[1].length <= headingLevel) break
+      }
+
+      // 하위 헤더의 커스텀 앵커 제거
+      if (line.match(/^(#{1,6})\s+(.+)$/) && !inFence2) {
+        line = line.replace(/\s*\{#[\w-]+\}\s*$/, '')
       }
 
       contentLines.push(line)

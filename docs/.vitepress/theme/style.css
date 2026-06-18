@@ -693,7 +693,8 @@ body {
 .vp-doc div[class*='language-'] button.copy {
   position: absolute;
   top: 5px;
-  right: 62px;
+  z-index:15;
+  /* right: 62px; */
   height: 28px;
   width: 28px;
   padding: 0;
