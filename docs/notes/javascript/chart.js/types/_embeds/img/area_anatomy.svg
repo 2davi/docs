@@ -1,0 +1,42 @@
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="274" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">area — line 응용 (영역 채우기)</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">line 에 fill 을 적용</text>
+<line x1="80" y1="78" x2="80" y2="226" stroke="#8a8076" stroke-width="1.2"/>
+<line x1="80" y1="226" x2="420" y2="226" stroke="#8a8076" stroke-width="1.2"/>
+<path d="M120,226 L120,168 L180,132 L240,160 L300,116 L360,146 L360,226 Z" fill="#da7756" fill-opacity="0.18"/>
+<path d="M120,168 L180,132 L240,160 L300,116 L360,146" fill="none" stroke="#da7756" stroke-width="2.2"/>
+<circle cx="120" cy="168" r="3.5" fill="#da7756"/>
+<circle cx="180" cy="132" r="3.5" fill="#da7756"/>
+<circle cx="240" cy="160" r="3.5" fill="#da7756"/>
+<circle cx="300" cy="116" r="3.5" fill="#da7756"/>
+<circle cx="360" cy="146" r="3.5" fill="#da7756"/>
+<line x1="80" y1="226" x2="378" y2="226" stroke="#da7756" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="382" y="230" font-size="7.8" fill="#da7756" font-weight="normal" text-anchor="start">기준 (origin)</text>
+<text x="466" y="92" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="466" y="114" font-size="8.6" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">type: 'line'</text>
+<text x="466" y="127" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">전용 타입 아님</text>
+<text x="466" y="148" font-size="8.6" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fill: true</text>
+<text x="466" y="161" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">선 아래 채우기</text>
+<text x="466" y="182" font-size="8.6" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fill: 'origin'/'start'/'end'</text>
+<text x="466" y="195" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">채움 기준선</text>
+<text x="466" y="216" font-size="8.6" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fill: '-1' / 대상</text>
+<text x="466" y="229" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">다른 데이터셋까지</text>
+<text x="466" y="250" font-size="8.6" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">backgroundColor</text>
+<text x="466" y="263" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">채움 색</text>
+</svg>

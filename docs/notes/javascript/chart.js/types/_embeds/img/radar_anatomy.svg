@@ -1,0 +1,50 @@
+<svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="294" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">radar 차트의 구조와 핵심 옵션</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">여러 축(변수)을 방사형으로 비교</text>
+<polygon points="195.0,102.0 276.8,161.4 245.5,257.6 144.5,257.6 113.2,161.4" fill="none" stroke="#e2dcd2" stroke-width="1"/>
+<polygon points="195.0,131.2 249.0,170.5 228.4,233.9 161.6,233.9 141.0,170.5" fill="none" stroke="#e2dcd2" stroke-width="1"/>
+<polygon points="195.0,159.6 222.0,179.2 211.7,211.0 178.3,211.0 168.0,179.2" fill="none" stroke="#e2dcd2" stroke-width="1"/>
+<line x1="195" y1="188" x2="195.0" y2="102.0" stroke="#8a8076" stroke-width="1"/>
+<line x1="195" y1="188" x2="276.7908604013832" y2="161.42453848375453" stroke="#8a8076" stroke-width="1"/>
+<line x1="195" y1="188" x2="245.5495316971527" y2="257.57546151624547" stroke="#8a8076" stroke-width="1"/>
+<line x1="195" y1="188" x2="144.45046830284733" y2="257.57546151624547" stroke="#8a8076" stroke-width="1"/>
+<line x1="195" y1="188" x2="113.20913959861679" y2="161.42453848375453" stroke="#8a8076" stroke-width="1"/>
+<polygon points="195.0,114.9 244.1,172.1 241.5,252.0 169.7,222.8 136.1,168.9" fill="#da7756" fill-opacity="0.18" stroke="#da7756" stroke-width="2"/>
+<circle cx="195.0" cy="114.9" r="3" fill="#da7756"/>
+<circle cx="244.07451624082992" cy="172.0547230902527" r="3" fill="#da7756"/>
+<circle cx="241.5055691613805" cy="252.00942459494584" r="3" fill="#da7756"/>
+<circle cx="169.72523415142365" cy="222.78773075812273" r="3" fill="#da7756"/>
+<circle cx="136.1105805110041" cy="168.86566770830328" r="3" fill="#da7756"/>
+<text x="195.0" y="91.0" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="middle">축1</text>
+<text x="290.10565162951536" y="160.09830056250527" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="middle">축2</text>
+<text x="253.77852522924732" y="271.90169943749476" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="middle">축3</text>
+<text x="136.2214747707527" y="271.90169943749476" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="middle">축4</text>
+<text x="99.89434837048464" y="160.09830056250527" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="middle">축5</text>
+<text x="420" y="100" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="420" y="122" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.r</text>
+<text x="420" y="135" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">반경 축 (min/max·눈금)</text>
+<text x="420" y="158" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.r.pointLabels</text>
+<text x="420" y="171" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">각 축 이름</text>
+<text x="420" y="194" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fill: true</text>
+<text x="420" y="207" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">영역 채우기</text>
+<text x="420" y="230" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.r.angleLines</text>
+<text x="420" y="243" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">중심에서 뻗는 축선</text>
+<text x="420" y="266" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.r.ticks</text>
+<text x="420" y="279" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">동심 눈금</text>
+</svg>

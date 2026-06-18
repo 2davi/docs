@@ -1,0 +1,42 @@
+<svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="294" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">bar 차트의 구조와 핵심 옵션</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">데이터 형태: line 과 동일 (카테고리-값)</text>
+<line x1="80" y1="92" x2="80" y2="248" stroke="#8a8076" stroke-width="1.2"/>
+<line x1="80" y1="248" x2="420" y2="248" stroke="#8a8076" stroke-width="1.2"/>
+<rect x="110" y="148" width="30" height="100" rx="4" fill="#da7756"/>
+<text x="125" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L1</text>
+<rect x="170" y="98" width="30" height="150" rx="4" fill="#da7756"/>
+<text x="185" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L2</text>
+<rect x="230" y="158" width="30" height="90" rx="4" fill="#da7756"/>
+<text x="245" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L3</text>
+<rect x="290" y="78" width="30" height="170" rx="4" fill="#da7756"/>
+<text x="305" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L4</text>
+<text x="72" y="100" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="end">값</text>
+<text x="466" y="100" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="466" y="122" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">backgroundColor</text>
+<text x="466" y="135" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">막대 색</text>
+<text x="466" y="158" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">borderRadius</text>
+<text x="466" y="171" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">막대 모서리 둥글기</text>
+<text x="466" y="194" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">barThickness</text>
+<text x="466" y="207" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">막대 폭(고정)</text>
+<text x="466" y="230" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">barPercentage · categoryPercentage</text>
+<text x="466" y="243" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">막대·범주 간격 비율</text>
+<text x="466" y="266" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">indexAxis: 'y'</text>
+<text x="466" y="279" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">가로 막대</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="304" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">doughnut 차트의 구조와 핵심 옵션</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">데이터 형태: 부분들의 합 = 전체</text>
+<circle cx="205" cy="202" r="74" fill="none" stroke="#da7756" stroke-width="30" stroke-dasharray="195.28 269.67" stroke-dashoffset="-0.00" transform="rotate(-90 205 202)"/>
+<circle cx="205" cy="202" r="74" fill="none" stroke="#5b86c4" stroke-width="30" stroke-dasharray="153.44 311.52" stroke-dashoffset="-195.28" transform="rotate(-90 205 202)"/>
+<circle cx="205" cy="202" r="74" fill="none" stroke="#e0a64e" stroke-width="30" stroke-dasharray="116.24 348.72" stroke-dashoffset="-348.72" transform="rotate(-90 205 202)"/>
+<circle cx="205" cy="202" r="55.0" fill="none" stroke="#8a8076" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="205" y="205" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">cutout</text>
+<line x1="205" y1="97.0" x2="205" y2="111.0" stroke="#6b6258" stroke-width="1.2" marker-end="url(#arrow)"/>
+<text x="205" y="91.0" font-size="8.3" fill="#6b6258" font-weight="normal" text-anchor="middle">rotation (시작각)</text>
+<text x="287" y="194" font-size="8.3" fill="#6b6258" font-weight="normal" text-anchor="start">circumference</text>
+<text x="287" y="207" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="start">(그리는 각도)</text>
+<text x="466" y="100" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="466" y="122" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">cutout</text>
+<text x="466" y="135" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">가운데 구멍 크기 (pie = 0)</text>
+<text x="466" y="158" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">circumference</text>
+<text x="466" y="171" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">전체 호 각도 (기본 360)</text>
+<text x="466" y="194" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">rotation</text>
+<text x="466" y="207" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">그리기 시작 각도</text>
+<text x="466" y="230" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">backgroundColor: [ … ]</text>
+<text x="466" y="243" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">조각별 색 (indexable)</text>
+<text x="466" y="266" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">elements.arc.borderWidth</text>
+<text x="466" y="279" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">조각 사이 경계</text>
+</svg>

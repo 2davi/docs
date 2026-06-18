@@ -1,0 +1,48 @@
+<svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="304" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">line 차트의 구조와 핵심 옵션</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">데이터 형태: labels 와 1:1 대응하는 숫자 배열</text>
+<line x1="80" y1="92" x2="80" y2="248" stroke="#8a8076" stroke-width="1.2"/>
+<line x1="80" y1="248" x2="430" y2="248" stroke="#8a8076" stroke-width="1.2"/>
+<path d="M120,248 L120,208 L200,148 L280,178 L360,120 L360,248 Z" fill="#da7756" fill-opacity="0.12"/>
+<path d="M120,208 L200,148 L280,178 L360,120" fill="none" stroke="#da7756" stroke-width="2.4"/>
+<circle cx="120" cy="208" r="4.5" fill="#da7756"/>
+<circle cx="120" cy="208" r="1.8" fill="#fcfbf9"/>
+<circle cx="200" cy="148" r="4.5" fill="#da7756"/>
+<circle cx="200" cy="148" r="1.8" fill="#fcfbf9"/>
+<circle cx="280" cy="178" r="4.5" fill="#da7756"/>
+<circle cx="280" cy="178" r="1.8" fill="#fcfbf9"/>
+<circle cx="360" cy="120" r="4.5" fill="#da7756"/>
+<circle cx="360" cy="120" r="1.8" fill="#fcfbf9"/>
+<text x="120" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L1</text>
+<text x="200" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L2</text>
+<text x="280" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L3</text>
+<text x="360" y="264" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L4</text>
+<text x="72" y="100" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="end">값</text>
+<text x="466" y="100" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="466" y="122" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">borderColor · borderWidth</text>
+<text x="466" y="135" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">선의 색·두께</text>
+<text x="466" y="158" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">tension</text>
+<text x="466" y="171" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">선의 곡률 (0=직선)</text>
+<text x="466" y="194" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fill</text>
+<text x="466" y="207" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">선 아래 영역 채우기</text>
+<text x="466" y="230" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">pointRadius · pointStyle</text>
+<text x="466" y="243" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">점의 크기·모양</text>
+<text x="466" y="266" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.y.beginAtZero</text>
+<text x="466" y="279" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">y축을 0부터</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="274" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">stacked — bar/line 응용 (누적)</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">여러 계열을 쌓아 부분합과 전체를 함께</text>
+<line x1="80" y1="78" x2="80" y2="238" stroke="#8a8076" stroke-width="1.2"/>
+<line x1="80" y1="238" x2="400" y2="238" stroke="#8a8076" stroke-width="1.2"/>
+<rect x="108" y="184.64" width="34" height="53.36" rx="0" fill="#da7756"/>
+<rect x="108" y="147.83999999999997" width="34" height="36.800000000000004" rx="0" fill="#5b86c4"/>
+<rect x="108" y="120.23999999999998" width="34" height="27.6" rx="0" fill="#e0a64e"/>
+<text x="125" y="254" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L1</text>
+<rect x="176" y="193.84" width="34" height="44.160000000000004" rx="0" fill="#da7756"/>
+<rect x="176" y="146.0" width="34" height="47.84" rx="0" fill="#5b86c4"/>
+<rect x="176" y="122.08" width="34" height="23.92" rx="0" fill="#e0a64e"/>
+<text x="193" y="254" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L2</text>
+<rect x="244" y="197.51999999999998" width="34" height="40.480000000000004" rx="0" fill="#da7756"/>
+<rect x="244" y="166.23999999999998" width="34" height="31.28" rx="0" fill="#5b86c4"/>
+<rect x="244" y="122.07999999999998" width="34" height="44.160000000000004" rx="0" fill="#e0a64e"/>
+<text x="261" y="254" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L3</text>
+<rect x="312" y="177.28" width="34" height="60.720000000000006" rx="0" fill="#da7756"/>
+<rect x="312" y="151.52" width="34" height="25.76" rx="0" fill="#5b86c4"/>
+<rect x="312" y="114.72" width="34" height="36.800000000000004" rx="0" fill="#e0a64e"/>
+<text x="329" y="254" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L4</text>
+<text x="72" y="88" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="end">값</text>
+<text x="452" y="92" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="452" y="114" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">type: 'bar' / 'line'</text>
+<text x="452" y="127" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">전용 타입 아님</text>
+<text x="452" y="148" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.x.stacked: true</text>
+<text x="452" y="161" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">x축 누적</text>
+<text x="452" y="182" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.y.stacked: true</text>
+<text x="452" y="195" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">y축 누적</text>
+<text x="452" y="216" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">datasets: [ … ]</text>
+<text x="452" y="229" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">계열마다 한 층</text>
+<text x="452" y="250" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">dataset.stack</text>
+<text x="452" y="263" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">스택 그룹 분리</text>
+</svg>

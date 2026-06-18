@@ -1,0 +1,38 @@
+<svg viewBox="0 0 720 350" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="324" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">반응형 상태와 명령형 차트를 잇는다</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">Vue 상태 변경 → watch → chart.update()</text>
+<rect x="44" y="98" width="290" height="118" rx="12" stroke="#5b86c4" stroke-width="1.2" fill="#eaf0f9"/>
+<text x="60" y="124" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start">반응형 영역 · data()</text>
+<text x="60" y="142" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="start">Vue 가 추적</text>
+<rect x="60" y="154" width="118" height="34" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#fcfbf9"/>
+<text x="119.0" y="175.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">theme</text>
+<rect x="188" y="154" width="130" height="34" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#fcfbf9"/>
+<text x="253.0" y="175.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">chartData</text>
+<rect x="420" y="98" width="256" height="118" rx="12" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="436" y="124" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start">비반응형 영역 · this</text>
+<text x="436" y="142" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">Vue 미추적 · mounted 에서 할당</text>
+<rect x="436" y="154" width="224" height="34" rx="8" stroke="#da7756" stroke-width="1" fill="#fdf3e3"/>
+<text x="548.0" y="175.0" font-size="9.5" fill="#2b2722" font-weight="600" text-anchor="middle">this.chart  (Chart 인스턴스)</text>
+<line x1="338" y1="157" x2="416" y2="157" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<text x="377" y="146" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">watch</text>
+<text x="377" y="172" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">→ update()</text>
+<rect x="44" y="248" width="632" height="52" rx="9" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8"/>
+<text x="64" y="272" font-size="10.5" fill="#c0584f" font-weight="700" text-anchor="start">Chart 인스턴스를 data() 에 두면 반응형 프록시로 감싸져 성능 저하·오류</text>
+<text x="64" y="289" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="start">인스턴스는 반드시 this(비반응형)에 보관한다</text>
+</svg>

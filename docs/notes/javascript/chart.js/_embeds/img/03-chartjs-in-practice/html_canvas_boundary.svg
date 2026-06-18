@@ -1,0 +1,37 @@
+<svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="334" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">HTML 과 canvas — 메커니즘은 다르게, 규칙은 하나로</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">색칠 방식은 분리, 임계 기준은 공유</text>
+<rect x="44" y="98" width="290" height="118" rx="12" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="60" y="122" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start">진행 바 · HTML</text>
+<text x="60" y="140" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="start">&lt;div&gt; 요소 → CSS 가 색 결정</text>
+<rect x="60" y="152" width="258" height="50" rx="8" stroke="#cfe6da" stroke-width="1" fill="#fcfbf9"/>
+<text x="72" y="172" font-size="8.3" fill="#3f8e70" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">[data-bs-theme] .bar-warning {</text>
+<text x="72" y="190" font-size="8.3" fill="#6b6258" font-weight="normal" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  background: … }</text>
+<rect x="386" y="98" width="290" height="118" rx="12" stroke="#da7756" stroke-width="1.2" fill="#fdf3e3"/>
+<text x="402" y="122" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start">차트 · canvas</text>
+<text x="402" y="140" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="start">픽셀 → JS 가 색 결정</text>
+<rect x="402" y="152" width="258" height="50" rx="8" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="414" y="172" font-size="8.3" fill="#da7756" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">borderColor:</text>
+<text x="414" y="190" font-size="8.3" fill="#6b6258" font-weight="normal" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  ctx =&gt; resolveColor(role, val)</text>
+<rect x="170" y="256" width="380" height="64" rx="10" stroke="#5b86c4" stroke-width="1.3" fill="#eaf0f9"/>
+<text x="360" y="280" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">USAGE_LEVEL { WARN: 80, DANGER: 90 }</text>
+<text x="360" y="298" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="middle">임계 기준 = 단일 진실 (양쪽이 참조)</text>
+<path d="M250,256 C232,234 202,226 190,218" fill="none" stroke="#5b86c4" stroke-width="1.5" marker-end="url(#arrow)"/>
+<path d="M470,256 C488,234 518,226 530,218" fill="none" stroke="#5b86c4" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>

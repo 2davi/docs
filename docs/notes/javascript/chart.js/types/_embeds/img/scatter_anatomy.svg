@@ -1,0 +1,46 @@
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="274" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">scatter 차트의 구조와 핵심 옵션</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">데이터 형태: {x, y} 좌표 점</text>
+<line x1="80" y1="80" x2="80" y2="232" stroke="#8a8076" stroke-width="1.2"/>
+<line x1="80" y1="232" x2="420" y2="232" stroke="#8a8076" stroke-width="1.2"/>
+<circle cx="130" cy="168" r="4" fill="#da7756"/>
+<circle cx="165" cy="140" r="4" fill="#da7756"/>
+<circle cx="150" cy="196" r="4" fill="#da7756"/>
+<circle cx="200" cy="158" r="4" fill="#da7756"/>
+<circle cx="235" cy="128" r="4" fill="#da7756"/>
+<circle cx="212" cy="200" r="4" fill="#da7756"/>
+<circle cx="255" cy="168" r="4" fill="#da7756"/>
+<circle cx="292" cy="150" r="4" fill="#da7756"/>
+<circle cx="270" cy="206" r="4" fill="#da7756"/>
+<circle cx="312" cy="180" r="4" fill="#da7756"/>
+<circle cx="182" cy="120" r="4" fill="#da7756"/>
+<text x="72" y="88" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="end">y</text>
+<text x="414" y="246" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">x</text>
+<text x="466" y="92" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="466" y="114" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">data: [{x, y}]</text>
+<text x="466" y="127" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">좌표 점 (labels 불필요)</text>
+<text x="466" y="148" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">scales.x / scales.y</text>
+<text x="466" y="161" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">둘 다 linear</text>
+<text x="466" y="182" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">pointRadius · pointStyle</text>
+<text x="466" y="195" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">점 크기·모양</text>
+<text x="466" y="216" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">showLine</text>
+<text x="466" y="229" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">점을 선으로 연결(기본 off)</text>
+<text x="466" y="250" font-size="9.0" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">backgroundColor</text>
+<text x="466" y="263" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">점 색</text>
+</svg>

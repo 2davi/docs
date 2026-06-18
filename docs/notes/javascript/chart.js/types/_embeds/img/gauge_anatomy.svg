@@ -1,0 +1,41 @@
+<svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="294" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">gauge — doughnut 응용 (기본 타입 아님)</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">circumference · rotation · cutout 으로 반원 게이지</text>
+<path d="M120,214 A80 80 0 0 1 247,149" fill="none" stroke="#da7756" stroke-width="26"/>
+<path d="M247,149 A80 80 0 0 1 280,214" fill="none" stroke="#e2dcd2" stroke-width="26"/>
+<text x="200" y="192" font-size="26" fill="#2b2722" font-weight="700" text-anchor="middle">70</text>
+<text x="200" y="210" font-size="11" fill="#6b6258" font-weight="normal" text-anchor="middle">%</text>
+<text x="200" y="104" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="middle">circumference: 180</text>
+<line x1="200" y1="110" x2="200" y2="122" stroke="#6b6258" stroke-width="1" marker-end="url(#arrow)"/>
+<text x="114" y="226" font-size="8.3" fill="#6b6258" font-weight="normal" text-anchor="end">rotation 270</text>
+<text x="114" y="238" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="end">(시작점)</text>
+<text x="150" y="138" font-size="8.3" fill="#da7756" font-weight="700" text-anchor="middle">값 조각</text>
+<text x="286" y="150" font-size="8.3" fill="#8a8076" font-weight="700" text-anchor="middle">트랙</text>
+<text x="440" y="96" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 구성</text>
+<text x="440" y="120" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">type: 'doughnut'</text>
+<text x="440" y="133" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">게이지 전용 타입 없음</text>
+<text x="440" y="156" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">circumference: 180</text>
+<text x="440" y="169" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">반원</text>
+<text x="440" y="192" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">rotation: 270</text>
+<text x="440" y="205" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">아래가 평평하게</text>
+<text x="440" y="228" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">cutout: '…%'</text>
+<text x="440" y="241" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">링 두께</text>
+<text x="440" y="264" font-size="9.3" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">data: [값, 최대-값]</text>
+<text x="440" y="277" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">값 조각 + 트랙 조각</text>
+</svg>

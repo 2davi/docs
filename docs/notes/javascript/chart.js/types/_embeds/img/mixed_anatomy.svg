@@ -1,0 +1,50 @@
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="274" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">mixed — 타입 혼합</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">한 차트에 bar + line (dataset 마다 type)</text>
+<line x1="80" y1="78" x2="80" y2="226" stroke="#8a8076" stroke-width="1.2"/>
+<line x1="80" y1="226" x2="400" y2="226" stroke="#8a8076" stroke-width="1.2"/>
+<rect x="108" y="150" width="32" height="76" rx="3" fill="#5b86c4"/>
+<rect x="176" y="120" width="32" height="106" rx="3" fill="#5b86c4"/>
+<rect x="244" y="158" width="32" height="68" rx="3" fill="#5b86c4"/>
+<rect x="312" y="110" width="32" height="116" rx="3" fill="#5b86c4"/>
+<path d="M124,126 L192,100 L260,134 L328,92" fill="none" stroke="#da7756" stroke-width="2.4"/>
+<circle cx="124" cy="126" r="4" fill="#da7756"/>
+<circle cx="124" cy="126" r="1.8" fill="#fcfbf9"/>
+<circle cx="192" cy="100" r="4" fill="#da7756"/>
+<circle cx="192" cy="100" r="1.8" fill="#fcfbf9"/>
+<circle cx="260" cy="134" r="4" fill="#da7756"/>
+<circle cx="260" cy="134" r="1.8" fill="#fcfbf9"/>
+<circle cx="328" cy="92" r="4" fill="#da7756"/>
+<circle cx="328" cy="92" r="1.8" fill="#fcfbf9"/>
+<text x="124" y="242" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L1</text>
+<text x="192" y="242" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L2</text>
+<text x="260" y="242" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L3</text>
+<text x="328" y="242" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">L4</text>
+<text x="452" y="92" font-size="10.5" fill="#8a8076" font-weight="700" text-anchor="start">핵심 옵션</text>
+<text x="452" y="114" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">type: 'bar'</text>
+<text x="452" y="127" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">차트 기본 타입</text>
+<text x="452" y="148" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">dataset.type: 'line'</text>
+<text x="452" y="161" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">계열마다 타입 지정</text>
+<text x="452" y="182" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">order</text>
+<text x="452" y="195" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">그리는 순서·겹침</text>
+<text x="452" y="216" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">yAxisID</text>
+<text x="452" y="229" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">계열별 축 분리</text>
+<text x="452" y="250" font-size="8.8" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">cartesian 끼리만</text>
+<text x="452" y="263" font-size="8.5" fill="#6b6258" font-weight="normal" text-anchor="start">bar·line·scatter 혼합</text>
+</svg>

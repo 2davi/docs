@@ -1,0 +1,47 @@
+<svg viewBox="0 0 720 385" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="359" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="52" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">캔버스 위에 그린다</text>
+<text x="40" y="72" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">&lt;canvas&gt; 요소 · ctx · Chart 인스턴스 · 픽셀의 관계</text>
+<rect x="40" y="92" width="150" height="66" rx="10" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="115" y="117" font-size="14" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">&lt;canvas&gt;</text>
+<text x="115" y="138" font-size="10.5" fill="#6b6258" font-weight="normal" text-anchor="middle">요소 · DOM · 도화지</text>
+<line x1="194" y1="125" x2="228" y2="125" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="211" y="116" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="middle">getContext</text>
+<rect x="232" y="92" width="104" height="66" rx="10" stroke="#e2dcd2" stroke-width="1" fill="#eaf0f9"/>
+<text x="284" y="117" font-size="14" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">ctx</text>
+<text x="284" y="138" font-size="9.5" fill="#6b6258" font-weight="normal" text-anchor="middle">2D 컨텍스트 · 붓</text>
+<line x1="340" y1="125" x2="374" y2="125" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="357" y="116" font-size="8" fill="#8a8076" font-weight="normal" text-anchor="middle">주입</text>
+<rect x="378" y="92" width="172" height="66" rx="10" stroke="#da7756" stroke-width="1.3" fill="#fdf3e3"/>
+<text x="464" y="117" font-size="13" fill="#2b2722" font-weight="700" text-anchor="middle">Chart 인스턴스</text>
+<text x="464" y="138" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">new Chart(ctx, config)</text>
+<path d="M464,158 C464,186 452,200 442,212" fill="none" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<text x="556" y="188" font-size="9.5" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fill()/arc()</text>
+<text x="556" y="202" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="middle">로 굽는다</text>
+<rect x="300" y="214" width="200" height="80" rx="10" stroke="#da7756" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="400" y="246" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="middle">canvas 내부 = 픽셀 그림</text>
+<text x="400" y="268" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle">fillStyle 로 칠해진 비트맵</text>
+<line x1="95" y1="158" x2="300" y2="250" stroke="#8a8076" stroke-width="1.1" stroke-dasharray="3 4"/>
+<text x="150" y="196" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">같은 &lt;canvas&gt;</text>
+<rect x="40" y="320" width="300" height="46" rx="9" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee"/>
+<text x="58" y="340" font-size="11" fill="#3f8e70" font-weight="700" text-anchor="start">CSS 닿음</text>
+<text x="58" y="357" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="start">&lt;canvas&gt; 요소 — 액자(width·border)</text>
+<rect x="360" y="320" width="320" height="46" rx="9" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8"/>
+<text x="378" y="340" font-size="11" fill="#c0584f" font-weight="700" text-anchor="start">CSS 안 닿음</text>
+<text x="378" y="357" font-size="9" fill="#6b6258" font-weight="normal" text-anchor="start">내부 픽셀 — 셀렉터가 가리킬 요소 없음</text>
+</svg>

@@ -1,0 +1,3 @@
+---
+title: "Chart.js Types"
+---
