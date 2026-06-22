@@ -88,3 +88,114 @@
       plugins.annotation.annotations 에 doughnutLabel(getAnnotation) 등록.
     + 기존 new Chart 코드를 수정: chartMetas를 순회하여 Gauge Instance 생성과 동시에
       vm.charts 객체에 저장하도록 → new Chart(vm.$refs[g.ref], getConfig(g.title))
+
+## 개발노트 ─ Chart resize() {#dev-note-chart-resize}
+
+```javascript
+  methods:
+		initResizeObserver() {
+		  const vm = this;
+		  this.resizeObserver = new ResizeObserver(() => {
+		      Object.keys(this.$refs).forEach(ref => {
+		        const chart = Chart.getChart(this.$refs[ref]);
+		        if (chart) chart.resize();
+		      });
+		  });
+
+		  // 차트가 들어있는 부모 div를 감시함
+		  this.resizeObserver.observe(this.$el);
+		},
+```
+
+**ResizeObserver**는 **특정 DOM 요소의 크기 변화를 관찰하는 브라우저 내장 API** 이다.<br/>
+`window.resize`처럼 "브라우저 창 크기"를 보는 것이 아닌, **지목한 HTML Element의 width/height가 변화하면 콜백 함수를 호출**해준다.
+
+다만 **window.resize**가 브라우저의 뷰 포트(viewport) 크기 변화만을 감지하는 것에 반해, **ResizeObserver**는 _브라우저의 크기가 변하지 않더라도, 사이드 메뉴가 열리면서 main 영역 너비가 줄어드는 등의 **레이아웃 내부 변화**를 감지_ 할 수 있다. 콜백 안에 변화된 크기 정보(`contentRect`)가 같이 들어온다.
+
+- `.observe()` : 크기 변화의 감지 기준이 될 DOM 요소를 넘겨준다.
+
+이제, ResizeObserver를 Vue의 mounted()에서 this에 생성해주고, beforeDestroy() 에도 선언해준다.
+
+```javascript
+  mounted() {
+    //...
+		this.initResizeObserver();
+  }
+```
+
+```javascript
+  beforeDestroy() {
+    //...
+    this.resizeObserver?.destroy();
+  }
+```
+
+## 개발노트 ─ VueApp mixins {#dev-note-vueapp-mixins}
+
+```javascript
+const themeMixin = {
+	data() {
+		const VALID = ['A', 'B', 'C', 'D'];
+		const saved = localStorage.getItem('theme');
+		return { theme: VALID.includes(saved) ? saved : 'A' };
+	},
+	computed: {
+		logoSrc() {
+			const logoMap = {
+				A: '/resources/images/letech/logo_a.png',
+				B: '/resources/images/letech/logo_b.png',
+				C: '/resources/images/letech/logo_c.png',
+				D: '/resources/images/letech/logo_d.png'
+			};
+			return logoMap[this.theme] || logoMap.A;
+		}
+	},
+	methods: {
+		applyTheme(theme) {
+			document.documentElement.setAttribute('data-bs-theme', theme);
+			
+			//임시: 테마 변경하면서 라이트/다크 css 적용 (Bootstrap)
+			const isDark = (theme === 'B' || theme === 'D');
+			document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+			document.body.classList.toggle('dark', isDark);
+			
+/*			//CASE::: "만약 테마별 css 파일이 서로 다르다면?"
+			// (1) 모든 테마별 css를 미리 받아둔다.
+			// (2) 테마 적용 스크립트를 layout <head> 내부에 심어놓고, Vue 부팅 전에 localStorage 값을 읽는다.
+			<head>
+			  <!-- CSS link 들보다 먼저 -->
+			  <script>
+			    const t = ['a','b','c','d'].includes(localStorage.getItem('theme'))
+			      ? localStorage.getItem('theme') : 'a';
+			    document.documentElement.setAttribute('data-bs-theme', t);
+			    // theme-css link의 초기 href를 여기서 t로 박아도 됨
+			  </script>
+			</head>
+			//-> 이것보단, 각 css파일을 하나로 합쳐서 [data-bs-theme='a'] {...}로 감싸주는 게 낫다.*/
+		}
+	},
+	created() {
+		this.applyTheme(this.theme);
+	},
+	watch: {
+		theme(newVal) {
+			localStorage.setItem('theme', newVal);
+			this.applyTheme(newVal);
+		}
+	},
+	mounted() {
+
+	}
+};
+
+const THEME_KEY = "theme"
+//추가
+const VALID_THEMES = ['A', 'B', 'C', 'D'];
+const DEFAULT_THEME = 'A';
+function resolveTheme() {
+	const saved = localStorage.getItem(THEME_KEY);
+	return VALID_THEMES.includes(saved) ? saved : DEFAULT_THEME;
+}
+
+document.documentElement.setAttribute('data-bs-theme', resolveTheme());
+```

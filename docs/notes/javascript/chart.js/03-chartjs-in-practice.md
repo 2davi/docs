@@ -46,6 +46,18 @@ L1·L2는 환경과 무관한 원리였다. 이 문서는 특정 환경이 부�
   anchor="dev-note-gauge-vue2"
   title="개발노트 ─ 테마 전환 메뉴얼 (Gauge Charts && Vue 2)"
 />
+
+<DocEmbed
+  src="notes/javascript/chart.js/_embeds/00-dev-note.md"
+  anchor="dev-note-chart-resize"
+  title="개발노트 ─ Chart resize()"
+/>
+
+<DocEmbed
+  src="notes/javascript/chart.js/_embeds/00-dev-note.md"
+  anchor="dev-note-vueapp-mixins"
+  title="개발노트 ─ VueApp mixins" />
+
 ---
 
 ## 1. 환경이 부과하는 제약 {#environment-constraints}
