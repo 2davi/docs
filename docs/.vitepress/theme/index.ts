@@ -18,6 +18,35 @@ function docImages(): HTMLImageElement[] {
     .filter(img => !img.closest('a') && !img.classList.contains('no-zoom'))
 }
 
+/** 2026-06-22;
+ * 1. photoswipe 초기 사진 크기를 뷰포트의 90%로 고정
+ * 2. 모바일 환경의 photoswipe 패널 닫기 -> 빈 영역 터치
+ * 3. Tag, photoswipe 뒤로가기 기능 오류 -> pushState로 직접 관리
+ */
+const LIGHTBOX_VIEWPORT_RATIO = 0.9;
+
+function lightboxSize(img: HTMLImageElement): {width: number; height: number} {
+  const maxW = window.innerWidth * LIGHTBOX_VIEWPORT_RATIO;
+  const maxH = window.innerHeight * LIGHTBOX_VIEWPORT_RATIO;
+
+  // 기준 ─ 종횡비: SVG는 intrinsic 픽셀이 0
+  let rw = img.naturalWidth;
+  let rh = img.naturalHeight;
+  if(!rw || !rh) {
+    const r = img.getBoundingClientRect();
+    rw = r.width || 4;
+    rh = r.height || 3;
+  }
+  const ratio = rw/rh;
+
+  // maxW * maxH 박스에 img의 종횡비를 유지하며 내접시킨다.
+  let w = maxW
+  let h = maxW / ratio;
+  if(h > maxH) { h = maxH; w = maxH * ratio; }
+
+  return { width: Math.round(w), height: Math.round(h) };
+}
+
 async function openLightbox(clicked: HTMLImageElement): Promise<void> {
   const imgs = docImages()
   const index = imgs.indexOf(clicked)
@@ -25,15 +54,18 @@ async function openLightbox(clicked: HTMLImageElement): Promise<void> {
 
   const { default: PhotoSwipe } = await import('photoswipe')  // 열 때만 로드(코드 스플릿)
 
-  new PhotoSwipe({
-    dataSource: imgs.map(img => ({
-      src: img.currentSrc || img.src,
-      msrc: img.currentSrc || img.src,     // 로딩 중 플레이스홀더
-      width:  img.naturalWidth  || 1600,   // SVG처럼 intrinsic 0이면 안전값
-      height: img.naturalHeight || 1200,
-      element: img,                        // 썸네일→확대 애니메이션 기준점
-      alt: img.alt,
-    })),
+  const pswp = new PhotoSwipe({            // 2026-06-22; new PhotoSwipe를 pswp 변수로 받는다.
+    dataSource: imgs.map(img => {
+      const { width, height } = lightboxSize(img)    // 2026-06-22; 사진의 가로*세로 크기를 계산한다.
+      return {
+        src: img.currentSrc || img.src,
+        msrc: img.currentSrc || img.src,     // 로딩 중 플레이스홀더
+        width,//:  img.naturalWidth  || 1600,   // SVG처럼 intrinsic 0이면 안전값
+        height,//: img.naturalHeight || 1200,
+        element: img,                        // 썸네일 → 확대 애니메이션 기준점
+        alt: img.alt,
+      }
+    }),
     index,
     showHideAnimationType: 'zoom',
     wheelToZoom: true,        // 데스크탑: Ctrl 없이 휠로 배율
@@ -42,8 +74,30 @@ async function openLightbox(clicked: HTMLImageElement): Promise<void> {
     maxZoomLevel: 5,
     bgOpacity: 0.92,
     padding: { top: 24, bottom: 24, left: 24, right: 24 },
-  }).init()
+
+    //2026-06-22; 모바일 환경에서 PhotoSwipe 패널 닫기. (배경을 탭하여 닫기)
+    //tapAction: 'close',
+    bgClickAction: 'close',
+  })//.init() //2026-06-22; 뒤로가기 기능을 이벤트로 부여한 뒤에 init() 시켜준다.
+
+  // PhotoSwipe 패널 활성화 시 뒤로가기 == 닫기. pushState로 항목을 쌓고 popstate로 닫는다.
+  let viaPop = false;
+  const onPop = () => { viaPop = true, pswp.close() };
+
+  pswp.on('beforeOpen', () => {
+    //2026-06-23; VitePress의 Scroll Restoration 로직을 사용하기 위해, 엔트리에 스크롤 좌표 저장.
+    history.replaceState({ ...history.state, scrollPosition: window.scrollY }, '');
+    history.pushState({ pswp: true }, '');
+    window.addEventListener('popstate', onPop);
+  });
+  pswp.on('destroy', () => {
+    window.removeEventListener('popstate', onPop);
+    if(!viaPop && history.state?.pswp) history.back();
+  });
+
+  pswp.init();
 }
+/* 2026-06-22; END. */
 
 function setupImageLightbox(): void {
   // 데스크탑(정밀 포인터): 클릭 즉시

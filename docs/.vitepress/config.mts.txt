@@ -48,6 +48,7 @@ export default defineConfig({
       { text: 'Notes',        link: '/notes/' },
       { text: 'Deep Dive',    link: '/deep-dive/' },
       { text: 'Translations', link: '/translations/' },
+      { text: 'Tags',         link: '/tags/'},
     ],
 
     sidebar: generateSidebar(
@@ -83,7 +84,7 @@ export default defineConfig({
     ),
 
     search:      { provider: 'local' },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/davi-dev' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/2davi' }],
   },
 
   markdown: {
