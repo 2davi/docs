@@ -10,7 +10,7 @@ category: "linux/proxmox/cmp-test/data-snapshots"
 tags: [handbook, masking, anonymization, policy]
 order: 1
 status: "active"
-draft: false
+draft: true
 search: false
 toc: true
 version: "v2"
