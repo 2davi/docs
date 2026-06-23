@@ -1,4 +1,4 @@
 ---
-title: "JavaScript"
+title: "IDE"
 search: false
 ---

@@ -1,3 +1,8 @@
+---
+section: notes
+category: "blog-ops"
+---
+
 # CDR-0001: Save Strategy Pivot & Library Repositioning
 
 - **Status:** In-Progress

@@ -10,7 +10,7 @@ category: "blog-ops"
 tags: [meta, evaluation, publication, legal, masking, vitepress, blog, risk-assessment]
 order: 1
 status: "active"
-draft: false
+draft: true
 search: false
 toc: true
 masking_policy: "n/a (내부 평가 문서)"
