@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js bubble 타입의 데이터 구조와 핵심 옵션. {x, y, r} 3변수, r이 픽셀 반지름이라는 함정, 값→반지름 변환. scatter와의 관계."
 slug: "bubble"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "bubble", "버블", "3변수"]
 order: 8
 series: "Chart.js"

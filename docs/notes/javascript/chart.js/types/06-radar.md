@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js radar 타입의 데이터 구조와 핵심 옵션(radial axis·pointLabels·angleLines·fill). 다변량 프로파일 비교, 축 범위·다중 계열 설정."
 slug: "radar"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "radar", "방사형", "다변량"]
 order: 5
 series: "Chart.js"

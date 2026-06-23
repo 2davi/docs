@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js에서 line에 fill을 적용해 영역 차트를 만드는 법. fill 기준(origin/start/end), 두 데이터셋 사이 채움, 그라데이션, 누적 영역. 전용 타입이 아닌 응용."
 slug: "area"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "area", "영역", "fill"]
 order: 11
 series: "Chart.js"

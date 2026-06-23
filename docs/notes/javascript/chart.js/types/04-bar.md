@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js bar 타입의 데이터 구조와 핵심 옵션(막대·폭/간격·방향·축), 가로 막대·그룹 막대·누적 기초 등 실전 설정. line과의 관계."
 slug: "bar"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "bar", "막대", "비교"]
 order: 2
 series: "Chart.js"

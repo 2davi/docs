@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js에서 bar/line을 누적으로 만드는 법. scales.x·y의 stacked 옵션, dataset.stack 그룹, 누적 영역(line+fill), 100% 누적. 전용 타입이 아닌 응용."
 slug: "stacked"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "stacked", "누적", "bar 응용"]
 order: 10
 series: "Chart.js"

@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js pie 타입. doughnut과 cutout만 다른 비율 차트로서, 데이터 구조·옵션을 doughnut과 공유하는 관계 중심 정리."
 slug: "pie"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "pie", "파이", "비율"]
 order: 4
 series: "Chart.js"

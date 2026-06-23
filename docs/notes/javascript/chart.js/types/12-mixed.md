@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js에서 한 차트에 bar+line 등 여러 타입을 섞는 법. dataset.type, order로 겹침 제어, yAxisID로 축 분리. cartesian 타입끼리만 혼합 가능."
 slug: "mixed"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "mixed", "혼합", "다중 타입"]
 order: 12
 series: "Chart.js"

@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js polarArea 타입. 조각 각도는 균등하고 반지름이 값인 원형 차트. doughnut(각도가 값)·radar와의 차이, radial axis 설정."
 slug: "polararea"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "polarArea", "극영역", "비율"]
 order: 6
 series: "Chart.js"

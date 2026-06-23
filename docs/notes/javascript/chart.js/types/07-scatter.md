@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js scatter 타입의 데이터 구조와 핵심 옵션(linear x·y축, point, showLine). 두 연속 변수의 관계·분포 표현. line과의 차이."
 slug: "scatter"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "scatter", "산점도", "상관"]
 order: 7
 series: "Chart.js"

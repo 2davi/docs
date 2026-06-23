@@ -31,6 +31,199 @@
     + 기존의 new Chart 코드를 수정:
       + chartMetas를 순회하여, Chart Instance 생성과 동시에 vm.charts 객체에 저장하도록.
 
+**created() 선언:**
+
+```javascript
+  created() {
+		this.charts = {};
+		this.pollingTimer = null;
+		this.chartMetas = [
+		  { key: 'cpu', ref: 'cpuChart'
+			, conf: { data: ['CPU', 'IO 지연율'], yTitle: '%', formatType: {type:'%', unit:100} }
+			, series: [vo => vo.cpu, vo => vo.iowait] },
+		  { key: 'server', ref: 'serverChart'
+		    , conf: { data: ['서버 부하 평균'], yTitle: '서버 부하 평균', formatType: {type:'/'} }
+		    , series: [vo => vo.loadavg] },
+		  { key: 'mem', ref: 'memChart'
+		    , conf: { data: ['전체', '사용량', 'ZFS', '사용 가능'], yTitle: 'Bytes', formatType: {type: 'byte'} }
+		    , series: [vo => vo.memtotal, vo => vo.memused, vo => vo.arcsize, vo => vo.memavailable] },
+		  { key: 'networkTraffic', ref: 'networkTrafficChart'
+		    , conf: { data: ['수신', '발신'], yTitle: '', formatType: {type: 'byte'} }
+		    , series: [vo => vo.netin, vo => vo.netout] },
+		  { key: 'cpuPressureStall', ref: 'cpuPressureStallChart'
+		    , conf: { data: ['부분 지연'], yTitle: '%', formatType: {type:'%'}, colorSet:'pressureStall' }
+		    , series: [vo => vo.pressurecpusome] },
+		  { key: 'IOPressureStall', ref: 'IOPressureStallChart'
+		    , conf: { data: ['부분 지연', '전체 지연'], yTitle: '%', formatType: {type:'%'}, colorSet:'pressureStall' }
+		    , series: [vo => vo.pressureiosome, vo => vo.pressureiofull] },
+		  { key: 'memoryPressureStall', ref: 'memoryPressureStallChart'
+		    , conf: { data: ['부분 지연', '전체 지연'], yTitle: '%', formatType: {type:'%'}, colorSet:'pressureStall' }
+		    , series: [vo => vo.pressurememorysome, vo => vo.pressurememoryfull] },
+		];
+		this.lineTheme = {
+		  A: { line: { default: [ [46,204,113],[52,152,219],[36,173,154],[187,222,13] ], pressureStall: [ [255,209,62],[166,17,32] ] },
+				 ui: { text: 'rgb(33, 37, 41)',  grid: 'rgba(0, 0, 0, 0.1)' } },
+		  B: { line: { default: [ [242,183,98],[35,176,255],[220,166,239],[140,214,16] ], pressureStall: [ [255,209,62],[166,17,32] ] },
+				 ui: { text: 'rgb(33, 37, 41)',  grid: 'rgba(0, 0, 0, 0.1)' } },
+		  C: { line: { default: [ [120,120,120],[80,80,80],[160,160,160],[200,200,200] ], pressureStall: [ [255,209,62],[166,17,32] ] },
+				 ui: { text: 'rgb(33, 37, 41)',  grid: 'rgba(0, 0, 0, 0.1)' } },
+		  D: { line: { default: [ [93,178,243],[110,200,255],[60,140,210],[180,220,255] ], pressureStall: [ [238,0,0],[255,140,0] ] },
+				 ui: { text: 'rgb(242, 242, 242)', grid: 'rgba(255, 255, 255, 0.15)' } },
+		};
+  },
+
+```
+
+**beforeDestroy() 선언:**
+
+```javascript
+  beforeDestroy() {
+    clearTimeout(this.pollingTimer);
+    //if (this.resizeObserver) {
+    //  this.resizeObserver.disconnect();
+    //}
+    /*this.resizeObserver?.disconnect();*/
+    Object.values(this.charts).forEach(c => c?.destroy());
+    this.charts = {};
+  },
+```
+
+**methods 함수 선언:**
+
+```javascript
+
+  /* resolveLineColor(): */
+  resolveLineColor(colorSet, idx) {
+    return this.lineTheme[this.theme].line[colorSet ?? 'default'][idx];
+  },
+
+
+  /* updateCharts(): */
+  updateCharts(rrd) {
+    //rrd(통계*배열)을 받아서 7개 차트 갱신
+    const labels = rrd.map(vo => dateFormat(new Date(vo.time * 1000), 'YYYY-MM-DD HH:mm:ss'));
+    
+    this.chartMetas.forEach(m => {
+    const chart = this.charts[m.key];
+    if(!chart) return;
+    
+    chart.data.labels = labels;
+    
+    m.series.forEach((extract, i) => {
+      chart.data.datasets[i].data = rrd.map(extract);
+    });
+    chart.update();
+    });
+  },
+```
+
+**Chart.js 인스턴스의 설정값 선언:**
+
+```javascript
+  createChart() {
+    const getConfig = (conf) => {
+    const datasets = conf.data.map( title => ({
+      label: title,
+      data: null,
+      borderColor: ctx => `rgba(${vm.resolveLineColor(conf.colorSet, ctx.datasetIndex).join(', ')}, 1)`,
+      backgroundColor: ctx => `rgba(${vm.resolveLineColor(conf.colorSet, ctx.datasetIndex).join(', ')}, 0.2)`,
+      fill: true,
+      tension: 0,
+      pointRadius: 0,
+      pointHoverRadius: 6
+    }));
+    
+    const uiText = () => vm.lineTheme[vm.theme].ui.text;
+    const uiGrid = () => vm.lineTheme[vm.theme].ui.grid;
+
+    return {
+      type: 'line',
+      data: {
+        labels: null,
+        datasets: datasets
+      },
+      options: {
+				animation: false,
+				responsive: true,
+				maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'end',
+					  labels: {
+					    color: uiText,
+					    usePointStyle: true,
+					    pointStyle: 'rect'
+					  },
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let value = context.raw;
+                let result = context.dataset.label + ': ';
+                if(conf.formatType.type == '%') {
+                  value = ((value * (conf.formatType.unit ?? 1)).toFixed(2)) + '%';
+                } else if(conf.formatType.type == 'byte') {
+                  value = formatBytes(value);
+                } else if(conf.formatType.type == '/') {
+                  value = ((value / (conf.formatType.unit ?? 1)).toFixed(2));
+                }
+                return result + value;
+              }
+            }
+          },
+        },
+        interaction: {
+          mode: 'nearest',   // 마우스 근처 데이터 선택
+          intersect: false   // 점과 정확히 겹치지 않아도 활성화
+        },
+        scales: {
+          x: {
+            ticks: {
+					    color: uiText,
+              maxRotation: 0, // 기울기 최대값 0
+              minRotation: 0, // 기울기 최소값 0
+              maxTicksLimit: 8, // 표시할 최대 레이블 수
+              callback: function(value, index) {
+                  const label = this.getLabelForValue(value);
+                  // 날짜/시간 기준으로 줄바꿈
+                  return label.split(' '); // 배열로 반환하면 자동 줄바꿈
+              },
+            },
+					  grid: {color: uiGrid},
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              color: uiText,
+              display: true,
+              text: conf.yTitle,
+            },
+            ticks: {
+					    color: uiText,
+                callback: function (value) {
+                  if(conf.formatType.type == '%') {
+                      return (value * (conf.formatType.unit ?? 1)).toFixed(2);
+                  } else if(conf.formatType.type == 'byte') {
+                    return formatBytes(value);
+                  } else if(conf.formatType.type == '/') {
+                      return (value / (conf.formatType.unit ?? 1)).toFixed(2);
+                  } else {
+                    return value;
+                  }
+                },
+              }
+            },
+          }
+        }
+      }
+    };
+		  
+    vm.chartMetas.forEach(m => {
+    vm.charts[m.key] = new Chart(vm.$refs[m.ref], getConfig(m.conf));
+  }}
+```
+
 ## 개발노트 ─ 테마 전환 메뉴얼 (Gauge Charts && Vue 2) {#dev-note-gauge-vue2}
 
 1. themeMixin JS 스크립트 불러오기
@@ -89,22 +282,162 @@
     + 기존 new Chart 코드를 수정: chartMetas를 순회하여 Gauge Instance 생성과 동시에
       vm.charts 객체에 저장하도록 → new Chart(vm.$refs[g.ref], getConfig(g.title))
 
-## 개발노트 ─ Chart resize() {#dev-note-chart-resize}
+**created() 선언:**
 
 ```javascript
-  methods:
-		initResizeObserver() {
-		  const vm = this;
-		  this.resizeObserver = new ResizeObserver(() => {
-		      Object.keys(this.$refs).forEach(ref => {
-		        const chart = Chart.getChart(this.$refs[ref]);
-		        if (chart) chart.resize();
-		      });
-		  });
+  created() {
+    this.charts = {};           //차트 인스턴스는 반응형으로 감싸지 않는다. RangeError.
+    this.pollingTimer = null;   //beforeDestroy에서 사용할 id 필요
+    this.chartMetas = [             //Chart마다 반복해서 로직을 처리하던 걸, 배열에 묶어두어 코드를 단순화 (r은 vm.resource)
+      {key: 'cpu',     ref: 'cpuGauge',     title: 'CPU',      perc: r => (r.cpu != null ? r.cpu * 100 : null) },
+      {key: 'mem',     ref: 'memGauge',     title: '메모리',   perc: r => (r.maxmem ? r.mem / r.maxmem * 100 : null) },
+      {key: 'storage', ref: 'storageGauge', title: '스토리지', perc: r => (r.maxdisk ? r.disk / r.maxdisk * 100 : null) },
+    ];
+    this.gaugeTheme = {
+      A: {
+      background: { default: ['rgb(0, 128, 254)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)', 'rgb(234, 234, 234)'] },
+      label: { default: ['rgb(0, 0, 0)'] },
+      perc: { default: ['rgb(0, 128, 254)'] },
+      },
+      B: {
+      background: {
+        'CPU': ['rgb(242, 183, 98)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)', 'rgb(234, 234, 234)'],
+        '메모리':    ['rgb(35, 176, 255)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)', 'rgb(234, 234, 234)'],
+        '스토리지':  ['rgb(220, 166, 239)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)', 'rgb(234, 234, 234)'],
+        default: ['transparent', 'transparent', 'transparent', 'transparent'],
+      },
+      label: { default: ['rgb(200, 200, 200)'] },
+      perc: {
+        'CPU':      ['rgb(242, 183, 98)'],
+        '메모리':    ['rgb(35, 176, 255)'],
+        '스토리지':  ['rgb(220, 166, 239)'],
+        default:    ['transparent'],
+      },
+      },
+      C: {
+      background: { default: ['rgb(17, 17, 17)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)', 'rgb(234, 234, 234)'] },
+      label: { default: ['rgb(131, 131, 131)'] },
+      perc: { default: ['rgb(17, 17, 17)'] },
+      },
+      D: {
+      background: { default: ['rgb(93, 178, 243)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)', 'rgb(0, 0, 0)'] },
+      label: { default: ['rgb(242, 242, 242)'] },
+      perc: { default: ['rgb(238, 0, 0)'] },
+      },
+    };
+  },
+```
 
-		  // 차트가 들어있는 부모 div를 감시함
-		  this.resizeObserver.observe(this.$el);
-		},
+**beforeDestroy() 선언:**
+
+```javascript
+  beforeDestroy() {
+    clearTimeout(this.pollingTimer);
+    /*this.resizeObserver?.disconnect();*/
+    Object.values(this.charts).forEach(chart => chart?.destroy());
+    this.charts = {};
+  }
+```
+
+**methods 함수 선언:**
+
+```javascript
+  // 차트 초기데이터 선언부, 인스턴스 생성부 코드는 첨부하지 않는다.
+  // Gauge 차트의 여러 색상값을 갈아끼우는 로직을 중점적으로 공부했기 때문.  
+
+  /* resolveGaugeColor(): */
+  resolveGaugeColor(role, title, perc) {
+    //&& 색상값 created()로 분리
+    const t = this.gaugeTheme[this.theme] ?? this.gaugeTheme.C;
+
+    let category = '';
+    let idx = 0;
+    
+    switch(role) {
+    case 'BACKGROUND':
+      category = 'background';
+      idx = perc < /*80*/USAGE_LEVEL.WARNING ? 0 : perc < /*90*/USAGE_LEVEL.DANGER ? 1 : 2;
+      break;
+    case 'BACKGROUND_LEFT':
+      category = 'background';
+      idx = 3;
+      break;
+    case 'LABEL':
+      category = 'label';
+      break;
+    case 'PERC':
+      category = 'perc';
+      break;
+    default: return;
+    }
+    const palette = t[category];
+    
+    //palette[title]을 타는 건 리소스별 구분이 존재하는 B테마 뿐이다.
+    return (palette[title] ?? palette['default'])[idx];
+  },
+
+  /* updateCharts(): */
+  updateCharts() {
+    const vm = this;
+    const r = vm.resource;
+    vm.chartMetas.forEach(g => {
+      const chart = vm.charts[g.key];
+      if(!chart) {
+        return;
+      }
+    
+      const perc = g.perc(r);
+      if(perc == null) {
+        chart.data.datasets[0].data = [0, 100];
+      } else {
+        const v = Math.round(perc * 10) / 10; //소수 첫째자리 cut
+        chart.data.datasets[0].data = [v, Math.max(0, 100 - v)];
+      }
+    
+      chart.update();
+    });
+  },
+```
+
+**디버깅용 log 출력 함수:**
+
+```javascript
+  /* logSize(): */
+  logSize(label) {
+    const canvasList = [this.$refs.cpuGauge, this.$refs.memGauge, this.$refs.storageGauge];
+    
+    canvasList.forEach( (canvas, i) => {
+    console.error(`[${i}]`);
+    const parent = canvas.parentElement;
+    console.warn(
+      `[${label}] parent=${parent.clientWidth}x${parent.clientHeight}` +
+      ` | canvasAttr=${canvas.width}x${canvas.height}` +
+      ` | canvasStyle=${canvas.style.width}x${canvas.style.height}` +
+      ` | rect=${canvas.getBoundingClientRect().width}x${canvas.getBoundingClientRect().height}`
+    );
+    });
+  },
+```
+
+## 개발노트 ─ Chart resize() {#dev-note-chart-resize}
+
+> resizeObserver 대신 Chart.js 인스턴스의 options.responsive = true로 설정하는 방식이 권장 방향이다.
+>
+> 코드 상에서 별도의 ResizeObserver 객체가 필요했던 이유는, \<canvas> 태그 안에 BS Class를 통해 width와 height를 직접 조정하고 있었기 때문이다. 이는 공식 페이지에서 언급하는 Anti-Pattern이며, 부모 DOM 요소(HTML Element)의 크기를 Chart.js 인스턴스가 직접 받도록 하는 옵션 **`responsive: true` (default: true)** 을 켜두면, 인스턴스가 자체적으로 크기 변화를 감지해 조절한다. initResizeObserver는 과한 코드였다고 생각한다.
+
+```javascript
+  initResizeObserver() {
+    const vm = this;
+    this.resizeObserver = new ResizeObserver(() => {
+        Object.keys(this.$refs).forEach(ref => {
+          const chart = Chart.getChart(this.$refs[ref]);
+          if (chart) chart.resize();
+        });
+    });
+
+    // 차트가 들어있는 부모 div를 감시함
+    this.resizeObserver.observe(this.$el);
+  },
 ```
 
 **ResizeObserver**는 **특정 DOM 요소의 크기 변화를 관찰하는 브라우저 내장 API** 이다.<br/>
@@ -114,7 +447,7 @@
 
 - `.observe()` : 크기 변화의 감지 기준이 될 DOM 요소를 넘겨준다.
 
-이제, ResizeObserver를 Vue의 mounted()에서 this에 생성해주고, beforeDestroy() 에도 선언해준다.
+ResizeObserver를 Vue의 mounted()에서 this에 생성해주고, beforeDestroy() 에도 선언해준다.
 
 ```javascript
   mounted() {

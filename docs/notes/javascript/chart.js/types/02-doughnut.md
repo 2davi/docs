@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js doughnut 타입의 데이터 구조와 핵심 옵션(cutout·circumference·rotation·arc), pie와의 관계, 반원·가운데 텍스트 등 실전 설정."
 slug: "doughnut"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "doughnut", "도넛", "비율"]
 order: 3
 series: "Chart.js"

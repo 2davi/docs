@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js line 타입의 데이터 구조와 핵심 옵션(선·점·축·결측), 그리고 곡선·영역·다중 축·시간축 등 실전 설정."
 slug: "line"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "line", "꺾은선", "추세"]
 order: 1
 series: "Chart.js"

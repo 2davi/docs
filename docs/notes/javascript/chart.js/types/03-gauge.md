@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Chart.js 기본 타입이 아닌 gauge를 doughnut의 circumference·rotation·cutout으로 구성하는 법. 값/트랙 2조각 데이터, 임계 색, 가운데 텍스트, 바늘 게이지."
 slug: "gauge"
-category: "javascript"
+section: notes
+category: "javascript/chart.js/types"
 tags: ["Chart.js", "gauge", "게이지", "doughnut 응용"]
 order: 9
 series: "Chart.js"

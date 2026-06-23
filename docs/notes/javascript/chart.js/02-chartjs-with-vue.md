@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "Vue의 반응형과 Chart.js의 명령형을 잇는 통합 패턴. 인스턴스 보관 위치, Vue 훅과 생명주기 매핑, watch 기반 갱신, mixin 옵션 병합."
 slug: "chartjs-with-vue"
-category: "javascript"
+section: notes
+category: "javascript/chart.js"
 tags: ["Chart.js", "Vue", "반응성", "생명주기", "mixin"]
 order: 2
 series: "Chart.js"
@@ -19,15 +20,19 @@ version: ""
 ---
 # Chart.js × Vue 통합 — 반응형 시스템에 명령형 차트 얹기 {#top}
 
-> **문서 범위 (Layer 2 · 프레임워크 통합).** [L1(보편 원리)](./01-chartjs-core-concepts)을 전제로 한다. Vue(주로 Vue 2) 환경에서 Chart.js를 다루는 통합 패턴을 다룬다. 특정 프로젝트의 테마 체계·환경 제약은 별도 문서(L3)로 분리한다.
+> **문서 범위 (Layer 2 · 프레임워크 통합).**
+>
+> [L1(보편 원리)](./01-chartjs-core-concepts)을 전제로 한다. Vue(주로 Vue 2) 환경에서 Chart.js를 다루는 통합 패턴을 다룬다.
 
-L1에서 정리한 두 가지 성질이 이 문서의 출발점이다. Chart.js는 **명령형(imperative)**이며 **비반응형(non-reactive)**이다. 즉 데이터를 바꿔도 화면이 자동으로 갱신되지 않고, 생성·갱신·파괴를 개발자가 직접 호출해야 한다. 반면 Vue는 **반응형(reactive)**이며 **선언형(declarative)**이다. 상태가 바뀌면 화면이 자동으로 갱신된다. 두 모델은 동작 방식이 반대이며, 이 차이를 메우는 것이 Vue 통합의 핵심 과제다.
+Chart.js는 **명령형(imperative)** 이며 **비반응형(non-reactive)** 이다. 즉 데이터를 바꿔도 화면이 자동으로 갱신되지 않고, 생성·갱신·파괴를 **개발자가 직접 호출** 해야 한다.
+
+반면 Vue는 **반응형(reactive)** 이며 **선언형(declarative)** 이다. 상태가 바뀌면 화면이 자동으로 갱신된다. 두 모델은 동작 방식이 반대이며, 이 차이를 메우는 것이 Vue 통합의 핵심 과제다.
 
 | 섹션 | 주제 | 통합 과제 |
 |---|---|---|
 | 1 | 임피던스 불일치 | 두 모델의 차이가 만드는 문제는 무엇인가 |
 | 2 | 인스턴스 보관 위치 | 차트 인스턴스를 어디에 두는가 |
-| 3 | 생명주기 매핑 | Vue 훅이 Chart 국면을 어떻게 호출하는가 |
+| 3 | 생명주기 매핑 | Vue 훅이 Chart Phase를 어떻게 호출하는가 |
 | 4 | watch 기반 갱신 | 반응형 상태 변화를 어떻게 차트에 반영하는가 |
 | 5 | mixin과 옵션 병합 | 공통 로직을 어떻게 공유하는가 |
 | 6 | 오답노트 | 통합 패턴을 어길 때 무엇이 깨지는가 |
@@ -48,9 +53,9 @@ Vue는 컴포넌트의 `data`·`props`·`computed`를 반응형으로 관리한�
 
 동작 모델이 반대인 두 시스템을 결합할 때 해결해야 할 과제는 세 가지로 나뉜다. 이후 섹션이 각각에 대응한다.
 
-- **보관** — 명령형 객체(차트 인스턴스)를 Vue의 반응형 시스템 안에 두면 부작용이 발생한다. 어디에 둘 것인가([2장](#instance-storage)).
-- **생명주기** — 인스턴스의 생성·파괴를 Vue 컴포넌트의 생명주기 어느 시점에 연결할 것인가([3장](#lifecycle-mapping)).
-- **갱신** — Vue의 반응형 상태 변화를 어떻게 명령형 `update()` 호출로 전달할 것인가([4장](#watch-update)).
+- **보관** — 명령형 객체를 Vue의 반응형 시스템 안에 두면 부작용이 발생한다. 어디에 둘 것인가. [(2장)](#instance-storage)
+- **생명주기** — 인스턴스의 생성·파괴를 Vue 컴포넌트의 생명주기 어느 시점에 연결할 것인가. [(3장)](#lifecycle-mapping)
+- **갱신** — Vue의 반응형 상태 변화를 어떻게 명령형 `update()` 호출로 전달할 것인가. [(4장)](#watch-update)
 
 ---
 
@@ -67,7 +72,7 @@ Vue는 `data()`가 반환한 객체의 모든 속성을 반응형으로 변환�
 
 ### 2.2 `this`에 직접 보관 {#store-on-this}
 
-해결책은 인스턴스를 `data()`가 아니라 컴포넌트 인스턴스(`this`)의 일반 속성으로 보관하는 것이다. Vue는 `data()` 반환 객체만 반응형으로 변환하므로, `this`에 직접 할당한 속성은 추적 대상이 되지 않는다.
+해결책은 인스턴스를 `data()`가 아니라 **컴포넌트 인스턴스(`this`)의 일반 속성으로 보관하는 것이다.** Vue는 `data()` 반환 객체만 반응형으로 변환하므로, `this`에 직접 할당한 속성은 추적 대상이 되지 않는다.
 
 ```js
 mounted() {
@@ -75,7 +80,7 @@ mounted() {
 }
 ```
 
-Vue 3에서 인스턴스를 반응형 참조로 다뤄야 하는 경우에는 깊은 변환을 피하는 `shallowRef`를 사용한다. `ref`는 값을 깊이 반응형화하지만, `shallowRef`는 최상위 참조만 추적하므로 인스턴스 내부를 변환하지 않는다.
+Vue 3에서 인스턴스를 반응형 참조로 다뤄야 하는 경우에는 깊은 변환을 피하는 `shallowRef`를 사용한다. `ref`는 값을 깊이 반응형화(reactive化)하지만, `shallowRef`는 최상위 참조만 추적하므로 인스턴스 내부를 변환하지 않는다.
 
 ### 2.3 여러 차트의 묶음 관리 {#managing-multiple}
 
@@ -93,17 +98,17 @@ created() {
 
 ---
 
-## 3. 생명주기 매핑 — Vue 훅과 Chart 국면 {#lifecycle-mapping}
+## 3. 생명주기 매핑 — Vue Hook과 Chart Phase {#lifecycle-mapping}
 
 ### 3.1 생성 시점은 왜 `mounted`인가 {#why-mounted}
 
 Chart 인스턴스 생성에는 `<canvas>` 요소가 실제 DOM에 존재해야 한다. `getContext('2d')`가 DOM 요소를 필요로 하기 때문이다. Vue 컴포넌트의 생명주기에서 템플릿이 DOM에 마운트되는 시점은 `mounted`이며, 그 이전인 `created` 시점에는 `<canvas>`가 아직 존재하지 않는다. 따라서 `new Chart(...)`는 `mounted`에서 호출한다.
 
-### 3.2 훅과 국면의 대응 {#hook-phase-mapping}
+### 3.2 Hook과 Phase의 대응 {#hook-phase-mapping}
 
-Vue 컴포넌트 훅과 Chart 생명주기 국면(L1 5장)은 다음과 같이 대응한다.
+Vue 컴포넌트 Hook과 Chart 생명주기 Phase(L1 5장)은 다음과 같이 대응한다.
 
-![Vue 컴포넌트 훅과 Chart 인스턴스 생명주기의 매핑](./_embeds/img/02-chartjs-with-vue/vue_lifecycle_map.svg)
+![Vue 컴포넌트 Hook과 Chart 인스턴스 생명주기의 매핑](./_embeds/img/02-chartjs-with-vue/vue_lifecycle_map.svg)
 
 - **`created`** — 보관용 속성(`this.charts` 등)을 초기화한다. `<canvas>`가 없으므로 인스턴스 생성은 보류한다.
 - **`mounted`** — `<canvas>`가 준비되었으므로 `new Chart(...)`로 생성하고 최초 렌더링한다.
@@ -152,7 +157,7 @@ watch: {
 
 ### 4.2 데이터 갱신 절차 {#data-update-procedure}
 
-절차는 L1과 동일하다. 차트의 데이터를 교체한 뒤 `update()`를 호출한다. 차이는 호출 시점을 `watch`가 자동으로 결정한다는 점뿐이다. 빈번한 갱신에서 애니메이션이 부담되면 `update('none')`을 사용한다(L1 4.3).
+차트의 데이터를 교체한 뒤 `update()`를 호출한다. L1 문서에서와의 차이는 호출 시점을 `watch`가 자동으로 결정한다는 점뿐이다. 빈번한 갱신에서 애니메이션이 부담되면 `update('none')`을 사용한다(L1 4.3).
 
 ### 4.3 deep watch 주의 {#deep-watch}
 
@@ -191,14 +196,14 @@ watch: {
 
 하나의 인스턴스가 만들어질 때 옵션은 세 출처에서 모인다. 생성자(`Vue.extend`)의 옵션, `mixins`의 옵션, 인스턴스(`new`)의 옵션이다. Vue는 이들을 **덮어쓰지 않고 병합**한다. 병합 전략은 옵션 종류마다 다르다.
 
-- **`data`·`methods`·`computed`** — 키 단위로 병합된다. 키가 겹치지 않으면 모두 공존한다.
+- **`data`·`methods`·`computed`** — Key 단위로 병합된다. Key가 겹치지 않으면 모두 공존한다.
 - **생명주기 훅(`created`·`mounted` 등)** — 배열로 누적되어 *모두* 실행된다. 실행 순서는 생성자 → mixin → 인스턴스다.
 
 따라서 mixin의 `created`와 컴포넌트의 `created`는 충돌하지 않고 순서대로 모두 실행된다. mixin이 공통 동작을 "끼워 넣을" 수 있는 근거가 이 병합 규칙이다.
 
 ### 5.3 같은 키의 우선순위 {#key-priority}
 
-`data`나 `methods`에서 *같은 키*가 여러 출처에 존재하면, 그때는 우선순위에 따라 덮어쓴다. 우선순위는 인스턴스 > mixin > 생성자다. 이 규칙 때문에, mixin이 제공하는 상태를 컴포넌트의 `data`에도 같은 이름으로 선언하면 컴포넌트 값이 mixin 값을 덮어써 mixin의 동작이 무력화된다([6.4](#pitfall-duplicate-mixin-state)).
+`data`나 `methods`에서 *같은 키*가 여러 출처에 존재하면, 그때는 우선순위에 따라 덮어쓴다. 우선순위는 **instance > mixin > constructor** 이다. 이 규칙 때문에, mixin이 제공하는 상태를 컴포넌트의 `data`에도 같은 이름으로 선언하면 컴포넌트 값이 mixin 값을 덮어써 mixin의 동작이 무력화된다. [(6.4)](#pitfall-duplicate-mixin-state)
 
 > 참고: [Vue 2 — Mixins (Option Merging)](https://v2.vuejs.org/v2/guide/mixins.html#Option-Merging), [Vue.extend](https://v2.vuejs.org/v2/api/#Vue-extend)
 
@@ -206,7 +211,7 @@ watch: {
 
 ## 6. 오답노트 {#pitfalls}
 
-각 항목은 *증상 → 오답 → 원인 → 위치 → 개선* 순으로 정리한다. 코드는 도메인을 제거한 최소 재현 형태다.
+코드는 도메인을 제거한 최소 재현 형태다.
 
 ### 6.1 인스턴스를 `data()`에 보관 — RangeError·성능 저하 {#pitfall-instance-in-data}
 
@@ -249,7 +254,7 @@ mounted() {
 // beforeDestroy 없음
 ```
 
-**원인.** 컴포넌트 해제 시 인스턴스와 타이머가 해제되지 않아 살아남는다. 생명주기의 파괴 국면이 누락되었다([3.3](#cleanup-beforedestroy)).
+**원인.** 컴포넌트 해제 시 인스턴스와 타이머가 해제되지 않아 살아남는다. 생명주기의 파괴(destroy) Phase가 누락되었다([3.3](#cleanup-beforedestroy)).
 
 **위치.** 생명주기 정리 누락.
 
@@ -315,7 +320,3 @@ data() {
   return { /* mode 제외 — mixin 에 위임 */ };
 }
 ```
-
----
-
-> **다음 문서.** 본 문서는 Vue와 Chart.js를 잇는 보편 패턴을 다뤘다. 특정 템플릿 엔진과의 충돌, 테마 체계의 색 결정, 외부 스타일과의 경계 등 개별 프로젝트의 환경 사정은 L3에서 이어진다.

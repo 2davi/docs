@@ -5,7 +5,8 @@ lastmod: 2026-06-18
 author: "Davi"
 description: "프레임워크·환경과 무관하게 통용되는 Chart.js의 동작 원리. 캔버스 렌더링, 설정 3층 구조, scriptable 옵션, update() 파이프라인, 인스턴스 생명주기."
 slug: "chartjs-core-concepts"
-category: "javascript"
+section: notes
+category: "javascript/chart.js"
 tags: ["Chart.js", "Canvas", "데이터 시각화", "scriptable", "생명주기"]
 order: 1
 series: "Chart.js"
@@ -19,9 +20,11 @@ version: ""
 ---
 # Chart.js 핵심 개념 — 캔버스 · 골격 · 생명주기 {#top}
 
-> **문서 범위 (Layer 1 · 보편 원리).** Chart.js를 어떤 프레임워크·어떤 환경에서 쓰든 통용되는 동작 원리만 다룬다. 프레임워크 통합(예: Vue·React) 패턴과 특정 프로젝트의 테마·환경 사정은 각각 별도 문서로 분리한다.
+> **문서 범위 (Layer 1 · 보편 원리).**
+>
+> Chart.js를 어떤 프레임워크·어떤 환경에서 쓰든 통용되는 동작 원리만 다룬다. 프레임워크 통합(예: Vue·React) 패턴과 특정 프로젝트의 테마·환경 사정은 나중에 따로 공부하겠다 ^0^.
 
-Chart.js의 모든 동작은 하나의 사실에서 출발한다. **차트는 DOM이 아니라 캔버스(canvas)의 픽셀 위에 그려진다.** 이 사실에서 "왜 스타일을 CSS가 아닌 JavaScript로 지정하는가", "왜 데이터를 바꿔도 화면이 자동으로 갱신되지 않는가", "왜 인스턴스를 직접 파괴해야 하는가"가 모두 파생된다. 아래 여섯 섹션은 그 인과를 순서대로 따라간다.
+Chart.js의 모든 동작은 하나의 전제를 깔고 들어간다. **차트는 DOM이 아니라 캔버스(canvas)의 픽셀 위에 그려진다.** 이 사실에서 "왜 스타일을 CSS가 아닌 JavaScript로 지정하는가", "왜 데이터를 바꿔도 화면이 자동으로 갱신되지 않는가", "왜 인스턴스를 직접 파괴해야 하는가"가 모두 파생된다. 아래 여섯 섹션은 그 인과를 순서대로 따라간다.
 
 | 섹션 | 주제 | 답하는 질문 |
 |---|---|---|
@@ -117,14 +120,14 @@ Chart.js에 전달하는 설정 객체(config)는 차트 종류와 무관하게 
 
 ```js
 new Chart(ctx, {
-  type: 'line',                       // ① 차트 종류
-  data: {                             // ② 그릴 값
+  type: 'line',                       // (1) 차트 종류
+  data: {                             // (2) 그릴 값
     labels: ['1월', '2월', '3월'],
     datasets: [
       { label: '계열 A', data: [10, 20, 15] }
     ]
   },
-  options: {                          // ③ 그 외 모든 설정
+  options: {                          // (3) 그 외 모든 설정
     plugins: { legend: { display: true } },
     scales:  { y: { beginAtZero: true } }
   }
@@ -147,7 +150,7 @@ new Chart(ctx, {
 
 ### 2.3 데이터 형태의 네 갈래 {#data-shapes}
 
-타입은 8종이지만, `data.datasets[].data`가 취하는 *형태*는 네 갈래로 수렴한다. 종류를 개별 암기하는 것보다 이 형태 분류가 실무에서 직접적이다.
+타입은 8종이지만, `data.datasets[].data`가 취하는 *형태*는 네 갈래로 수렴한다.
 
 | 분류 | 타입 | `data` 형태 | 설명 |
 |---|---|---|---|
@@ -156,7 +159,7 @@ new Chart(ctx, {
 | 좌표–점 | `scatter`, `bubble` | `[{x, y}, …]` (bubble은 `r` 포함) | 2차원 평면 위의 점 |
 | 방사 | `radar`, `polarArea` | 축 기준으로 펼친 값 | 여러 축을 방사형으로 비교 |
 
-동일한 `[10, 20, 15]`라도 `type`이 `line`이면 꺾은선의 높이, `bar`면 막대의 높이가 되고, `doughnut`이면 비율 조각으로 해석된다. **데이터의 의미는 값 자체가 아니라 `type`이 부여한다.** 타입별 세부 옵션(도넛의 `cutout`·`circumference`, 라인의 축 구성 등)은 본 문서의 범위를 벗어나며, 별도 문서에서 다룬다.
+동일한 `[10, 20, 15]`라도 `type`이 `line`이면 꺾은선의 높이, `bar`면 막대의 높이가 되고, `doughnut`이면 비율 조각으로 해석된다. **데이터의 의미는 값 자체가 아니라 `type`이 부여한다.** 타입별 세부 옵션(도넛의 `cutout`·`circumference`, 라인의 축 구성 등)은 **Chart.js Types** 카테고리에서 개별로 다룬다.
 
 ### 2.4 골격 위의 두 접근 — 응용과 정공법 {#applied-vs-direct}
 
@@ -191,7 +194,7 @@ borderColor: (ctx) => ctx.datasetIndex === 0 ? '#da7756' : '#5b86c4'
 
 ### 3.2 scriptable 컨텍스트 객체 {#scriptable-context}
 
-scriptable 함수에 전달되는 인자는 **scriptable 컨텍스트(scriptable context)** 객체다. 주요 필드는 다음과 같다.
+scriptable 함수에 전달되는 인자는 **scriptable 컨텍스트(scriptable context)** 객체다. 주요 필드는 아래와 같다.
 
 | 필드 | 내용 |
 |---|---|
@@ -270,9 +273,9 @@ chart.update();                            // 2) 화면에 반영
 
 ## 5. 인스턴스 생명주기 — 생성 · 갱신 · 파괴 {#lifecycle}
 
-### 5.1 세 국면 {#three-phases}
+### 5.1 3 Phases {#three-phases}
 
-Chart 인스턴스는 생성·갱신·파괴의 세 국면을 거친다. 각 국면은 개발자의 명시적 호출로 전환된다.
+Chart 인스턴스는 생성·갱신·파괴의 세 Phases를 거친다. 각 Phases는 개발자의 명시적 호출로 전환된다.
 
 ![Chart 인스턴스의 생명주기와 개발자 개입 시점](./_embeds/img/01-chartjs-core-concepts/lifecycle.svg)
 
@@ -282,7 +285,7 @@ Chart 인스턴스는 생성·갱신·파괴의 세 국면을 거친다. 각 국
 
 ### 5.2 개발자 개입 시점 {#developer-touchpoints}
 
-Chart.js는 명령형 라이브러리이므로, 각 국면 전환을 개발자가 직접 호출한다. 반응형 프레임워크처럼 상태 변화를 자동 추적하지 않는다.
+Chart.js는 명령형 라이브러리이므로, 생명주기 전환을 개발자가 직접 호출한다. 반응형 프레임워크처럼 상태 변화를 자동 추적하지 않는다.
 
 | 시점 | 호출 | 상황 |
 |---|---|---|
@@ -306,38 +309,9 @@ Chart.js는 명령형 라이브러리이므로, 각 국면 전환을 개발자�
 
 ## 6. 오답노트 {#pitfalls}
 
-아래 사례는 앞 섹션의 원리를 어겼을 때 나타나는 오류다. 각 항목은 *증상 → 오답 → 원인 → 생명주기상 위치 → 개선* 순으로 정리한다. 코드는 도메인을 제거한 최소 재현 형태(Minimal Reproducible Example)다.
+코드는 도메인을 제거한 최소 재현 형태(Minimal Reproducible Example)다.
 
-### 6.1 색이 의도와 다르게 칠해진다 — switch fall-through {#pitfall-switch-fallthrough}
-
-**증상.** 특정 조건의 요소가 의도한 색이 아닌 다른 색으로 칠해진다.
-
-**오답.**
-
-```js
-borderColor: (ctx) => {
-  let color;
-  switch (level(ctx)) {
-    case 'low':  color = GREEN;   // break 누락
-    case 'mid':  color = ORANGE;  // break 누락
-    case 'high': color = RED;
-  }
-  return color;
-}
-```
-
-**원인.** `switch`에서 `break`가 없으면 일치한 `case` 이후의 모든 분기가 연속 실행된다(fall-through). `'low'`에 진입해도 `color`가 `GREEN` → `ORANGE` → `RED`로 연달아 덮여 최종적으로 `RED`가 반환된다.
-
-**생명주기상 위치.** 이 함수는 scriptable 옵션이므로 [`update()` 파이프라인의 2단계(scriptable 재평가)](#update-internal-steps)에서 실행된다. 즉 오류는 렌더링 자체가 아니라 그 단계에서 *잘못된 값이 반환*되는 데 있다.
-
-**개선.** 각 분기를 즉시 반환하거나, 분기 자체를 매핑 객체로 대체한다.
-
-```js
-const COLOR = { low: GREEN, mid: ORANGE, high: RED };
-borderColor: (ctx) => COLOR[level(ctx)] ?? GRAY
-```
-
-### 6.2 재생성 시 화면이 깨지거나 느려진다 — destroy 누락 {#pitfall-missing-destroy}
+### 6.1 재생성 시 화면이 깨지거나 느려진다 — destroy 누락 {#pitfall-missing-destroy}
 
 **증상.** 같은 `<canvas>`에 차트를 다시 생성하면 잔상이 남거나, 반복할수록 느려진다.
 
@@ -351,7 +325,7 @@ function rebuild(config) {
 
 **원인.** `<canvas>`와 인스턴스의 1:1 결합을 위반한다. 기존 인스턴스가 해제되지 않은 채 남아 표면 점유 충돌과 메모리 누수가 발생한다([5.3](#why-destroy)).
 
-**생명주기상 위치.** [생명주기](#lifecycle)의 *파괴* 국면이 누락된 경우다. 생성과 파괴의 대칭이 깨졌다.
+**생명주기상 위치.** [생명주기](#lifecycle)의 *파괴(destroy())* Phases가 누락된 경우다. 생성과 파괴의 대칭이 깨졌다.
 
 **개선.** 재생성 전에 기존 인스턴스를 파괴한다.
 
@@ -362,7 +336,7 @@ function rebuild(config) {
 }
 ```
 
-### 6.3 데이터를 바꿔도 화면이 그대로다 — update 누락 {#pitfall-missing-update}
+### 6.2 데이터를 바꿔도 화면이 그대로다 — update 누락 {#pitfall-missing-update}
 
 **증상.** `chart.data`를 갱신했으나 화면에 변화가 없다.
 
@@ -383,6 +357,3 @@ chart.data.datasets[0].data = nextValues;
 chart.update();
 ```
 
----
-
-> **다음 문서.** 본 문서는 Chart.js 자체의 보편 동작을 다뤘다. 이 원리를 특정 프레임워크의 반응형 시스템과 연결하는 방법(인스턴스 보관 위치, 갱신 트리거, 정리 시점 등)은 통합 편에서, 차트 타입별 세부 옵션은 타입 편에서 이어진다.
