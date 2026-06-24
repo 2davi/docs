@@ -52,6 +52,16 @@ async function openLightbox(clicked: HTMLImageElement): Promise<void> {
   const index = imgs.indexOf(clicked)
   if (index < 0) return
 
+  //2026-06-24; 비동기 시점과 뒤로가기 기능(패널 닫기)의 어긋남 디버깅
+  history.replaceState({ ...history.state, scrollPosition: window.scrollY }, '');
+  history.pushState({ pswp: true }, '');
+  // PhotoSwipe 패널 활성화 시 뒤로가기 == 닫기. pushState로 항목을 쌓고 popstate로 닫는다.
+  let viaPop = false;
+  const onPop = () => { viaPop = true, pswp.close() };
+  window.addEventListener('popstate', onPop);
+
+
+
   const { default: PhotoSwipe } = await import('photoswipe')  // 열 때만 로드(코드 스플릿)
 
   const pswp = new PhotoSwipe({            // 2026-06-22; new PhotoSwipe를 pswp 변수로 받는다.
@@ -80,16 +90,13 @@ async function openLightbox(clicked: HTMLImageElement): Promise<void> {
     bgClickAction: 'close',
   })//.init() //2026-06-22; 뒤로가기 기능을 이벤트로 부여한 뒤에 init() 시켜준다.
 
-  // PhotoSwipe 패널 활성화 시 뒤로가기 == 닫기. pushState로 항목을 쌓고 popstate로 닫는다.
-  let viaPop = false;
-  const onPop = () => { viaPop = true, pswp.close() };
-
-  pswp.on('beforeOpen', () => {
-    //2026-06-23; VitePress의 Scroll Restoration 로직을 사용하기 위해, 엔트리에 스크롤 좌표 저장.
-    history.replaceState({ ...history.state, scrollPosition: window.scrollY }, '');
-    history.pushState({ pswp: true }, '');
-    window.addEventListener('popstate', onPop);
-  });
+  //2026-06-24; 비동기 선언 전으로 이동한다.
+  // pswp.on('beforeOpen', () => {
+  //   //2026-06-23; VitePress의 Scroll Restoration 로직을 사용하기 위해, 엔트리에 스크롤 좌표 저장.
+  //   history.replaceState({ ...history.state, scrollPosition: window.scrollY }, '');
+  //   history.pushState({ pswp: true }, '');
+  //   window.addEventListener('popstate', onPop);
+  // });
   pswp.on('destroy', () => {
     window.removeEventListener('popstate', onPop);
     if(!viaPop && history.state?.pswp) history.back();
