@@ -399,7 +399,7 @@
   },
 ```
 
-**디버깅용 log 출력 함수:**
+## 디버깅용 log 출력 함수 {#dev-note-logsize}
 
 ```javascript
   /* logSize(): */
