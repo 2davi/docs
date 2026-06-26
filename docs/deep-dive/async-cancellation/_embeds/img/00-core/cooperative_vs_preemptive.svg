@@ -1,0 +1,49 @@
+<svg viewBox="0 0 780 462" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="754" height="436" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">협조적 취소 vs 선점적 취소</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">누가 멈추며, 멈추는 쪽의 동의가 필요한가</text>
+<text x="32" y="118.0" font-size="11" fill="#8a8076" font-weight="600" text-anchor="start">비교 항목</text>
+<rect x="170" y="92" width="290" height="44" rx="8" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8"/>
+<text x="315.0" y="118.0" font-size="12.5" fill="#c0584f" font-weight="600" text-anchor="middle">선점적 (Preemptive)</text>
+<rect x="466" y="92" width="288" height="44" rx="8" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee"/>
+<text x="610.0" y="118.0" font-size="12.5" fill="#3f8e70" font-weight="600" text-anchor="middle">협조적 (Cooperative)</text>
+<text x="32" y="175.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start">누가 멈추나</text>
+<text x="182" y="167.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">외부가 강제 종료</text>
+<text x="182" y="183.0" font-size="11" fill="#2b2722" font-weight="400" text-anchor="start">(작업은 발언권 없음)</text>
+<text x="478" y="167.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">작업이 스스로 빠져나옴</text>
+<text x="478" y="183.0" font-size="11" fill="#2b2722" font-weight="400" text-anchor="start">(신호를 확인하고)</text>
+<rect x="26" y="200" width="728" height="46" rx="7" fill="#f1ede6"/>
+<text x="32" y="227.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start">동의 필요?</text>
+<text x="182" y="227.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">불필요 — 즉시 종료</text>
+<text x="478" y="227.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">필요 — 신호 확인해야 멈춤</text>
+<text x="32" y="279.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start">자원 정리</text>
+<text x="182" y="271.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">보장 안 됨</text>
+<text x="182" y="287.0" font-size="11" fill="#2b2722" font-weight="400" text-anchor="start">(락·상태가 깨질 수 있음)</text>
+<text x="478" y="279.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">안전 지점에서 정리 가능</text>
+<rect x="26" y="304" width="728" height="58" rx="7" fill="#f1ede6"/>
+<text x="32" y="337.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start">예시</text>
+<text x="182" y="329.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">SIGKILL · Thread.stop()</text>
+<text x="182" y="345.0" font-size="11" fill="#2b2722" font-weight="400" text-anchor="start">worker.terminate()</text>
+<text x="478" y="329.0" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">AbortSignal · CancellationToken</text>
+<text x="478" y="345.0" font-size="11" fill="#2b2722" font-weight="400" text-anchor="start">Thread.interrupt() · context</text>
+<rect x="26" y="362" width="728" height="50" rx="8" stroke="#da7756" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="32" y="391.0" font-size="11" fill="#da7756" font-weight="700" text-anchor="start">AbortController</text>
+<text x="182" y="391.0" font-size="11.5" fill="#c0584f" font-weight="700" text-anchor="start">✗  해당 안 함</text>
+<text x="478" y="391.0" font-size="11.5" fill="#3f8e70" font-weight="700" text-anchor="start">✓  abort()는 신호일 뿐, 작업이 확인</text>
+<text x="34" y="440" font-size="11" fill="#da7756" font-weight="700" text-anchor="start">abort()는 작업을 죽이지 않는다 — 작업이 signal.aborted를 확인해야 멈춘다.</text>
+</svg>

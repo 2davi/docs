@@ -1,0 +1,54 @@
+<svg viewBox="0 0 780 356" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="754" height="330" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">능력의 분리 (Capability Separation)</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">쓰기 능력은 생산자가 쥐고, 읽기 핸들만 소비자에게 넘긴다</text>
+<text x="112" y="96" font-size="11" fill="#8a8076" font-weight="600" text-anchor="middle">생산자 · 쓰기 능력</text>
+<text x="408" y="96" font-size="11" fill="#8a8076" font-weight="600" text-anchor="middle">읽기 핸들 (전달)</text>
+<text x="678" y="96" font-size="11" fill="#8a8076" font-weight="600" text-anchor="middle">소비자 · 관찰만</text>
+<rect x="34" y="112" width="156" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="112" y="139" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">AbortController</text>
+<rect x="60" y="164" width="104" height="26" rx="8" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="112.0" y="181.0" font-size="11" fill="#da7756" font-weight="600" text-anchor="middle">abort()</text>
+<rect x="300" y="112" width="216" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="408" y="139" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">AbortSignal</text>
+<rect x="316" y="164" width="184" height="26" rx="8" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee"/>
+<text x="408.0" y="181.0" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">.aborted · .reason · 'abort'</text>
+<rect x="600" y="112" width="156" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="678" y="139" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">fetch</text>
+<text x="678" y="180" font-size="10" fill="#8a8076" font-weight="400" text-anchor="middle">취소를 당할 수만</text>
+<line x1="190" y1="134" x2="300" y2="134" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="245" y="125" font-size="9.5" fill="#6b6258" font-weight="500" text-anchor="middle">signal 전달</text>
+<line x1="516" y1="134" x2="600" y2="134" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="395" y="206" font-size="10.5" fill="#8a8076" font-weight="600" text-anchor="middle">같은 구조 — Promise</text>
+<line x1="34" y1="216" x2="756" y2="216" stroke="#e2dcd2" stroke-width="1" stroke-dasharray="4 4"/>
+<rect x="34" y="234" width="156" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="112" y="261" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">Promise 실행자</text>
+<rect x="50" y="286" width="124" height="26" rx="8" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="112.0" y="303.0" font-size="10.5" fill="#da7756" font-weight="600" text-anchor="middle">resolve / reject</text>
+<rect x="300" y="234" width="216" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="408" y="261" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">Promise 객체</text>
+<rect x="360" y="286" width="96" height="26" rx="8" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee"/>
+<text x="408.0" y="303.0" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">.then</text>
+<rect x="600" y="234" width="156" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="678" y="261" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">소비자</text>
+<text x="678" y="302" font-size="10" fill="#8a8076" font-weight="400" text-anchor="middle">결과를 받을 수만</text>
+<line x1="190" y1="256" x2="300" y2="256" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="245" y="247" font-size="9.5" fill="#6b6258" font-weight="500" text-anchor="middle">Promise 전달</text>
+<line x1="516" y1="256" x2="600" y2="256" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="395" y="340" font-size="11" fill="#da7756" font-weight="700" text-anchor="middle">controller : signal  =  resolve·reject : Promise — 같은 비대칭</text>
+</svg>
