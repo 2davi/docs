@@ -22,6 +22,12 @@ toc: true
 draft: false
 search: true
 masking_policy: "v4"
+
+ai_assistance:
+  authorship: co-authored
+  role: [drafting, research, review]
+  model: ["claude-opus-4.7"]
+  review: reviewed
 ---
 
 ## 0. 시리즈 개요

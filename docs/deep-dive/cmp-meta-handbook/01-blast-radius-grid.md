@@ -22,10 +22,12 @@ toc: true
 draft: false
 search: true
 masking_policy: "v4"
+
 ai_assistance:
-  level: "draft-and-edit"
-  model: "claude-opus-4-7"
-  review: "verified-by-author"
+  authorship: co-authored
+  role: [drafting, research, review]
+  model: ["claude-opus-4.7"]
+  review: reviewed
 ---
 
 ## 0. 이 챕터의 목적
