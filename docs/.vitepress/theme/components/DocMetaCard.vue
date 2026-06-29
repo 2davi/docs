@@ -76,11 +76,13 @@ function fmtDate(v: any): string {
   return `${y}. ${m}. ${day}.`;
 }
 
-const adrIndex = computed(() => buildAdrIndex(allDocs as Array<{ url?: string }>))
+const adrIndex = computed(() => buildAdrIndex(allDocs as Array<{ url?: string }>)
+)
 
 // row.value(ID 배열)를 해석된 ref 객체 배열로
 function resolveRefs(ids: string[]): Array<{ label: string; url?: string }> {
-  return (ids ?? []).map(id => resolveRef(id, adrIndex.value))
+  const arr = Array.isArray(ids) ? ids : ids ? [ids] : []
+  return arr.map(id => resolveRef(id, adrIndex.value))
 }
 
 // ── 표기 헬퍼 ──
@@ -138,6 +140,9 @@ const isUrl = (s: any) => typeof s === 'string' && /^https?:\/\//.test(s)
 
           <!-- lang -->
           <span v-else-if="row.field.kind === 'lang'">{{ row.value.from }} → {{ row.value.to }}</span>
+
+          <!-- project (bold text) -->
+          <span v-else-if="row.field.kind === 'project'" class="dmc-project">{{ row.value }}</span>
 
           <!-- text (default) -->
           <span v-else>{{ row.value }}</span>
@@ -198,6 +203,9 @@ const isUrl = (s: any) => typeof s === 'string' && /^https?:\/\//.test(s)
 .dmc-pill--ref {
   background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1);
   font-variant-numeric: tabular-nums;   /* ADR-0001 정렬 깔끔하게 */
+}
+.dmc-project {
+  font-weight: bold;
 }
 
 /* 모바일: 1열로 접어 라벨/값 세로 배치 */

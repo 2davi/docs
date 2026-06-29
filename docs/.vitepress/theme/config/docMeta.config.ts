@@ -108,6 +108,7 @@ export type FieldKind =
   | 'series'   // series + series_order → "이름 · Ch.N"
   | 'refs'     // 배열 → pill 묶음(텍스트) (related_adrs)
   | 'lang'     // original_lang → translation_lang
+  | 'project'  // 볼드체 평문 값
 
 export interface CardField {
   key: string             // frontmatter 키 (range/series/lang은 가상 키 → 컴포넌트가 조립)
@@ -120,12 +121,16 @@ export interface CardField {
 
 // 재사용 필드 묶음 ──
 const DECISION_FIELDS: CardField[] = [
-  { key: 'decision_status', label: 'Status',   kind: 'badge', vocab: 'decision' },
-  { key: 'period',          label: 'Period',   kind: 'range'  },
-  { key: 'deciders',        label: 'Deciders', kind: 'people' },
-  { key: 'related_adrs',    label: 'Related',  kind: 'refs'   },
-  { key: 'issue',           label: 'Issue',    kind: 'link',  urlKey: 'issue_url' },
-  { key: 'tags',            label: 'Tags',     kind: 'pills'  },
+  { key: 'decision_status', label: 'Status',        kind: 'badge', vocab: 'decision' },
+  { key: 'project',         label: 'Project',       kind: 'project' },
+  { key: 'period',          label: 'Period',        kind: 'range'   },
+  { key: 'deciders',        label: 'Deciders',      kind: 'people'  },
+  { key: 'series',          label: 'Series',        kind: 'series'  },
+  { key: 'supersedes',      label: 'Supersedes',    kind: 'refs'    },
+  { key: 'superseded_by',   label: 'Supersedes by', kind: 'refs'    },
+  { key: 'related_adrs',    label: 'Related',       kind: 'refs'    },
+  { key: 'issue',           label: 'Issue',         kind: 'link',  urlKey: 'issue_url' },
+  { key: 'tags',            label: 'Tags',          kind: 'pills'   },
 ]
 
 const DEEPDIVE_FIELDS: CardField[] = [
@@ -134,7 +139,7 @@ const DEEPDIVE_FIELDS: CardField[] = [
   { key: 'series',       label: 'Series',  kind: 'series' },
   { key: 'difficulty',   label: 'Level',   kind: 'badge', vocab: 'difficulty' },
   { key: 'related_adrs', label: 'Related', kind: 'refs'   },
-  { key: 'lastmod',      label: 'Updated', kind: 'date'},
+  { key: 'lastmod',      label: 'Updated', kind: 'date'   },
   { key: 'tags',         label: 'Tags',    kind: 'pills'  },
 ]
 
