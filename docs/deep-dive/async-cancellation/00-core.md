@@ -96,9 +96,9 @@ controller.abort("이유");         // 기존 Signal을 취소시킴 (반환값 
 signal.aborted;                   // true — 되돌릴 수 없음, 재사용 불가
 ```
 
-## 03. signal은 전선, abort는 방아쇠
+## 03. signal은 수신기, abort는 방아쇠
 
-Signal을 요청에 넣는 것만으로는 취소가 일어나지 않는다. Signal은 작업을 취소 채널에 연결하는 전선이고, 실제 취소는 그 Signal을 발화시키는 `abort()` 호출에서 일어난다.
+Signal을 요청에 넣는 것만으로는 취소가 일어나지 않는다. Signal은 작업을 취소 채널에 연결하는 수신기이고, 실제 취소는 그 Signal을 발화시키는 `abort()` 호출에서 일어난다.
 
 ```js
 const controller = new AbortController();
@@ -132,7 +132,7 @@ async function pollTask(upid, signal) {
 }
 ```
 
-평범한 `setTimeout`으로 폴 사이를 재우면 `abort()`를 걸어도 그 잠든 시간은 끝까지 잔다. 신호를 확인하는 코드가 그 안에 없기 때문이다. 세 협조 지점을 모두 심어야 abort가 어느 타이밍에 떨어져도 즉시 빠져나온다.
+평범한 `setTimeout`으로 폴 사이를 재우면, `abort()`를 걸어도 설정된 시간이 지날 동안 잠만 잔다. 신호를 확인하는 코드가 그 안에 없기 때문이다. 세 협조 지점을 모두 심어야 abort가 어느 타이밍에 떨어져도 즉시 빠져나온다.
 
 > 진단 질문 3 ─ 오답과 해설
 >
