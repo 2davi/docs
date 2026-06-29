@@ -8,6 +8,7 @@ import TagCloud       from './components/TagCloud.vue'
 import SeriesNav      from './components/SeriesNav.vue'
 import './style.css'
 import DocEmbed  from './components/DocEmbed.vue'
+import DocLayout from './DocLayout.vue'
 
 import 'photoswipe/style.css'
 
@@ -240,6 +241,7 @@ function setupSidebarResize(): void {
 /* ── Theme export ──────────────────────────────────────────── */
 export default {
   ...DefaultTheme,
+  Layout: DocLayout,
   enhanceApp({ app, router }) {
     app.component('ContentList',   ContentList)
     app.component('CategoryIndex', CategoryIndex)
