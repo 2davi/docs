@@ -10,7 +10,6 @@ categories: [deep-dive, infrastructure]
 section: "deep-dive"
 category: "cmp-meta-handbook"
 
-project: "cmp-meta-handbook"
 doc_type: "learning-guide"
 series: "CMP Meta Handbook"
 series_order: 3
