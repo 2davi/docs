@@ -20,9 +20,10 @@ const { Layout } = DefaultTheme
   <Layout>
     <template #doc-before>
       <DocMetaCard />
-    </template>
-    <template #doc-after>
       <DisclosureNote />
+    </template>
+    <template #doc-footer-before>
+      <DisclosureNote /> <br/>
     </template>
   </Layout>
 </template>

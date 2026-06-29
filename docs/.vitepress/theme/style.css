@@ -854,8 +854,8 @@ body {
 /* ── PREV / NEXT FOOTER NAV ─────────────────────────────────── */
 .VPDocFooter {
   border-top: 1px solid var(--vp-c-divider);
-  padding-top: 32px;
-  margin-top: 56px;
+  /* padding-top: 25px; */
+  margin-top: 56px !important;
 }
 
 .pager-link {

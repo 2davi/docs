@@ -35,7 +35,7 @@ const d = computed(() => buildDisclosure(frontmatter.value?.ai_assistance as AiA
 <style scoped>
 /* '명확하고 구별 가능한' 고지 — 흐릿한 숨은 각주가 아니라 읽히는 박스. */
 .ai-disclosure {
-  margin: 44px 0 0;
+  margin: 24px 0 0 0 !important;
   padding: 14px 16px;
   display: flex; gap: 12px; align-items: flex-start;
   border: 1px solid var(--vp-c-divider);
