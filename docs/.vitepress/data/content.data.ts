@@ -17,6 +17,7 @@ interface DocItem {
   difficulty:  string | null
   project:     string | null
   doc_type:    string | null
+  id:          string | null
   draft:       boolean
   search:      boolean
   excerpt:     string | undefined
@@ -28,6 +29,7 @@ export default createContentLoader(
     'notes/**/*.md',
     'deep-dive/**/*.md',
     'translations/**/*.md',
+    'decisions/**/*.md',
   ],
   {
     excerpt: true,
@@ -35,7 +37,8 @@ export default createContentLoader(
       return raw
         .filter(p => !p.frontmatter.draft)
         .filter(p => p.url !== '/articles/' && p.url !== '/notes/'
-                  && p.url !== '/deep-dive/' && p.url !== '/translations/')
+                  && p.url !== '/deep-dive/' && p.url !== '/translations/'
+                  && p.url !== '/decisions/')
         .map(p => ({
           url:         p.url,
           title:       p.frontmatter.title       ?? '(제목 없음)',
@@ -52,6 +55,7 @@ export default createContentLoader(
           difficulty:  p.frontmatter.difficulty  ?? null,
           project:     p.frontmatter.project     ?? null,
           doc_type:    p.frontmatter.doc_type    ?? null,
+          id:          p.frontmatter.id          ?? null,
           draft:       p.frontmatter.draft       ?? false,
           search:      p.frontmatter.search      ?? true,
           excerpt:     p.excerpt,

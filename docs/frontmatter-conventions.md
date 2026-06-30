@@ -42,7 +42,7 @@ description: ""           # 150~160자 권장 (검색 스니펫·OG description)
 slug: ""                  # kebab-case, URL 식별자
 
 # ── 분류 ─────────────────────────────────────────────
-section: ""               # articles | notes | deep-dive | translations  (폴더명과 일치)
+section: ""               # articles | notes | deep-dive | translations | decisions  (폴더명과 일치)
 category: ""              # 소문자·하이픈. 하위 분류는 "parent/sub" (예: linux/proxmox)
 tags: []                  # 소문자·하이픈 배열
 
@@ -162,11 +162,23 @@ tags: [javascript, proxy, v8, shadow-state, csrf, web-worker, lcs-diff, dsm]
 
 # ── deep-dive 전용 필드 ──
 project: "rest-domain-state-manager"   # 프로젝트 슬러그 (index.md와 연결)
-doc_type: "learning-guide"             # learning-guide | technical-deep-dive | ard | rfc | milestone
+doc_type: "learning-guide"             # learning-guide | technical-deep-dive | ard | cdr | chr | rfc "CHR(차터)는 결정 기록 아님 ─ 프레이밍/지도 문서"
 related_ards: [ARD-0000, ARD-0001, ARD-0002, ARD-0003]
 milestone: ~                           # 해당 없으면 ~
 series: "DSM Deep Dive"
 series_order: 1                        # 시리즈 내 챕터 순서
+
+# ── 식별 (결정 기록 전용) ──
+id: "RDSM-ADR-0000"     # <SCOPE>-<TYPE>-<NNNN> 전역 유일 ID (체계: convention-manual §3)
+scope: "RDSM"           # SCOPE 레지스트리 (CORE | RDSM | DOCS | ...)
+
+# ── 결정 메타 ──
+decision_status: "accepted"
+deciders: ["Davi"]
+period: 2026-03-23      # ★ 단일 결정일(스칼라). {start,end} 아님
+supersedes: ~
+superseded_by: ~
+related_adrs: []
 
 status: "active"
 difficulty: "advanced"
@@ -182,6 +194,8 @@ ai_assistance:
   review: "verified"
 ---
 ```
+
+결정 기록 식별자·넘버링·파일명·디렉터리 규칙은 convention-manual.md §3(CORE-ADR-0001) 참조.
 
 ---
 
@@ -253,7 +267,7 @@ ai_assistance:
   model: ["claude-opus-4.8"]
 
   # [축 4] 인간 검증 수준 — E-E-A-T 핵심
-  review: "verified"         # verified | reviewed | unreviewed
+  review: "verified"         # verified | reviewed | unreviewed | pending
 
   # [선택] 모델 시점 — 모델명이 시점에 따라 달라지므로 추적용
   date: ~                    # 예: 2026-06-26 (생략 시 문서 date 따름)
@@ -323,9 +337,16 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 | `draft` / `search`                                     | bool            | 전체             |                         |
 | `version`                                              | string          | **notes**        | 대상 기술 버전          |
 | `cover`                                                | object          | **articles**     | OG 이미지               |
-| `project` / `doc_type` / `related_ards` / `milestone`  | —               | **deep-dive**    |                         |
+| `project` / `doc_type` / `related_adrs` / `milestone`  | —               | **deep-dive**    |                         |
 | `original_*` / `translator` / `canonical` / `license*` | —               | **translations** | provenance              |
 | `ai_assistance`                                        | object          | 전체(선택)       | §5                      |
+| `id` | string | **decisions** | <SCOPE>-ADR-<NNNN> |
+| `scope` | string | **decisions** | 이니셜(DOCS, CORE, RDSM) |
+| `decision_status` | string | **decisions** | proposed/accepted/rejectd/deprecated/superseded |
+| `decider` | string[] | **decisions** | 결정기록 참여자 배열 |
+| `period` | date | **decisions** | 단일 결정일 |
+| `issue` / `issue_url` | string | **decisions**(선택) | ??? |
+| `supersedes` / `superseded_by` | string \| string[] | **decisions**(선택) | ??? |
 
 ## 부록 B. 로더 연동 주의
 

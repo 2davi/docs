@@ -14,11 +14,13 @@
  * ─────────────────────────────────────────────────────────────────────────
  */
 
+import { deprecate } from "node:util"
+
 // ── 0. 타입 ────────────────────────────────────────────────────────────────
-export type Section = 'articles' | 'notes' | 'deep-dive' | 'translations'
+export type Section = 'articles' | 'notes' | 'deep-dive' | 'translations' | 'decisions'
 
 export type DocType =
-  | 'adr' | 'cdr' | 'rfc'                       // 결정 기록 (decision records)
+  | 'adr' | 'cdr' | 'chr' | 'rfc'               // 결정 기록 (decision records)
   | 'learning-guide' | 'technical-deep-dive'    // deep-dive 본문
   | 'translation'
   | 'note'
@@ -34,10 +36,11 @@ const SECTION_DEFAULT_DOCTYPE: Record<Section, DocType> = {
   notes:        'note',
   'deep-dive':  'technical-deep-dive',
   translations: 'translation',
+  decisions: 'adr'
 }
 
 const KNOWN_DOCTYPES: ReadonlySet<DocType> = new Set<DocType>([
-  'adr', 'cdr', 'rfc', 'learning-guide', 'technical-deep-dive', 'translation', 'note', 'article',
+  'adr', 'cdr', 'chr', 'rfc', 'learning-guide', 'technical-deep-dive', 'translation', 'note', 'article',
 ])
 
 /** frontmatter → doc_type. doc_type 우선, 없으면 section 기본값, 그것도 없으면 'note'. */
@@ -123,7 +126,7 @@ export interface CardField {
 const DECISION_FIELDS: CardField[] = [
   { key: 'decision_status', label: 'Status',        kind: 'badge', vocab: 'decision' },
   { key: 'project',         label: 'Project',       kind: 'project' },
-  { key: 'period',          label: 'Period',        kind: 'range'   },
+  { key: 'period',          label: 'Decided',       kind: 'date'    },
   { key: 'deciders',        label: 'Deciders',      kind: 'people'  },
   { key: 'series',          label: 'Series',        kind: 'series'  },
   { key: 'supersedes',      label: 'Supersedes',    kind: 'refs'    },
@@ -131,6 +134,14 @@ const DECISION_FIELDS: CardField[] = [
   { key: 'related_adrs',    label: 'Related',       kind: 'refs'    },
   { key: 'issue',           label: 'Issue',         kind: 'link',  urlKey: 'issue_url' },
   { key: 'tags',            label: 'Tags',          kind: 'pills'   },
+]
+
+const CHARTER_FIELDS: CardField[] = [
+  { key: 'status',        label: 'Status',          kind: 'badge',  vocab: 'doc' },
+  { key: 'period',        label: 'Date',            kind: 'date'    },
+  { key: 'deciders',      label: 'Owners',          kind: 'people'  },
+  { key: 'related_adrs',  label: 'Decomposes into', kind: 'refs'    },
+  { key: 'tags',          label: 'Tags',            kind: 'pills'   },
 ]
 
 const DEEPDIVE_FIELDS: CardField[] = [
@@ -166,6 +177,7 @@ const NOTE_FIELDS: CardField[] = [
 const CARD_MATRIX: Partial<Record<DocType, CardField[]>> = {
   adr: DECISION_FIELDS,
   cdr: DECISION_FIELDS,
+  chr: CHARTER_FIELDS,
   rfc: DECISION_FIELDS,
   'learning-guide':      DEEPDIVE_FIELDS,
   'technical-deep-dive': DEEPDIVE_FIELDS,
@@ -210,6 +222,7 @@ const ROLE_PHRASE: Record<string, string> = {
 const REVIEW_PHRASE: Record<string, string> = {
   verified: '작성자가 모든 내용을 사실 검증하고 직접 재작성했습니다',
   reviewed: '작성자가 전체를 검토·수정했습니다',
+  // pending/unreviewed: 검수 전 → draft:true 라서 미게시, 고지 문구 fallback.
 }
 
 export interface Disclosure { show: boolean; text: string; models: string[]; roles: string }
@@ -233,7 +246,17 @@ export function buildDisclosure(ai?: AiAssistance): Disclosure {
 
 const ADR_ID_RE = /(adr|cdr|rfc)-(\d+)/i
 
-/** doc(url 보유)에서 결정 ID 도출. 아니면 null. */
+/* 결정 기록 ID 도출: 명시적 id 최우선, 없으면 slug prefix에서 도출(scope 옵셔널 → 구파일 호환). */
+function deriveDecisionId(doc: { id?: string | null; url?: string }): string | null {
+  if(doc.id) return doc.id
+  const seg = doc.url?.split('/').filter(Boolean).pop() ?? ''
+  const m = seg.match(/^(?:([a-z]+)-)?(adr|cdr|rfc|chr)-(\d{4})/i) // 신형 <scope>- 및 구형 모두
+  if(!m) return null
+  return (m[1] ? `${m[1]}-${m[2]}-${m[3]}` : `${m[2]}-${m[3]}`).toUpperCase()
+}
+
+
+/** @deprecated doc(url 보유)에서 결정 ID 도출. 아니면 null. */
 function deriveAdrId(url?: string): string | null {
   if (!url) return null
   const seg = url.split('/').filter(Boolean).pop() ?? ''   // 마지막 세그먼트
@@ -245,7 +268,8 @@ function deriveAdrId(url?: string): string | null {
 export function buildAdrIndex(docs: ReadonlyArray<{ url?: string }>): Record<string, string> {
   const idx: Record<string, string> = {}
   for (const d of docs) {
-    const id = deriveAdrId(d.url)
+    //const id = deriveAdrId(d.url)
+    const id = deriveDecisionId(d)
     if (id && d.url) idx[id] = d.url
   }
   return idx

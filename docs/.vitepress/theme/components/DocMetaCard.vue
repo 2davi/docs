@@ -76,7 +76,7 @@ function fmtDate(v: any): string {
   return `${y}. ${m}. ${day}.`;
 }
 
-const adrIndex = computed(() => buildAdrIndex(allDocs as Array<{ url?: string }>)
+const adrIndex = computed(() => buildAdrIndex(allDocs as Array<{ id?: string | null; url?: string }>)
 )
 
 // row.value(ID 배열)를 해석된 ref 객체 배열로
