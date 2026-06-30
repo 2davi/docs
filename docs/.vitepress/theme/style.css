@@ -549,7 +549,8 @@ body {
   border-radius: var(--dv-radius-sm);
   border: 1px solid var(--vp-c-divider);
   font-weight: 500;
-  white-space: nowrap;
+  /* white-space: nowrap; */
+  white-space: break-spaces;
 }
 
 /* Blockquote */
