@@ -1,0 +1,62 @@
+<svg viewBox="0 0 768 450" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="432" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">도달 가능성 — GC의 유일한 규칙</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">강한 참조로 루트에 닿으면 생존, 약한 고리는 GC가 끊는다</text>
+<text x="40" y="118" font-size="11.5" fill="#8a8076" font-weight="700" text-anchor="start">① 강한 사슬</text>
+<text x="40" y="134" font-size="9.5" fill="#8a8076" font-weight="500" text-anchor="start">도달 가능 → 생존</text>
+<rect x="168" y="98" width="86" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="211.0" y="124.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">루트</text>
+<rect x="300" y="98" width="96" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="348.0" y="124.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">A</text>
+<rect x="452" y="98" width="96" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="500.0" y="124.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">B</text>
+<line x1="254" y1="120" x2="300" y2="120" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<line x1="396" y1="120" x2="452" y2="120" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="582" y="104" width="78" height="32" rx="10" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="621.0" y="124.0" font-size="11.5" fill="#3f8e70" font-weight="600" text-anchor="middle">생존</text>
+<text x="40" y="208" font-size="11.5" fill="#8a8076" font-weight="700" text-anchor="start">② 끊긴 참조</text>
+<text x="40" y="224" font-size="9.5" fill="#8a8076" font-weight="500" text-anchor="start">도달 불가 → 수거</text>
+<rect x="168" y="188" width="86" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="211.0" y="214.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">루트</text>
+<rect x="300" y="188" width="96" height="44" rx="10" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="348.0" y="214.0" font-size="12" fill="#c0584f" font-weight="600" text-anchor="middle">C</text>
+<line x1="254" y1="210" x2="300" y2="210" stroke="#8a8076" stroke-width="1.4" stroke-dasharray="4 4"/>
+<text x="277" y="202" font-size="8.5" fill="#c0584f" font-weight="600" text-anchor="middle">참조 없음</text>
+<rect x="582" y="194" width="78" height="32" rx="10" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="621.0" y="214.0" font-size="11.5" fill="#c0584f" font-weight="600" text-anchor="middle">수거</text>
+<text x="40" y="300" font-size="11.5" fill="#8a8076" font-weight="700" text-anchor="start">③ 약한 고리</text>
+<text x="40" y="316" font-size="9.5" fill="#8a8076" font-weight="500" text-anchor="start">GC가 끊고 수거</text>
+<rect x="168" y="286" width="96" height="46" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="216.0" y="313.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">Map</text>
+<rect x="316" y="286" width="120" height="46" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="376.0" y="306.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">WeakRef</text>
+<text x="376.0" y="320.0" font-size="9.5" fill="#6b6258" font-weight="600" text-anchor="middle">껍데기</text>
+<rect x="512" y="286" width="120" height="46" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="572.0" y="313.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">무거운 객체</text>
+<line x1="264" y1="309" x2="316" y2="309" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<text x="290" y="301" font-size="9" fill="#6b6258" font-weight="700" text-anchor="middle">강</text>
+<line x1="436" y1="309" x2="512" y2="309" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#aTerra)"/>
+<text x="474" y="300" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">약 · GC 끊음</text>
+<text x="384" y="362" font-size="10.5" fill="#6b6258" font-weight="500" text-anchor="middle">바깥에 강한 참조가 없으면 GC가 점선(약한) 고리를 끊어 객체를 수거한다</text>
+<line x1="60" y1="416" x2="96" y2="416" stroke="#6b6258" stroke-width="1.8"/>
+<text x="104" y="420" font-size="10" fill="#6b6258" font-weight="500" text-anchor="start">강한 참조</text>
+<line x1="214" y1="416" x2="250" y2="416" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4"/>
+<text x="258" y="420" font-size="10" fill="#6b6258" font-weight="500" text-anchor="start">약한 참조</text>
+<circle cx="380" cy="416" r="4" fill="#da7756"/>
+<text x="392" y="420" font-size="10" fill="#6b6258" font-weight="500" text-anchor="start">GC가 끊는 지점 (terra)</text>
+</svg>

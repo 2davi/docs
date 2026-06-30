@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 374" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="734" height="360" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">using 등록 — 선언 시 캡처 → 역순(LIFO) 정리</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">disposer는 선언이 '실행'되는 순간 push, 스코프 종료 시 역순으로 pop</text>
+<line x1="380" y1="110" x2="380" y2="300" stroke="#da7756" stroke-width="1.4" stroke-dasharray="4 5"/>
+<text x="380" y="100" font-size="10" fill="#da7756" font-weight="700" text-anchor="middle">스코프 종료</text>
+<text x="80" y="100" font-size="11.5" fill="#6b6258" font-weight="700" text-anchor="start">① push (선언 실행 순)</text>
+<rect x="90" y="122" width="210" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="195.0" y="140.5" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">using a</text>
+<text x="195.0" y="155.5" font-size="9" fill="#8a8076" font-weight="500" text-anchor="middle">disposer 캡처·push</text>
+<line x1="195" y1="166" x2="195" y2="178" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="90" y="178" width="210" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="195.0" y="204.0" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">using b</text>
+<line x1="195" y1="222" x2="195" y2="234" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="90" y="234" width="210" height="44" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="195.0" y="260.0" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">using c</text>
+<text x="458" y="100" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">② pop (스코프 종료, 역순)</text>
+<rect x="450" y="122" width="210" height="44" rx="10" stroke="#da7756" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="555.0" y="148.0" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle">c.dispose()</text>
+<line x1="555" y1="166" x2="555" y2="178" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="450" y="178" width="210" height="44" rx="10" stroke="#da7756" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="555.0" y="204.0" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle">b.dispose()</text>
+<line x1="555" y1="222" x2="555" y2="234" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="450" y="234" width="210" height="44" rx="10" stroke="#da7756" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="555.0" y="260.0" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle">a.dispose()</text>
+<text x="380" y="348" font-size="10.3" fill="#6b6258" font-weight="500" text-anchor="middle">코드에 적힌 순서가 아니라 '실행돼 push된 것'만 역순으로 정리된다  (→ f() 함정)</text>
+</svg>

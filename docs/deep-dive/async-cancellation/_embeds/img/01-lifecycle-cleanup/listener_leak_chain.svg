@@ -1,0 +1,39 @@
+<svg viewBox="0 0 784 342" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="758" height="325" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">리스너 누수 — 강한 참조 사슬</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">리스너 함수는 작아도, 사슬 끝의 객체 그래프 전체를 강하게 붙잡는다</text>
+<rect x="48" y="120" width="150" height="58" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="123.0" y="145.5" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">장수 타깃</text>
+<text x="123.0" y="160.5" font-size="9.5" fill="#6b6258" font-weight="600" text-anchor="middle">전역 signal · 소켓</text>
+<rect x="240" y="120" width="140" height="58" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="310.0" y="153.0" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">리스너 목록</text>
+<rect x="422" y="120" width="130" height="58" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="487.0" y="145.5" font-size="12" fill="#2b2722" font-weight="600" text-anchor="middle">콜백</text>
+<text x="487.0" y="160.5" font-size="9.5" fill="#6b6258" font-weight="600" text-anchor="middle">(closure)</text>
+<rect x="592" y="110" width="156" height="78" rx="10" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="670.0" y="145.0" font-size="12" fill="#c0584f" font-weight="600" text-anchor="middle">클로저 그래프</text>
+<text x="670.0" y="161.0" font-size="9.5" fill="#c0584f" font-weight="600" text-anchor="middle">컴포넌트 · DOM · 배열</text>
+<line x1="198" y1="149" x2="240" y2="149" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<line x1="380" y1="149" x2="422" y2="149" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<line x1="552" y1="149" x2="592" y2="149" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="289" y="114" font-size="9" fill="#6b6258" font-weight="600" text-anchor="middle">강한 참조</text>
+<text x="670" y="198" font-size="9.5" fill="#c0584f" font-weight="600" text-anchor="middle">← 실제 메모리는 여기</text>
+<text x="40" y="250" font-size="10.3" fill="#6b6258" font-weight="500" text-anchor="start">타깃이 장수면 사슬 전부 도달 가능 → 수거 불가. 단명 타깃이면 타깃과 함께 수거되므로, 누수는 '장수일 때만'.</text>
+<rect x="40" y="286" width="470" height="30" rx="8" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="275.0" y="305.0" font-size="10.5" fill="#da7756" font-weight="700" text-anchor="middle">해법: removeEventListener / { signal }+abort 로 사슬을 끊는다 (→ 07)</text>
+</svg>

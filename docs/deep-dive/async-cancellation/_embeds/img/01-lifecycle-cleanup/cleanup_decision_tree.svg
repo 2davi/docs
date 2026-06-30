@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 432" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="734" height="406" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">정리 도구 결정 트리</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">정리 시점을 코드가 아는가로 결정적/비결정적이 갈린다</text>
+<rect x="250" y="92" width="260" height="54" rx="10" stroke="#da7756" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="380.0" y="123.0" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="middle">정리 시점을 코드가 아는가?</text>
+<line x1="320" y1="146" x2="210" y2="206" stroke="#3f8e70" stroke-width="1.7" marker-end="url(#aAllow)"/>
+<line x1="440" y1="146" x2="550" y2="206" stroke="#c0584f" stroke-width="1.7" marker-end="url(#aDeny)"/>
+<rect x="236" y="158" width="50" height="26" rx="8" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee"/>
+<text x="261.0" y="175.0" font-size="11" fill="#3f8e70" font-weight="700" text-anchor="middle">예</text>
+<rect x="474" y="158" width="64" height="26" rx="8" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8"/>
+<text x="506.0" y="175.0" font-size="11" fill="#c0584f" font-weight="700" text-anchor="middle">아니오</text>
+<rect x="60" y="208" width="300" height="150" rx="12" stroke="#cfe6da" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="210" y="234" font-size="13" fill="#3f8e70" font-weight="700" text-anchor="middle">결정적 정리</text>
+<text x="210" y="252" font-size="9.8" fill="#3f8e70" font-weight="500" text-anchor="middle">시점 보장 · 기본값</text>
+<rect x="80" y="272" width="260" height="22" rx="7" stroke="#cfe6da" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="210.0" y="287.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">using / await using</text>
+<rect x="80" y="300" width="260" height="22" rx="7" stroke="#cfe6da" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="210.0" y="315.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">DisposableStack (use · move)</text>
+<rect x="80" y="328" width="260" height="22" rx="7" stroke="#cfe6da" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="210.0" y="343.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">{ signal } + abort()</text>
+<rect x="400" y="208" width="300" height="150" rx="12" stroke="#eed4cf" stroke-width="1.3" fill="#f8ebe8"/>
+<text x="550" y="234" font-size="13" fill="#c0584f" font-weight="700" text-anchor="middle">비결정적 정리</text>
+<text x="550" y="252" font-size="9.8" fill="#c0584f" font-weight="500" text-anchor="middle">시점 보장 없음 · 최후의 수단</text>
+<rect x="420" y="272" width="260" height="22" rx="7" stroke="#eed4cf" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="550.0" y="287.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">WeakRef (deref)</text>
+<rect x="420" y="300" width="260" height="22" rx="7" stroke="#eed4cf" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="550.0" y="315.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">FinalizationRegistry</text>
+<rect x="420" y="328" width="260" height="22" rx="7" stroke="#eed4cf" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="550.0" y="343.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">(수명을 GC에 위임)</text>
+<text x="380" y="392" font-size="10.3" fill="#da7756" font-weight="700" text-anchor="middle">도달 가능한 건 GC가 못 거두고 finalizer도 비보장 → 확실한 정리는 결정적 경로로</text>
+</svg>

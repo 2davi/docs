@@ -58,7 +58,7 @@ ai_assistance:
 
 ---
 
-## A부 ─ Cancellation
+# A부 ─ Cancellation
 
 ## 01. 왜 AbortController인가 ─ 취소할 수 없는 Promise
 
@@ -242,7 +242,7 @@ try {
 
 ---
 
-## B부 ─ 객체의 정체와 메모리
+# B부 ─ 객체의 정체와 메모리
 
 ## 08. Signal 멤버의 정체 ─ IDL 속성과 연산
 
@@ -268,7 +268,7 @@ a instanceof DOMException; // → true
 a instanceof Error;        // → false  ← 그래서 구분은 name으로
 ```
 
-## 10. addEventListener는 왜 Signal에 걸리나 ─ EventTarget과 이미지 로더 해부
+## 10. addEventListener는 왜 Signal에 걸리나 ─ EventTarget과 이미지 로더 해부 {#eventtarget-and-image-loader}
 
 Signal에 `addEventListener`가 걸리는 이유는 **AbortSignal이 EventTarget을 상속하기** 때문이다. 버튼이 EventTarget을 상속해 `'click'`을 디스패치하듯, Signal은 취소 시 `'abort'`를 디스패치한다. 같은 이벤트 기계를 DOM이 아닌 객체에 적용한 것이며, `signal.addEventListener('abort', cb)`는 `button.addEventListener('click', cb)`와 같은 종류의 호출이다. ([MDN: EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget))
 
@@ -304,7 +304,7 @@ const loadImage = (src, { signal } = {}) => {
 
 세 가지 종료 이벤트(로드 성공·실패·취소)는 각각 *(1) 내부 컨트롤러를 abort해 리스너를 정리한 뒤 (2) Promise를 settle하고* 있다. Promise는 한 번만 settle되므로 세 이벤트 중 먼저 발생한 경로를 따라 결과가 정해진다. 취소 경로에서는 `img.src = ''`로 진행 중인 다운로드를 멈추고, 사유는 호출자가 준 `reason`을, 만약 `reason`이 없으면 `new DOMException('Aborted', 'AbortError')`를 쓴다. ([이벤트 리스너의 signal 옵션 동작](https://jakearchibald.com/2020/events-and-gc/))
 
-## 11. 메모리와 GC ─ 도달 가능성과 옵저버
+## 11. 메모리와 GC ─ 도달 가능성과 옵저버 {#memory-and-gc}
 
 가비지 컬렉션(Garbage Collection, GC)이 객체를 수거하는 기준은 작업 완료가 아니라 도달 가능성(reachability)이다 — **루트(전역·콜스택)에서 그 객체로 가는 참조 경로가 남았는가.** 각 요청이 실행될 때마다 만드는 Controller와 Signal, 이를(이에) 참조하는 리스너 등등은 `'abort'`가 발화될 수 있는 동안만 살아 있으면 된다. 그러니 Abort 작업이 끝나고 참조가 끊기면 수거 적격이 되고, 컨트롤러·Signal이 도달 불가가 되면 함께 수거된다. 따라서 per-request 컨트롤러를 매번 만드는 것은 누수가 아니다. ([Jake Archibald: 이벤트 리스너와 GC](https://jakearchibald.com/2020/events-and-gc/))
 

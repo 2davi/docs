@@ -1,0 +1,47 @@
+<svg viewBox="0 0 784 440" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="758" height="424" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">수동 정리 — flat vs nested</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">안 잡힌 자원을 정리하면 2차 폭발, 옳은 길은 획득 성공을 등록 전제로 삼는다</text>
+<line x1="392" y1="90" x2="392" y2="432" stroke="#e2dcd2" stroke-width="1.2" stroke-dasharray="3 4"/>
+<rect x="50" y="86" width="300" height="30" rx="8" stroke="#eed4cf" stroke-width="1" fill="#f8ebe8"/>
+<text x="200.0" y="105.0" font-size="11.5" fill="#c0584f" font-weight="700" text-anchor="middle">flat ─ 안티패턴</text>
+<rect x="50" y="130" width="300" height="32" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="62" y="153" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">a = openA()        // 성공</text>
+<rect x="50" y="172" width="300" height="32" rx="10" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="62" y="195" font-size="11.5" fill="#c0584f" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">b = openB()        // throw</text>
+<rect x="50" y="224" width="300" height="96" rx="10" stroke="#eed4cf" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="62" y="247" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">finally {</text>
+<text x="62" y="267" font-size="11" fill="#c0584f" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  b.close()  → TypeError</text>
+<text x="62" y="287" font-size="11" fill="#c0584f" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  a.close()  → 도달 못함</text>
+<text x="62" y="307" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">}</text>
+<text x="200" y="348" font-size="9.8" fill="#c0584f" font-weight="600" text-anchor="middle">안 잡힌 B를 close → 2차 예외 + 원래 에러 마스킹 + A 누수</text>
+<rect x="434" y="86" width="300" height="30" rx="8" stroke="#cfe6da" stroke-width="1" fill="#e8f3ee"/>
+<text x="584.0" y="105.0" font-size="11.5" fill="#3f8e70" font-weight="700" text-anchor="middle">nested ─ 옳음</text>
+<rect x="434" y="130" width="300" height="32" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="446" y="153" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">a = openA()        // 성공</text>
+<rect x="434" y="172" width="300" height="148" rx="10" stroke="#cfe6da" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="446" y="195.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">try {</text>
+<text x="446" y="214.5" font-size="11" fill="#3f8e70" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  b = openB()      // 성공 후에만</text>
+<text x="446" y="234.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  try { …use… }</text>
+<text x="446" y="253.5" font-size="11" fill="#3f8e70" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  finally { b.close() }</text>
+<text x="446" y="273.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">} finally {</text>
+<text x="446" y="292.5" font-size="11" fill="#3f8e70" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  a.close()</text>
+<text x="446" y="312.0" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">}</text>
+<text x="584" y="348" font-size="9.8" fill="#3f8e70" font-weight="600" text-anchor="middle">획득 성공이 정리 등록의 전제 → 안 잡힌 건 손도 안 댐 (대신 중첩 깊어짐)</text>
+<text x="392" y="410" font-size="10.5" fill="#da7756" font-weight="700" text-anchor="middle">ERM(using)은 정확성과 가독성이 묶인 이 매듭을 끊는다</text>
+</svg>

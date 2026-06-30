@@ -1,0 +1,46 @@
+<svg viewBox="0 0 778 344" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="752" height="320" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">move() — 소유권 이전</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">원본 스택을 비우고, 등록된 disposer를 새 스택으로 넘긴다</text>
+<text x="70" y="100" font-size="11" fill="#8a8076" font-weight="700" text-anchor="start">before</text>
+<rect x="60" y="110" width="180" height="168" rx="11" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="150" y="132" font-size="11.5" fill="#6b6258" font-weight="700" text-anchor="middle">stack</text>
+<rect x="76" y="146" width="148" height="30" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="150.0" y="165.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">r1.dispose</text>
+<rect x="76" y="186" width="148" height="30" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="150.0" y="205.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">r2.dispose</text>
+<rect x="76" y="226" width="148" height="30" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="150.0" y="245.0" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">r3.dispose</text>
+<line x1="258" y1="194" x2="406" y2="194" stroke="#da7756" stroke-width="2.0" marker-end="url(#aTerra)"/>
+<rect x="292" y="158" width="78" height="26" rx="8" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="332.0" y="174.5" font-size="11" fill="#da7756" font-weight="700" text-anchor="middle">move()</text>
+<text x="440" y="100" font-size="11" fill="#8a8076" font-weight="700" text-anchor="start">after</text>
+<rect x="430" y="110" width="180" height="140" rx="11" stroke="#da7756" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="520" y="130" font-size="11" fill="#da7756" font-weight="700" text-anchor="middle">newStack (반환)</text>
+<rect x="446" y="142" width="148" height="24" rx="7" stroke="#da7756" stroke-width="1.2" fill="#fdf0eb"/>
+<text x="520.0" y="158.0" font-size="10" fill="#da7756" font-weight="600" text-anchor="middle">r1.dispose</text>
+<rect x="446" y="174" width="148" height="24" rx="7" stroke="#da7756" stroke-width="1.2" fill="#fdf0eb"/>
+<text x="520.0" y="190.0" font-size="10" fill="#da7756" font-weight="600" text-anchor="middle">r2.dispose</text>
+<rect x="446" y="206" width="148" height="24" rx="7" stroke="#da7756" stroke-width="1.2" fill="#fdf0eb"/>
+<text x="520.0" y="222.0" font-size="10" fill="#da7756" font-weight="600" text-anchor="middle">r3.dispose</text>
+<rect x="628" y="162" width="116" height="60" rx="10" stroke="#e2dcd2" stroke-width="1.1" fill="#f1ede6"/>
+<rect x="628" y="162" width="116" height="60" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="686.0" y="189.0" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="middle">stack</text>
+<text x="686.0" y="203.0" font-size="9" fill="#8a8076" font-weight="600" text-anchor="middle">(빈 껍데기)</text>
+<text x="394" y="312" font-size="10.3" fill="#6b6258" font-weight="500" text-anchor="middle">함수 종료 시 원본 dispose는 아무 일도 안 함(no-op) → 자원은 호출자 수명에서 정리된다</text>
+</svg>

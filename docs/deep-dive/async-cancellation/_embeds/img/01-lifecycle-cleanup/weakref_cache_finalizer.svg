@@ -1,0 +1,47 @@
+<svg viewBox="0 0 784 422" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="758" height="406" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">WeakRef 캐시 + FinalizationRegistry 청소</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">Map은 껍데기를 강하게 쥔다 — 객체가 죽어도 엔트리는 잔류한다</text>
+<rect x="48" y="104" width="318" height="250" rx="12" stroke="#e2dcd2" stroke-width="1.2" fill="#fbfaf7"/>
+<text x="64" y="128" font-size="11.5" fill="#6b6258" font-weight="700" text-anchor="start">Map&lt;string, WeakRef&gt;</text>
+<rect x="64" y="150" width="76" height="36" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="102.0" y="172.0" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle">key1</text>
+<rect x="156" y="150" width="188" height="36" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="250.0" y="172.0" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle">WeakRef</text>
+<rect x="64" y="214" width="76" height="36" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="102.0" y="236.0" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle">key2</text>
+<rect x="156" y="214" width="188" height="36" rx="10" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="250.0" y="236.0" font-size="10.5" fill="#c0584f" font-weight="600" text-anchor="middle">WeakRef (죽은 껍데기)</text>
+<text x="205" y="296" font-size="9.3" fill="#8a8076" font-weight="500" text-anchor="middle">껍데기는 Map이 강하게 쥠</text>
+<text x="205" y="312" font-size="9.3" fill="#8a8076" font-weight="500" text-anchor="middle">→ 객체 죽어도 엔트리 잔류</text>
+<rect x="440" y="150" width="150" height="36" rx="10" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="515.0" y="172.0" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">무거운 객체 (생존)</text>
+<rect x="440" y="214" width="150" height="36" rx="9" stroke="#e2dcd2" stroke-width="1.0" fill="#fcfbf9"/>
+<text x="515" y="236" font-size="10.5" fill="#8a8076" font-weight="600" text-anchor="middle">수거됨</text>
+<line x1="440" y1="232" x2="590" y2="232" stroke="#8a8076" stroke-width="1.0" stroke-dasharray="3 3"/>
+<line x1="344" y1="168" x2="440" y2="168" stroke="#da7756" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#aTerra)"/>
+<text x="392" y="160" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">약</text>
+<line x1="344" y1="232" x2="408" y2="232" stroke="#da7756" stroke-width="1.4" stroke-dasharray="5 4"/>
+<text x="420" y="234" font-size="8.5" fill="#da7756" font-weight="700" text-anchor="middle">끊김</text>
+<rect x="440" y="296" width="300" height="70" rx="11" stroke="#da7756" stroke-width="1.3" fill="#fdf0eb"/>
+<text x="590" y="320" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="middle">FinalizationRegistry</text>
+<text x="590" y="340" font-size="10" fill="#6b6258" font-weight="500" text-anchor="middle">수거 후 콜백 → cache.delete(key)</text>
+<path d="M 460 296 C 420 280 320 270 250 250" fill="none" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<text x="360" y="268" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">죽은 엔트리 제거</text>
+<text x="392" y="392" font-size="10" fill="#6b6258" font-weight="500" text-anchor="middle">단, FinalizationRegistry 호출은 보장되지 않는다 — 늦거나 영영 안 올 수 있다 (보조용)</text>
+</svg>
