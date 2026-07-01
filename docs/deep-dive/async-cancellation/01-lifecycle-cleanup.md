@@ -6,13 +6,14 @@ lastmod: 2026-06-30
 author: "Davi"
 description: "using/Symbol.dispose·DisposableStack의 결정적 정리부터, 도달 가능성·WeakRef·FinalizationRegistry의 비결정적 정리까지 — 코어의 리스너 정리 숙제를 언어 차원에서 닫는다."
 slug: async-cancellation-lifecycle-cleanup
+section: "deep-dive"
 category: "javascript"
 tags: [ERM, using, Symbol.dispose, DisposableStack, WeakRef, WeakMap, FinalizationRegistry, garbage-collection, reachability, EventTarget, cleanup, AbortController]
 order: 1
 series: "JS 비동기·취소"
 series_order: 1
 status: "active"
-draft: true
+draft: false
 search: true
 toc: true
 difficulty: intermediate
