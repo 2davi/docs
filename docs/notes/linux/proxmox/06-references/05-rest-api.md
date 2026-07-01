@@ -421,7 +421,7 @@ curl -k -H "Authorization: ..." \
 
 CMP 백엔드가 비동기 Task를 추적하는 전형적인 패턴:
 
-```makrdown
+```markdown
 1. VM 생성 요청 → UPID 수신
 2. DB에 "task={UPID}, status=running" 저장
 3. 백그라운드 워커가 주기적으로:
