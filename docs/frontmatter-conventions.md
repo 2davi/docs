@@ -169,7 +169,7 @@ series: "DSM Deep Dive"
 series_order: 1                        # 시리즈 내 챕터 순서
 
 # ── 식별 (결정 기록 전용) ──
-id: "RDSM-ADR-0000"     # <SCOPE>-<TYPE>-<NNNN> 전역 유일 ID (체계: convention-manual §3)
+id: "RDSM-ADR-0000"     # `<SCOPE>-<TYPE>-<NNNN>` 전역 유일 ID (체계: convention-manual §3)
 scope: "RDSM"           # SCOPE 레지스트리 (CORE | RDSM | DOCS | ...)
 
 # ── 결정 메타 ──
@@ -321,32 +321,32 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 
 ## 부록 A. 필드 레퍼런스 (요약)
 
-| 필드                                                   | 타입            | 섹션             | 비고                    |
-| ------------------------------------------------------ | --------------- | ---------------- | ----------------------- |
-| `title`                                                | string          | 전체             |                         |
-| `date` / `lastmod`                                     | date            | 전체             | 작성일 / 수정일         |
-| `author`                                               | string          | 전체             | 항상 사람               |
-| `description`                                          | string          | 전체             | 150~160자               |
-| `slug`                                                 | string          | 전체             | kebab-case              |
-| `section`                                              | enum            | 전체             | 폴더명과 일치           |
-| `category`                                             | string          | 전체             | 단수. `parent/sub` 가능 |
-| `tags`                                                 | string[]        | 전체             |                         |
-| `order`                                                | number          | 전체             | deep-dive 정렬 1순위    |
-| `series` / `series_order`                              | string / number | deep-dive 주로   |                         |
-| `status`                                               | enum            | 전체             | active/wip/archived     |
-| `draft` / `search`                                     | bool            | 전체             |                         |
-| `version`                                              | string          | **notes**        | 대상 기술 버전          |
-| `cover`                                                | object          | **articles**     | OG 이미지               |
-| `project` / `doc_type` / `related_adrs` / `milestone`  | —               | **deep-dive**    |                         |
-| `original_*` / `translator` / `canonical` / `license*` | —               | **translations** | provenance              |
-| `ai_assistance`                                        | object          | 전체(선택)       | §5                      |
-| `id` | string | **decisions** | <SCOPE>-ADR-<NNNN> |
-| `scope` | string | **decisions** | 이니셜(DOCS, CORE, RDSM) |
-| `decision_status` | string | **decisions** | proposed/accepted/rejectd/deprecated/superseded |
-| `decider` | string[] | **decisions** | 결정기록 참여자 배열 |
-| `period` | date | **decisions** | 단일 결정일 |
-| `issue` / `issue_url` | string | **decisions**(선택) | ??? |
-| `supersedes` / `superseded_by` | string \| string[] | **decisions**(선택) | ??? |
+| 필드                                                   | 타입               | 섹션                | 비고                                            |
+| ------------------------------------------------------ | ------------------ | ------------------- | ----------------------------------------------- |
+| `title`                                                | string             | 전체                |                                                 |
+| `date` / `lastmod`                                     | date               | 전체                | 작성일 / 수정일                                 |
+| `author`                                               | string             | 전체                | 항상 사람                                       |
+| `description`                                          | string             | 전체                | 150~160자                                       |
+| `slug`                                                 | string             | 전체                | kebab-case                                      |
+| `section`                                              | enum               | 전체                | 폴더명과 일치                                   |
+| `category`                                             | string             | 전체                | 단수. `parent/sub` 가능                         |
+| `tags`                                                 | string[]           | 전체                |                                                 |
+| `order`                                                | number             | 전체                | deep-dive 정렬 1순위                            |
+| `series` / `series_order`                              | string / number    | deep-dive 주로      |                                                 |
+| `status`                                               | enum               | 전체                | active/wip/archived                             |
+| `draft` / `search`                                     | bool               | 전체                |                                                 |
+| `version`                                              | string             | **notes**           | 대상 기술 버전                                  |
+| `cover`                                                | object             | **articles**        | OG 이미지                                       |
+| `project` / `doc_type` / `related_adrs` / `milestone`  | —                  | **deep-dive**       |                                                 |
+| `original_*` / `translator` / `canonical` / `license*` | —                  | **translations**    | provenance                                      |
+| `ai_assistance`                                        | object             | 전체(선택)          | §5                                              |
+| `id`                                                   | string             | **decisions**       | `<SCOPE>-ADR-<NNNN>`                            |
+| `scope`                                                | string             | **decisions**       | 이니셜(DOCS, CORE, RDSM)                        |
+| `decision_status`                                      | string             | **decisions**       | proposed/accepted/rejectd/deprecated/superseded |
+| `decider`                                              | string[]           | **decisions**       | 결정기록 참여자 배열                            |
+| `period`                                               | date               | **decisions**       | 단일 결정일                                     |
+| `issue` / `issue_url`                                  | string             | **decisions**(선택) | ???                                             |
+| `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | ???                                             |
 
 ## 부록 B. 로더 연동 주의
 

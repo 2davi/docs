@@ -16,6 +16,6 @@
   예) core-adr-0001-adr-identifier-numbering-convention.md
       rdsm-adr-0000-initial-design-alignment.md
 
-디렉터리: decisions/<scope>/  (core / rdsm / docs)
+디렉터리: decisions/\<scope>/  (core / rdsm / docs)
 ID 도출: 파일명 prefix `<scope>-<type>-<nnnn>` → 카드가 `<SCOPE>-<TYPE>-<NNNN>` 링크 생성
 규칙 전체: convention-manual.md §3 (CORE-ADR-0001)
