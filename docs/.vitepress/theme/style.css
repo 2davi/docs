@@ -1208,3 +1208,17 @@ body {
 /* .tags-wide .VPDoc .container         { max-width: 1252px; }
 .tags-wide .VPDoc .content-container { max-width: none; } */
 .tags-wide .VPDoc:not(.has-sidebar) .content { max-width: 1200px; }
+
+@media (min-width: 960px) {
+  .VPLocalNav.has-sidebar .VPLocalNavOutlineDropdown > .items {
+    width: 22rem !important;
+  }
+
+  .VPLocalNav.has-sidebar .VPLocalNavOutlineDropdown > .items > .outline {
+    min-width: 0;
+  }
+
+  .VPLocalNav.has-sidebar .VPLocalNavOutlineDropdown > .items > .outline > ul.VPDocOutlineItem.nested > li > a.outline-link {
+    width: 95%;
+  }
+}
