@@ -4,6 +4,7 @@ import type { VitePressSidebarOptions } from 'vitepress-sidebar/types'
 import { existsSync }                   from 'fs'
 import { resolve }                      from 'path'
 import { fileURLToPath }                from 'url'
+import { wrapTables }                   from './theme/markdown/wrapTables'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const docRoot   = resolve(__dirname, '../')
@@ -93,7 +94,10 @@ export default defineConfig({
     theme: {
       light: 'github-dark-dimmed',
       dark: 'github-dark-dimmed'
-    }
+    },
+    config(md) {
+      md.use(wrapTables)
+    },
   },
 
   ignoreDeadLinks: 'localhostLinks',

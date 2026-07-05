@@ -604,6 +604,9 @@ body {
 }
 
 .vp-doc table {
+  display: table;
+  table-layout: auto;
+  overflow-x: visible;
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;

@@ -1,9 +1,11 @@
 <script setup>
 import { ref, computed, nextTick } from 'vue'
 import MarkdownIt from 'markdown-it'
+import { wrapTables } from '../markdown/wrapTables'
 
 // ── 설정 ─────────────────────────────────────────────────────
 const md = new MarkdownIt({ html: true, linkify: true, typographer: true })
+md.use(wrapTables)
 
 // md Custom Renderer
 md.renderer.rules.fence = (tokens, idx) => {
