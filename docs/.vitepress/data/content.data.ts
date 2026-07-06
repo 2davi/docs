@@ -67,3 +67,6 @@ export default createContentLoader(
 )
 
 export type { DocItem }
+
+declare const data: DocItem[]
+export { data }

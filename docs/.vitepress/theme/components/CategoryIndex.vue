@@ -107,7 +107,7 @@ const diffLabel = (d?: string) => DIFF_LABEL[d ?? ''] ?? (d ?? '')
                 <span class="ci-morph__a category-index__subcat">{{ subCat(doc) }}</span>
                 <span v-if="doc.difficulty" class="ci-morph__b category-index__difficulty" :class="'lv-' + doc.difficulty" :title="doc.difficulty">{{ diffLabel(doc.difficulty) }}</span>
               </template>
-              <span v-else class="category-index__difficulty" :class="'lv-' + doc.difficulty" :title="doc.difficulty">{{ diffLabel(doc.difficulty) }}</span>
+              <span v-else-if="doc.difficulty" class="category-index__difficulty" :class="'lv-' + doc.difficulty" :title="doc.difficulty">{{ diffLabel(doc.difficulty) }}</span>
             </span>
 
             <span class="category-index__title">{{ doc.title }}</span>

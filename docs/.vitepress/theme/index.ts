@@ -186,7 +186,7 @@ function setupSidebar(router: ReturnType<typeof useRouter>) {
   }, true)
 
   window.addEventListener('hashchange', syncActive)
-  router.onAfterRouteChanged = () => setTimeout(syncActive, 0) // 라우트 바뀌면 사이드바 재생성 → 재반영
+  router.onAfterRouteChanged = () => {setTimeout(syncActive, 0)} // 라우트 바뀌면 사이드바 재생성 → 재반영
   setTimeout(syncActive, 0)
 }
 
