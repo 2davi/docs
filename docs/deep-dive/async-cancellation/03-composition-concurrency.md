@@ -10,7 +10,7 @@ section: "deep-dive"
 category: "javascript"
 tags: [Promise-combinators, concurrency-limit, AbortSignal, event-loop, microtask, cancel-previous, Deferred, resource-leak]
 order: 3
-series: "JS 비동기·취소"
+series: "Async Cancellation"
 series_order: 3
 status: "active"
 draft: false
@@ -22,10 +22,10 @@ ai_assistance:
   authorship: ai-drafted
   role: [drafting, research]
   model: ["claude-opus-4.8"]
-  review: unreviewed
+  review: reviewed
 ---
 
-## 개요 ─ 
+## 개요 ─ 합성·동시성
 
 Ch2는 `dispatchEvent`가 불리언(boolean)을 반환하는 지점에서 멈췄다. 이벤트를 흘려보낸 뒤 "이 이벤트에 붙은 N개의 비동기 리스너가 모두 끝났는가"를 물을 손잡이가 없었고, 그래서 `EventTarget`은 무슨 일이 일어났는지 알리는 **통보(notification)** 는 되지만 여러 비동기를 언제 모을지 결정하는 **조율(coordination)** 은 하지 못한다는 경계에 도달했다. 그 빈자리가 이 축의 출발점이다. 이 문서는 Ch2를 대체하러 온 것이 아니라, Ch2가 닿지 못한 조율의 영역을 메우러 왔다.
 
@@ -110,7 +110,7 @@ Ch1의 `AbortSignal.any()`도 여기서 다시 살아난다. 그것은 "여러 �
 
 ---
 
-## A부 ─ 결합자: 여러 비동기를 관찰하다
+# A부 ─ 결합자: 여러 비동기를 관찰하다
 
 ## 01. 왜 합성인가 ─ 단일 fetch를 넘어서는 세 문제
 
@@ -185,7 +185,7 @@ Promise는 **즉시 평가(eager evaluation)** 된다. `p1`, `p2`, `p3` 객체�
 
 ---
 
-## B부 ─ 취소를 결합하다: 관찰에서 통제로
+# B부 ─ 취소를 결합하다: 관찰에서 통제로
 
 ## 04. race 타임아웃의 겉보기성 ─ AbortSignal.timeout과 소유권 {#abort-signal-timeout}
 
@@ -255,7 +255,7 @@ Promise는 **즉시 평가(eager evaluation)** 된다. `p1`, `p2`, `p3` 객체�
 
 ---
 
-## C부 ─ 동시성을 제한하다: 소비자에서 설계자로
+# C부 ─ 동시성을 제한하다: 소비자에서 설계자로
 
 ## 06. 무한 병렬의 위험 ─ 스레드가 아니라 동시 작업 수 {#unbounded-concurrency}
 
@@ -435,7 +435,7 @@ async function onSearchInput(query) {
 
 ---
 
-## D부 ─ 실행 기계: 그 모든 것이 딛고 선 이벤트 루프 {#section-d}
+# D부 ─ 실행 기계: 그 모든 것이 딛고 선 이벤트 루프 {#section-d}
 
 ## 09. 이벤트 루프 단위 ─ 콜 스택과 두 큐 {#call-stack-and-queue}
 

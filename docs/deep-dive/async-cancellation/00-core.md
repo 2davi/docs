@@ -10,7 +10,7 @@ section: "deep-dive"
 category: "javascript"
 tags: [AbortController, AbortSignal, cancellation, cooperative-cancellation, DOMException, AbortError, EventTarget, garbage-collection, fetch, RequestInit]
 order: 0
-series: "JS 비동기·취소"
+series: "Async Cancellation"
 series_order: 0
 status: "active"
 draft: false

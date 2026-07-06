@@ -10,7 +10,7 @@ section: "deep-dive"
 category: "javascript"
 tags: [ERM, using, Symbol.dispose, DisposableStack, WeakRef, WeakMap, FinalizationRegistry, garbage-collection, reachability, EventTarget, cleanup, AbortController]
 order: 1
-series: "JS 비동기·취소"
+series: "Async Cancellation"
 series_order: 1
 status: "active"
 draft: false

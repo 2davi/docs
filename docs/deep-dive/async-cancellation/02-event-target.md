@@ -10,7 +10,7 @@ section: "deep-dive"
 category: "javascript"
 tags: [EventTarget, AbortSignal, event-propagation, CustomEvent, cooperative-cancellation, dispatchEvent, event-delegation]
 order: 2
-series: "JS 비동기·취소"
+series: "Async Cancellation"
 series_order: 2
 status: "active"
 draft: false
@@ -27,7 +27,7 @@ ai_assistance:
 
 ## 개요 ─ EventTarget
 
-축1에서 확인한 사실은 두 가지였다 — 이벤트 리스너는 대상을 강하게 참조(strong reference)하며, 그래서 수명이 긴 대상에 리스너를 남기면 메모리가 새어 나간다. 그것은 `EventTarget`을 바깥에서, 메모리 관점으로만 관찰한 결과다. 이번에는 그 관찰 대상이었던 `EventTarget` 자체를 파고들어, 리스너가 어떻게 등록·발동·제거되는지를 손에 쥔다.
+[수명·정리](./01-lifecycle-cleanup.md)에서 확인한 사실은 두 가지였다 — 이벤트 리스너는 대상을 강하게 참조(strong reference)하며, 그래서 수명이 긴 대상에 리스너를 남기면 메모리가 새어 나간다. 그것은 `EventTarget`을 바깥에서, 메모리 관점으로만 관찰한 결과다. 이번에는 그 관찰 대상이었던 `EventTarget` 자체를 파고들어, 리스너가 어떻게 등록·발동·제거되는지를 손에 쥔다.
 
 **AbortController**에서 `signal.addEventListener('abort')`가 `button.addEventListener('click')`과 같은 기계라고 배웠다. 그 표현이 비유가 아니라 상속 관계 그 자체임을 구조적으로 확인한다. `AbortSignal`과 `button`이 같은 `addEventListener`를 물려받아 쓰기 때문에 시그널의 `'abort'`가 버튼의 `'click'`과 같은 방식으로 동작한다.
 
@@ -486,7 +486,7 @@ order.pay(9999);   // → (아무 출력 없음. 리스너가 다 떨어졌으�
 
 > 진단 질문 8은 본문 08과 B부 10에 걸쳐 정리되며, 답이 탄탄해 별도 박제 대신 자기 점검에서 절로 매핑한다(→ 개인 노트).
 
-## B부 ─ 비동기와의 충돌
+# B부 ─ 비동기와의 충돌
 
 앞의 A부는 `EventTarget`을 통보 기계로 세웠다 ─ 무슨 일이 일어났는지를 등록된 리스너에 밀어 준다. 이 기계는 동기(synchronous)로 설계되어, 이 시리즈가 다루는 취소·비동기와 정면으로 만난다. B부는 그 충돌 지점을 판다. 이벤트 시스템에 async 리스너를 얹으면 무엇이 깨지는지, [AbortController](./00-core.md)의 시그널이 여기서 어떻게 완성되는지, 그리고 이벤트 모델이 못 하는 일이 정확히 다음 축의 존재 이유임을 확인한다.
 

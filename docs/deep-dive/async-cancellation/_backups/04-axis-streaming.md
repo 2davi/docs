@@ -11,7 +11,29 @@
 - **축2 (EventTarget 기반)** ✅ — 스트림 이벤트도 결국 EventTarget.
 - **축3 (합성·동시성)** ✅ — 결합자·동시성 제한·백프레셔의 사촌.
 - 이번이 **축4**. 이후: 축5(캡스톤).
-- *(직전 축[축3]의 인계 메모를 여기 붙여넣기)*
+- 「실제로 다룬 것: Promise 결합자 넷의 settle 의미(all=첫reject 단락, allSettled=전원
+결판·never reject·결과객체배열, race=첫settle 승자복사, any=첫fulfill·전멸시
+AggregateError, all↔any 거울상). 결합자×취소(race타임아웃의 겉보기성 → AbortSignal.timeout
+우월 = '소유하는 자만 정리', 형제취소는 공유컨트롤러 fan-out + .catch가 에러삼켜
+fulfilled로 되돌리는 함정→throw err 필수). 동시성 제한기 직접 구현(성크(thunk)로 실행봉인,
+두 장부 queue+active, Deferred=Promise.withResolvers로 '지금 promise 반환·나중 resolve',
+펌프 순환, active±는 실행 시작/종료와 한 몸). cancel-previous(다음 쏘기 전 이전 abort +
+버전토큰 사후방어). 자원누수 3층(커넥션/서버작업/메모리콜백) + 증폭3겹(반복성/비가시성/정합성).
+
+핵심 기계 (축4가 딛고 설 바닥): 이벤트 루프 = 콜스택 비면 → 마이크로큐 몽땅 → 매크로 하나 →
+반복. resolve()는 실행이 아니라 '큐잉 트리거'. 태스크(콜백 하나)는 run-to-completion으로
+안 끊김, 루프는 태스크 경계에서만 개입. setTimeout(,0)도 마이크로에 항상 짐. '동시 관찰'의
+실체 = 마이크로태스크 큐 위 인터리빙(물리적 동시 아님). queueMicrotask = 동기보단 늦고
+setTimeout보단 이르게.
+
+다음 축(스트림 취소)이 알아야 할 것: ①await의 정체가 정확히 '.then 마이크로태스크
+스케줄링'이다 — async 함수는 await에서 중단→마이크로태스크로 재개. 이게 async
+이터레이터/제너레이터의 바닥. ②순서보장(ordering) 문제 회수: 동시에 쏘되 결과를 요청
+순서로 정렬하는 게 스트림에서 핵심(백프레셔와 얽힘). ③'소유하는 자만 정리한다'가
+스트림에서 재등장: ReadableStream의 취소·locked·cancel()이 정확히 소유권 문제. ④결합자는
+'전부 모으거나(all/allSettled) 하나 고르거나(race/any)'인데, 스트림은 '흐름을 조각조각
+소비'라 결합자로 안 풀리는 새 영역 — 여기서 async 이터레이터가 필요해진다. ⑤열린 실:
+마이크로태스크 기아(무한 self-queueing이 렌더링 굶김)가 스트림 처리에서 실제 위험으로 등장 가능.」
 
 ## 코어와의 연결점
 코어의 "협조적 취소"는 1회성 작업 기준이었다. 축4는 그걸 *흐르는 데이터*로 확장한다 — 청크가 계속 도착하는 와중에 어떻게 협조적으로 멈추고 정리하는가.
