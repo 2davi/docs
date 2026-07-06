@@ -1,0 +1,44 @@
+<svg viewBox="0 0 768 440" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="414" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">자원 누수 ─ 3층 실체와 3겹 증폭</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">형제를 안 끊으면 세 층이 샌다. 그리고 세 방식으로 증폭돼 조용히 무너진다.</text>
+<text x="56" y="96" font-size="12" fill="#c0584f" font-weight="700" text-anchor="start">무엇이 새는가 (3층)</text>
+<rect x="56" y="116" width="330" height="62" rx="9" stroke="#eed4cf" stroke-width="1.4" fill="#f8ebe8"/>
+<text x="72" y="142" font-size="12" fill="#c0584f" font-weight="700" text-anchor="start">커넥션</text>
+<text x="72" y="162" font-size="9.8" fill="#2b2722" font-weight="500" text-anchor="start">소켓·커넥션 계속 점유 → 호스트당 6개 상한 잠식</text>
+<rect x="56" y="190" width="330" height="62" rx="9" stroke="#eed4cf" stroke-width="1.4" fill="#f8ebe8"/>
+<text x="72" y="216" font-size="12" fill="#c0584f" font-weight="700" text-anchor="start">서버 작업</text>
+<text x="72" y="236" font-size="9.8" fill="#2b2722" font-weight="500" text-anchor="start">클라이언트가 등 돌려도 서버는 끝까지 실행 (DB·결제)</text>
+<rect x="56" y="264" width="330" height="62" rx="9" stroke="#eed4cf" stroke-width="1.4" fill="#f8ebe8"/>
+<text x="72" y="290" font-size="12" fill="#c0584f" font-weight="700" text-anchor="start">메모리·콜백</text>
+<text x="72" y="310" font-size="9.8" fill="#2b2722" font-weight="500" text-anchor="start">promise·버퍼·클로저 상주, 죽은 UI 갱신 시도</text>
+<text x="412" y="96" font-size="12" fill="#da7756" font-weight="700" text-anchor="start">왜 위험한가 (3겹 증폭)</text>
+<rect x="412" y="116" width="316" height="62" rx="9" stroke="#ebd9b0" stroke-width="1.4" fill="#fdf3e3"/>
+<text x="428" y="142" font-size="12" fill="#da7756" font-weight="700" text-anchor="start">반복성</text>
+<text x="428" y="162" font-size="9.4" fill="#2b2722" font-weight="500" text-anchor="start">검색창·자동완성은 초당 여러 번 → 좀비 선형 누적</text>
+<rect x="412" y="190" width="316" height="62" rx="9" stroke="#ebd9b0" stroke-width="1.4" fill="#fdf3e3"/>
+<text x="428" y="216" font-size="12" fill="#da7756" font-weight="700" text-anchor="start">비가시성</text>
+<text x="428" y="236" font-size="9.4" fill="#2b2722" font-weight="500" text-anchor="start">당장 에러 없음. 며칠 뒤 조용히 터짐 (원인≠증상 시공간 분리)</text>
+<rect x="412" y="264" width="316" height="62" rx="9" stroke="#ebd9b0" stroke-width="1.4" fill="#fdf3e3"/>
+<text x="428" y="290" font-size="12" fill="#da7756" font-weight="700" text-anchor="start">정합성 붕괴</text>
+<text x="428" y="310" font-size="9.4" fill="#2b2722" font-weight="500" text-anchor="start">취소했다 믿는 클라 vs 실행 완수한 서버 = 상태 불일치</text>
+<rect x="56" y="350" width="672" height="66" rx="10" stroke="#cfe6da" stroke-width="1.4" fill="#e8f3ee"/>
+<text x="72" y="376" font-size="13" fill="#3f8e70" font-weight="700" text-anchor="start">조율 ≠ 통제</text>
+<text x="200" y="376" font-size="11" fill="#2b2722" font-weight="500" text-anchor="start">결합자는 '언제 다 끝났나'를 취합할 뿐, 안 끝난 걸 끊는 통제는 못 한다.</text>
+<text x="72" y="400" font-size="10.8" fill="#6b6258" font-weight="600" text-anchor="start">취합(aggregation)과 정리(cleanup)는 별개 책임 — 정리는 언제나 AbortController로 명시 배선.</text>
+</svg>

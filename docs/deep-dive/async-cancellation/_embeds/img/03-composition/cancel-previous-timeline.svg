@@ -1,0 +1,58 @@
+<svg viewBox="0 0 768 420" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="394" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">cancel-previous ─ 다음을 쏘기 전에 이전을 죽인다</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">매 입력마다 직전 요청을 abort. 어느 순간에도 살아있는 fetch는 최신 하나뿐.</text>
+<circle cx="76" cy="150" r="5" fill="#5b86c4"/>
+<text x="76" y="136" font-size="11" fill="#5b86c4" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">"r"</text>
+<rect x="76" y="180" width="118" height="26" rx="6" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="186" y="197" font-size="13" fill="#c0584f" font-weight="700" text-anchor="middle">✕</text>
+<text x="84" y="197" font-size="10" fill="#c0584f" font-weight="600" text-anchor="start">abort</text>
+<circle cx="194" cy="150" r="5" fill="#5b86c4"/>
+<text x="194" y="136" font-size="11" fill="#5b86c4" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">"re"</text>
+<rect x="194" y="180" width="118" height="26" rx="6" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="304" y="197" font-size="13" fill="#c0584f" font-weight="700" text-anchor="middle">✕</text>
+<text x="202" y="197" font-size="10" fill="#c0584f" font-weight="600" text-anchor="start">abort</text>
+<circle cx="312" cy="150" r="5" fill="#5b86c4"/>
+<text x="312" y="136" font-size="11" fill="#5b86c4" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">"rea"</text>
+<rect x="312" y="180" width="118" height="26" rx="6" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="422" y="197" font-size="13" fill="#c0584f" font-weight="700" text-anchor="middle">✕</text>
+<text x="320" y="197" font-size="10" fill="#c0584f" font-weight="600" text-anchor="start">abort</text>
+<circle cx="430" cy="150" r="5" fill="#5b86c4"/>
+<text x="430" y="136" font-size="11" fill="#5b86c4" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">"reac"</text>
+<rect x="430" y="180" width="118" height="26" rx="6" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="540" y="197" font-size="13" fill="#c0584f" font-weight="700" text-anchor="middle">✕</text>
+<text x="438" y="197" font-size="10" fill="#c0584f" font-weight="600" text-anchor="start">abort</text>
+<circle cx="548" cy="150" r="5" fill="#5b86c4"/>
+<text x="548" y="136" font-size="11" fill="#5b86c4" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">"react"</text>
+<rect x="548" y="180" width="142" height="26" rx="6" stroke="#3f8e70" stroke-width="1.4" fill="#e8f3ee"/>
+<line x1="678" y1="193" x2="692" y2="193" stroke="#3f8e70" stroke-width="1.6" marker-end="url(#aAllow)"/>
+<text x="556" y="197" font-size="9.3" fill="#3f8e70" font-weight="600" text-anchor="start">살아남음→render</text>
+<path d="M 194 158 C 194 170, 194 172, 194 180" fill="none" stroke="#c0584f" stroke-width="1.5" marker-end="url(#aDeny)"/>
+<path d="M 312 158 C 312 170, 312 172, 312 180" fill="none" stroke="#c0584f" stroke-width="1.5" marker-end="url(#aDeny)"/>
+<path d="M 430 158 C 430 170, 430 172, 430 180" fill="none" stroke="#c0584f" stroke-width="1.5" marker-end="url(#aDeny)"/>
+<path d="M 548 158 C 548 170, 548 172, 548 180" fill="none" stroke="#c0584f" stroke-width="1.5" marker-end="url(#aDeny)"/>
+<rect x="76" y="250" width="616" height="60" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#f1ede6"/>
+<text x="92" y="274" font-size="11" fill="#da7756" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">currentCtrl?.abort()  →  new AbortController()  →  fetch({ signal })</text>
+<text x="92" y="296" font-size="10.5" fill="#2b2722" font-weight="500" text-anchor="start">① 직전 것 죽이고  ② 새 컨트롤러 만들고  ③ 이번 요청 — 이 순서가 핵심</text>
+<rect x="76" y="328" width="300" height="62" rx="9" stroke="#eed4cf" stroke-width="1.3" fill="#f8ebe8"/>
+<text x="226" y="350" font-size="11" fill="#c0584f" font-weight="700" text-anchor="middle">선제 방어: abort</text>
+<text x="226" y="370" font-size="10" fill="#2b2722" font-weight="500" text-anchor="middle">요청 자체를 끊음 (자원 절약)</text>
+<rect x="392" y="328" width="300" height="62" rx="9" stroke="#cfe6da" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="542" y="350" font-size="11" fill="#3f8e70" font-weight="700" text-anchor="middle">사후 방어: 버전 토큰</text>
+<text x="542" y="370" font-size="10" fill="#2b2722" font-weight="500" text-anchor="middle">도착한 응답을 걸러냄 (정확성)</text>
+</svg>

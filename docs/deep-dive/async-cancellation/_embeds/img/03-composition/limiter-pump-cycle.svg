@@ -1,0 +1,47 @@
+<svg viewBox="0 0 768 440" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="414" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">제한기의 펌프 순환 ─ 빈 슬롯이 생기면 즉시 다음</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">limit이 일감을 넣고, pump가 슬롯을 채우고, finally가 슬롯을 비우며 다시 pump를 깨운다.</text>
+<rect x="134" y="150" width="150" height="66" rx="10" stroke="#c3d3ec" stroke-width="1.5" fill="#eaf0f9"/>
+<text x="209" y="176" font-size="12.5" fill="#5b86c4" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">limit(thunk)</text>
+<text x="209" y="194" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">withResolvers로</text>
+<text x="209" y="208" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">promise 즉시 반환</text>
+<rect x="404" y="130" width="150" height="66" rx="10" stroke="#e2dcd2" stroke-width="1.5" fill="#f1ede6"/>
+<text x="479" y="156" font-size="12.5" fill="#6b6258" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">queue.push</text>
+<text x="479" y="174" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">thunk+resolve를</text>
+<text x="479" y="188" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">대기줄에 등록</text>
+<rect x="614" y="220" width="150" height="66" rx="10" stroke="#ebd9b0" stroke-width="1.5" fill="#fdf3e3"/>
+<text x="689" y="246" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">pump()</text>
+<text x="689" y="264" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">active&lt;N이면</text>
+<text x="689" y="278" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">queue.shift 실행</text>
+<rect x="474" y="360" width="150" height="66" rx="10" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="549" y="386" font-size="12.5" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">thunk 실행</text>
+<text x="549" y="404" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">active++</text>
+<text x="549" y="418" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">fetch 발화</text>
+<rect x="194" y="350" width="150" height="66" rx="10" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="269" y="376" font-size="12.5" fill="#c0584f" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">finally</text>
+<text x="269" y="394" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">active--</text>
+<text x="269" y="408" font-size="9.6" fill="#2b2722" font-weight="500" text-anchor="middle">pump() 재호출</text>
+<path d="M 279 163 Q 344.0 120 409 143" fill="none" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 549 163 Q 604.0 150 689 233" fill="none" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 689 283 Q 649.0 340 609 373" fill="none" stroke="#3f8e70" stroke-width="1.8" marker-end="url(#aAllow)"/>
+<path d="M 479 403 Q 409.0 400 329 403" fill="none" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 344 353 Q 384 250 679 263" fill="none" stroke="#da7756" stroke-width="1.9" stroke-dasharray="6 4" marker-end="url(#aTerra)"/>
+<text x="384" y="262" font-size="10.5" fill="#da7756" font-weight="700" text-anchor="middle">순환 고리</text>
+<text x="384" y="278" font-size="9.6" fill="#da7756" font-weight="600" text-anchor="middle">빈 슬롯 → 다음</text>
+</svg>

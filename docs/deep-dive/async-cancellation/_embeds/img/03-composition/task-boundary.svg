@@ -1,0 +1,43 @@
+<svg viewBox="0 0 768 400" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="374" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">태스크 경계 ─ run-to-completion</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">태스크는 시작하면 끝까지 안 끊긴다. 이벤트 루프는 태스크와 태스크 '사이'에서만 개입한다.</text>
+<rect x="70" y="130" width="200" height="80" rx="10" stroke="#c3d3ec" stroke-width="1.5" fill="#eaf0f9"/>
+<text x="170.0" y="160" font-size="13" fill="#5b86c4" font-weight="700" text-anchor="middle">태스크 1</text>
+<text x="170.0" y="182" font-size="9.6" fill="#6b6258" font-weight="600" text-anchor="middle">run-to-completion</text>
+<text x="170.0" y="198" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">(루프 개입 불가)</text>
+<rect x="360" y="130" width="200" height="80" rx="10" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="460.0" y="160" font-size="13" fill="#3f8e70" font-weight="700" text-anchor="middle">태스크 2</text>
+<text x="460.0" y="182" font-size="9.6" fill="#6b6258" font-weight="600" text-anchor="middle">run-to-completion</text>
+<text x="460.0" y="198" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">(루프 개입 불가)</text>
+<line x1="315" y1="116" x2="315" y2="224" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4"/>
+<circle cx="315" cy="170" r="8" fill="#fdf3e3"/>
+<circle cx="315" cy="170" r="8" fill="none" stroke="#da7756" stroke-width="1.5"/>
+<text x="315" y="108" font-size="9.6" fill="#da7756" font-weight="700" text-anchor="middle">경계</text>
+<text x="315" y="242" font-size="9" fill="#da7756" font-weight="600" text-anchor="middle">루프 개입</text>
+<line x1="605" y1="116" x2="605" y2="224" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 4"/>
+<circle cx="605" cy="170" r="8" fill="#fdf3e3"/>
+<circle cx="605" cy="170" r="8" fill="none" stroke="#da7756" stroke-width="1.5"/>
+<text x="605" y="108" font-size="9.6" fill="#da7756" font-weight="700" text-anchor="middle">경계</text>
+<text x="605" y="242" font-size="9" fill="#da7756" font-weight="600" text-anchor="middle">루프 개입</text>
+<rect x="70" y="258" width="628" height="110" rx="10" stroke="#e2dcd2" stroke-width="1.3" fill="#f1ede6"/>
+<text x="88" y="284" font-size="12" fill="#da7756" font-weight="700" text-anchor="start">태스크 '안'에서 벌어지는 일</text>
+<text x="88" y="310" font-size="10.8" fill="#2b2722" font-weight="500" text-anchor="start">동기 코드를 위에서 아래로 실행하다가 .then / setTimeout을 '만나면'</text>
+<text x="88" y="330" font-size="10.8" fill="#c0584f" font-weight="600" text-anchor="start">→ 실행하지 않고 해당 큐에 '적재만' 한다. (만난다 ≠ 실행한다)</text>
+<text x="88" y="352" font-size="10.8" fill="#3f8e70" font-weight="600" text-anchor="start">→ 적재된 것들은 현재 태스크가 완주해 스택이 빈 '뒤'에야 처리된다.</text>
+</svg>

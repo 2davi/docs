@@ -5,7 +5,7 @@ date: 2026-06-30
 lastmod: 2026-06-30
 author: "Davi"
 description: "using/Symbol.dispose·DisposableStack의 결정적 정리부터, 도달 가능성·WeakRef·FinalizationRegistry의 비결정적 정리까지 — 코어의 리스너 정리 숙제를 언어 차원에서 닫는다."
-slug: async-cancellation-lifecycle-cleanup
+slug: lifecycle-cleanup
 section: "deep-dive"
 category: "javascript"
 tags: [ERM, using, Symbol.dispose, DisposableStack, WeakRef, WeakMap, FinalizationRegistry, garbage-collection, reachability, EventTarget, cleanup, AbortController]
@@ -22,7 +22,7 @@ ai_assistance:
   authorship: ai-drafted
   role: [drafting, research]
   model: ["claude-opus-4.8"]
-  review: unreviewed
+  review: reviewed
 ---
 
 ## 개요 ─ 수명·정리
@@ -678,7 +678,7 @@ registry.register(owner, { socket, wrapper });
 | 수명 결정 주체 | 코드(스코프·트리거) | 외부 도달 가능성(GC) |
 | 권장 위치 | 기본값 | 최후의 수단·보조 |
 
-"GC가 해주겠지"의 최종 답이 이 표에서 닫힌다 — GC는 도달 가능한 것을 거두지 못하고(토대), 그것을 떼어줄 finalizer마저 호출이 보장되지 않는다. 그러므로 확실한 정리는 결정적 경로로 한다. 비결정적 도구는 수명을 GC에 위임해도 *되는*(정확성을 요구하지 않는) 곳에서만, 보조로 쓴다. JavaScript에는 Rust 같은 소유권 강제 장치가 없어서 `using` 없이 별칭을 만들거나 클로저에 자원을 가둘 수 있고, 이 기능들은 수동 정리보다 분명한 개선이지만 모든 자원 버그를 막아주지는 못한다([MDN: JavaScript resource management — 은탄환이 아님](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Resource_management)).
+"GC가 해주겠지"의 최종 답이 이 표에서 닫힌다 — GC는 도달 가능한 것을 거두지 못하고(토대), 그것을 떼어줄 finalizer마저 호출이 보장되지 않는다. 그러므로 확실한 정리는 결정적 경로로 한다. 비결정적 도구는 수명을 GC에 위임해도 *되는*(정확성을 요구하지 않는) 곳에서만, 보조로 쓴다. JavaScript에는 Rust 같은 소유권 강제 장치가 없어서 `using` 없이 별칭을 만들거나 클로저에 자원을 가둘 수 있고, 이 기능들은 수동 정리보다 분명한 개선이지만 모든 자원 버그를 막아주지는 못한다([MDN: JavaScript resource management](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Resource_management)).
 
 ![정리 시점을 아는가를 묻고, 알면 결정적 도구(using/DisposableStack/signal+abort)로, 모르면 비결정적 도구(WeakRef/FinalizationRegistry)로 가르는 결정 트리](./_embeds/img/01-lifecycle-cleanup/cleanup_decision_tree.svg)
 
@@ -796,4 +796,4 @@ target.removeEventListener("x", cb);               // 등록할 때와 '같은 �
 
 ---
 
-다음 [축2: EventTarget 기반](./02-eventtarget)에서, 이 문서 §06~07이 '정리' 렌즈로만 본 `EventTarget`을 이벤트 모델 본체로 파고든다 — 전파·`dispatchEvent`·`CustomEvent`, 그리고 `AbortSignal`이 그 위에 어떻게 얹히는지로.
+다음 [축2: EventTarget 기반](./02-event-target)에서, 이 문서 §06~07이 '정리' 렌즈로만 본 `EventTarget`을 이벤트 모델 본체로 파고든다 — 전파·`dispatchEvent`·`CustomEvent`, 그리고 `AbortSignal`이 그 위에 어떻게 얹히는지로.

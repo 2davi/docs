@@ -1,0 +1,34 @@
+<svg viewBox="0 0 746 451" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="720" height="425" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">이벤트 전파 — 한 경로의 왕복</text>
+<text x="36" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">body 안 div 안 button 클릭: capture로 내려갔다가 target 찍고 bubble로 올라온다</text>
+<rect x="265" y="116" width="190" height="52" rx="10" stroke="#e2dcd2" stroke-width="1.6" fill="#fcfbf9"/>
+<text x="360.0" y="147" font-size="13.5" fill="#2b2722" font-weight="700" text-anchor="middle">body</text>
+<rect x="265" y="202" width="190" height="52" rx="10" stroke="#e2dcd2" stroke-width="1.6" fill="#fcfbf9"/>
+<text x="360.0" y="233" font-size="13.5" fill="#2b2722" font-weight="700" text-anchor="middle">div</text>
+<rect x="265" y="288" width="190" height="52" rx="10" stroke="#da7756" stroke-width="1.6" fill="#fbeee9"/>
+<text x="360.0" y="319" font-size="13.5" fill="#2b2722" font-weight="700" text-anchor="middle">button · target</text>
+<line x1="228" y1="112" x2="228" y2="344" stroke="#6b6258" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="44" y="150" font-size="13" fill="#5b86c4" font-weight="700" text-anchor="start">① capture</text>
+<text x="44" y="168" font-size="11" fill="#6b6258" font-weight="normal" text-anchor="start">내려감</text>
+<line x1="492" y1="344" x2="492" y2="112" stroke="#6b6258" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="676" y="150" font-size="13" fill="#4a9d7f" font-weight="700" text-anchor="end">③ bubble</text>
+<text x="676" y="168" font-size="11" fill="#6b6258" font-weight="end" text-anchor="start">올라옴</text>
+<text x="360" y="372" font-size="12" fill="#da7756" font-weight="600" text-anchor="middle">② target 도착 — 여기서 방향이 뒤집힌다</text>
+<text x="40" y="416" font-size="11.5" fill="#6b6258" font-weight="normal" text-anchor="start">capture:true 리스너는 내려갈 때, capture:false(기본)는 올라올 때 발동 — 같은 조상을 두 번 지난다.</text>
+</svg>

@@ -1,0 +1,55 @@
+<svg viewBox="0 0 768 420" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="394" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">두 종류의 취소 ─ 이벤트 루프에 올라탔나</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">대기 중은 큐에서 버리면 그만. 진행 중은 이미 자원을 쥐고 있어 signal로 끊어야 한다.</text>
+<rect x="40" y="92" width="336" height="250" rx="11" stroke="#ebd9b0" stroke-width="1.5" fill="#fdf3e3"/>
+<text x="208" y="120" font-size="13.5" fill="#da7756" font-weight="700" text-anchor="middle">대기 중 (queued)</text>
+<text x="208" y="140" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="middle">아직 fetch 안 나감</text>
+<rect x="66" y="158" width="284" height="44" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="80" y="184" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="start">대기줄</text>
+<rect x="130" y="168" width="58" height="24" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="159" y="184" font-size="9.5" fill="#6b6258" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">job1</text>
+<rect x="198" y="168" width="58" height="24" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="227" y="184" font-size="9.5" fill="#6b6258" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">job2</text>
+<rect x="266" y="168" width="58" height="24" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="295" y="184" font-size="9.5" fill="#6b6258" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">job3</text>
+<text x="208" y="222" font-size="10.5" fill="#da7756" font-weight="700" text-anchor="middle">splice(0) → 통째로 버림</text>
+<line x1="208" y1="232" x2="208" y2="250" stroke="#da7756" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="66" y="258" width="284" height="74" rx="8" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="208" y="280" font-size="11" fill="#c0584f" font-weight="700" text-anchor="middle">⚠ 버리기만 하면 데드락</text>
+<text x="208" y="300" font-size="10" fill="#2b2722" font-weight="500" text-anchor="middle">그 promise를 reject 해야</text>
+<text x="208" y="318" font-size="10" fill="#2b2722" font-weight="500" text-anchor="middle">호출자의 await이 풀린다</text>
+<rect x="398" y="92" width="330" height="250" rx="11" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="563" y="120" font-size="13.5" fill="#c0584f" font-weight="700" text-anchor="middle">진행 중 (in-flight)</text>
+<text x="563" y="140" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="middle">이미 fetch 돌고 있음</text>
+<rect x="424" y="158" width="278" height="44" rx="8" stroke="#eed4cf" stroke-width="1.2" fill="#fcfbf9"/>
+<rect x="440" y="168" width="76" height="24" rx="5" stroke="#c0584f" stroke-width="1" fill="#f8ebe8"/>
+<text x="478" y="184" font-size="9.5" fill="#c0584f" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fetch1</text>
+<rect x="528" y="168" width="76" height="24" rx="5" stroke="#c0584f" stroke-width="1" fill="#f8ebe8"/>
+<text x="566" y="184" font-size="9.5" fill="#c0584f" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fetch2</text>
+<rect x="616" y="168" width="76" height="24" rx="5" stroke="#c0584f" stroke-width="1" fill="#f8ebe8"/>
+<text x="654" y="184" font-size="9.5" fill="#c0584f" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">fetch3</text>
+<text x="563" y="222" font-size="10.5" fill="#c0584f" font-weight="700" text-anchor="middle">controller.abort() → 실제로 끊음</text>
+<line x1="563" y1="232" x2="563" y2="250" stroke="#c0584f" stroke-width="1.6" marker-end="url(#aDeny)"/>
+<rect x="424" y="258" width="278" height="74" rx="8" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="563" y="280" font-size="11" fill="#3f8e70" font-weight="700" text-anchor="middle">자원을 실제로 회수</text>
+<text x="563" y="300" font-size="10" fill="#2b2722" font-weight="500" text-anchor="middle">커넥션·서버작업 중단</text>
+<text x="563" y="318" font-size="10" fill="#2b2722" font-weight="500" text-anchor="middle">fetch가 AbortError로 reject</text>
+<line x1="40" y1="362" x2="728" y2="362" stroke="#e2dcd2" stroke-width="1.2"/>
+<text x="384" y="388" font-size="11.5" fill="#da7756" font-weight="600" text-anchor="middle">가르는 기준: 작업이 '이벤트 루프에 이미 올라탔나' — 아니면 버리기, 맞으면 끊기</text>
+</svg>

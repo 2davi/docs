@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="734" height="354" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">all ↔ any ─ 거울상 구조</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">fulfill과 reject를 뒤집으면 서로가 된다.</text>
+<rect x="48" y="96" width="300" height="210" rx="11" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="198" y="128" font-size="18" fill="#c0584f" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">all</text>
+<line x1="72" y1="144" x2="324" y2="144" stroke="#eed4cf" stroke-width="1.2"/>
+<text x="72" y="176" font-size="12.5" fill="#2b2722" font-weight="500" text-anchor="start">하나라도</text>
+<text x="198" y="176" font-size="13" fill="#c0584f" font-weight="700" text-anchor="middle">실패</text>
+<text x="324" y="176" font-size="12.5" fill="#2b2722" font-weight="500" text-anchor="end">면</text>
+<text x="198" y="202" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="middle">→ 전체 실패</text>
+<rect x="412" y="96" width="300" height="210" rx="11" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="562" y="128" font-size="18" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">any</text>
+<line x1="436" y1="144" x2="688" y2="144" stroke="#cfe6da" stroke-width="1.2"/>
+<text x="436" y="176" font-size="12.5" fill="#2b2722" font-weight="500" text-anchor="start">하나라도</text>
+<text x="562" y="176" font-size="13" fill="#3f8e70" font-weight="700" text-anchor="middle">성공</text>
+<text x="688" y="176" font-size="12.5" fill="#2b2722" font-weight="500" text-anchor="end">면</text>
+<text x="562" y="202" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="middle">→ 전체 성공</text>
+<line x1="380" y1="100" x2="380" y2="302" stroke="#da7756" stroke-width="1.6" stroke-dasharray="5 5"/>
+<text x="380" y="90" font-size="11" fill="#da7756" font-weight="700" text-anchor="middle">거울</text>
+<circle cx="138" cy="262" r="11" fill="#3f8e70"/>
+<circle cx="198" cy="262" r="11" fill="#3f8e70"/>
+<circle cx="258" cy="262" r="11" fill="#c0584f"/>
+<circle cx="502" cy="262" r="11" fill="#c0584f"/>
+<circle cx="562" cy="262" r="11" fill="#c0584f"/>
+<circle cx="622" cy="262" r="11" fill="#3f8e70"/>
+<text x="380" y="340" font-size="11.5" fill="#6b6258" font-weight="500" text-anchor="middle">성공↔실패를 맞바꾸면 all의 정의가 any의 정의로 변환된다</text>
+</svg>

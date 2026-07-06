@@ -1,0 +1,142 @@
+<svg viewBox="0 0 784 640" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="758" height="614" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">중첩 추적 ─ A → F → E → B → C → D</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">각 컷: 콜 스택 · 마이크로 큐 · 매크로 큐의 상태. 출력된 문자를 아래에 쌓는다.</text>
+<rect x="34" y="72" width="716" height="66" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="50" y="94" font-size="10.3" fill="#2b2722" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">log('A'); setTimeout(T1,0); Promise.resolve().then(→'E'); log('F');</text>
+<text x="50" y="114" font-size="10.3" fill="#2b2722" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">T1 = { log('B'); Promise.resolve().then(→'C'); setTimeout(→'D',0); }</text>
+<rect x="40" y="160" width="226" height="190" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="52" y="182" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">① 스크립트 실행</text>
+<text x="84.0" y="204" font-size="9" fill="#5b86c4" font-weight="700" text-anchor="middle">스택</text>
+<rect x="52" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#eaf0f9"/>
+<rect x="58" y="216" width="52" height="18" rx="3" stroke="#5b86c4" stroke-width="1" fill="#fcfbf9"/>
+<text x="84.0" y="229" font-size="8.8" fill="#5b86c4" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">(script)</text>
+<text x="152.0" y="204" font-size="9" fill="#3f8e70" font-weight="700" text-anchor="middle">micro</text>
+<rect x="120" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#e8f3ee"/>
+<text x="152.0" y="256" font-size="12" fill="#8a8076" font-weight="500" text-anchor="middle">∅</text>
+<text x="220.0" y="204" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">macro</text>
+<rect x="188" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#fdf3e3"/>
+<rect x="194" y="216" width="52" height="18" rx="3" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="220.0" y="229" font-size="8.8" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">T1</text>
+<rect x="52" y="320" width="202" height="22" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="58" y="335" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="start">out:</text>
+<text x="84" y="335" font-size="9.5" fill="#da7756" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">A</text>
+<text x="99" y="335" font-size="9" fill="#da7756" font-weight="700" text-anchor="start">▸</text>
+<text x="111" y="335" font-size="9.5" fill="#da7756" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">F</text>
+<rect x="278" y="160" width="226" height="190" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="290" y="182" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">② 스택 빔 → 마이크로</text>
+<text x="322.0" y="204" font-size="9" fill="#5b86c4" font-weight="700" text-anchor="middle">스택</text>
+<rect x="290" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#eaf0f9"/>
+<text x="322.0" y="256" font-size="12" fill="#8a8076" font-weight="500" text-anchor="middle">∅</text>
+<text x="390.0" y="204" font-size="9" fill="#3f8e70" font-weight="700" text-anchor="middle">micro</text>
+<rect x="358" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#e8f3ee"/>
+<rect x="364" y="216" width="52" height="18" rx="3" stroke="#3f8e70" stroke-width="1" fill="#fcfbf9"/>
+<text x="390.0" y="229" font-size="8.8" fill="#3f8e70" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">→E</text>
+<text x="458.0" y="204" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">macro</text>
+<rect x="426" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#fdf3e3"/>
+<rect x="432" y="216" width="52" height="18" rx="3" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="458.0" y="229" font-size="8.8" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">T1</text>
+<rect x="290" y="320" width="202" height="22" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="296" y="335" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="start">out:</text>
+<text x="322" y="335" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">A</text>
+<text x="337" y="335" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">F</text>
+<text x="352" y="335" font-size="9" fill="#da7756" font-weight="700" text-anchor="start">▸</text>
+<text x="364" y="335" font-size="9.5" fill="#da7756" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">E</text>
+<rect x="516" y="160" width="226" height="190" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="528" y="182" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">③ 매크로 T1 꺼냄</text>
+<text x="560.0" y="204" font-size="9" fill="#5b86c4" font-weight="700" text-anchor="middle">스택</text>
+<rect x="528" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#eaf0f9"/>
+<rect x="534" y="216" width="52" height="18" rx="3" stroke="#5b86c4" stroke-width="1" fill="#fcfbf9"/>
+<text x="560.0" y="229" font-size="8.8" fill="#5b86c4" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">T1</text>
+<text x="628.0" y="204" font-size="9" fill="#3f8e70" font-weight="700" text-anchor="middle">micro</text>
+<rect x="596" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#e8f3ee"/>
+<text x="628.0" y="256" font-size="12" fill="#8a8076" font-weight="500" text-anchor="middle">∅</text>
+<text x="696.0" y="204" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">macro</text>
+<rect x="664" y="210" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#fdf3e3"/>
+<text x="696.0" y="256" font-size="12" fill="#8a8076" font-weight="500" text-anchor="middle">∅</text>
+<rect x="528" y="320" width="202" height="22" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="534" y="335" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="start">out:</text>
+<text x="560" y="335" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">A</text>
+<text x="575" y="335" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">F</text>
+<text x="590" y="335" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">E</text>
+<rect x="40" y="374" width="226" height="190" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="52" y="396" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">④ T1 실행 중</text>
+<text x="84.0" y="418" font-size="9" fill="#5b86c4" font-weight="700" text-anchor="middle">스택</text>
+<rect x="52" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#eaf0f9"/>
+<rect x="58" y="430" width="52" height="18" rx="3" stroke="#5b86c4" stroke-width="1" fill="#fcfbf9"/>
+<text x="84.0" y="443" font-size="8.8" fill="#5b86c4" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">T1</text>
+<text x="152.0" y="418" font-size="9" fill="#3f8e70" font-weight="700" text-anchor="middle">micro</text>
+<rect x="120" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#e8f3ee"/>
+<rect x="126" y="430" width="52" height="18" rx="3" stroke="#3f8e70" stroke-width="1" fill="#fcfbf9"/>
+<text x="152.0" y="443" font-size="8.8" fill="#3f8e70" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">→C</text>
+<text x="220.0" y="418" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">macro</text>
+<rect x="188" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#fdf3e3"/>
+<rect x="194" y="430" width="52" height="18" rx="3" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="220.0" y="443" font-size="8.8" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">→D</text>
+<rect x="52" y="534" width="202" height="22" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="58" y="549" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="start">out:</text>
+<text x="84" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">A</text>
+<text x="99" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">F</text>
+<text x="114" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">E</text>
+<text x="129" y="549" font-size="9" fill="#da7756" font-weight="700" text-anchor="start">▸</text>
+<text x="141" y="549" font-size="9.5" fill="#da7756" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">B</text>
+<rect x="278" y="374" width="226" height="190" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="290" y="396" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">⑤ T1 끝 → 마이크로</text>
+<text x="322.0" y="418" font-size="9" fill="#5b86c4" font-weight="700" text-anchor="middle">스택</text>
+<rect x="290" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#eaf0f9"/>
+<text x="322.0" y="470" font-size="12" fill="#8a8076" font-weight="500" text-anchor="middle">∅</text>
+<text x="390.0" y="418" font-size="9" fill="#3f8e70" font-weight="700" text-anchor="middle">micro</text>
+<rect x="358" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#e8f3ee"/>
+<rect x="364" y="430" width="52" height="18" rx="3" stroke="#3f8e70" stroke-width="1" fill="#fcfbf9"/>
+<text x="390.0" y="443" font-size="8.8" fill="#3f8e70" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">→C</text>
+<text x="458.0" y="418" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">macro</text>
+<rect x="426" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#fdf3e3"/>
+<rect x="432" y="430" width="52" height="18" rx="3" stroke="#da7756" stroke-width="1" fill="#fcfbf9"/>
+<text x="458.0" y="443" font-size="8.8" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">→D</text>
+<rect x="290" y="534" width="202" height="22" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="296" y="549" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="start">out:</text>
+<text x="322" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">A</text>
+<text x="337" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">F</text>
+<text x="352" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">E</text>
+<text x="367" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">B</text>
+<text x="382" y="549" font-size="9" fill="#da7756" font-weight="700" text-anchor="start">▸</text>
+<text x="394" y="549" font-size="9.5" fill="#da7756" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">C</text>
+<rect x="516" y="374" width="226" height="190" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="528" y="396" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">⑥ 매크로 →D 꺼냄</text>
+<text x="560.0" y="418" font-size="9" fill="#5b86c4" font-weight="700" text-anchor="middle">스택</text>
+<rect x="528" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#eaf0f9"/>
+<rect x="534" y="430" width="52" height="18" rx="3" stroke="#5b86c4" stroke-width="1" fill="#fcfbf9"/>
+<text x="560.0" y="443" font-size="8.8" fill="#5b86c4" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">→D</text>
+<text x="628.0" y="418" font-size="9" fill="#3f8e70" font-weight="700" text-anchor="middle">micro</text>
+<rect x="596" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#e8f3ee"/>
+<text x="628.0" y="470" font-size="12" fill="#8a8076" font-weight="500" text-anchor="middle">∅</text>
+<text x="696.0" y="418" font-size="9" fill="#da7756" font-weight="700" text-anchor="middle">macro</text>
+<rect x="664" y="424" width="64" height="88" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#fdf3e3"/>
+<text x="696.0" y="470" font-size="12" fill="#8a8076" font-weight="500" text-anchor="middle">∅</text>
+<rect x="528" y="534" width="202" height="22" rx="5" stroke="#e2dcd2" stroke-width="1" fill="#f1ede6"/>
+<text x="534" y="549" font-size="8.8" fill="#6b6258" font-weight="600" text-anchor="start">out:</text>
+<text x="560" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">A</text>
+<text x="575" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">F</text>
+<text x="590" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">E</text>
+<text x="605" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">B</text>
+<text x="620" y="549" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">C</text>
+<text x="635" y="549" font-size="9" fill="#da7756" font-weight="700" text-anchor="start">▸</text>
+<text x="647" y="549" font-size="9.5" fill="#da7756" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">D</text>
+<rect x="40" y="580" width="704" height="30" rx="7" stroke="#ebd9b0" stroke-width="1.3" fill="#fdf3e3"/>
+<text x="392" y="600" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="middle">최종 출력 순서:  A → F → E → B → C → D    (매크로 사이마다 마이크로를 완전히 비운다)</text>
+</svg>

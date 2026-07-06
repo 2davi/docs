@@ -5,7 +5,8 @@ date: 2026-06-26
 lastmod: 2026-06-26
 author: "Davi"
 description: "AbortController/AbortSignal의 능력 분리 모델, 협조적 취소, fetch 결합, 정적 팩토리, Error·DOMException 혈통, EventTarget 기반과 GC까지 — 비동기 취소의 코어를 한 편으로 정리한다."
-slug: async-cancellation-core
+slug: core
+section: "deep-dive"
 category: "javascript"
 tags: [AbortController, AbortSignal, cancellation, cooperative-cancellation, DOMException, AbortError, EventTarget, garbage-collection, fetch, RequestInit]
 order: 0
@@ -96,7 +97,7 @@ controller.abort("이유");         // 기존 Signal을 취소시킴 (반환값 
 signal.aborted;                   // true — 되돌릴 수 없음, 재사용 불가
 ```
 
-## 03. signal은 수신기, abort는 방아쇠
+## 03. signal은 수신기, abort는 방아쇠 {#signal-receiver-abort-trigger}
 
 Signal을 요청에 넣는 것만으로는 취소가 일어나지 않는다. Signal은 작업을 취소 채널에 연결하는 수신기이고, 실제 취소는 그 Signal을 발화시키는 `abort()` 호출에서 일어난다.
 

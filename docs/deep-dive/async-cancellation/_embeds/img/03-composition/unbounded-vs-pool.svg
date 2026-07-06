@@ -1,0 +1,87 @@
+<svg viewBox="0 0 768 400" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="374" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">무한 병렬 vs 슬롯 재활용</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">1000개를 한꺼번에 쏘면 세 병목이 터진다. N개 슬롯을 돌려 쓰면 항상 N개만 가동.</text>
+<rect x="40" y="92" width="330" height="290" rx="11" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="205" y="120" font-size="12.5" fill="#c0584f" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">Promise.all(map(fetch))</text>
+<text x="205" y="140" font-size="11" fill="#c0584f" font-weight="600" text-anchor="middle">1000개 동시 발화</text>
+<rect x="62" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="90" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="118" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="146" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="174" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="202" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="230" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="258" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="286" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="314" y="160" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="62" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="90" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="118" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="146" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="174" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="202" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="230" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="258" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="286" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="314" y="180" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="62" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="90" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="118" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="146" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="174" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="202" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="230" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="258" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="286" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<rect x="314" y="200" width="22" height="12" rx="3" stroke="#c0584f" stroke-width="0.8" fill="#f8ebe8"/>
+<text x="205" y="250" font-size="11" fill="#c0584f" font-weight="600" text-anchor="middle">⋮ 1000개</text>
+<rect x="62" y="268" width="286" height="100" rx="8" stroke="#eed4cf" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="78" y="292" font-size="11.5" fill="#c0584f" font-weight="700" text-anchor="start">터지는 세 병목</text>
+<circle cx="84" cy="312" r="2.5" fill="#c0584f"/>
+<text x="94" y="316" font-size="10.3" fill="#2b2722" font-weight="500" text-anchor="start">커넥션 고갈 (호스트당 6개 상한)</text>
+<circle cx="84" cy="330" r="2.5" fill="#c0584f"/>
+<text x="94" y="334" font-size="10.3" fill="#2b2722" font-weight="500" text-anchor="start">서버 과부하 (rate limit·DDoS 오인)</text>
+<circle cx="84" cy="348" r="2.5" fill="#c0584f"/>
+<text x="94" y="352" font-size="10.3" fill="#2b2722" font-weight="500" text-anchor="start">메모리 (1000개 미완료 상태 상주)</text>
+<rect x="398" y="92" width="330" height="290" rx="11" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="563" y="120" font-size="12.5" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">동시성 제한 (N=5)</text>
+<text x="563" y="140" font-size="11" fill="#3f8e70" font-weight="600" text-anchor="middle">항상 5개만 가동</text>
+<rect x="430" y="162" width="46" height="26" rx="6" stroke="#3f8e70" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="453" y="179" font-size="10" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">S1</text>
+<rect x="486" y="162" width="46" height="26" rx="6" stroke="#3f8e70" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="509" y="179" font-size="10" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">S2</text>
+<rect x="542" y="162" width="46" height="26" rx="6" stroke="#3f8e70" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="565" y="179" font-size="10" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">S3</text>
+<rect x="598" y="162" width="46" height="26" rx="6" stroke="#3f8e70" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="621" y="179" font-size="10" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">S4</text>
+<rect x="654" y="162" width="46" height="26" rx="6" stroke="#3f8e70" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="677" y="179" font-size="10" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">S5</text>
+<text x="563" y="210" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="middle">↓ 하나 끝나면 즉시 다음</text>
+<rect x="430" y="226" width="262" height="30" rx="6" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="563" y="245" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="middle">대기줄 (나머지 995개)</text>
+<path d="M 620 226 C 660 210, 660 195, 620 188" fill="none" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="430" y="268" width="262" height="100" rx="8" stroke="#cfe6da" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="446" y="292" font-size="11.5" fill="#3f8e70" font-weight="700" text-anchor="start">하나의 손잡이(N)로 세 병목 통제</text>
+<circle cx="452" cy="312" r="2.5" fill="#3f8e70"/>
+<text x="462" y="316" font-size="10.3" fill="#2b2722" font-weight="500" text-anchor="start">커넥션 최대 N개</text>
+<circle cx="452" cy="330" r="2.5" fill="#3f8e70"/>
+<text x="462" y="334" font-size="10.3" fill="#2b2722" font-weight="500" text-anchor="start">서버 부하 N개 페이스</text>
+<circle cx="452" cy="348" r="2.5" fill="#3f8e70"/>
+<text x="462" y="352" font-size="10.3" fill="#2b2722" font-weight="500" text-anchor="start">메모리 N개 상태만 상주</text>
+</svg>

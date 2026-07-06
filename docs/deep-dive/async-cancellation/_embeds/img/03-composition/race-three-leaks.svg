@@ -1,0 +1,37 @@
+<svg viewBox="0 0 768 430" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="404" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">race의 세 겹 누수 ─ 어느 쪽이 이기든 진 쪽이 샌다</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">race([작업, 타임아웃]). 승패에 따라 새는 자리가 다를 뿐, 항상 한쪽이 샌다.</text>
+<rect x="316" y="90" width="136" height="46" rx="9" stroke="#e2dcd2" stroke-width="1.5" fill="#f1ede6"/>
+<text x="384" y="118" font-size="10.5" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">race([작업, 타임아웃])</text>
+<rect x="48" y="180" width="320" height="90" rx="10" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="208" y="204" font-size="11.5" fill="#c0584f" font-weight="700" text-anchor="middle">갈래 A — 타임아웃이 이김</text>
+<text x="208" y="228" font-size="10.3" fill="#2b2722" font-weight="600" text-anchor="middle">겹1: 원본 작업(fetch)이 안 끊김</text>
+<text x="208" y="248" font-size="10" fill="#6b6258" font-weight="500" text-anchor="middle">→ 커넥션·서버작업 누수</text>
+<rect x="400" y="180" width="320" height="90" rx="10" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="560" y="204" font-size="11.5" fill="#c0584f" font-weight="700" text-anchor="middle">갈래 B — 작업이 이김</text>
+<text x="560" y="228" font-size="10.3" fill="#2b2722" font-weight="600" text-anchor="middle">겹2: setTimeout 타이머가 5s까지 좀비</text>
+<text x="560" y="248" font-size="10" fill="#c0584f" font-weight="600" text-anchor="middle">겹3: 5s에 reject → unhandled rejection</text>
+<path d="M 350 136 C 280 155, 240 165, 208 180" fill="none" stroke="#c0584f" stroke-width="1.7" marker-end="url(#aDeny)"/>
+<path d="M 418 136 C 490 155, 528 165, 560 180" fill="none" stroke="#c0584f" stroke-width="1.7" marker-end="url(#aDeny)"/>
+<rect x="48" y="300" width="672" height="100" rx="10" stroke="#cfe6da" stroke-width="1.4" fill="#e8f3ee"/>
+<text x="66" y="326" font-size="12" fill="#3f8e70" font-weight="700" text-anchor="start">해결 — AbortSignal.timeout: 소유하는 자만 정리한다</text>
+<text x="66" y="350" font-size="10.5" fill="#2b2722" font-weight="500" text-anchor="start">겹1: signal이 작업을 실제로 끊음   ·   겹2: fetch 완료 시 signal의 타이머를 스스로 정리</text>
+<text x="66" y="372" font-size="10.5" fill="#2b2722" font-weight="500" text-anchor="start">겹3: 타임아웃이 fetch의 reject(TimeoutError)로 표현 → try/catch가 받음. 떠도는 거부 없음</text>
+<text x="66" y="392" font-size="10.5" fill="#6b6258" font-weight="600" text-anchor="start">race는 진 쪽을 '관찰'만 해 정리 권한이 없고, signal은 '소유'해 완료 시 스스로 정리한다.</text>
+</svg>

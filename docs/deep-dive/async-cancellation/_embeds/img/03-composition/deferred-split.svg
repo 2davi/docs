@@ -1,0 +1,38 @@
+<svg viewBox="0 0 768 400" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="374" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">Deferred ─ promise 생성과 결말의 분리</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">promise는 '지금' 반환하고, resolve/reject 권한은 제한기가 쥐고 '나중에' 부른다.</text>
+<line x1="60" y1="130" x2="708" y2="130" stroke="#e2dcd2" stroke-width="1.4"/>
+<text x="60" y="118" font-size="11" fill="#5b86c4" font-weight="700" text-anchor="start">지금 (limit 호출)</text>
+<text x="708" y="118" font-size="11" fill="#3f8e70" font-weight="700" text-anchor="end">나중 (슬롯이 빔)</text>
+<rect x="60" y="160" width="300" height="100" rx="10" stroke="#c3d3ec" stroke-width="1.5" fill="#eaf0f9"/>
+<text x="210" y="188" font-size="12" fill="#5b86c4" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">Promise.withResolvers()</text>
+<text x="210" y="214" font-size="10.8" fill="#2b2722" font-weight="500" text-anchor="middle">promise → 호출자에게 즉시 반환</text>
+<text x="210" y="234" font-size="10.8" fill="#2b2722" font-weight="500" text-anchor="middle">resolve/reject → 제한기가 보관</text>
+<rect x="408" y="160" width="300" height="100" rx="10" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="558" y="188" font-size="12" fill="#3f8e70" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">thunk() 실행 후</text>
+<text x="558" y="214" font-size="10.8" fill="#2b2722" font-weight="500" text-anchor="middle">성공 → resolve(값)</text>
+<text x="558" y="234" font-size="10.8" fill="#2b2722" font-weight="500" text-anchor="middle">실패 → reject(사유)</text>
+<path d="M 360 210 C 384 210, 384 210, 408 210" fill="none" stroke="#da7756" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#aTerra)"/>
+<circle cx="210" cy="160" r="4" fill="#5b86c4"/>
+<circle cx="558" cy="160" r="4" fill="#3f8e70"/>
+<rect x="60" y="290" width="648" height="78" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#f1ede6"/>
+<text x="78" y="314" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="start">왜 분리하나</text>
+<text x="78" y="336" font-size="10.8" fill="#2b2722" font-weight="500" text-anchor="start">Promise.all은 1000개 promise를 '지금' 쥐어야 하는데, 실제 fetch는 슬롯이 빌 때까지 미뤄야 한다.</text>
+<text x="78" y="356" font-size="10.8" fill="#2b2722" font-weight="500" text-anchor="start">executor 반환값은 버려지므로, resolve/reject는 바깥 변수에 '대입'해 낚아챈다 (withResolvers가 표준형).</text>
+</svg>

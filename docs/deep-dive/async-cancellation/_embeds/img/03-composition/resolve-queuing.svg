@@ -1,0 +1,45 @@
+<svg viewBox="0 0 768 400" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="374" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">resolve()는 실행이 아니라 큐잉이다</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">resolve는 .then 콜백을 '지금 실행'하지 않는다. 마이크로 큐에 '넣기'만 한다.</text>
+<rect x="56" y="96" width="320" height="130" rx="11" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="216" y="122" font-size="13" fill="#c0584f" font-weight="700" text-anchor="middle">흔한 오해 ✕</text>
+<text x="216" y="152" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">resolve()  →  .then 콜백 즉시 실행</text>
+<text x="216" y="180" font-size="10.5" fill="#c0584f" font-weight="500" text-anchor="middle">resolve를 '실행 트리거'로 착각</text>
+<text x="216" y="202" font-size="9.6" fill="#6b6258" font-weight="500" text-anchor="middle">(console.log(3)이 그 자리서 찍힐 것)</text>
+<rect x="408" y="96" width="304" height="130" rx="11" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="560" y="122" font-size="13" fill="#3f8e70" font-weight="700" text-anchor="middle">실제 ✓</text>
+<text x="560" y="152" font-size="11" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">resolve()  →  마이크로 큐에 넣기</text>
+<text x="560" y="180" font-size="10.5" fill="#3f8e70" font-weight="500" text-anchor="middle">resolve는 '큐잉 트리거'</text>
+<text x="560" y="202" font-size="9.6" fill="#6b6258" font-weight="500" text-anchor="middle">(스택 빈 뒤에야 큐에서 꺼내 실행)</text>
+<rect x="70" y="280" width="140" height="62" rx="9" stroke="#e2dcd2" stroke-width="1.4" fill="#f1ede6"/>
+<text x="140.0" y="310" font-size="10.5" fill="#6b6258" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">resolve()</text>
+<rect x="236" y="280" width="140" height="62" rx="9" stroke="#cfe6da" stroke-width="1.4" fill="#e8f3ee"/>
+<text x="306.0" y="303" font-size="10.5" fill="#3f8e70" font-weight="700" text-anchor="middle">마이크로 큐에</text>
+<text x="306.0" y="318" font-size="10.5" fill="#3f8e70" font-weight="700" text-anchor="middle">.then 적재</text>
+<line x1="210" y1="311" x2="236" y2="311" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="402" y="280" width="140" height="62" rx="9" stroke="#c3d3ec" stroke-width="1.4" fill="#eaf0f9"/>
+<text x="472.0" y="303" font-size="10.5" fill="#5b86c4" font-weight="700" text-anchor="middle">동기 코드</text>
+<text x="472.0" y="318" font-size="10.5" fill="#5b86c4" font-weight="700" text-anchor="middle">계속 실행</text>
+<line x1="376" y1="311" x2="402" y2="311" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="568" y="280" width="140" height="62" rx="9" stroke="#ebd9b0" stroke-width="1.4" fill="#fdf3e3"/>
+<text x="638.0" y="303" font-size="10.5" fill="#da7756" font-weight="700" text-anchor="middle">스택 빔 →</text>
+<text x="638.0" y="318" font-size="10.5" fill="#da7756" font-weight="700" text-anchor="middle">.then 실행</text>
+<line x1="542" y1="311" x2="568" y2="311" stroke="#6b6258" stroke-width="1.7" marker-end="url(#arrow)"/>
+<text x="384" y="372" font-size="11" fill="#da7756" font-weight="600" text-anchor="middle">resolve와 .then 콜백 실행 사이엔 '스택 비우기'가 반드시 낀다</text>
+</svg>

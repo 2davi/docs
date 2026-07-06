@@ -1,0 +1,45 @@
+<svg viewBox="0 0 768 470" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="444" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">결합자 넷 ─ 두 대립축</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">세로: 전부 기다리나 vs 하나로 끝나나  ·  가로: 실패를 어떻게 다루나</text>
+<rect x="210" y="96" width="250" height="150" rx="11" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="228" y="130" font-size="17" fill="#c0584f" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">all</text>
+<text x="228" y="158" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">첫 reject에 단락</text>
+<text x="228" y="178" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">전원 성공 시 값 배열</text>
+<rect x="476" y="96" width="250" height="150" rx="11" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="494" y="130" font-size="17" fill="#3f8e70" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">allSettled</text>
+<text x="494" y="158" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">전원 결판까지 대기</text>
+<text x="494" y="178" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">never reject·결과객체 배열</text>
+<rect x="210" y="262" width="250" height="150" rx="11" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="228" y="296" font-size="17" fill="#c0584f" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">race</text>
+<text x="228" y="324" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">첫 settle 승자 복사</text>
+<text x="228" y="344" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">1등이 실패면 같이 실패</text>
+<rect x="476" y="262" width="250" height="150" rx="11" stroke="#cfe6da" stroke-width="1.5" fill="#e8f3ee"/>
+<text x="494" y="296" font-size="17" fill="#3f8e70" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">any</text>
+<text x="494" y="324" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">첫 fulfill만 채택</text>
+<text x="494" y="344" font-size="11.5" fill="#2b2722" font-weight="500" text-anchor="start">전멸 시 AggregateError</text>
+<text x="40" y="171.0" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle">전부</text>
+<text x="40" y="188.0" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle">기다림</text>
+<text x="40" y="337.0" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle">하나로</text>
+<text x="40" y="354.0" font-size="12.5" fill="#da7756" font-weight="700" text-anchor="middle">끝냄</text>
+<line x1="150" y1="104" x2="150" y2="404" stroke="#da7756" stroke-width="1.4" marker-end="url(#arrow)"/>
+<text x="335.0" y="86" font-size="10.5" fill="#c0584f" font-weight="600" text-anchor="middle">실패 = 즉사 / 승자면 채택</text>
+<text x="601.0" y="86" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">실패 = 수납 / 건너뜀</text>
+<line x1="40" y1="420" x2="728" y2="420" stroke="#e2dcd2" stroke-width="1.2"/>
+<text x="384" y="445" font-size="12" fill="#da7756" font-weight="600" text-anchor="middle">all↔any는 거울상 · race↔allSettled는 대기 범위의 양극</text>
+</svg>

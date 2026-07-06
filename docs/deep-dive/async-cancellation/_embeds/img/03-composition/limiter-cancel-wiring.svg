@@ -1,0 +1,39 @@
+<svg viewBox="0 0 768 420" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="742" height="394" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">cancelAll ─ 두 경로를 동시에</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">하나의 취소 호출이 대기 중(버리기+reject)과 진행 중(abort)을 동시에 처리한다.</text>
+<rect x="300" y="90" width="168" height="50" rx="10" stroke="#eed4cf" stroke-width="1.6" fill="#f8ebe8"/>
+<text x="384" y="114" font-size="12.5" fill="#c0584f" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">cancelAll(reason)</text>
+<text x="384" y="132" font-size="9.6" fill="#6b6258" font-weight="600" text-anchor="middle">취소 버튼 클릭</text>
+<rect x="56" y="210" width="300" height="150" rx="11" stroke="#ebd9b0" stroke-width="1.5" fill="#fdf3e3"/>
+<text x="206" y="236" font-size="12" fill="#da7756" font-weight="700" text-anchor="middle">경로 ① 대기 중</text>
+<text x="206" y="262" font-size="10" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">const pending = queue.splice(0)</text>
+<text x="206" y="288" font-size="10" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">for (reject of pending)</text>
+<text x="206" y="308" font-size="10" fill="#c0584f" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">  reject(err)</text>
+<rect x="80" y="322" width="252" height="28" rx="6" stroke="#ebd9b0" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="206" y="340" font-size="9.6" fill="#da7756" font-weight="600" text-anchor="middle">큐 비우기 + await 해제 (데드락 방지)</text>
+<rect x="412" y="210" width="300" height="150" rx="11" stroke="#eed4cf" stroke-width="1.5" fill="#f8ebe8"/>
+<text x="562" y="236" font-size="12" fill="#c0584f" font-weight="700" text-anchor="middle">경로 ② 진행 중</text>
+<text x="562" y="262" font-size="10" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">controller.abort(reason)</text>
+<text x="562" y="292" font-size="10" fill="#2b2722" font-weight="500" text-anchor="middle">주입됐던 sharedSignal이 끊김</text>
+<rect x="436" y="322" width="252" height="28" rx="6" stroke="#eed4cf" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="562" y="340" font-size="9.6" fill="#c0584f" font-weight="600" text-anchor="middle">진행 중 fetch 전부 fan-out 취소</text>
+<path d="M 340 140 C 260 170, 220 185, 206 210" fill="none" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<path d="M 428 140 C 510 170, 550 185, 562 210" fill="none" stroke="#c0584f" stroke-width="1.8" marker-end="url(#aDeny)"/>
+<text x="384" y="388" font-size="11" fill="#da7756" font-weight="600" text-anchor="middle">두 경로가 한 호출에서 동시에 — 취합(제한기)과 정리(취소)가 코드로 합쳐진다</text>
+</svg>
