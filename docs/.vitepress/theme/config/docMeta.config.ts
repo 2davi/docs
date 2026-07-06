@@ -17,10 +17,25 @@
 import { deprecate } from "node:util"
 
 // ── 0. 타입 ────────────────────────────────────────────────────────────────
-export type Section = 'articles' | 'notes' | 'deep-dive' | 'translations' | 'decisions'
+// export type Section = 'articles' | 'notes' | 'deep-dive' | 'translations' | 'decisions'
+import {
+  DECISION_TYPES,
+  LEGACY_DECISION_SLUG_RE,
+  parseDecisionId,
+  type DecisionType,
+  type Section,
+} from './tokens.config'
 
+export type { Section } from './tokens.config'
+
+// export type DocType =
+//   | 'adr' | 'cdr' | 'chr' | 'rfc'               // 결정 기록 (decision records)
+//   | 'learning-guide' | 'technical-deep-dive'    // deep-dive 본문
+//   | 'translation'
+//   | 'note'
+//   | 'article'
 export type DocType =
-  | 'adr' | 'cdr' | 'chr' | 'rfc'               // 결정 기록 (decision records)
+  | DecisionType                                // 'adr' | 'cdr' | 'chr'
   | 'learning-guide' | 'technical-deep-dive'    // deep-dive 본문
   | 'translation'
   | 'note'
@@ -31,16 +46,15 @@ export type DocType =
 // 이유: notes/blog-ops 의 cdr 문서와 일반 note 문서는 둘 다 section='notes' 라서
 //       section만으로는 구분되지 않는다. 따라서 doc_type을 1순위 키로 쓰고,
 //       doc_type이 비어 있으면 section이 '기본 doc_type'을 공급한다.
-const SECTION_DEFAULT_DOCTYPE: Record<Section, DocType> = {
+const SECTION_DEFAULT_DOCTYPE: Partial<Record<Section, DocType>> = {
   articles:     'article',
   notes:        'note',
   'deep-dive':  'technical-deep-dive',
   translations: 'translation',
-  decisions: 'adr'
 }
 
 const KNOWN_DOCTYPES: ReadonlySet<DocType> = new Set<DocType>([
-  'adr', 'cdr', 'chr', 'rfc', 'learning-guide', 'technical-deep-dive', 'translation', 'note', 'article',
+  ...DECISION_TYPES, 'learning-guide', 'technical-deep-dive', 'translation', 'note', 'article',
 ])
 
 /** frontmatter → doc_type. doc_type 우선, 없으면 section 기본값, 그것도 없으면 'note'. */
@@ -78,16 +92,25 @@ const ADR_STANDARD_STATUS: StatusVocab = {
   superseded: { label: 'Superseded', style: 'muted'    },
 }
 
+// 헌장(Charter) 수명주기. 결정과 달리 '임무 완수'가 본질 상태다 (DOCS-ADR-0002 §2.5)
+const CHR_STATUS: StatusVocab = {
+  proposed:   { label: 'Proposed',   style: 'neutral'  },
+  active:     { label: 'Active',     style: 'active'   },
+  completed:  { label: 'Completed',  style: 'positive' },
+  withdrawn:  { label: 'Withdrawn',  style: 'muted'    },
+  superseded: { label: 'Superseded', style: 'muted'    },
+}
+
 // ★ 확장지점 B — decision_status 어휘. 기본은 ADR 표준, doc_type별 override 가능.
 //   cdr은 표준에 'in-progress'를 추가한 예시(현재 CDR 문서가 쓰는 값).
 //   새 결정 타입을 추가하거나 표준에 값을 더하려면 여기만 수정한다.
 const DECISION_STATUS_VOCAB: Partial<Record<DocType, StatusVocab>> = {
   adr: ADR_STANDARD_STATUS,
-  rfc: ADR_STANDARD_STATUS,
   cdr: {
     ...ADR_STANDARD_STATUS,
     'in-progress': { label: 'In-Progress', style: 'active' },
   },
+  chr: CHR_STATUS,
 }
 
 export type VocabKey = 'decision' | 'doc' | 'difficulty'
@@ -177,8 +200,7 @@ const NOTE_FIELDS: CardField[] = [
 const CARD_MATRIX: Partial<Record<DocType, CardField[]>> = {
   adr: DECISION_FIELDS,
   cdr: DECISION_FIELDS,
-  chr: CHARTER_FIELDS,
-  rfc: DECISION_FIELDS,
+  chr: DECISION_FIELDS,     // 헌장 전용 필드가 필요해지면 확장지점 C에서 분화 (0002 §2.5)
   'learning-guide':      DEEPDIVE_FIELDS,
   'technical-deep-dive': DEEPDIVE_FIELDS,
   translation: TRANSLATION_FIELDS,
@@ -240,35 +262,27 @@ export function buildDisclosure(ai?: AiAssistance): Disclosure {
   return { show: true, text, models: ai.model ?? [], roles }
 }
 
-// ── 5. ADR 참조 해석 (related_adrs → URL) ──────────────────────────────────
-// related_adrs의 ID가 가리키는 결정 기록이 '이 사이트의 페이지'면 내부 링크, 아니면 폴백.
-// ID는 결정 기록 문서의 url 마지막 세그먼트 prefix에서 도출한다 (예: .../cdr-0001-... → CDR-0001).
+// ── 5. 결정 참조 해석 (related 필드 → URL) ─────────────────────────────────
+// ID의 단일 진실 원천은 frontmatter `id` 다 (DOCS-ADR-0002 §2.2).
+// URL 슬러그 파생은 이관 전 문서용 레거시 폴백이며, 이관 완료 후 폴백 경로째 삭제한다.
 
-const ADR_ID_RE = /(adr|cdr|rfc)-(\d+)/i
+/** 문서에서 결정 ID 도출. 1순위 id 필드, 폴백 레거시 슬러그. 해당 없으면 null. */
+export function deriveDecisionId(doc: { url?: string; id?: string | null }): string | null {
+  const parsed = parseDecisionId(doc.id)     // 1순위: 스코프 인지 + 정규화
+  if (parsed) return parsed.id
 
-/* 결정 기록 ID 도출: 명시적 id 최우선, 없으면 slug prefix에서 도출(scope 옵셔널 → 구파일 호환). */
-function deriveDecisionId(doc: { id?: string | null; url?: string }): string | null {
-  if(doc.id) return doc.id
-  const seg = doc.url?.split('/').filter(Boolean).pop() ?? ''
-  const m = seg.match(/^(?:([a-z]+)-)?(adr|cdr|rfc|chr)-(\d{4})/i) // 신형 <scope>- 및 구형 모두
-  if(!m) return null
-  return (m[1] ? `${m[1]}-${m[2]}-${m[3]}` : `${m[2]}-${m[3]}`).toUpperCase()
-}
-
-
-/** @deprecated doc(url 보유)에서 결정 ID 도출. 아니면 null. */
-function deriveAdrId(url?: string): string | null {
-  if (!url) return null
-  const seg = url.split('/').filter(Boolean).pop() ?? ''   // 마지막 세그먼트
-  const m = seg.match(ADR_ID_RE)
+  if (!doc.url) return null                  // 폴백: 구식 무스코프 슬러그 (동결 규칙)
+  const seg = doc.url.split('/').filter(Boolean).pop() ?? ''
+  const m = seg.match(LEGACY_DECISION_SLUG_RE)
   return m ? `${m[1].toUpperCase()}-${m[2]}` : null
 }
 
-/** allDocs → { 'CDR-0001': '/notes/blog-ops/cdr-0001-...' } 인덱스. */
-export function buildAdrIndex(docs: ReadonlyArray<{ url?: string }>): Record<string, string> {
+/** allDocs → { 'DOCS-ADR-0002': '/decisions/docs/...' } 인덱스. */
+export function buildDecisionIndex(
+  docs: ReadonlyArray<{ url?: string; id?: string | null }>,
+): Record<string, string> {
   const idx: Record<string, string> = {}
   for (const d of docs) {
-    //const id = deriveAdrId(d.url)
     const id = deriveDecisionId(d)
     if (id && d.url) idx[id] = d.url
   }

@@ -12,7 +12,7 @@ import { computed } from 'vue'
 import { useData } from 'vitepress'
 import { data as allDocs } from '../../data/content.data'
 import {
-  resolveDocType, getCardFields, resolveVocab, buildAdrIndex, resolveRef,
+  resolveDocType, getCardFields, resolveVocab, buildDecisionIndex, resolveRef,
   type CardField, type StatusVocab,
 } from '../config/docMeta.config'
 
@@ -76,13 +76,12 @@ function fmtDate(v: any): string {
   return `${y}. ${m}. ${day}.`;
 }
 
-const adrIndex = computed(() => buildAdrIndex(allDocs as Array<{ id?: string | null; url?: string }>)
-)
+const decisionIndex = computed(() => buildDecisionIndex(allDocs))
 
 // row.value(ID 배열)를 해석된 ref 객체 배열로
 function resolveRefs(ids: string[]): Array<{ label: string; url?: string }> {
   const arr = Array.isArray(ids) ? ids : ids ? [ids] : []
-  return arr.map(id => resolveRef(id, adrIndex.value))
+  return arr.map(id => resolveRef(id, decisionIndex.value))
 }
 
 // ── 표기 헬퍼 ──
