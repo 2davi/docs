@@ -201,8 +201,6 @@ function ensureResizeHandle(): void {
   if (!sidebar) return                                                  // 아직 없음 → observer가 재호출
   if (sidebar.querySelector(':scope > .sidebar-resize-handle')) return  // 이미 있음(idempotent)
 
-  console.log('[resize] attaching handle')                             // 임시 진단
-
   const KEY = 'vp-sidebar-width', MIN = 200, MAX = 520, DEF = 284
   const saved = localStorage.getItem(KEY)
   document.documentElement.style.setProperty('--vp-sidebar-width', `${saved ? parseInt(saved,10) : DEF}px`)
