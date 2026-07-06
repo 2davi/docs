@@ -9,7 +9,8 @@
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "typecheck": "npx vue-tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,10 @@
   "homepage": "https://github.com/2davi/docs#readme",
   "devDependencies": {
     "@types/node": "^25.5.2",
+    "typescript": "^6.0.3",
     "vitepress": "^1.x",
-    "vitepress-sidebar": "^1.33.1"
+    "vitepress-sidebar": "^1.33.1",
+    "vue-tsc": "^3.3.6"
   },
   "dependencies": {
     "markdown-it": "^14.1.1",
