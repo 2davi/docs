@@ -5,7 +5,7 @@ date: 2026-07-02
 lastmod: 2026-07-06
 author: "Davi"
 description: "여러 비동기를 묶고 병렬을 제어하고 취소를 형제에 전파하는 오케스트레이션 — Promise 결합자 넷의 settle 의미, 형제 취소 전파, 직접 만드는 동시성 제한기(Deferred·펌프), cancel-previous, 그리고 그 모두의 바닥에 있는 이벤트 루프. '조율은 통보가 아니고, 또한 통제도 아니다'의 완성."
-slug: composition
+slug: composition-concurrency
 section: "deep-dive"
 category: "javascript"
 tags: [Promise-combinators, concurrency-limit, AbortSignal, event-loop, microtask, cancel-previous, Deferred, resource-leak]
@@ -453,7 +453,7 @@ JavaScript 런타임이 코드를 실행하는 판은 세 부분으로 나뉜다
 
 이 규칙에는 두 개의 비대칭이 박혀 있다. **첫째, 스택이 먼저다.** 마이크로태스크든 매크로태스크든, 콜 스택에 동기 코드가 남아 있는 한 어떤 큐도 실행되지 않는다. 큐는 스택이 완전히 빌 때까지 무조건 대기한다. **둘째, 마이크로가 매크로를 이긴다.** 스택이 비면 마이크로태스크 큐를 전부 비운 다음에야 매크로태스크를 하나 건드린다. 그래서 `setTimeout(fn, 0)`의 `0`조차 모든 마이크로태스크에 추월당한다. `.then`은 항상 `setTimeout(…, 0)`을 이긴다.
 
-![매크로 하나마다 마이크로를 바닥까지 비우는 한 틱의 규칙과 두 비대칭](./_embeds/img/03-eventloop-tick.svg)
+![매크로 하나마다 마이크로를 바닥까지 비우는 한 틱의 규칙과 두 비대칭](./_embeds/img/03-composition/eventloop-tick.svg)
 
 여기서 두 가지 오개념을 걷어내야 한다. 첫째, **`new Promise(executor)`의 executor는 즉시, 동기적으로 실행된다.** `new Promise((resolve) => { console.log(2); resolve(); })`에서 `console.log(2)`는 `new Promise`가 실행되는 그 순간 그 자리에서 실행되며, `console.log(1)`과 완전히 같은 자격의 동기 코드다. Promise의 즉시 평가(eager evaluation)가 적용되는 것은 executor 본문이지 `.then` 콜백이 아니다(07절의 Deferred가 이 즉시 실행을 이용해 resolve를 낚아챘다).
 
@@ -692,7 +692,7 @@ function createLimiter(n) {
 
 ![통보-조율-통제 세 층위와 각 층위의 도구를 대응시킨 그림](./_embeds/img/03-composition/notify-coordinate-control.svg)
 
-세 층위는 위계가 아니라 분업이다. **통보**는 *`dispatchEvent`·`CustomEvent`로 "<u>무슨 일이 일어났나</u>"를 알리고([EventTarget](./02-event-target.md)),* **조율**은 *`Promise.all`·`race`·`any`로 "<u>여러 비동기를 언제 모으나</u>"를 결정하며([합성·동시성](./03-composition.md)),* **통제**는 *`AbortController`·`signal`로 "<u>안 끝난 걸 실제로 끊나</u>"를 담당한다([AbortController](./00-core.md)).* 이 셋은 서로를 대체하지 않고 각자의 자리에서 협력한다. 결합자로 여러 비동기를 묶고, 컨트롤러로 안 끝난 것을 끊는다 — 이 두 손을 항상 같이 써야 자원 누수가 없다.
+세 층위는 위계가 아니라 분업이다. **통보**는 *`dispatchEvent`·`CustomEvent`로 "<u>무슨 일이 일어났나</u>"를 알리고([EventTarget](./02-event-target.md)),* **조율**은 *`Promise.all`·`race`·`any`로 "<u>여러 비동기를 언제 모으나</u>"를 결정하며([합성·동시성](./03-composition-concurrency.md)),* **통제**는 *`AbortController`·`signal`로 "<u>안 끝난 걸 실제로 끊나</u>"를 담당한다([AbortController](./00-core.md)).* 이 셋은 서로를 대체하지 않고 각자의 자리에서 협력한다. 결합자로 여러 비동기를 묶고, 컨트롤러로 안 끝난 것을 끊는다 — 이 두 손을 항상 같이 써야 자원 누수가 없다.
 
 이 문서의 결론은 그래서 하나의 문장으로 압축된다. 통보가 조율이 아니듯, 조율 또한 통제가 아니다.
 
