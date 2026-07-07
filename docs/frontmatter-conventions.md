@@ -1,6 +1,12 @@
-# Frontmatter Convention (2026-06-26)
+# Frontmatter Convention (2026-07-07)
 
 > ## 개정 이력
+>
+> - **2026-07-06**
+>   - `decisions` 섹션 신설 → **§5** (id 단일 진실 원천, doc_type 명시 의무, decision_status 어휘, docLint 집행). 근거: DOCS-ADR-0002
+>   - 기존 §5 `ai_assistance` → **§6** 이동 (내용 무변경, 본문 참조 3곳 갱신)
+>   - 참조 필드 정본을 `related_decisions`로 통일. `related_ards`(ard 철자) 폐기, 코드(`related_adrs`)와의 표기 드리프트 청산. 근거: DOCS-ADR-0002 §2.6
+>   - 제목의 개정일 갱신 (2026-06-26 → 2026-07-07)
 >
 > - **2026-06-26**
 >   - `ai_assistance` 블록 신설 → **§5** (authorship / role / model / review 4축 구조)
@@ -21,7 +27,7 @@
 2. **`author`는 항상 사람.** 도구·자동화는 author가 될 수 없다. AI 관여는 별도 블록(`ai_assistance`)으로 표기한다.
    ([Google 권고](https://developers.google.com/search/blog/2023/02/google-search-and-ai-content):
    AI에게 author byline을 부여하는 것은 제작 과정을 알리는 좋은 방법이 아니다.)
-3. **폴더가 섹션을 결정한다.** `articles/ notes/ deep-dive/ translations/` 폴더 구조가 1차 분류이며,
+3. **폴더가 섹션을 결정한다.** `articles/ notes/ deep-dive/ translations/ decisions/` 폴더 구조가 1차 분류이며,
    `section` 필드는 그 폴더명과 반드시 일치시킨다(로더가 frontmatter `section`을 읽으므로 불일치 시 분류가 깨진다).
 4. **null은 `~`로 명시한다.** 값이 없는 선택 필드는 키를 생략하거나 YAML null(`~`)로 둔다. 빈 문자열(`""`)과 구분한다.
 
@@ -138,9 +144,9 @@ draft: false
 
 - 정렬: `order` frontmatter 우선 (config: `sortMenusByFrontmatterOrder`)
 - `project`: 프로젝트 슬러그. 같은 프로젝트의 `index.md`와 연결되는 키
-- `doc_type`: `learning-guide` | `technical-deep-dive` | `ard` | `rfc` | `milestone`
+- `doc_type`: `learning-guide` | `technical-deep-dive` | `milestone`  (결정 기록 타입은 §5로 이관)
 - `series` + `series_order`: 같은 시리즈 문서들을 챕터 순서로 묶는다
-- `related_ards`: 이 문서가 다루는 설계 결정 기록(ARD) 번호 배열. 해당 없으면 생략
+- `related_decisions`: 이 문서가 다루는 결정 기록 ID 배열 (예: `RDSM-ADR-0001`). 해당 없으면 생략
 - `milestone`: 연관 마일스톤. 없으면 `~`
 
 > **notes → deep-dive 이관 기준:** 그 문서가 (a) 단일 주제 레퍼런스를 넘어 *서사·단계*를 갖고,
@@ -153,7 +159,7 @@ title: "REST Domain State Manager — 역공학 학습 가이드"
 date: 2026-04-02
 lastmod: 2026-04-02
 author: "Davi"
-description: "DSM ARD-0000~ARD-0003을 역방향으로 분해해 V8, Proxy, Shadow State, CSRF, LCS Diff 등 핵심 개념을 5단계로 학습하는 가이드"
+description: "DSM ADR-0000~ADR-0003을 역방향으로 분해해 V8, Proxy, Shadow State, CSRF, LCS Diff 등 핵심 개념을 5단계로 학습하는 가이드"
 slug: "dsm-reverse-engineering-guide"
 
 section: "deep-dive"
@@ -162,8 +168,8 @@ tags: [javascript, proxy, v8, shadow-state, csrf, web-worker, lcs-diff, dsm]
 
 # ── deep-dive 전용 필드 ──
 project: "rest-domain-state-manager"   # 프로젝트 슬러그 (index.md와 연결)
-doc_type: "learning-guide"             # learning-guide | technical-deep-dive | ard | cdr | chr | rfc "CHR(차터)는 결정 기록 아님 ─ 프레이밍/지도 문서"
-related_ards: [ARD-0000, ARD-0001, ARD-0002, ARD-0003]
+doc_type: "learning-guide"             # learning-guide | technical-deep-dive | adr | cdr | chr "CHR(차터)는 결정 기록 아님 ─ 프레이밍/지도 문서"
+related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001, RDSM-ADR-0002, CORE-ADR-0001]
 milestone: ~                           # 해당 없으면 ~
 series: "DSM Deep Dive"
 series_order: 1                        # 시리즈 내 챕터 순서
@@ -178,7 +184,7 @@ deciders: ["Davi"]
 period: 2026-03-23      # ★ 단일 결정일(스칼라). {start,end} 아님
 supersedes: ~
 superseded_by: ~
-related_adrs: []
+related_decisions: []
 
 status: "active"
 difficulty: "advanced"
@@ -242,15 +248,80 @@ draft: false
 
 ---
 
-## 5. `ai_assistance` — AI 활용 표기
+## 5. `decisions/` 결정 기록
 
-### 5.1 왜 필요한가
+**이 섹션이 다른 이유:** 문서가 곧 제도다. 채택된 기록의 본문은 원칙적으로 불변이고(수정 대신 대체),
+`id`로 영구 참조되며, frontmatter 규칙 위반이 빌드 실패로 이어지는 유일한 섹션이다(집행: docLint, DOCS-ADR-0003).
+
+- 디렉터리는 `decisions/<scope>/`, scope는 소문자 `core | rdsm | docs`. 폴더가 섹션과 스코프를 함께
+  결정한다(설계 원칙 3의 연장). 별도 `scope` 필드는 두지 않는다. 경로와 `id`에 이미 있는 사실의
+  세 번째 사본이기 때문이다(DOCS-ADR-0002 §2.3).
+- `id`는 `<SCOPE>-<TYPE>-<NNNN>` 대문자 표기이며 **결정 ID의 단일 진실 원천**이다.
+  파일명과 `slug`는 소문자 id로 시작하는 파생 표기다(§2.2).
+- `doc_type`은 `adr | cdr | chr` 중 **명시 의무**다. decisions에는 섹션 기본 doc_type이 없다(§2.4).
+- `decision_status`는 doc_type별 어휘를 따른다. adr 어휘는 Nygard 표준이다
+  ([Documenting Architecture Decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)).
+
+| doc_type | decision_status 어휘                                 |
+| -------- | ---------------------------------------------------- |
+| adr      | proposed, accepted, rejected, deprecated, superseded |
+| cdr      | adr 어휘 + in-progress                               |
+| chr      | proposed, active, completed, withdrawn, superseded   |
+
+- 참조 필드의 정본은 `related_decisions`다(§2.6). 대체 관계는 `supersedes` / `superseded_by`로 양방향 기록한다.
+- `review: unreviewed`인 동안 `draft: true`를 유지한다(§6 게이트 규칙). draft 해제는 곧 아래 검사의 통과 신청이다.
+- 발행(`draft: false`) 문서에 docLint가 error로 집행하는 항목: doc_type 누락, id 누락,
+  id와 경로·파일명의 불일치, decision_status 어휘 이탈(DOCS-ADR-0003 §2.6).
+- 문서를 이동하거나 개명하면 구 URL을 리다이렉트 레지스트리에 등록한다(§2.8).
+
+```yaml
+---
+title: "decisions 섹션 신설과 결정 식별 체계 정비"
+date: 2026-07-06
+lastmod: 2026-07-06
+author: "Davi"
+description: "전용 decisions 섹션과 URL 체계를 신설하고 결정 식별 체계를 정비한다"
+slug: "docs-adr-0002-decisions-section-governance"   # 소문자 id로 시작하는 파생 표기
+
+section: "decisions"
+category: "decisions/docs"
+tags: [vitepress, decision-records, ssot]
+
+# ── decisions 전용 필드 ──
+id: DOCS-ADR-0002            # ★ 결정 ID의 SSOT. <SCOPE>-<TYPE>-<NNNN>
+doc_type: "adr"              # adr | cdr | chr (명시 의무, 누락 시 빌드 실패)
+decision_status: "proposed"  # doc_type별 어휘는 위 표 참조
+deciders: ["Davi"]
+period:
+  start: 2026-07-06
+  end: ~
+related_decisions: [CORE-ADR-0001, DOCS-ADR-0003]
+supersedes: ~
+superseded_by: ~
+
+status: "wip"
+toc: true
+draft: true                  # review: unreviewed 인 동안 유지
+search: true
+
+ai_assistance:
+  authorship: "ai-drafted"
+  role: [drafting, research]
+  model: ["claude-fable-5"]
+  review: "unreviewed"
+```
+
+---
+
+## 6. `ai_assistance` — AI 활용 표기
+
+### 6.1 왜 필요한가
 
 학습노트·심층분석은 독자(채용 담당자 포함)에게 "이 글을 **사람이 이해하고 쓴 것**인가, AI가 뱉은 것인가?"라는 자연스러운 의문을 부른다. [Google](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)은 "이거 어떻게 만들었지?"가 떠오를 콘텐츠에 AI 공개를 권장하고, [EU AI Act Article 50(4)](https://artificialintelligenceact.eu/article/50/)는 공익적 텍스트의 AI 공개를 의무화하되 **편집 책임을 동반한 인간 검토**를 면제 요건으로 둔다. 이 블록은 그 두 요구를 frontmatter 수준에서 충족하는 장치다.
 
 상세 운영 수칙·법적 맥락·공개 문구 템플릿은 **`ai-usage-policy.md`** 참조.
 
-### 5.2 구조 — 4축(+1) 분리
+### 6.2 구조 — 4축(+1) 분리
 
 단일 `level` 필드는 금지한다. AI 관여는 서로 직교하는 네 축으로 분해한다.
 
@@ -292,7 +363,7 @@ ai_assistance:
 |              | `reviewed`    | 통독·수정했으나 일부 인용 잔존                     |
 |              | `unreviewed`  | 미검증. **게시 비권장**                            |
 
-### 5.3 워크플로우 → 값 매핑
+### 6.3 워크플로우 → 값 매핑
 
 실제 작업 흐름이 이 골격에 어떻게 떨어지는지:
 
@@ -307,7 +378,7 @@ ai_assistance: { authorship: human, role: [editing, review], model: ["claude-opu
 ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"], review: verified }
 ```
 
-### 5.4 운영 규칙
+### 6.4 운영 규칙
 
 - **`author`는 절대 AI로 바꾸지 않는다.** `ai-drafted`여도 검수·게시 책임자는 사람이므로 author는 사람이다.
 - **본문 미관여 시(C) 오해 방지:** `role: [metadata]`로 본문에 AI가 닿지 않았음을 명시한다. 모호하면 블록을 생략한다.
@@ -337,16 +408,17 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 | `draft` / `search`                                     | bool               | 전체                |                                                 |
 | `version`                                              | string             | **notes**           | 대상 기술 버전                                  |
 | `cover`                                                | object             | **articles**        | OG 이미지                                       |
-| `project` / `doc_type` / `related_adrs` / `milestone`  | —                  | **deep-dive**       |                                                 |
+| `project` / `doc_type` / `milestone`                   | —                  | **deep-dive**       |                                                 |
 | `original_*` / `translator` / `canonical` / `license*` | —                  | **translations**    | provenance                                      |
 | `ai_assistance`                                        | object             | 전체(선택)          | §5                                              |
-| `id`                                                   | string             | **decisions**       | `<SCOPE>-ADR-<NNNN>`                            |
+| `id`                                                   | string             | **decisions**       | `id`는 결정 ID의 SSOT, `<SCOPE>-ADR-<NNNN>`     |
 | `scope`                                                | string             | **decisions**       | 이니셜(DOCS, CORE, RDSM)                        |
 | `decision_status`                                      | string             | **decisions**       | proposed/accepted/rejectd/deprecated/superseded |
 | `decider`                                              | string[]           | **decisions**       | 결정기록 참여자 배열                            |
 | `period`                                               | date               | **decisions**       | 단일 결정일                                     |
 | `issue` / `issue_url`                                  | string             | **decisions**(선택) | ???                                             |
 | `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | ???                                             |
+| `related_decisions`                                    | string[]           | decisions·deep-dive | 결정 참조 정본                                  |
 
 ## 부록 B. 로더 연동 주의
 
