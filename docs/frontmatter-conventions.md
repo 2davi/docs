@@ -1,4 +1,4 @@
-# Frontmatter Convention (2026-07-07)
+# Frontmatter Convention (2026-07-07) {#title}
 
 > ## 개정 이력
 >
@@ -18,7 +18,7 @@
 
 ---
 
-## 설계 원칙
+## 설계 원칙 {#principal}
 
 이 컨벤션은 다음 네 가지 규칙 위에 서 있다. 필드를 추가·수정할 때 항상 이 원칙으로 회귀한다.
 
@@ -33,7 +33,7 @@
 
 ---
 
-## 0. 공통 frontmatter 템플릿
+## 0. 공통 frontmatter 템플릿 {#common-frontmatter-template}
 
 모든 섹션이 공유하는 골격. 섹션별 템플릿(§1~§4)은 이 위에 전용 필드를 얹는다.
 
@@ -74,7 +74,7 @@ ai_assistance: ~          # AI 미사용 시 ~ 또는 생략
 
 ---
 
-## 1. `articles/` — 블로그 포스트
+## 1. `articles/` 블로그 포스트 {#sec-articles}
 
 **이 섹션이 다른 이유:** 완성형(完成形) 글이다. 날짜 역순으로 노출되는 발행물이며, 소셜 공유를 전제로 `cover`(OG 이미지)를 갖는다. 시리즈·난이도·버전은 보통 불필요하다. 독자는 일반 방문자다.
 
@@ -106,7 +106,7 @@ draft: false
 
 ---
 
-## 2. `notes/` — 기술 노트
+## 2. `notes/` 기술 노트 {#sec-notes}
 
 **이 섹션이 다른 이유:** 레퍼런스성 학습 기록이다. 노트는 거의 항상 **특정 기술 버전에 종속**되므로 `version`이 핵심 필드다("PostgreSQL 16 기준" 같은). `status`로 작성 진행 상태(active/wip/archived)를 관리하고, **중주제/소주제 폴더 계층**으로 사이드바가 구성된다(config: `collapseDepth: 2`).
 
@@ -138,7 +138,7 @@ draft: false
 
 ---
 
-## 3. `deep-dive/` — 심층 분석 (개별 프로젝트 문서)
+## 3. `deep-dive/` 심층 분석 (개별 프로젝트 문서) {#sec-deep-dive}
 
 **이 섹션이 다른 이유:** 단발 노트를 넘어 **흐름(flow)을 갖는 프로젝트 단위 심층 문서**다. 단순 개발노트와의 분기점이 바로 여기다 — 한 프로젝트를 여러 챕터로 분해해 추적하므로, 프로젝트 식별·문서 유형·산출물 번호(ARD/RFC/Milestone)·시리즈 순서를 frontmatter에서 관리한다.
 
@@ -205,7 +205,7 @@ ai_assistance:
 
 ---
 
-## 4. `translations/` — 번역 아티클
+## 4. `translations/` 번역 아티클 {#sec-translations}
 
 **이 섹션이 다른 이유:** 콘텐츠 본문이 **타인의 저작물**이다. 따라서 출처(provenance)와 저작권 준수가 핵심 축이다 — 원문 식별, 원저자/번역자 구분, 원문 라이선스 표기, 그리고 SEO 중복 회피를 위한 `canonical` 지정이 필수다.
 
@@ -248,7 +248,7 @@ draft: false
 
 ---
 
-## 5. `decisions/` 결정 기록
+## 5. `decisions/` 결정 기록 {#sec-decisions}
 
 **이 섹션이 다른 이유:** 문서가 곧 제도다. 채택된 기록의 본문은 원칙적으로 불변이고(수정 대신 대체),
 `id`로 영구 참조되며, frontmatter 규칙 위반이 빌드 실패로 이어지는 유일한 섹션이다(집행: docLint, DOCS-ADR-0003).
@@ -299,7 +299,7 @@ related_decisions: [CORE-ADR-0001, DOCS-ADR-0003]
 supersedes: ~
 superseded_by: ~
 
-status: "wip"
+status: "wip"   #active/wip/archived인데, 각각 언제 쓰는 거지?
 toc: true
 draft: true                  # review: unreviewed 인 동안 유지
 search: true
@@ -313,15 +313,15 @@ ai_assistance:
 
 ---
 
-## 6. `ai_assistance` — AI 활용 표기
+## 6. `ai_assistance` AI 활용 표기 {#sec-ai-assistance}
 
-### 6.1 왜 필요한가
+### 6.1 왜 필요한가 {#why-we-need-it}
 
 학습노트·심층분석은 독자(채용 담당자 포함)에게 "이 글을 **사람이 이해하고 쓴 것**인가, AI가 뱉은 것인가?"라는 자연스러운 의문을 부른다. [Google](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)은 "이거 어떻게 만들었지?"가 떠오를 콘텐츠에 AI 공개를 권장하고, [EU AI Act Article 50(4)](https://artificialintelligenceact.eu/article/50/)는 공익적 텍스트의 AI 공개를 의무화하되 **편집 책임을 동반한 인간 검토**를 면제 요건으로 둔다. 이 블록은 그 두 요구를 frontmatter 수준에서 충족하는 장치다.
 
 상세 운영 수칙·법적 맥락·공개 문구 템플릿은 **`ai-usage-policy.md`** 참조.
 
-### 6.2 구조 — 4축(+1) 분리
+### 6.2 구조 {#ai-assistance-structure}
 
 단일 `level` 필드는 금지한다. AI 관여는 서로 직교하는 네 축으로 분해한다.
 
@@ -363,7 +363,7 @@ ai_assistance:
 |              | `reviewed`    | 통독·수정했으나 일부 인용 잔존                     |
 |              | `unreviewed`  | 미검증. **게시 비권장**                            |
 
-### 6.3 워크플로우 → 값 매핑
+### 6.3 워크플로우 → 값 매핑 {#workflow-mapping}
 
 실제 작업 흐름이 이 골격에 어떻게 떨어지는지:
 
@@ -378,7 +378,7 @@ ai_assistance: { authorship: human, role: [editing, review], model: ["claude-opu
 ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"], review: verified }
 ```
 
-### 6.4 운영 규칙
+### 6.4 운영 규칙 {#ai-assistance-principal}
 
 - **`author`는 절대 AI로 바꾸지 않는다.** `ai-drafted`여도 검수·게시 책임자는 사람이므로 author는 사람이다.
 - **본문 미관여 시(C) 오해 방지:** `role: [metadata]`로 본문에 AI가 닿지 않았음을 명시한다. 모호하면 블록을 생략한다.
@@ -390,7 +390,7 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 
 ---
 
-## 부록 A. 필드 레퍼런스 (요약)
+## 부록 A. 필드 레퍼런스 (요약) {#sec-a}
 
 | 필드                                                   | 타입               | 섹션                | 비고                                            |
 | ------------------------------------------------------ | ------------------ | ------------------- | ----------------------------------------------- |
@@ -420,7 +420,7 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 | `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | ???                                             |
 | `related_decisions`                                    | string[]           | decisions·deep-dive | 결정 참조 정본                                  |
 
-## 부록 B. 로더 연동 주의
+## 부록 B. 로더 연동 주의 {#sec-b}
 
 frontmatter 필드는 로더(`docs/.vitepress/data/content.data.ts`)가 `DocItem`에 매핑하기 전까지는 단순 YAML 텍스트다. 따라서:
 
@@ -432,7 +432,7 @@ frontmatter 필드는 로더(`docs/.vitepress/data/content.data.ts`)가 `DocItem
 
 ---
 
-## 참고 출처
+## 참고 출처 {#references}
 
 - Google Search Central — [Generative AI 콘텐츠 가이드](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)
 - Google Search Central Blog — [AI-generated content 가이던스(2023-02, 이후 업데이트)](https://developers.google.com/search/blog/2023/02/google-search-and-ai-content)
