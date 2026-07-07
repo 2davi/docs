@@ -1,8 +1,10 @@
 import { createContentLoader } from 'vitepress'
 import { compareRecent } from '../theme/utils/docSort'
+import { SECTION_GLOBS, SECTION_INDEX_URLS } from '../theme/config/tokens.config'
 
 interface DocItem {
   url:         string
+  id:          string | null    // 결정 ID의 SSOT (DOCS-ADR-0002 §2.2). 비결정 문서는 null
   title:       string
   description: string
   date:        string
@@ -17,30 +19,22 @@ interface DocItem {
   difficulty:  string | null
   project:     string | null
   doc_type:    string | null
-  id:          string | null
   draft:       boolean
   search:      boolean
   excerpt:     string | undefined
 }
 
 export default createContentLoader(
-  [
-    'articles/**/*.md',
-    'notes/**/*.md',
-    'deep-dive/**/*.md',
-    'translations/**/*.md',
-    'decisions/**/*.md',
-  ],
+  SECTION_GLOBS,   // 섹션 축의 정본에서 파생 (tokens.config). decisions 가 여기로 편입된다
   {
     excerpt: true,
     transform(raw): DocItem[] {
       return raw
         .filter(p => !p.frontmatter.draft)
-        .filter(p => p.url !== '/articles/' && p.url !== '/notes/'
-                  && p.url !== '/deep-dive/' && p.url !== '/translations/'
-                  && p.url !== '/decisions/')
+        .filter(p => !SECTION_INDEX_URLS.has(p.url))     // OLD 하드코딩 → 인덱스 제외한 모든 SECTION
         .map(p => ({
           url:         p.url,
+          id:          p.frontmatter.id          ?? null,
           title:       p.frontmatter.title       ?? '(제목 없음)',
           description: p.frontmatter.description ?? '',
           date:        p.frontmatter.date        ?? '',
@@ -55,7 +49,6 @@ export default createContentLoader(
           difficulty:  p.frontmatter.difficulty  ?? null,
           project:     p.frontmatter.project     ?? null,
           doc_type:    p.frontmatter.doc_type    ?? null,
-          id:          p.frontmatter.id          ?? null,
           draft:       p.frontmatter.draft       ?? false,
           search:      p.frontmatter.search      ?? true,
           excerpt:     p.excerpt,
