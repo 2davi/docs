@@ -6,8 +6,8 @@ lastmod: 2026-04-06
 author: "Davi"
 description: "1128줄 DomainState 과부하를 코어-어댑터 패턴으로 분해하고, SI 구원자·모던 Headless Two-Track 진입점을 코드 레벨에서 분리하며, Idempotency-Key 도입과 v1.1.x~v2.0.0 단계 로드맵을 확정한 전략 재설계."
 slug: adr-0003-alignment
-section: deep-dive
-category: "deep-dive/rest-domain-state-manager"
+section: "decisions"
+category: "rdsm"
 tags: [adr, architecture, core-adapter, two-track, idempotency-key, repositioning, dsm]
 
 order: 3
@@ -19,6 +19,7 @@ search: true
 toc: true
 
 project: "Rest Domain State Manager"
+id: RDSM-ADR-0000
 milestone: ~
 
 decision_status: "accepted"
@@ -26,7 +27,7 @@ deciders: ["Davi"]
 period:
   start: 2026-04-06
   end: ~
-related_decisions: [ADR-0000, ADR-0001, ADR-0002]
+related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001, RDSM-ADR-0002]
 issue: ~
 
 ai_assistance:

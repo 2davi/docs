@@ -1,12 +1,37 @@
 ---
-section: notes
-category: "blog-ops"
+doc_type: cdr
+slug: rdsm-cdr-0001
+section: "decisions"
+category: "rdsm"
+tags: []
+
+order: 4
+series: "REST DSM CDR"
+series_order: 0
+
+project: "Rest Domain State Manager"
+id: RDSM-CDR-0001
+milestone: ~
+
+decision_status: "accepted"
+deciders: ["Davi"]
+period: 
+  start: 2026-04-25
+  end: ~
+related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001, RDSM-ADR-0002]
+issue: ~
+
+ai_assistance:
+  authorship: human
+  role: [research, review]
+  model: ["claude-opus-4.7"]
+  review: verified
 ---
 
 # CDR-0001: Save Strategy Pivot & Library Repositioning
 
 - **Status:** In-Progress
-- **Period:** 2026-04-25 ~ ongoing
+- **Period:** 2026-04-25
 - **Trigger:** v1.2.4 시점에서 작성된 외부 평가 보고서가 식별한 라이브러리의 시장 적합성·운영 위생·구조 부채 약점들. 이를 해결하기 위한 개선 로드맵을 수립하는 과정에서 라이브러리의 정체성과 기술적 자유도에 대한 본질적 질문이 제기되었다.
 - **Decider(s):** 2davi
 - **Tags:** positioning, save-strategy, payload, adapter, market-fit, adr-formalization

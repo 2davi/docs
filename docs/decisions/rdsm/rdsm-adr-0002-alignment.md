@@ -6,8 +6,8 @@ lastmod: 2026-03-30
 author: "Davi"
 description: "Reflect/WeakMap 적용과 getTarget 백도어·CSRF 부재를 코드 레벨에서 진단하고, RFC 6902 JSON Patch 준수와 BroadcastChannel 리더 선출 보강, DomainCollection 상태 레이어·UIComposer UI 레이어 신설을 확정한 결정."
 slug: adr-0002-alignment
-section: deep-dive
-category: "deep-dive/rest-domain-state-manager"
+section: "decisions"
+category: "rdsm"
 tags: [adr, reflect, weakmap, csrf, json-patch, broadcast-channel, leader-election, dsm]
 
 order: 2
@@ -19,6 +19,7 @@ search: true
 toc: true
 
 project: "Rest Domain State Manager"
+id: RDSM-ADR-0000
 milestone: ~
 
 decision_status: "accepted"
@@ -26,7 +27,7 @@ deciders: ["Davi"]
 period:
   start: 2026-03-30
   end: ~
-related_decisions: [ADR-0000, ADR-0001]
+related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001]
 issue: ~
 
 ai_assistance:

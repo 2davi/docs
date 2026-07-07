@@ -6,8 +6,8 @@ lastmod: 2026-03-26
 author: "Davi"
 description: "DomainVO로 V8 히든클래스를 고정하고 Proxy Trap을 경량화하며, RFC 7396 기반 HTTP 메서드 자동 분기의 멱등성을 보장하고, 순수 ESM 패키징과 Framework-Agnostic 데이터 레이어 포지셔닝을 정렬한 설계 결정."
 slug: adr-0001-alignment
-section: deep-dive
-category: "deep-dive/rest-domain-state-manager"
+section: "decisions"
+category: "rdsm"
 tags: [adr, v8, hidden-class, proxy, rest, idempotency, esm, dsm]
 
 order: 1
@@ -19,6 +19,7 @@ search: true
 toc: true
 
 project: "Rest Domain State Manager"
+id: RDSM-ADR-0000
 milestone: ~
 
 decision_status: "accepted"
@@ -26,7 +27,7 @@ deciders: ["Davi"]
 period:
   start: 2026-03-26
   end: ~
-related_decisions: [ADR-0000]
+related_decisions: [RDSM-ADR-0000]
 issue: ~
 
 ai_assistance:
