@@ -4,7 +4,7 @@ date: 2026-06-30
 lastmod: 2026-06-30
 author: "Davi"
 description: "여러 프로젝트를 가로지르는 결정 기록의 전역 유일 식별자 문법 <SCOPE>-<TYPE>-<NNNN>, SCOPE/TYPE 레지스트리, 4자리 단조 넘버링, 파일·디렉터리·상호참조 규칙을 정의한다."
-slug: "core-adr-0001"
+slug: "core-adr-0001-adr-identifier-numbering-convention"
 
 section: "decisions"               # 신설 섹션 — 로더/사이드바 확장 필요(후속, §5 참조)
 category: "core/governance/conventions"

@@ -4,7 +4,7 @@ date: 2026-06-29
 lastmod: 2026-07-03
 author: "Davi"
 description: "'URL로는 열리는데 목록엔 없다'는 유령 문서 경험을 기동 시 콘솔 감사로 상시 가시화하고, DOCS-ADR-0002가 정한 frontmatter 규칙을 빌드 게이트로 집행하는 린터의 아키텍처를 정한다. 규칙 레지스트리를 단일 대장으로 삼고, VitePress 고유 관문은 위임 엔트리로 흡수한다."
-slug: "docs-adr-0003"
+slug: "docs-adr-0003-doc-lint-architecture"
 
 section: "decisions"
 category: "docs"
@@ -29,7 +29,7 @@ ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
   model: ["claude-fable-5"]
-  review: "verified"
+  review: "reviewed"
 ---
 
 # DOCS-ADR-0003: 문서 거버넌스 린터 docLint 도입 {#docs-adr-0003}

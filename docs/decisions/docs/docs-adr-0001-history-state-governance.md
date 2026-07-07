@@ -4,7 +4,7 @@ date: 2026-07-03
 lastmod: 2026-07-03
 author: "Davi"
 description: "문서 안에서 앵커 링크로 이동한 뒤 뒤로가기를 누르면 원래 읽던 위치로 돌아오지 못한다. 이 문제의 원인을 라우터 소스에서 확인하고, history.state를 누가·언제·어떤 모양으로 쓰는지에 대한 규칙과 계층 구조를 결정한다."
-slug: "docs-adr-0001"
+slug: "docs-adr-0001-history-state-governance"
 
 section: "decisions"
 category: "docs"
@@ -30,10 +30,10 @@ ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
   model: ["claude-opus-4.8"]
-  review: "verified"        # 검토 후 verified/reviewed로 갱신하고 draft를 해제한다
+  review: "reviewed"        # 검토 후 verified/reviewed로 갱신하고 draft를 해제한다
 ---
 
-# DOCS-ADR-0001 — 히스토리 상태 거버넌스
+# DOCS-ADR-0001: 히스토리 상태 거버넌스
 
 ## 1. 맥락 (Context)
 

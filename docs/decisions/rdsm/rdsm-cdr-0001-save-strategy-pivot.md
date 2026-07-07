@@ -1,28 +1,30 @@
 ---
-titld: "RDSM CDR ─ "
-date: ~
+title: "RDSM-CDR-0001: 라이브러리 정체성 재정의"
+date: 2026-04-25
 lastmod: 2026-07-07
 author: "Davi"
-description: ""
-slug: rdsm-cdr-0001
+description: "v1.2.4 시점에서 작성된 외부 평가 보고서가 식별한 라이브러리의 시장 적합성·운영 위생·구조 부채 약점들. 이를 해결하기 위한 개선 로드맵을 수립하는 과정에서 라이브러리의 정체성과 기술적 자유도에 대한 본질적 질문이 제기되었다."
+slug: rdsm-cdr-0001-save-strategy-pivot
 
 section: "decisions"
-category: "rdsm"
-tags: []
+category: "decisions/rdsm"
+tags: [positioning, save-strategy, payload, adapter, market-fit, adr-formalization]
 
-project: "Rest Domain State Manager"
+project: "rest-domain-state-manager"
 
 # ── decisions 전용 필드 ──
 id: RDSM-CDR-0001
 doc_type: cdr
-decision_status: "accepted"
+decision_status: "in-progress"
 deciders: ["Davi"]
-period: 2026-04-25
+period: 
+  start: 2026-04-25
+  end: ~
 related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001, RDSM-ADR-0002]
 supersedes: ~
 superseded_by: ~
 
-status: "archived"
+status: "active"
 toc: true
 draft: false
 search: true
@@ -34,17 +36,7 @@ ai_assistance:
   review: verified
 ---
 
-# CDR-0001: Save Strategy Pivot & Library Repositioning
-
-- **Status:** In-Progress
-- **Period:** 2026-04-25
-- **Trigger:** v1.2.4 시점에서 작성된 외부 평가 보고서가 식별한 라이브러리의 시장 적합성·운영 위생·구조 부채 약점들. 이를 해결하기 위한 개선 로드맵을 수립하는 과정에서 라이브러리의 정체성과 기술적 자유도에 대한 본질적 질문이 제기되었다.
-- **Decider(s):** 2davi
-- **Tags:** positioning, save-strategy, payload, adapter, market-fit, adr-formalization
-
----
-
-## Context
+# RDSM-CDR-0001: Save Strategy Pivot & Library Repositioning
 
 본 사이클은 v1.2.4 릴리스 직후, 라이브러리의 외부 평가 보고서가 작성된 시점에 시작되었다. 직전 사이클(ard-0003)에서 v2.0.0 방향성을 정의하긴 했으나, 그 방향성은 "DomainState 분리"와 "UIComposer 도입"이라는 내부 개선에 머물렀고, 시장에서 이 라이브러리의 정체성이 무엇인가라는 질문에는 답하지 않았다.
 

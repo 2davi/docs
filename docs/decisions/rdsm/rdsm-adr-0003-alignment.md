@@ -4,13 +4,14 @@ date: 2026-04-06
 lastmod: 2026-04-06
 author: "Davi"
 description: "1128줄 DomainState 과부하를 코어-어댑터 패턴으로 분해하고, SI 구원자·모던 Headless Two-Track 진입점을 코드 레벨에서 분리하며, Idempotency-Key 도입과 v1.1.x~v2.0.0 단계 로드맵을 확정한 전략 재설계."
-slug: rdsm-adr-0003
+slug: rdsm-adr-0003-alignment
 
 section: "decisions"
-category: "rdsm"
-tags: [adr, architecture, core-adapter, two-track, idempotency-key, repositioning, dsm]
+category: "decisions/rdsm"
+tags: [architecture, core-adapter, two-track, idempotency-key, repositioning, dsm]
 
-project: "Rest Domain State Manager"
+project: "rest-domain-state-manager"
+
 # ── decisions 전용 필드 ──
 id: RDSM-ADR-0000
 doc_type: adr
@@ -21,7 +22,7 @@ related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001, RDSM-ADR-0002]
 supersedes: ~
 superseded_by: ~
 
-status: "archived"
+status: "active"
 toc: true
 draft: false
 search: true
@@ -33,10 +34,7 @@ ai_assistance:
   review: verified
 ---
 
-
-# ADR 0003 Alignment
-
-## REST Domain State Manager — v1.1.x → v2.0.0 방향 재설계 리포트
+# REST Domain State Manager — v1.1.x → v2.0.0 방향 재설계 리포트
 
 > v1.0.0은 내부 아키텍처(Proxy 최적화, DI 컨테이너, Shadow State, 보상 트랜잭션)가
 > 외부 API 설계로 충분히 번역되지 못한 채 릴리즈됐다.

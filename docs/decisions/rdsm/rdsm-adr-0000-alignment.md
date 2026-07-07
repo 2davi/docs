@@ -4,14 +4,14 @@ date: 2026-03-23
 lastmod: 2026-03-23
 author: "Davi"
 description: "초기 RDSM 구현의 SSOT 타협·V8 비최적화·동시성 무결성·CSRF 부재 등을 식별하고 7개 개선 목표를 정렬한 설계 결정"
-slug: "rdsm-adr-0000"
+slug: "rdsm-adr-0000-alignment"
 
 section: "decisions"
-category: "rdsm"
-tags: [adr, v8, proxy, reactivity, csrf, broadcast-channel, dsm]
+category: "decisions/rdsm"
+tags: [v8, proxy, reactivity, csrf, broadcast-channel, dsm]
 
 
-project: "Rest Domain State Manager"
+project: "rest-domain-state-manager"
 
 # ── decisions 전용 필드 ──
 id: RDSM-ADR-0000
@@ -23,7 +23,7 @@ related_decisions: []
 supersedes: ~
 superseded_by: ~
 
-status: "archived"
+status: "active"
 toc: true
 draft: false
 search: true

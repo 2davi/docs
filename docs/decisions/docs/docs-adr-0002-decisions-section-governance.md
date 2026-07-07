@@ -4,7 +4,7 @@ date: 2026-06-28
 lastmod: 2026-06-30
 author: "Davi"
 description: "결정 기록이 notes와 deep-dive에 흩어지고 일부는 로더 glob 밖에서 유령이 된 상태를 끝낸다. 전용 decisions 섹션과 URL 체계를 신설하고, 식별자의 단일 진실 원천을 frontmatter id로 확정하며, 타입·스코프 토큰 레지스트리와 구 URL Redirect 정책까지 결정 기록 거버넌스 전반을 정비한다."
-slug: "docs-adr-0002"
+slug: "docs-adr-0002-decisions-section-governance"
 
 section: "decisions"
 category: "docs"
@@ -29,7 +29,7 @@ ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
   model: ["claude-fable-5"]
-  review: "verified"   # 검토 후 갱신하고 draft를 해제한다
+  review: "reviewed"   # 검토 후 갱신하고 draft를 해제한다
 ---
 
 # DOCS-ADR-0002: decisions 섹션 신설과 결정 식별 체계 정비 {#docs-adr-0002}
