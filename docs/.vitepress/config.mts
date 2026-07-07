@@ -48,6 +48,7 @@ export default defineConfig({
       { text: 'Articles',     link: '/articles/' },
       { text: 'Notes',        link: '/notes/' },
       { text: 'Deep Dive',    link: '/deep-dive/' },
+      { text: 'Decisions',    link: '/decisions/' },
       { text: 'Translations', link: '/translations/' },
       { text: 'Tags',         link: '/tags/'},
     ],
@@ -71,6 +72,12 @@ export default defineConfig({
         // ── Deep Dive: 프로젝트별 시리즈, order frontmatter 우선 ──
         entry('deep-dive', '/deep-dive/', {
           sortMenusByFrontmatterOrder: true,          // frontmatter order 정렬
+          collapsed:                   true,
+          collapseDepth:               2,
+        }),
+
+        entry('decisions', '/decisions/', {
+          sortMenusByFrontmatterOrder: true,
           collapsed:                   true,
           collapseDepth:               2,
         }),
