@@ -1,44 +1,35 @@
 ---
-# ── 식별 ─────────────────────────────────────────────
-id: DOCS-ADR-0002
 title: "decisions 섹션 신설과 결정 식별 체계 정비"
 date: 2026-06-28
 lastmod: 2026-06-30
 author: "Davi"
 description: "결정 기록이 notes와 deep-dive에 흩어지고 일부는 로더 glob 밖에서 유령이 된 상태를 끝낸다. 전용 decisions 섹션과 URL 체계를 신설하고, 식별자의 단일 진실 원천을 frontmatter id로 확정하며, 타입·스코프 토큰 레지스트리와 구 URL Redirect 정책까지 결정 기록 거버넌스 전반을 정비한다."
-slug: "docs-adr-0002-decisions-section-governance"
+slug: "docs-adr-0002"
 
-# ── 분류 ─────────────────────────────────────────────
 section: "decisions"
-category: "decisions/docs"
+category: "docs"
 tags: [vitepress, decision-records, information-architecture, ssot, content-loader, migration, redirect]
 
-# ── 결정 기록 ─────────────────────────────────────────
+# ── decisions 전용 필드 ──
+id: DOCS-ADR-0002
 doc_type: "adr"
 decision_status: "proposed"
 deciders: ["Davi"]
-period:
-  start: 2026-07-06
-  end: ~
-related_decisions: [CORE-ADR-0001, DOCS-ADR-0001, DOCS-ADR-0003]  # §2.6이 정한 정본 필드. related_adrs를 대체한다
+period: 2026-07-06
+related_decisions: [CORE-ADR-0001, DOCS-ADR-0001, DOCS-ADR-0003]
 supersedes: ~
 superseded_by: ~
-milestone: ~
 
-# ── 상태 ─────────────────────────────────────────────
 status: "wip"
-order: 9999
 toc: true
-draft: true            # review: unreviewed → draft: true 게이트 규칙
+draft: false
 search: true
 
-# ── AI 활용 표기 ──────────────────────────────────────
 ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
   model: ["claude-fable-5"]
-  review: "unreviewed"   # 검토 후 갱신하고 draft를 해제한다
-prompt_ref: ~
+  review: "verified"   # 검토 후 갱신하고 draft를 해제한다
 ---
 
 # DOCS-ADR-0002: decisions 섹션 신설과 결정 식별 체계 정비 {#docs-adr-0002}

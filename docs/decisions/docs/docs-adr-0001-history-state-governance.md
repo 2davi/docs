@@ -1,45 +1,36 @@
 ---
-# ── 식별 ─────────────────────────────────────────────
-id: DOCS-ADR-0001             # ★ 가정: DOCS 스코프 첫 ADR. 기존 채번 확인 후 확정
 title: "히스토리 상태 거버넌스 — 단일 기록 모듈과 뒤로가기 스크롤 복원"
 date: 2026-07-03
 lastmod: 2026-07-03
 author: "Davi"
 description: "문서 안에서 앵커 링크로 이동한 뒤 뒤로가기를 누르면 원래 읽던 위치로 돌아오지 못한다. 이 문제의 원인을 라우터 소스에서 확인하고, history.state를 누가·언제·어떤 모양으로 쓰는지에 대한 규칙과 계층 구조를 결정한다."
-slug: "docs-adr-0001-history-state-governance"
+slug: "docs-adr-0001"
 
-# ── 분류 ─────────────────────────────────────────────
-section: "decisions"          # ※ 로더 glob 확장(오픈 아이템)이 먼저다 — §5.2
-category: "decisions/docs"
+section: "decisions"
+category: "docs"
 tags: [vitepress, history-api, scroll-restoration, architecture, ssot]
 
-# ── 결정 기록 필드 ────────────────────────────────────
+# ── decisions 전용 필드 ──
+id: DOCS-ADR-0001
 doc_type: "adr"
 decision_status: "proposed"   # 승인하면 accepted로 바꾼다
 deciders: ["Davi"]
-period:
-  start: 2026-07-03
-  end: ~
+period: 2026-07-03
 related_decisions: [CORE-ADR-0001]
 supersedes: ~
-milestone: ~
-issue: ~
-issue_url: ~
+suspended_by: ~
 
-# ── 상태 ─────────────────────────────────────────────
-status: "wip"                 # 검토를 마치면 active로 바꾼다
-order: 9999
+status: "wip"
 toc: true
-draft: true                   # review: unreviewed → draft:true 규칙 (frontmatter-conventions §5)
+draft: false
 search: true
 
 # ── AI 활용 표기 ──────────────────────────────────────
 ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
-  model: ["claude"]           # TODO: 표기 모델명 확정
-  review: "unreviewed"        # 검토 후 verified/reviewed로 갱신하고 draft를 해제한다
-prompt_ref: ~                 # 진단 대화 영구링크 (선택)
+  model: ["claude-opus-4.8"]
+  review: "verified"        # 검토 후 verified/reviewed로 갱신하고 draft를 해제한다
 ---
 
 # DOCS-ADR-0001 — 히스토리 상태 거버넌스

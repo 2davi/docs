@@ -1,25 +1,31 @@
 ---
-doc_type: cdr
+titld: "RDSM CDR ─ "
+date: ~
+lastmod: 2026-07-07
+author: "Davi"
+description: ""
 slug: rdsm-cdr-0001
+
 section: "decisions"
 category: "rdsm"
 tags: []
 
-order: 4
-series: "REST DSM CDR"
-series_order: 0
-
 project: "Rest Domain State Manager"
-id: RDSM-CDR-0001
-milestone: ~
 
+# ── decisions 전용 필드 ──
+id: RDSM-CDR-0001
+doc_type: cdr
 decision_status: "accepted"
 deciders: ["Davi"]
-period: 
-  start: 2026-04-25
-  end: ~
+period: 2026-04-25
 related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001, RDSM-ADR-0002]
-issue: ~
+supersedes: ~
+superseded_by: ~
+
+status: "archived"
+toc: true
+draft: false
+search: true
 
 ai_assistance:
   authorship: human

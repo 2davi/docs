@@ -1,44 +1,35 @@
 ---
-# ── 식별 ─────────────────────────────────────────────
-id: DOCS-ADR-0003
 title: "문서 거버넌스 린터 docLint 도입"
 date: 2026-06-29
 lastmod: 2026-07-03
 author: "Davi"
 description: "'URL로는 열리는데 목록엔 없다'는 유령 문서 경험을 기동 시 콘솔 감사로 상시 가시화하고, DOCS-ADR-0002가 정한 frontmatter 규칙을 빌드 게이트로 집행하는 린터의 아키텍처를 정한다. 규칙 레지스트리를 단일 대장으로 삼고, VitePress 고유 관문은 위임 엔트리로 흡수한다."
-slug: "docs-adr-0003-doc-lint-architecture"
+slug: "docs-adr-0003"
 
-# ── 분류 ─────────────────────────────────────────────
 section: "decisions"
-category: "decisions/docs"
+category: "docs"
 tags: [vitepress, vite-plugin, lint, frontmatter, governance, ssot, build]
 
-# ── 결정 기록 ─────────────────────────────────────────
+# ── decisions 전용 필드 ──
+id: DOCS-ADR-0003
 doc_type: "adr"
 decision_status: "proposed"
 deciders: ["Davi"]
-period:
-  start: 2026-07-06
-  end: ~
+period: 2026-07-06
 related_decisions: [DOCS-ADR-0002, CORE-ADR-0001]
 supersedes: ~
 superseded_by: ~
-milestone: ~
 
-# ── 상태 ─────────────────────────────────────────────
 status: "wip"
-order: 9999
 toc: true
-draft: true            # review: unreviewed → draft: true 게이트 규칙
+draft: false
 search: true
 
-# ── AI 활용 표기 ──────────────────────────────────────
 ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
   model: ["claude-fable-5"]
-  review: "unreviewed"   # 검토 후 갱신하고 draft를 해제한다
-prompt_ref: ~
+  review: "verified"
 ---
 
 # DOCS-ADR-0003: 문서 거버넌스 린터 docLint 도입 {#docs-adr-0003}

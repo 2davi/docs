@@ -1,34 +1,31 @@
 ---
-doc_type: adr
 title: "RDSM ADR-0001: V8 최적화·RESTful 무결성·ESM 패키징 방향 정렬"
 date: 2026-03-26
 lastmod: 2026-03-26
 author: "Davi"
 description: "DomainVO로 V8 히든클래스를 고정하고 Proxy Trap을 경량화하며, RFC 7396 기반 HTTP 메서드 자동 분기의 멱등성을 보장하고, 순수 ESM 패키징과 Framework-Agnostic 데이터 레이어 포지셔닝을 정렬한 설계 결정."
-slug: adr-0001-alignment
+slug: rdsm-adr-0001
+
 section: "decisions"
 category: "rdsm"
 tags: [adr, v8, hidden-class, proxy, rest, idempotency, esm, dsm]
 
-order: 1
-series: "REST DSM ADR"
-series_order: 1
-status: "active"
-draft: false
-search: true
-toc: true
-
 project: "Rest Domain State Manager"
-id: RDSM-ADR-0000
-milestone: ~
 
+# ── decisions 전용 필드 ──
+id: RDSM-ADR-0000
+doc_type: adr
 decision_status: "accepted"
 deciders: ["Davi"]
-period:
-  start: 2026-03-26
-  end: ~
+period: 2026-03-26
 related_decisions: [RDSM-ADR-0000]
-issue: ~
+supersedes: ~
+superseded_by: ~
+
+status: "archived"
+toc: true
+draft: false
+search: true
 
 ai_assistance:
   authorship: human

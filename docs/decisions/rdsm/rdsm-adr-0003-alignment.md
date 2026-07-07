@@ -1,34 +1,30 @@
 ---
-doc_type: adr
 title: "RDSM ADR-0003: v2.0.0 재포지셔닝 — 복잡성 은닉과 Two-Track API 분리"
 date: 2026-04-06
 lastmod: 2026-04-06
 author: "Davi"
 description: "1128줄 DomainState 과부하를 코어-어댑터 패턴으로 분해하고, SI 구원자·모던 Headless Two-Track 진입점을 코드 레벨에서 분리하며, Idempotency-Key 도입과 v1.1.x~v2.0.0 단계 로드맵을 확정한 전략 재설계."
-slug: adr-0003-alignment
+slug: rdsm-adr-0003
+
 section: "decisions"
 category: "rdsm"
 tags: [adr, architecture, core-adapter, two-track, idempotency-key, repositioning, dsm]
 
-order: 3
-series: "REST DSM ADR"
-series_order: 3
-status: "active"
-draft: false
-search: true
-toc: true
-
 project: "Rest Domain State Manager"
+# ── decisions 전용 필드 ──
 id: RDSM-ADR-0000
-milestone: ~
-
+doc_type: adr
 decision_status: "accepted"
 deciders: ["Davi"]
-period:
-  start: 2026-04-06
-  end: ~
+period: 2026-04-06
 related_decisions: [RDSM-ADR-0000, RDSM-ADR-0001, RDSM-ADR-0002]
-issue: ~
+supersedes: ~
+superseded_by: ~
+
+status: "archived"
+toc: true
+draft: false
+search: true
 
 ai_assistance:
   authorship: human
