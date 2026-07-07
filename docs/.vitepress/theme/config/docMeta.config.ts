@@ -132,7 +132,7 @@ export type FieldKind =
   | 'people'   // 배열/문자열 → 쉼표 평문 (deciders, 원저자)
   | 'range'    // {start,end} → "start ~ end" (end 없으면 ongoing)
   | 'series'   // series + series_order → "이름 · Ch.N"
-  | 'refs'     // 배열 → pill 묶음(텍스트) (related_adrs)
+  | 'refs'     // 배열 → pill 묶음(텍스트) (related_decisions)
   | 'lang'     // original_lang → translation_lang
   | 'project'  // 볼드체 평문 값
 
@@ -147,51 +147,51 @@ export interface CardField {
 
 // 재사용 필드 묶음 ──
 const DECISION_FIELDS: CardField[] = [
-  { key: 'decision_status', label: 'Status',        kind: 'badge', vocab: 'decision' },
-  { key: 'project',         label: 'Project',       kind: 'project' },
-  { key: 'period',          label: 'Decided',       kind: 'date'    },
-  { key: 'deciders',        label: 'Deciders',      kind: 'people'  },
-  { key: 'series',          label: 'Series',        kind: 'series'  },
-  { key: 'supersedes',      label: 'Supersedes',    kind: 'refs'    },
-  { key: 'superseded_by',   label: 'Supersedes by', kind: 'refs'    },
-  { key: 'related_adrs',    label: 'Related',       kind: 'refs'    },
-  { key: 'issue',           label: 'Issue',         kind: 'link',  urlKey: 'issue_url' },
-  { key: 'tags',            label: 'Tags',          kind: 'pills'   },
+  { key: 'decision_status',   label: 'Status',          kind: 'badge',  vocab: 'decision' },
+  { key: 'project',           label: 'Project',         kind: 'project' },
+  { key: 'period',            label: 'Decided',         kind: 'date'    },
+  { key: 'deciders',          label: 'Deciders',        kind: 'people'  },
+  { key: 'series',            label: 'Series',          kind: 'series'  },
+  { key: 'supersedes',        label: 'Supersedes',      kind: 'refs'    },
+  { key: 'superseded_by',     label: 'Supersedes by',   kind: 'refs'    },
+  { key: 'related_decisions', label: 'Related',         kind: 'refs'    },
+  { key: 'issue',             label: 'Issue',           kind: 'link',   urlKey: 'issue_url' },
+  { key: 'tags',              label: 'Tags',            kind: 'pills'   },
 ]
 
 const CHARTER_FIELDS: CardField[] = [
-  { key: 'status',        label: 'Status',          kind: 'badge',  vocab: 'doc' },
-  { key: 'period',        label: 'Date',            kind: 'date'    },
-  { key: 'deciders',      label: 'Owners',          kind: 'people'  },
-  { key: 'related_adrs',  label: 'Decomposes into', kind: 'refs'    },
-  { key: 'tags',          label: 'Tags',            kind: 'pills'   },
+  { key: 'status',            label: 'Status',          kind: 'badge',  vocab: 'doc' },
+  { key: 'period',            label: 'Date',            kind: 'date'    },
+  { key: 'deciders',          label: 'Owners',          kind: 'people'  },
+  { key: 'related_decisions', label: 'Decomposes into', kind: 'refs'    },
+  { key: 'tags',              label: 'Tags',            kind: 'pills'   },
 ]
 
 const DEEPDIVE_FIELDS: CardField[] = [
-  { key: 'status',       label: 'Status',  kind: 'badge', vocab: 'doc' },
-  { key: 'project',      label: 'Project', kind: 'text'   },
-  { key: 'series',       label: 'Series',  kind: 'series' },
-  { key: 'difficulty',   label: 'Level',   kind: 'badge', vocab: 'difficulty' },
-  { key: 'related_adrs', label: 'Related', kind: 'refs'   },
-  { key: 'lastmod',      label: 'Updated', kind: 'date'   },
-  { key: 'tags',         label: 'Tags',    kind: 'pills'  },
+  { key: 'status',            label: 'Status',          kind: 'badge',  vocab: 'doc' },
+  { key: 'project',           label: 'Project',         kind: 'text'    },
+  { key: 'series',            label: 'Series',          kind: 'series'  },
+  { key: 'difficulty',        label: 'Level',           kind: 'badge',  vocab: 'difficulty' },
+  { key: 'related_decisions', label: 'Related',         kind: 'refs'    },
+  { key: 'lastmod',           label: 'Updated',         kind: 'date'    },
+  { key: 'tags',              label: 'Tags',            kind: 'pills'   },
 ]
 
 const TRANSLATION_FIELDS: CardField[] = [
-  { key: 'author',       label: '원저자',  kind: 'people' },
-  { key: 'translator',   label: '번역',    kind: 'text'   },
-  { key: 'original_url', label: '원문',    kind: 'link', text: '원문 보기' },
-  { key: 'license',      label: 'License', kind: 'link', urlKey: 'license_url' },
-  { key: 'lang',         label: 'Lang',    kind: 'lang'   },
+  { key: 'author',            label: '원저자',          kind: 'people'  },
+  { key: 'translator',        label: '번역',            kind: 'text'    },
+  { key: 'original_url',      label: '원문',            kind: 'link',   text: '원문 보기' },
+  { key: 'license',           label: 'License',         kind: 'link',   urlKey: 'license_url' },
+  { key: 'lang',              label: 'Lang',            kind: 'lang'    },
   // canonical: 의도적 제외 — SEO용이지 독자용이 아님
 ]
 
 const NOTE_FIELDS: CardField[] = [
-  { key: 'version',    label: 'Version', kind: 'text'  },   // ★ note 핵심 필드
-  { key: 'status',     label: 'Status',  kind: 'badge', vocab: 'doc' },
-  { key: 'difficulty', label: 'Level',   kind: 'badge', vocab: 'difficulty' },
-  { key: 'lastmod',    label: 'Updated', kind: 'date'  },
-  { key: 'tags',       label: 'Tags',    kind: 'pills' },
+  { key: 'version',           label: 'Version',         kind: 'text'    },   // ★ note 핵심 필드
+  { key: 'status',            label: 'Status',          kind: 'badge',   vocab: 'doc' },
+  { key: 'difficulty',        label: 'Level',           kind: 'badge',   vocab: 'difficulty' },
+  { key: 'lastmod',           label: 'Updated',         kind: 'date'    },
+  { key: 'tags',              label: 'Tags',            kind: 'pills'   },
 ]
 
 // ★ 확장지점 A·C — doc_type → 카드 필드 배열.

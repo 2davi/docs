@@ -26,7 +26,7 @@ deciders: ["Davi"]
 period:
   start: 2026-04-06
   end: ~
-related_adrs: [ADR-0000, ADR-0001, ADR-0002]
+related_decisions: [ADR-0000, ADR-0001, ADR-0002]
 issue: ~
 
 ai_assistance:

@@ -26,7 +26,7 @@ deciders: ["Davi"]
 period:
   start: 2026-03-23
   end: ~
-related_adrs: ~
+related_decisions: ~
 issue: ~
 
 ai_assistance:

@@ -53,7 +53,7 @@ frontmatter (각 .md의 YAML)
 | `cover`                              | object           | `{ image, alt }`                                                                 | OG                   | **articles 전용**               |
 | `project`                            | string           | 프로젝트 슬러그                                                                  | 로더, 카드           | deep-dive                       |
 | `doc_type`                           | enum             | §3 참조                                                                          | 로더, **카드 키**    | deep-dive                       |
-| `related_adrs`                       | string[]         | `ADR-0000` 등                                                                    | 카드(링크)           | deep-dive·결정기록              |
+| `related_decisions`                  | string[]         | `ADR-0000` 등                                                                    | 카드(링크)           | deep-dive·결정기록              |
 | `milestone`                          | string\|~        | —                                                                                | —                    | deep-dive                       |
 | `decision_status`                    | enum             | **proposed \| accepted \| rejected \| deprecated \| superseded** (결정 수명주기) | 카드                 | 결정기록                        |
 | `deciders`                           | string[]         | 결정 주체 (author와 별개)                                                        | 카드                 | 결정기록                        |
@@ -93,7 +93,7 @@ frontmatter (각 .md의 YAML)
 - **`status` vs `decision_status`** — *문서 수명주기*(active/wip/archived: 글을 쓰는 중인가) vs *결정 수명주기*(proposed/accepted/...: 결정이 살아있는가). **한 문서가 동시에 `status: active` + `decision_status: superseded`일 수 있다.** 한 필드에 섞지 말 것. 카드는 결정 기록에서 `decision_status`를 본다.
 - **`author` vs `deciders`** — author는 *문서 작성자*(항상 1명, 항상 사람), deciders는 *결정 주체*(복수 가능). ADR에선 deciders가 의미 단위다.
 - **`doc_type` vs `section`** — 카드 규칙의 **진짜 키는 `doc_type`**. `section`은 doc_type이 비었을 때 **기본값만 공급**. 이유: `notes/blog-ops`의 cdr과 일반 note는 둘 다 `section=notes`라 section만으론 구분 불가.
-- **`related_adrs` vs `supersedes` vs `superseded_by`** — related는 *참조*(맥락 연결), supersedes는 *이 결정이 폐기한 것*, superseded_by는 *이 결정을 폐기한 것*. superseded_by가 있으면 `decision_status`도 `superseded`여야 정합.
+- **`related_decisions` vs `supersedes` vs `superseded_by`** — related는 *참조*(맥락 연결), supersedes는 *이 결정이 폐기한 것*, superseded_by는 *이 결정을 폐기한 것*. superseded_by가 있으면 `decision_status`도 `superseded`여야 정합.
 - **`null`(`~`) vs `undefined`** — 저장/데이터 경계(frontmatter `~`, 향후 RDB `NULL`)는 `null`, 뷰 바인딩 경계(`:href` 등)는 `undefined`. 충돌나면 "경계가 어디냐"로 가른다.
 - **`algorithmicMedia` vs `trainedAlgorithmicMedia`** — 프로그램으로 그린 SVG(좌표 기반) vs 생성형 AI 비트맵(확산모델). 전자는 IPTC 메타 불필요, 후자는 필요. (`image-rules.md` §D)
 
@@ -127,8 +127,8 @@ frontmatter (각 .md의 YAML)
 ### 5.5. ADR/CDR 간 링크를 연결하려면
 별도 작업 불필요 — 파일명만 규칙에 맞으면 자동 링크된다.
 - 결정 기록 파일명: **`{adr|cdr|rfc}-{NNNN}-{slug}.md`** (예: `adr-0000-alignment.md`)
-- `buildAdrIndex`가 url 마지막 세그먼트 prefix에서 ID(`ADR-0000`)를 도출해 인덱싱
-- 다른 문서에서 `related_adrs: [ADR-0000]` (또는 supersedes/superseded_by) → 자동 내부 링크
+- `buildDecisionIndex`가 url 마지막 세그먼트 prefix에서 ID(`ADR-0000`)를 도출해 인덱싱
+- 다른 문서에서 `related_decisions: [ADR-0000]` (또는 supersedes/superseded_by) → 자동 내부 링크
 - 사이트에 페이지가 없는 ID(외부/타repo) → 텍스트로 폴백 (정상 동작)
 
 ---
