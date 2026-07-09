@@ -86,7 +86,7 @@ function resolveRefs(ids: string[]): Array<{ label: string; url?: string }> {
 
 // ── 표기 헬퍼 ──
 const rangeText   = (prd: { start?: string; end?: string }) => `${fmtDate(prd.start)} ~ ${prd.end ? fmtDate(prd.end) : 'ongoing'}`
-const decidedText = (prd: { start?: string; end?: string }) => prd.end == null ? `${fmtDate(prd.start)}` : rangeText(prd)
+//const decidedText = (prd: { start?: string; end?: string }) => prd.end == null ? `${fmtDate(prd.start)}` : rangeText(prd)
 const seriesText  = (s: { name: string; }) => s.name
 const orderText   = (s: { order?: number }) => s.order != null ? ` · Ch.${s.order}`  : null
 const isUrl = (s: any) => typeof s === 'string' && /^https?:\/\//.test(s)
@@ -136,7 +136,7 @@ const isUrl = (s: any) => typeof s === 'string' && /^https?:\/\//.test(s)
           <span v-else-if="row.field.kind === 'series'">{{ seriesText(row.value) }}<i style="color: gray; font-size: 0.7rem;">{{ orderText(row.value) }}</i></span>
 
           <!-- date: lastmod 등 -->
-          <span v-else-if="row.field.kind === 'date'">{{ decidedText(row.value) }}</span>
+          <span v-else-if="row.field.kind === 'date'">{{ fmtDate(row.value) }}</span>
 
           <!-- lang -->
           <span v-else-if="row.field.kind === 'lang'">{{ row.value.from }} → {{ row.value.to }}</span>

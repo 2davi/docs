@@ -149,7 +149,7 @@ export interface CardField {
 const DECISION_FIELDS: CardField[] = [
   { key: 'decision_status',   label: 'Status',          kind: 'badge',  vocab: 'decision' },
   { key: 'project',           label: 'Project',         kind: 'project' },
-  { key: 'period',            label: 'Decided',         kind: 'date'    },
+  { key: 'period',            label: 'Decided',         kind: 'range'    },
   { key: 'deciders',          label: 'Deciders',        kind: 'people'  },
   { key: 'series',            label: 'Series',          kind: 'series'  },
   { key: 'supersedes',        label: 'Supersedes',      kind: 'refs'    },
