@@ -1,0 +1,65 @@
+<svg viewBox="0 0 880 560" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="854" height="534" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">실습 인프라 네트워크 토폴로지</text>
+<text x="40" y="71" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">Windows 호스트 · VirtualBox 7.1.14 · 노드 4대 · 어댑터 2계층</text>
+<rect x="40" y="100" width="800" height="182" rx="12" stroke="#e2dcd2" stroke-width="1.5" fill="#f3efe8"/>
+<rect x="58" y="85" width="316" height="30" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="72" y="105" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="start">Host-Only 내부망</text>
+<text x="205" y="105" font-size="11.5" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">10.10.10.0/24 · 고정 IP</text>
+<text x="60" y="140" font-size="11" fill="#8a8076" font-weight="500" text-anchor="start">단일 L2 세그먼트 · 노드 간 통신</text>
+<rect x="70" y="158" width="170" height="96" rx="9" stroke="#5b86c4" stroke-width="1.5" fill="#eaf0f9"/>
+<circle cx="224" cy="176" r="5" fill="#5b86c4"/>
+<text x="86" y="185" font-size="13.5" fill="#2b2722" font-weight="700" text-anchor="start">k8s-mgmt-01</text>
+<text x="86" y="207" font-size="11" fill="#5b86c4" font-weight="600" text-anchor="start">Ansible 제어 노드</text>
+<text x="86" y="234" font-size="12.5" fill="#6b6258" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">10.10.10.10</text>
+<rect x="260" y="158" width="170" height="96" rx="9" stroke="#8a6db5" stroke-width="1.5" fill="#efeaf5"/>
+<circle cx="414" cy="176" r="5" fill="#8a6db5"/>
+<text x="276" y="185" font-size="13.5" fill="#2b2722" font-weight="700" text-anchor="start">k8s-cp-01</text>
+<text x="276" y="207" font-size="11" fill="#8a6db5" font-weight="600" text-anchor="start">컨트롤 플레인</text>
+<text x="276" y="234" font-size="12.5" fill="#6b6258" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">10.10.10.100</text>
+<rect x="450" y="158" width="170" height="96" rx="9" stroke="#4a9d7f" stroke-width="1.5" fill="#e8f3ee"/>
+<circle cx="604" cy="176" r="5" fill="#4a9d7f"/>
+<text x="466" y="185" font-size="13.5" fill="#2b2722" font-weight="700" text-anchor="start">k8s-worker-01</text>
+<text x="466" y="207" font-size="11" fill="#4a9d7f" font-weight="600" text-anchor="start">워커</text>
+<text x="466" y="234" font-size="12.5" fill="#6b6258" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">10.10.10.101</text>
+<rect x="640" y="158" width="170" height="96" rx="9" stroke="#4a9d7f" stroke-width="1.5" fill="#e8f3ee"/>
+<circle cx="794" cy="176" r="5" fill="#4a9d7f"/>
+<text x="656" y="185" font-size="13.5" fill="#2b2722" font-weight="700" text-anchor="start">k8s-worker-02</text>
+<text x="656" y="207" font-size="11" fill="#4a9d7f" font-weight="600" text-anchor="start">워커</text>
+<text x="656" y="234" font-size="12.5" fill="#6b6258" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">10.10.10.102</text>
+<path d="M254,264 L254,272 L816,272 L816,264" fill="none" stroke="#4a9d7f" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="535.0" y="290" font-size="11" fill="#4a9d7f" font-weight="700" text-anchor="middle">Kubernetes 클러스터 (cp + worker)</text>
+<text x="155" y="290" font-size="10.5" fill="#5b86c4" font-weight="600" text-anchor="middle">클러스터 외부</text>
+<rect x="40" y="336" width="388" height="132" rx="10" stroke="#da7756" stroke-width="1.4" fill="#faf6f0"/>
+<text x="58" y="362" font-size="13" fill="#2b2722" font-weight="700" text-anchor="start">가상 주소 공간</text>
+<text x="58" y="381" font-size="10.5" fill="#6b6258" font-weight="500" text-anchor="start">클러스터 내부에만 존재 · 물리 네트워크에 부재</text>
+<text x="58" y="414" font-size="11.5" fill="#6b6258" font-weight="600" text-anchor="start">파드 CIDR</text>
+<text x="190" y="414" font-size="12.5" fill="#4a9d7f" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">10.244.0.0/16</text>
+<text x="58" y="440" font-size="11.5" fill="#6b6258" font-weight="600" text-anchor="start">서비스 CIDR</text>
+<text x="190" y="440" font-size="12.5" fill="#5b86c4" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">10.96.0.0/12</text>
+<line x1="680" y1="282" x2="680" y2="356" stroke="#8a8076" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<text x="692" y="330" font-size="10" fill="#8a8076" font-weight="500" text-anchor="start">노드별 2nd 어댑터</text>
+<rect x="470" y="358" width="236" height="50" rx="9" stroke="#e2dcd2" stroke-width="1.4" fill="#f1ede6"/>
+<text x="488" y="380" font-size="12" fill="#2b2722" font-weight="700" text-anchor="start">NAT 어댑터</text>
+<text x="488" y="398" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">172.16.0.0/24 · DHCP</text>
+<line x1="706" y1="383.0" x2="732" y2="383.0" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="732" y="358" width="108" height="50" rx="9" stroke="#e0a64e" stroke-width="1.4" fill="#fdf3e3"/>
+<text x="786.0" y="380" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">인터넷</text>
+<text x="786.0" y="398" font-size="10" fill="#6b6258" font-weight="600" text-anchor="middle">아웃바운드</text>
+<text x="474" y="436" font-size="10.5" fill="#8a8076" font-weight="500" text-anchor="start">apt · 컨테이너 이미지 풀 (아웃바운드 전용, IP 고정 불필요)</text>
+</svg>
