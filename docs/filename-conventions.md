@@ -19,3 +19,7 @@
 디렉터리: decisions/\<scope>/  (core / rdsm / docs)
 ID 도출: 파일명 prefix `<scope>-<type>-<nnnn>` → 카드가 `<SCOPE>-<TYPE>-<NNNN>` 링크 생성
 규칙 전체: convention-manual.md §3 (CORE-ADR-0001)
+
+## 번역 (translations/)
+
+`translations/<slug>.md`, 소문자·하이픈, 날짜 접두사 없음(정렬은 frontmatter date가 담당, config의 `sortMenusByFrontmatterDate`와 정합). 이미지는 `translations/_embeds/img/<slug>/`(image-rules §A 패턴 그대로, `excludeByGlobPattern`이 이미 커버).

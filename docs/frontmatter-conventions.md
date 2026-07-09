@@ -18,7 +18,7 @@
 
 ---
 
-## 설계 원칙 {#principal}
+## 설계 원칙 {#design-rules}
 
 이 컨벤션은 다음 네 가지 규칙 위에 서 있다. 필드를 추가·수정할 때 항상 이 원칙으로 회귀한다.
 
@@ -176,12 +176,13 @@ series_order: 1                        # 시리즈 내 챕터 순서
 
 # ── 식별 (결정 기록 전용) ──
 id: "RDSM-ADR-0000"     # `<SCOPE>-<TYPE>-<NNNN>` 전역 유일 ID (체계: convention-manual §3)
-scope: "RDSM"           # SCOPE 레지스트리 (CORE | RDSM | DOCS | ...)
 
 # ── 결정 메타 ──
 decision_status: "accepted"
 deciders: ["Davi"]
-period: 2026-03-23      # ★ 단일 결정일(스칼라). {start,end} 아님
+period:
+  start: 2026-03-23
+  end: ~
 supersedes: ~
 superseded_by: ~
 related_decisions: []
@@ -210,7 +211,7 @@ ai_assistance:
 **이 섹션이 다른 이유:** 콘텐츠 본문이 **타인의 저작물**이다. 따라서 출처(provenance)와 저작권 준수가 핵심 축이다 — 원문 식별, 원저자/번역자 구분, 원문 라이선스 표기, 그리고 SEO 중복 회피를 위한 `canonical` 지정이 필수다.
 
 - `author`는 **원저자**, `translator`가 Davi다 (§설계원칙 2와 충돌하지 않음: 원문의 author는 사람인 원저자)
-- `canonical`은 **원문 URL**로 지정한다 → 검색엔진이 번역본을 원문의 사본으로 인식해 중복 페널티를 피한다
+- `canonical`은 미지정(자기 참조 기본), 원문 연결은 original_url·본문 attribution 담당
 - `license` / `license_url`은 원문 라이선스를 그대로 명시한다 (CC BY 등). 라이선스가 번역·재배포를 허용하는지 반드시 확인 후 게시
 - 번역에 AI를 썼다면 §5에서 `role: [translation]`으로 표기
 
@@ -225,9 +226,10 @@ author: "Diego Ongaro, John Ousterhout"   # 원저자
 translator: "Davi"                        # 번역자
 
 original_url: "https://raft.github.io/raft.pdf"
+original_published: 2025-12-05
 original_lang: "en"
+translation_fidelity: "restructured"           # faithful | restructed
 translation_lang: "ko"
-canonical: "https://raft.github.io/raft.pdf"   # ★ 원문을 canonical로 지정 (중복 회피)
 
 license: "CC BY 4.0"
 license_url: "https://creativecommons.org/licenses/by/4.0/"
@@ -315,7 +317,7 @@ ai_assistance:
 
 ## 6. `ai_assistance` AI 활용 표기 {#sec-ai-assistance}
 
-### 6.1 왜 필요한가 {#why-we-need-it}
+### 6.1 필요성 {#ai-assistance-reason}
 
 학습노트·심층분석은 독자(채용 담당자 포함)에게 "이 글을 **사람이 이해하고 쓴 것**인가, AI가 뱉은 것인가?"라는 자연스러운 의문을 부른다. [Google](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)은 "이거 어떻게 만들었지?"가 떠오를 콘텐츠에 AI 공개를 권장하고, [EU AI Act Article 50(4)](https://artificialintelligenceact.eu/article/50/)는 공익적 텍스트의 AI 공개를 의무화하되 **편집 책임을 동반한 인간 검토**를 면제 요건으로 둔다. 이 블록은 그 두 요구를 frontmatter 수준에서 충족하는 장치다.
 
@@ -378,7 +380,7 @@ ai_assistance: { authorship: human, role: [editing, review], model: ["claude-opu
 ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"], review: verified }
 ```
 
-### 6.4 운영 규칙 {#ai-assistance-principal}
+### 6.4 운영 규칙 {#ai-assistance-rules}
 
 - **`author`는 절대 AI로 바꾸지 않는다.** `ai-drafted`여도 검수·게시 책임자는 사람이므로 author는 사람이다.
 - **본문 미관여 시(C) 오해 방지:** `role: [metadata]`로 본문에 AI가 닿지 않았음을 명시한다. 모호하면 블록을 생략한다.
@@ -413,11 +415,11 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 | `ai_assistance`                                        | object             | 전체(선택)          | §5                                              |
 | `id`                                                   | string             | **decisions**       | `id`는 결정 ID의 SSOT, `<SCOPE>-ADR-<NNNN>`     |
 | `scope`                                                | string             | **decisions**       | 이니셜(DOCS, CORE, RDSM)                        |
-| `decision_status`                                      | string             | **decisions**       | proposed/accepted/rejectd/deprecated/superseded |
+| `decision_status`                                      | string             | **decisions**       | {#sec-decisions} 참조                           |
 | `decider`                                              | string[]           | **decisions**       | 결정기록 참여자 배열                            |
 | `period`                                               | date               | **decisions**       | 단일 결정일                                     |
-| `issue` / `issue_url`                                  | string             | **decisions**(선택) | ???                                             |
-| `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | ???                                             |
+| `issue` / `issue_url`                                  | string             | **decisions**(선택) | 결정이 참조하는 티켓/이슈 ID 및 URL             |
+| `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | 결정 간 상호 대체 관계를 나타내는 참조          |
 | `related_decisions`                                    | string[]           | decisions·deep-dive | 결정 참조 정본                                  |
 
 ## 부록 B. 로더 연동 주의 {#sec-b}

@@ -105,6 +105,10 @@ ai_assistance:
 
 > 상세 수칙(언제·어떻게 공개할지, 법적 맥락)은 **`ai-usage-policy.md`** §이미지 참조.
 
+## E. 번역 원문 이미지
+
+(번역 원문 이미지). 원문 비트맵은 복제·핫링크 금지(별도 저작물), 처리안은 재작도(SVG, algorithmicMedia라 §D상 메타 표기 불요) / 생략+원문 안내 / 라이선스 허용 시에만 사본. P2-2. docMeta TRANSLATION_FIELDS에 original_published(date)·translation_fidelity(text) 추가. convention-manual §5.3 레시피대로 데이터 수정 두 줄. P3. docLint translations 규칙(license 필수 등)은 후순위. 현재 집행 대상이 decisions뿐이니 급하지 않다.
+
 ---
 
 ## 참고 출처
