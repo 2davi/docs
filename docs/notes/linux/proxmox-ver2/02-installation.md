@@ -247,7 +247,7 @@ root@pve:~#
 
 <br/>
 
-### Nested VT-x/AMD-V 활성화
+### Nested VT-x/AMD-V 활성화 {#nested-virtualization-disabled}
 
 하이퍼바이저 위에 Proxmox 노드를 띄우는 환경(중첩 가상화 환경; Nested Virtualization)이기 때문에 **`Enabled Nested VT-x/AMD-V`**\* 기능을 켜주어야 한다. 이 기능은 *하드웨어 가상화 기능*을 게스트 VM으로 passthrough해서, VirtualBox 게스트(Proxmox VE) 위에 KVM(Kernel-based Virtual Machine)같은 하이퍼바이저를 설치하고 그 게스트 안에서 다시 VM을 만들어 돌릴 수 있게 한다.
 
