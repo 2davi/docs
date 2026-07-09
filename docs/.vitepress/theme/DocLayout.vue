@@ -21,6 +21,7 @@ const { Layout } = DefaultTheme
     <template #doc-before>
       <DocMetaCard />
       <DisclosureNote />
+      <div style="height: 4rem"></div>
     </template>
     <template #doc-footer-before>
       <DisclosureNote /> <br/>
