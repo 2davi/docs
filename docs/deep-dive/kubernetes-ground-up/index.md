@@ -1,5 +1,5 @@
 ---
-title: "Kubernetes Ground-Up — CKA/CKAD & 아키텍트 역량 학습 지도"
+title: "Kubernetes Ground-Up"
 date: 2026-07-07
 lastmod: 2026-07-07
 author: "Davi"
@@ -7,7 +7,7 @@ description: "kubeadm으로 세운 린 클러스터를 허브로, 선언적 상�
 slug: "kubernetes-ground-up"
 
 section: "deep-dive"
-category: "deep-dive/kubernetes"
+category: "deep-dive/kubernetes-ground-up"
 tags: [kubernetes, kubeadm, cilium, gateway-api, cka, ckad, k8s-1-35, learning-guide]
 
 project: "kubernetes-ground-up"
@@ -30,7 +30,7 @@ ai_assistance:
   review: "unreviewed"
 ---
 
-# Kubernetes Ground-Up — 학습 지도
+# Kubernetes Ground-Up — CKA/CKAD & 아키텍트 역량 학습 지도
 
 > 대상 버전: **Kubernetes v1.35** (현 CKA/CKAD 시험 환경 기준). deep-dive는 `version` 필드를 쓰지 않으므로 버전은 본문·태그로 고정한다.
 > 기반: VirtualBox 중첩(Host-Only) · 15.8GiB/4Core · 순수 학습(CMP 분리).
