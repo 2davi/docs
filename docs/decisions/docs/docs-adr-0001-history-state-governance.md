@@ -15,7 +15,9 @@ id: DOCS-ADR-0001
 doc_type: "adr"
 decision_status: "proposed"   # 승인하면 accepted로 바꾼다
 deciders: ["Davi"]
-period: 2026-07-03
+period:
+  start: 2026-07-03
+  end: ~
 related_decisions: [CORE-ADR-0001]
 supersedes: ~
 suspended_by: ~

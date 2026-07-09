@@ -15,7 +15,9 @@ id: DOCS-ADR-0002
 doc_type: "adr"
 decision_status: "proposed"
 deciders: ["Davi"]
-period: 2026-07-06
+period:
+  start: 2026-07-06
+  end: ~
 related_decisions: [CORE-ADR-0001, DOCS-ADR-0001, DOCS-ADR-0003]
 supersedes: ~
 superseded_by: ~
@@ -51,10 +53,6 @@ ai_assistance:
 ### 1.2 산개의 구조적 배경 {#structural-background}
 
 기록들이 임시 거처를 전전한 데에는 구조적 이유가 있다. 섹션 목록 `section` 필드가 여섯 군데에 복제되어 있다: `content.data.ts`의 glob 배열과 인덱스 제외 필터, `docMeta.config.ts`의 `Section` 유니언과 `SECTION_DEFAULT_DOCTYPE`, `config.mts`의 nav와 사이드바, 그리고 frontmatter-conventions 문서의 섹션 정의. 섹션 하나를 신설하려면 여섯 곳을 동시에 수술해야 하는 샷건 수술(Shotgun Surgery) 구조이고, 그 비용이 신설을 미루게 만들었다.
-
-### 1.3 식별 체계의 잠복 결함 {#latent-defects}
-
-이관을 준비하며 세 가지 결함이 함께 드러났다. 첫째, `ADR_ID_RE`가 `(adr|cdr|rfc)-(\d+)` 형태라 scope prefix를 알지 못한다. `rdsm-adr-0001`과 `docs-adr-0001`이 공존하는 순간 두 파일 모두 `ADR-0001`로 붕괴하고, `buildAdrIndex`는 같은 키에 URL을 덮어쓴다. 나중에 순회된 문서가 이기는 최종 승자 기록(Last-Write-Wins)이며, 참조가 엉뚱한 스코프로 연결되어도 빌드는 침묵한다. 둘째, 컨벤션 문서는 `related_ards`라는 옛 철자(ard)를 쓰고 코드는 `related_adrs`를 읽는 표기 문제가 있다. 셋째, rfc 타입이 `DocType`부터 상태 어휘까지 모든 레지스트리에 등록되어 있으나 대응하는 실물 문서가 확인되지 않는다.
 
 ## 2. 결정 (Decision) {#decision}
 
@@ -96,7 +94,7 @@ rfc를 타입 레지스트리에서 제거한다. RFC(Request for Comments)는 �
 
 ### 2.7 토큰 레지스트리와 명칭 정비 {#token-registries}
 
-`DECISION_SCOPES`, `DECISION_TYPES`, `SECTIONS`를 as const 레지스트리로 선언하고, 타입 유니언(`typeof X[number]`), ID 정규식, 로더 glob 문자열, 인덱스 제외 URL, 린터의 유효값 검사를 전부 여기서 파생시킨다. 하드코딩된 `(adr|cdr|rfc)`류 문자열이 소멸하고 스코프, 타입, 섹션의 신설이 데이터 한 줄이 된다. 개선안으로 논의되던 SECTIONS 레지스트리는 본 결정의 전제조건으로 승격된다.
+`DECISION_SCOPES`, `DECISION_TYPES`, `SECTIONS`를 as const 레지스트리로 선언하고, 타입 유니언(`typeof X[number]`), ID 정규식, 로더 glob 문자열, 인덱스 제외 URL, 린터의 유효값 검사를 전부 여기서 파생시킨다. 하드코딩된 `(adr|cdr|chr)`류 문자열이 소멸하고 스코프, 타입, 섹션의 신설이 데이터 한 줄이 된다. 개선안으로 논의되던 SECTIONS 레지스트리는 본 결정의 전제조건으로 승격된다.
 
 각 필드의 명칭도 adr에서 결정(Decision)으로 교체한다: `deriveAdrId → deriveDecisionId`, `buildAdrIndex → buildDecisionIndex`, `ADR_ID_RE → DECISION_ID_RE`. ADR은 세 타입 중 하나일 뿐이다. 레지스트리 모듈은 로더(노드), 테마(클라이언트), 린터(노드)가 공용하므로 Vue와 Vite에 무의존한 순수 TS로 유지한다.
 

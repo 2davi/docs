@@ -15,7 +15,9 @@ id: "CORE-ADR-0001"
 doc_type: "adr"
 decision_status: "accepted"        # proposed | accepted | superseded | deprecated
 deciders: ["Davi"]
-period: 2026-06-30
+period:
+  start: 2026-06-30
+  end: ~
 related_decisions: []
 supersedes: ~
 superseded_by: ~
@@ -144,7 +146,7 @@ decisions/
 ### 2.7 상호참조 규율
 
 - supersession은 **양방향**으로 기록한다. 대체하는 기록은 `supersedes`에 옛 ID를, 대체되는 기록은 `superseded_by`에 새 ID를 적는다. 한쪽만 갱신하고 다른 쪽을 잊지 않는다.
-- supersession이 아닌 연관은 `related_adrs`로 링크한다.
+- supersession이 아닌 연관은 `related_decisions`로 링크한다.
 
 ## 3. Considered Options
 
@@ -179,7 +181,7 @@ ID에 스코프를 박아 `<SCOPE>-<TYPE>-<NNNN>` 형태로 둔다. 번호는 (S
 
 ### 비용 / 부정
 
-- **RDSM 기존 기록 소급 개명**이 필요하다: `ADR-0000`–`ADR-0003` → `RDSM-ADR-0000`–`RDSM-ADR-0003`, `CDR-0001` → `RDSM-CDR-0001`. 동시에 옛 `related_ards` → `related_adrs`, `ARD`/`ard` → `ADR`/`adr` 교정. 레코드 수가 적은 지금이 비용의 바닥값이다.
+- **RDSM 기존 기록 소급 개명**이 필요하다: `ADR-0000`–`ADR-0003` → `RDSM-ADR-0000`–`RDSM-ADR-0003`, `CDR-0001` → `RDSM-CDR-0001`.
 - 파일명이 길어진다.
 - **콘텐츠 로더·사이드바 확장**이 필요하다. 현재 `content.data.ts`의 glob은 `articles/notes/deep-dive/translations`만 포함하므로, `decisions/**`를 추가하지 않으면 결정 기록이 목록·태그·검색에 잡히지 않는다. `section`에 `decisions`를 신설할지, 기존 `deep-dive` 하위에 둘지는 후속 결정으로 분리한다.
 

@@ -15,7 +15,9 @@ id: DOCS-ADR-0003
 doc_type: "adr"
 decision_status: "proposed"
 deciders: ["Davi"]
-period: 2026-07-06
+period:
+  start: 2026-07-06
+  end: ~
 related_decisions: [DOCS-ADR-0002, CORE-ADR-0001]
 supersedes: ~
 superseded_by: ~

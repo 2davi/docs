@@ -18,7 +18,9 @@ id: RDSM-ADR-0000
 doc_type: adr
 decision_status: "accepted"
 deciders: ["Davi"]
-period: 2026-03-23
+period:
+  start: 2026-03-23
+  end: ~
 related_decisions: []
 supersedes: ~
 superseded_by: ~
