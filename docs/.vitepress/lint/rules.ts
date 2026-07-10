@@ -25,6 +25,11 @@ export interface DocFile {
   fm:   Record<string, any>  // gray-matter가 파싱한 frontmatter
 }
 
+/** 대장 조회. 위임 규칙의 스위치를 소유자 측 설정이 파생할 때 쓴다 (DOCS-ADR-0003 §2.5) */
+export function isRuleEnabled(id: string): boolean {
+  return RULES.some(r => r.id === id && r.enabled)
+}
+
 export interface LintRule {
   id:       string
   severity: Severity
