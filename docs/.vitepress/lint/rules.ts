@@ -13,7 +13,8 @@
  * 근거 결정: DOCS-ADR-0003 §2.2(레지스트리), §2.5(집행 위임), §2.6(초기 목록)
  * ─────────────────────────────────────────────────────────────────────────
  */
-import { SECTIONS } from '../theme/config/tokens.config'
+import { SECTIONS, DECISION_TYPES, parseDecisionId, isSection } from '../theme/config/tokens.config'
+import { decisionVocabOf } from '../theme/config/docMeta.config'
 
 export type Severity = 'error' | 'warn'
 export type Engine   = 'doclint' | 'vitepress' | 'redirects'
@@ -52,9 +53,10 @@ const STANDALONE_PAGES = new Set<string>([
 
 const sectionOf    = (doc: DocFile) => doc.path.split('/')[0]
 const inLoaderGlob = (doc: DocFile) => (SECTIONS as readonly string[]).includes(sectionOf(doc))
+const isDecisionRecord = (doc: DocFile) => sectionOf(doc) === 'decisions' && !doc.path.endsWith('index.md')
 
 export const RULES: readonly LintRule[] = [
-  // ── warn: 노출 감사 채널 (1차 관측 파동) ──────────────────────────────────
+  // ── warn: 노출 감사 채널 ────────────────────────────────────────────────
   {
     id: 'draft-inventory',
     severity: 'warn', engine: 'doclint', enabled: true,
@@ -69,18 +71,10 @@ export const RULES: readonly LintRule[] = [
     check: d => inLoaderGlob(d) ? null : '섹션 디렉터리 밖',
   },
   {
-    id: 'section-folder-mismatch',
-    severity: 'warn', engine: 'doclint', enabled: true,  // 이관 안정화 후 error 승격 (0003 후속 2)
-    summary: 'frontmatter section과 폴더의 불일치',
-    applies: d => typeof d.fm.section === 'string' && inLoaderGlob(d),
-    check: d => d.fm.section === sectionOf(d)
-      ? null
-      : `section: "${d.fm.section}" 이 폴더 "${sectionOf(d)}" 와 다름`,
-  },
-  {
     id: 'search-excluded',
     severity: 'warn', engine: 'doclint', enabled: true,
     summary: 'search: false 문서 목록',
+    applies: d => !d.path.endsWith('index.md'),
     check: d => d.fm.search === false ? '검색 제외' : null,
   },
 
@@ -95,5 +89,67 @@ export const RULES: readonly LintRule[] = [
     id: 'redirect-integrity',
     severity: 'error', engine: 'redirects', enabled: true,
     summary: '스텁 무결성: 신주소 실존, 구주소 비생존 (buildEnd 가드)',
+  },
+  // ── error: draft:false 문서만 집행. ─────────────────────────────────────
+  {
+    id: 'section-folder-mismatch',
+    severity: 'error', engine: 'doclint', enabled: true,  // 이관 안정화 후 error 승격 (0003 후속 2)
+    summary: 'frontmatter section과 폴더의 불일치',
+    applies: d => typeof d.fm.section === 'string' && inLoaderGlob(d),
+    check: d => d.fm.section === sectionOf(d)
+      ? null
+      : `section: "${d.fm.section}" 이 폴더 "${sectionOf(d)}" 와 다름`,
+  },
+  {
+    id: 'section-registered',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: 'section 값이 SECTIONS 레지스트리에 존재',
+    applies: d => d.fm.section != null,
+    check: d => isSection(d.fm.section) ? null : `미등록 section 값: "${d.fm.section}"`,
+  },
+  {
+    id: 'decisions-doctype-required',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: '결정 기록의 doc_type 명시 의무 (DOCS-ADR-0002 §2.4)',
+    applies: d => isDecisionRecord(d),
+    check: d => (DECISION_TYPES as readonly string[]).includes(d.fm.doc_type)
+      ? null : `doc_type 누락 또는 미등록: "${d.fm.doc_type ?? '(없음)'}"`,
+  },
+  {
+    id: 'decisions-id-required',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: '결정 ID의 SSOT인 frontmatter id 필수 (DOCS-ADR-0002 §2.2)',
+    applies: d => isDecisionRecord(d),
+    check: d => parseDecisionId(d.fm.id) ? null : `id 누락 또는 문법 위반: "${d.fm.id ?? '(없음)'}"`,
+  },
+  {
+    id: 'decision-id-path-consistency',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: 'id의 스코프·타입과 디렉터리·파일명의 일치 (DOCS-ADR-0002 §2.2, §2.3)',
+    applies: d => isDecisionRecord(d) && !!parseDecisionId(d.fm.id),
+    check: d => {
+      const id   = parseDecisionId(d.fm.id)!
+      const segs = d.path.split('/')
+      const file = segs[segs.length - 1]
+      const expected = `${id.scope}-${id.type}-${id.seq}-`
+      if (segs[1] !== id.scope) return `id 스코프 "${id.scope}" ≠ 디렉터리 "${segs[1]}"`
+      if (!file.startsWith(expected)) return `파일명이 id와 불일치. 기대 접두 "${expected}", 실제 "${file}"`
+      // `git grep -n "^id:" -- docs/decisions` 명령어 결과를 통해 확인 가능.
+      return null
+    },
+  },
+  {
+    id: 'decision-status-in-vocab',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: 'decision_status가 doc_type의 등록 어휘에 속함 (DOCS-ADR-0002 §2.5)',
+    applies: d => isDecisionRecord(d) && (DECISION_TYPES as readonly string[]).includes(d.fm.doc_type),
+    check: d => {
+      if (typeof d.fm.decision_status !== 'string') return 'decision_status 누락'
+      const vocab = decisionVocabOf(d.fm.doc_type)
+      if (!vocab) return `doc_type "${d.fm.doc_type}" 의 상태 어휘 미등록`
+      return d.fm.decision_status in vocab
+        ? null
+        : `미등록 상태 값: "${d.fm.decision_status}"`
+    },
   },
 ]

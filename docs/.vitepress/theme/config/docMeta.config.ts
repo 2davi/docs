@@ -115,11 +115,16 @@ const DECISION_STATUS_VOCAB: Partial<Record<DocType, StatusVocab>> = {
 
 export type VocabKey = 'decision' | 'doc' | 'difficulty'
 
+/** 결정 타입의 등록 어휘 ─ 미등록이면 null. docLint 게이트용 엄격한 조회 */
+export function decisionVocabOf(docType: DocType): StatusVocab | null {
+  return DECISION_STATUS_VOCAB[docType] ?? null
+}
+
 /** 뱃지 필드가 어떤 어휘를 쓸지 해석. 'decision'은 doc_type별로 갈린다. */
 export function resolveVocab(vocab: VocabKey, docType: DocType): StatusVocab {
   if (vocab === 'doc') return DOC_STATUS_VOCAB
   if (vocab === 'difficulty') return DIFFICULTY_VOCAB
-  return DECISION_STATUS_VOCAB[docType] ?? ADR_STANDARD_STATUS   // 미등록 결정 타입 → 표준 폴백
+  return decisionVocabOf(docType) ?? ADR_STANDARD_STATUS  // 렌더는 관대: 미등록 → 표준 폴백
 }
 
 // ── 3. 카드 필드 매트릭스 ──────────────────────────────────────────────────
