@@ -20,7 +20,7 @@ ai_assistance:
   authorship: ai-drafted
   role: [drafting, research]
   model: ["claude-opus-4.8"]
-  review: unreviewed
+  review: reviewed
 ---
 
 # Phase 0 ─ 기반 설계 (Substrate)
@@ -205,9 +205,9 @@ etcd는 Raft라는 합의 알고리즘(consensus algorithm)으로 돈다. Raft�
 
 ## 04. 선언형 인프라 관리 {#declarative-iac}
 
-세 노드에 같은 사전 준비를 반복해야 한다. 이 반복을 손으로 각 VM에 명령해 채우면, 쓰잘데기 없는 실수로 맛 간 노드의 트러블슈팅 작업들을(snowflake) 또 한 번 겪어야할 수 있다. 그래서 이번에는 코드형 인프라(IaC, Infrastructure as Code)로 간다. 도구는 Ansible을 택했다.
+세 노드에 같은 사전 준비를 반복해야 한다. 이 반복을 손으로 각 VM에 명령해 채우면, 쓰잘데기 없는 실수로 맛 간 노드의 트러블슈팅 작업들을(snowflake) 또 한 번 겪어야할 수 있다. 그래서 이번에는 코드형 인프라(IaC, Infrastructure as Code)로 간다. 도구는 쉘 스크립트와 Ansible 두 가지를 고려했고, 여기서는 Ansible을 택했다.
 
-선택의 논거는 학습 효과와 철학 정합성에 있다. 쉘 스크립트는 진입장벽이 없지만, 문법을 모르는 상태에서는 완성된 스크립트를 받아 실행만 하게 되어 배움이 남지 않는다. 더 근본적으로, Kubernetes의 정체성이 선언형인데 그 아래 노드 세팅만 명령형 눈송이로 두는 것은 철학이 어긋난다. 파드를 YAML로 선언하는 것과 노드를 선언형 명세로 관리하는 것은 같은 사고의 다른 층위다. IaC의 명세는 실행 도구이기 전에 "이 노드는 이런 상태여야 한다"는 명세서(spec)이며, 문제가 생겼을 때 이 명세가 기준점이 되어 원인 분석을 쉽게 한다([Ansible 기본 개념](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html)).
+선택의 논거는 학습 효과와 철학 정합성에 있다. 쉘 스크립트는 진입장벽이 없지만, 문법을 모르는 상태에서는 완성된 스크립트를 받아 실행만 하게 되어 배움이 남지 않는다. 더 근본적으로, Kubernetes의 정체성이 선언형인데 그 아래 노드 세팅만 명령형 snowflake로 두는 것은 철학이 어긋난다. 파드를 YAML로 선언하는 것과 노드를 선언형 명세로 관리하는 것은 같은 사고의 다른 층위다. IaC의 명세는 실행 도구이기 전에 "이 노드는 이런 상태여야 한다"는 명세서(spec)이며, 문제가 생겼을 때 이 명세가 기준점이 되어 원인 분석을 쉽게 한다([Ansible 기본 개념](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html)).
 
 Ansible 자체를 배우느라 K8s 진도가 막히면 주객이 전도되므로, 이 시리즈의 본질이 Kubernetes임을 잊지 않는다. Ansible은 노드 기반을 까는 도구로 쓰고, 그 위에 kubeadm으로 클러스터를 세운 뒤의 운영은 Kubernetes 조정 루프에 맡긴다. 두 도구가 바통을 주고받는 구조다. 이 분업의 근거는 아래 두 절에서 세운다.
 
@@ -589,4 +589,4 @@ ping -c2 10.10.10.100                       # 노드 간 Host-Only 도달 확인
 
 ---
 
-다음 [Phase 1: 컨트롤 플레인과 조정 루프](./01-foundation/)에서 이 기반 위에 kubeadm으로 다섯 컴포넌트를 배치하고, Cilium을 `kubeProxyReplacement=true`로 얹어 NotReady를 Ready로 뒤집는다. Phase 0에서 선언한 IP·디스크·Ansible 토폴로지가 그곳에서 실물로 등장한다.
+다음 [Phase 1: 컨트롤 플레인과 조정 루프]`(./01-foundation/)`에서 이 기반 위에 kubeadm으로 다섯 컴포넌트를 배치하고, Cilium을 `kubeProxyReplacement=true`로 얹어 NotReady를 Ready로 뒤집는다. Phase 0에서 선언한 IP·디스크·Ansible 토폴로지가 그곳에서 실물로 등장한다.
