@@ -13,7 +13,7 @@ tags: [reflect, weakmap, csrf, json-patch, broadcast-channel, leader-election, d
 project: "rest-domain-state-manager"
 
 # ── decisions 전용 필드 ──
-id: RDSM-ADR-0000
+id: RDSM-ADR-0002
 doc_type: adr
 decision_status: "accepted"
 deciders: ["Davi"]

@@ -13,7 +13,7 @@ tags: [v8, hidden-class, proxy, rest, idempotency, esm, dsm]
 project: "rest-domain-state-manager"
 
 # ── decisions 전용 필드 ──
-id: RDSM-ADR-0000
+id: RDSM-ADR-0001
 doc_type: adr
 decision_status: "accepted"
 deciders: ["Davi"]
