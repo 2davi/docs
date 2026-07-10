@@ -26,8 +26,10 @@
   "homepage": "https://github.com/2davi/docs#readme",
   "devDependencies": {
     "@types/node": "^25.5.2",
+    "mermaid": "^11.16.0",
     "typescript": "^6.0.3",
     "vitepress": "^1.x",
+    "vitepress-plugin-mermaid": "^2.0.17",
     "vitepress-sidebar": "^1.33.1",
     "vue-tsc": "^3.3.6"
   },

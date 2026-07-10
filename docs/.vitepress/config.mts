@@ -6,6 +6,7 @@ import { resolve, dirname, join } from 'node:path'
 import { fileURLToPath }                from 'url'
 import { wrapTables }                   from './theme/markdown/wrapTables'
 import { REDIRECTS, SITE_ORIGIN } from './theme/config/redirects.config'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const docRoot   = resolve(__dirname, '../')
@@ -32,7 +33,8 @@ function entry(
   }
 }
 
-export default defineConfig({
+export default withMermaid(
+defineConfig({
   lang:        'ko-KR',
   title:       "Davi's Devlog",
   description: '백엔드·인프라·아키텍처 학습 기록',
@@ -153,3 +155,4 @@ export default defineConfig({
   ignoreDeadLinks: 'localhostLinks',
   srcExclude: ['**/_backups/**', '**/_history/**', '**/bak-*.md'],
 })
+)
