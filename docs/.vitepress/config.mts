@@ -7,6 +7,8 @@ import { fileURLToPath }                from 'url'
 import { wrapTables }                   from './theme/markdown/wrapTables'
 import { REDIRECTS, SITE_ORIGIN } from './theme/config/redirects.config'
 import { withMermaid } from 'vitepress-plugin-mermaid'
+import { docLint } from '.'
+import { EXCLUDED_DIR_NAMES, EXCLUDED_FILE_PREFIX } from './lint/rules'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const docRoot   = resolve(__dirname, '../')
@@ -153,6 +155,10 @@ defineConfig({
   },
 
   ignoreDeadLinks: 'localhostLinks',
-  srcExclude: ['**/_backups/**', '**/_history/**', '**/bak-*.md'],
+  srcExclude: [
+    ...EXCLUDED_DIR_NAMES.map(d => `**/${d}/**`),
+    `**/${EXCLUDED_FILE_PREFIX}*.md`,
+  ],
+  vite: { plugins: [docLint(docRoot)] },
 })
 )
