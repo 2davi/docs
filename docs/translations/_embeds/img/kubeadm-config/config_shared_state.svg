@@ -1,0 +1,49 @@
+<svg viewBox="0 0 780 376" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="754" height="350" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">kubeadm-config: 시리즈를 묶는 공유 설정</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">init이 쓰고 join·reset·upgrade가 읽으며, 설정이 정적 Pod·containerd로 흐른다</text>
+<rect x="40" y="152" width="150" height="58" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#fcfbf9"/>
+<text x="115.0" y="178.0" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubeadm init</text>
+<text x="115.0" y="193.0" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">설정 업로드</text>
+<rect x="280" y="140" width="210" height="84" rx="11" stroke="#da7756" stroke-width="1.8" fill="#fcfbf9"/>
+<text x="385.0" y="162" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubeadm-config</text>
+<text x="385.0" y="181" font-size="9.5" fill="#6b6258" font-weight="500" text-anchor="middle">ConfigMap · kube-system</text>
+<text x="385.0" y="199" font-size="9.5" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">ClusterConfiguration</text>
+<rect x="600" y="124" width="148" height="40" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#fcfbf9"/>
+<text x="674.0" y="148.5" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubeadm join</text>
+<rect x="600" y="170" width="148" height="40" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#fcfbf9"/>
+<text x="674.0" y="194.5" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubeadm reset</text>
+<rect x="600" y="216" width="148" height="40" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#fcfbf9"/>
+<text x="674.0" y="240.5" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubeadm upgrade</text>
+<line x1="190" y1="181" x2="280" y2="181" stroke="#da7756" stroke-width="2" marker-end="url(#aTerra)"/>
+<text x="235" y="172" font-size="9" fill="#8a8076" font-weight="500" text-anchor="middle">업로드 · 쓰기</text>
+<line x1="490" y1="168" x2="600" y2="144" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<line x1="490" y1="182" x2="600" y2="190" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<line x1="490" y1="196" x2="600" y2="236" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<text x="560" y="150" font-size="9" fill="#8a8076" font-weight="500" text-anchor="middle">읽기</text>
+<line x1="385" y1="224" x2="385" y2="280" stroke="#da7756" stroke-width="1.9" marker-end="url(#aTerra)"/>
+<text x="396" y="256" font-size="9" fill="#8a8076" font-weight="500" text-anchor="start">설정 파생</text>
+<rect x="290" y="280" width="190" height="46" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#fcfbf9"/>
+<text x="385.0" y="300.0" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">컨트롤 플레인</text>
+<text x="385.0" y="315.0" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">정적 Pod (kube-apiserver 등)</text>
+<line x1="480" y1="303" x2="520" y2="303" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<rect x="520" y="280" width="190" height="46" rx="9" stroke="#e2dcd2" stroke-width="1.3" fill="#fcfbf9"/>
+<text x="615.0" y="300.0" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">containerd</text>
+<text x="615.0" y="315.0" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">shim → runc</text>
+<text x="34" y="354" font-size="8.6" fill="#8a8076" font-weight="normal" text-anchor="start">이 그림은 시리즈 여섯 문서의 관계를 요약한다. init이 kubeadm-config에 쓰고, join·reset·upgrade가 읽으며, 설정이 정적 Pod와 containerd로 흐른다.</text>
+</svg>

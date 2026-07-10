@@ -1,0 +1,87 @@
+<svg viewBox="0 0 760 644" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="734" height="618" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">kubeadm init 페이즈 파이프라인</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">위에서 아래로 이어지는 13개 페이즈의 실행 순서</text>
+<rect x="34" y="92" width="692" height="64" rx="11" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<circle cx="56" cy="114" r="13" fill="#da7756"/>
+<text x="56" y="118.6" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle">1</text>
+<text x="78" y="118.6" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start">프리플라이트 검사</text>
+<rect x="52" y="126" width="74.4" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="89.2" y="140.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">preflight</text>
+<line x1="380.0" y1="156" x2="380.0" y2="176" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<rect x="34" y="176" width="692" height="64" rx="11" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<circle cx="56" cy="198" r="13" fill="#da7756"/>
+<text x="56" y="202.6" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle">2</text>
+<text x="78" y="202.6" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start">인증서·kubeconfig 발급</text>
+<rect x="52" y="210" width="48.0" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="76.0" y="224.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">certs</text>
+<circle cx="93.0" cy="216" r="3" fill="#da7756"/>
+<rect x="109.0" y="210" width="81.0" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="149.5" y="224.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubeconfig</text>
+<circle cx="183.0" cy="216" r="3" fill="#da7756"/>
+<line x1="380.0" y1="240" x2="380.0" y2="260" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<rect x="34" y="260" width="692" height="64" rx="11" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<circle cx="56" cy="282" r="13" fill="#da7756"/>
+<text x="56" y="286.6" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle">3</text>
+<text x="78" y="286.6" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start">컨트롤 플레인 기동</text>
+<rect x="52" y="294" width="41.4" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="72.7" y="308.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">etcd</text>
+<circle cx="86.4" cy="300" r="3" fill="#da7756"/>
+<rect x="102.4" y="294" width="100.8" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="152.8" y="308.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">control-plane</text>
+<circle cx="196.2" cy="300" r="3" fill="#da7756"/>
+<rect x="212.2" y="294" width="100.8" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="262.59999999999997" y="308.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubelet-start</text>
+<rect x="322.0" y="294" width="133.8" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="388.9" y="308.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">wait-control-plane</text>
+<line x1="380.0" y1="324" x2="380.0" y2="344" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<rect x="34" y="344" width="692" height="64" rx="11" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<circle cx="56" cy="366" r="13" fill="#da7756"/>
+<text x="56" y="370.6" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle">4</text>
+<text x="78" y="370.6" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start">설정·인증서 배포</text>
+<rect x="52" y="378" width="100.8" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="102.4" y="392.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">upload-config</text>
+<circle cx="145.8" cy="384" r="3" fill="#da7756"/>
+<rect x="161.8" y="378" width="94.19999999999999" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="208.9" y="392.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">upload-certs</text>
+<rect x="265.0" y="378" width="133.8" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="331.9" y="392.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">mark-control-plane</text>
+<line x1="380.0" y1="408" x2="380.0" y2="428" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<rect x="34" y="428" width="692" height="64" rx="11" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<circle cx="56" cy="450" r="13" fill="#da7756"/>
+<text x="56" y="454.6" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle">5</text>
+<text x="78" y="454.6" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start">노드 조인 준비</text>
+<rect x="52" y="462" width="114.0" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="109.0" y="476.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">bootstrap-token</text>
+<rect x="175.0" y="462" width="120.6" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="235.3" y="476.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubelet-finalize</text>
+<circle cx="288.6" cy="468" r="3" fill="#da7756"/>
+<line x1="380.0" y1="492" x2="380.0" y2="512" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<rect x="34" y="512" width="692" height="64" rx="11" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<circle cx="56" cy="534" r="13" fill="#da7756"/>
+<text x="56" y="538.6" font-size="13" fill="#ffffff" font-weight="700" text-anchor="middle">6</text>
+<text x="78" y="538.6" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="start">애드온 설치·조인 명령</text>
+<rect x="52" y="546" width="48.0" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="76.0" y="560.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">addon</text>
+<circle cx="93.0" cy="552" r="3" fill="#da7756"/>
+<rect x="109.0" y="546" width="127.19999999999999" height="22" rx="7" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="172.6" y="560.6" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">show-join-command</text>
+<circle cx="44" cy="593" r="3" fill="#da7756"/>
+<text x="54" y="596" font-size="10" fill="#8a8076" font-weight="500" text-anchor="start">하위 페이즈 보유</text>
+<text x="34" y="614" font-size="9" fill="#8a8076" font-weight="normal" text-anchor="start">페이즈 순서는 원문 그대로다. 단계 묶음은 초기화 워크플로 기준의 편집 구분이다.</text>
+</svg>

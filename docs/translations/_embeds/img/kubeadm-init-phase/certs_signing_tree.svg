@@ -1,0 +1,60 @@
+<svg viewBox="0 0 780 448" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="754" height="422" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">certs 인증서 서명 트리</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">12개 인증서가 3개 CA 아래로 갈린다 · sa는 서명자 아닌 독립 키 페어</text>
+<rect x="30" y="98" width="195" height="44" rx="9" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="127.5" y="116" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">ca</text>
+<text x="127.5" y="132" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">Kubernetes CA</text>
+<line x1="45" y1="142" x2="45" y2="229.0" stroke="#da7756" stroke-width="1.6"/>
+<line x1="45" y1="185.0" x2="60" y2="185.0" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="60" y="166" width="162" height="38" rx="8" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="141.0" y="188.5" font-size="9" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">apiserver</text>
+<line x1="45" y1="229.0" x2="60" y2="229.0" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="60" y="210" width="162" height="38" rx="8" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="141.0" y="232.5" font-size="9" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">apiserver-kubelet-client</text>
+<rect x="288" y="98" width="195" height="44" rx="9" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="385.5" y="116" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">etcd-ca</text>
+<text x="385.5" y="132" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">etcd CA</text>
+<line x1="303" y1="142" x2="303" y2="317.0" stroke="#da7756" stroke-width="1.6"/>
+<line x1="303" y1="185.0" x2="318" y2="185.0" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="318" y="166" width="162" height="38" rx="8" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="399.0" y="188.5" font-size="9" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">etcd-server</text>
+<line x1="303" y1="229.0" x2="318" y2="229.0" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="318" y="210" width="162" height="38" rx="8" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="399.0" y="232.5" font-size="9" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">etcd-peer</text>
+<line x1="303" y1="273.0" x2="318" y2="273.0" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="318" y="254" width="162" height="38" rx="8" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="399.0" y="276.5" font-size="9" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">etcd-healthcheck-client</text>
+<line x1="303" y1="317.0" x2="318" y2="317.0" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="318" y="298" width="162" height="38" rx="8" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="399.0" y="320.5" font-size="9" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">apiserver-etcd-client</text>
+<rect x="546" y="98" width="195" height="44" rx="9" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="643.5" y="116" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">front-proxy-ca</text>
+<text x="643.5" y="132" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">프런트 프록시 CA</text>
+<line x1="561" y1="142" x2="561" y2="185.0" stroke="#da7756" stroke-width="1.6"/>
+<line x1="561" y1="185.0" x2="576" y2="185.0" stroke="#da7756" stroke-width="1.6" marker-end="url(#aTerra)"/>
+<rect x="576" y="166" width="162" height="38" rx="8" stroke="#e2dcd2" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="657.0" y="188.5" font-size="9" fill="#2b2722" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">front-proxy-client</text>
+<line x1="30" y1="352" x2="750" y2="352" stroke="#e2dcd2" stroke-width="1.2"/>
+<rect x="30" y="362" width="180" height="46" rx="9" stroke="#8a8076" stroke-width="1.3" fill="#f1ede6"/>
+<text x="120" y="380" font-size="11" fill="#2b2722" font-weight="700" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">sa</text>
+<text x="120" y="397" font-size="9" fill="#6b6258" font-weight="500" text-anchor="middle">독립 키 페어</text>
+<text x="228" y="380" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start">sa는 CA가 아니다. 서비스 어카운트 토큰 서명용 개인 키(sa.key)와</text>
+<text x="228" y="397" font-size="9.5" fill="#2b2722" font-weight="500" text-anchor="start">공개 키(sa.pub) 페어이며, 다른 인증서를 서명하지 않는다.</text>
+<text x="34" y="430" font-size="8.6" fill="#8a8076" font-weight="normal" text-anchor="start">스텁 화살표는 CA의 서명 관계를 나타낸다. ca는 kubeconfig 페이즈가 만드는 클라이언트 인증서(admin·controller-manager·scheduler·kubelet)의 서명자이기도 하다.</text>
+</svg>

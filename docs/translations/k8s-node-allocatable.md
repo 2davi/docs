@@ -1,5 +1,5 @@
 ---
-title: "시스템 데몬을 위한 컴퓨트 자원 예약 (번역)"
+title: "Reserve Compute Resources for System Daemons (번역)"
 original_title: "Reserve Compute Resources for System Daemons"
 date: 2026-07-08
 lastmod: 2026-07-08
@@ -37,9 +37,11 @@ ai_assistance:
 
 # 시스템 데몬을 위한 컴퓨트 자원 예약 {#k8s-node-allocatable}
 
-> **원문:** [Reserve Compute Resources for System Daemons](https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+>> **원문:** [Reserve Compute Resources for System Daemons](https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+>
 > 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문의 라이선스는 CC BY 4.0([kubernetes/website](https://github.com/kubernetes/website))이고, 원문에 수록된 설정 예시의 라이선스는 Apache 2.0이다.
-> 원문 시점 2025-12-05 · 번역 2026-07-08
+>
+>> 원문 시점 2025-12-05 · 번역 2026-07-08
 
 ## 결론 {#conclusion}
 

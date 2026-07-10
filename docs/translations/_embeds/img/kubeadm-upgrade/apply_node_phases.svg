@@ -1,0 +1,48 @@
+<svg viewBox="0 0 780 462" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="754" height="436" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">kubeadm upgrade apply · node 페이즈</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">node는 apply에서 upload-config·bootstrap-token을 뺀 시퀀스</text>
+<text x="112" y="112" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start">페이즈 · 실행 순서 (apply)</text>
+<text x="640" y="112" font-size="11" fill="#6b6258" font-weight="600" text-anchor="middle">node 실행</text>
+<line x1="86" y1="122" x2="86" y2="402" stroke="#da7756" stroke-width="2" marker-end="url(#aTerra)"/>
+<rect x="104" y="121" width="300" height="34" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="118" y="142.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">preflight</text>
+<circle cx="640" cy="138" r="4.5" fill="#da7756"/>
+<rect x="104" y="163" width="300" height="34" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="118" y="184.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">control-plane</text>
+<circle cx="640" cy="180" r="4.5" fill="#da7756"/>
+<rect x="104" y="205" width="300" height="34" rx="8" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="118" y="219" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">upload-config</text>
+<text x="118" y="233" font-size="8.5" fill="#6b6258" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">/kubeadm   /kubelet</text>
+<line x1="633" y1="222" x2="647" y2="222" stroke="#8a8076" stroke-width="2.2"/>
+<rect x="104" y="247" width="300" height="34" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="118" y="268.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubelet-config</text>
+<circle cx="640" cy="264" r="4.5" fill="#da7756"/>
+<rect x="104" y="289" width="300" height="34" rx="8" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="118" y="310.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">bootstrap-token</text>
+<line x1="633" y1="306" x2="647" y2="306" stroke="#8a8076" stroke-width="2.2"/>
+<rect x="104" y="331" width="300" height="34" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="118" y="345" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">addon</text>
+<text x="118" y="359" font-size="8.5" fill="#6b6258" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">/coredns   /kube-proxy</text>
+<circle cx="640" cy="348" r="4.5" fill="#da7756"/>
+<rect x="104" y="373" width="300" height="34" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="118" y="394.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">post-upgrade</text>
+<circle cx="640" cy="390" r="4.5" fill="#da7756"/>
+<text x="104" y="424" font-size="9" fill="#8a8076" font-weight="500" text-anchor="start">●  node도 실행       —  node는 미실행 (apply 전용, 테두리 강조)</text>
+<text x="104" y="442" font-size="8.6" fill="#8a8076" font-weight="normal" text-anchor="start">node = apply에서 upload-config·bootstrap-token 두 페이즈를 제외한 시퀀스다.</text>
+</svg>
