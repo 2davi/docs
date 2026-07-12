@@ -249,6 +249,7 @@ const ROLE_PHRASE: Record<string, string> = {
 const REVIEW_PHRASE: Record<string, string> = {
   verified: '작성자가 모든 내용을 사실 검증하고 직접 재작성했습니다',
   reviewed: '작성자가 전체를 검토·수정했습니다',
+  reviewing: '작성자의 검토가 진행 중입니다',
   // pending/unreviewed: 검수 전 → draft:true 라서 미게시, 고지 문구 fallback.
 }
 

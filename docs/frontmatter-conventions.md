@@ -340,7 +340,7 @@ ai_assistance:
   model: ["claude-opus-4.8"]
 
   # [축 4] 인간 검증 수준 — E-E-A-T 핵심
-  review: "verified"         # verified | reviewed | unreviewed | pending
+  review: "verified"         # verified | reviewed | reviewing | unreviewed | pending
 
   # [선택] 모델 시점 — 모델명이 시점에 따라 달라지므로 추적용
   date: ~                    # 예: 2026-06-26 (생략 시 문서 date 따름)
@@ -363,6 +363,7 @@ ai_assistance:
 |              | `diagramming` | 다이어그램 생성 보조 (`image-rules.md` §D 참조)    |
 | `review`     | `verified`    | 전 내용을 직접 사실검증·재작성. **게시 기본 요건** |
 |              | `reviewed`    | 통독·수정했으나 일부 인용 잔존                     |
+|              | `reviewing`   | 검증 작업 진행 중.                                 |
 |              | `unreviewed`  | 미검증. **게시 비권장**                            |
 
 ### 6.3 워크플로우 → 값 매핑 {#workflow-mapping}
@@ -394,33 +395,33 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 
 ## 부록 A. 필드 레퍼런스 (요약) {#sec-a}
 
-| 필드                                                   | 타입               | 섹션                | 비고                                            |
-| ------------------------------------------------------ | ------------------ | ------------------- | ----------------------------------------------- |
-| `title`                                                | string             | 전체                |                                                 |
-| `date` / `lastmod`                                     | date               | 전체                | 작성일 / 수정일                                 |
-| `author`                                               | string             | 전체                | 항상 사람                                       |
-| `description`                                          | string             | 전체                | 150~160자                                       |
-| `slug`                                                 | string             | 전체                | kebab-case                                      |
-| `section`                                              | enum               | 전체                | 폴더명과 일치                                   |
-| `category`                                             | string             | 전체                | 단수. `parent/sub` 가능                         |
-| `tags`                                                 | string[]           | 전체                |                                                 |
-| `order`                                                | number             | 전체                | deep-dive 정렬 1순위                            |
-| `series` / `series_order`                              | string / number    | deep-dive 주로      |                                                 |
-| `status`                                               | enum               | 전체                | active/wip/archived                             |
-| `draft` / `search`                                     | bool               | 전체                |                                                 |
-| `version`                                              | string             | **notes**           | 대상 기술 버전                                  |
-| `cover`                                                | object             | **articles**        | OG 이미지                                       |
-| `project` / `doc_type` / `milestone`                   | —                  | **deep-dive**       |                                                 |
-| `original_*` / `translator` / `canonical` / `license*` | —                  | **translations**    | provenance                                      |
-| `ai_assistance`                                        | object             | 전체(선택)          | §5                                              |
-| `id`                                                   | string             | **decisions**       | `id`는 결정 ID의 SSOT, `<SCOPE>-ADR-<NNNN>`     |
-| `scope`                                                | string             | **decisions**       | 이니셜(DOCS, CORE, RDSM)                        |
-| `decision_status`                                      | string             | **decisions**       | {#sec-decisions} 참조                           |
-| `decider`                                              | string[]           | **decisions**       | 결정기록 참여자 배열                            |
-| `period`                                               | date               | **decisions**       | 단일 결정일                                     |
-| `issue` / `issue_url`                                  | string             | **decisions**(선택) | 결정이 참조하는 티켓/이슈 ID 및 URL             |
-| `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | 결정 간 상호 대체 관계를 나타내는 참조          |
-| `related_decisions`                                    | string[]           | decisions·deep-dive | 결정 참조 정본                                  |
+| 필드                                                   | 타입               | 섹션                | 비고                                        |
+| ------------------------------------------------------ | ------------------ | ------------------- | ------------------------------------------- |
+| `title`                                                | string             | 전체                |                                             |
+| `date` / `lastmod`                                     | date               | 전체                | 작성일 / 수정일                             |
+| `author`                                               | string             | 전체                | 항상 사람                                   |
+| `description`                                          | string             | 전체                | 150~160자                                   |
+| `slug`                                                 | string             | 전체                | kebab-case                                  |
+| `section`                                              | enum               | 전체                | 폴더명과 일치                               |
+| `category`                                             | string             | 전체                | 단수. `parent/sub` 가능                     |
+| `tags`                                                 | string[]           | 전체                |                                             |
+| `order`                                                | number             | 전체                | deep-dive 정렬 1순위                        |
+| `series` / `series_order`                              | string / number    | deep-dive 주로      |                                             |
+| `status`                                               | enum               | 전체                | active/wip/archived                         |
+| `draft` / `search`                                     | bool               | 전체                |                                             |
+| `version`                                              | string             | **notes**           | 대상 기술 버전                              |
+| `cover`                                                | object             | **articles**        | OG 이미지                                   |
+| `project` / `doc_type` / `milestone`                   | —                  | **deep-dive**       |                                             |
+| `original_*` / `translator` / `canonical` / `license*` | —                  | **translations**    | provenance                                  |
+| `ai_assistance`                                        | object             | 전체(선택)          | §5                                          |
+| `id`                                                   | string             | **decisions**       | `id`는 결정 ID의 SSOT, `<SCOPE>-ADR-<NNNN>` |
+| `scope`                                                | string             | **decisions**       | 이니셜(DOCS, CORE, RDSM)                    |
+| `decision_status`                                      | string             | **decisions**       | {#sec-decisions} 참조                       |
+| `decider`                                              | string[]           | **decisions**       | 결정기록 참여자 배열                        |
+| `period`                                               | date               | **decisions**       | 단일 결정일                                 |
+| `issue` / `issue_url`                                  | string             | **decisions**(선택) | 결정이 참조하는 티켓/이슈 ID 및 URL         |
+| `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | 결정 간 상호 대체 관계를 나타내는 참조      |
+| `related_decisions`                                    | string[]           | decisions·deep-dive | 결정 참조 정본                              |
 
 ## 부록 B. 로더 연동 주의 {#sec-b}
 
