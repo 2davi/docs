@@ -79,8 +79,6 @@ CoreDNS 하나를 세우는 데 세 겹의 문제를 통과했다. 각각이 다
 
 ## 상류 정정 {#upstream-corrections}
 
-세 겹 삽질이 앞 문서를 정정하게 했다. [코덱스 부분 수정 규칙](./codex-partial-edit-rule)에 따라 외과적으로 반영한다.
-
 [a4](./a4-control-plane)에 apiserver 유닛의 두 누락 플래그를 정정했다. `--advertise-address=10.240.0.10`(kubernetes 엔드포인트를 안정 eth1로 고정)과 `--service-cluster-ip-range=10.32.0.0/24`(서비스 대역을 cm·인증서와 정렬)이다. a4는 대역을 `10.32`로 전제했으나 apiserver는 플래그 누락으로 기본 `10.0`으로 돌고 있었고, 그 정정을 이 문서의 박제 2로 링크했다.
 
 [a5](./a5-worker-nodes)에 kubelet `resolvConf`를 `/run/systemd/resolve/resolv.conf`로 정정하고, "DNS는 리포 12 애드온" 서술을 "리포에 DNS 문서 없음, A6에서 CoreDNS 직접 배포"로 교체했다.

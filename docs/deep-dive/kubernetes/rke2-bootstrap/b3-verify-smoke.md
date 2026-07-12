@@ -131,7 +131,7 @@ Active  Key Type  Name
 
 ## 상류 정정 {#upstream-correction}
 
-이 문서가 [a7](./a7-smoke-test#nodeport-reachability)의 열린 표면을 닫는다. [코덱스 부분 수정 규칙](./codex-partial-edit-rule)에 따라 a7의 NodePort REVIEW-REQUIRED를 "b3에서 파드 없는 노드 도달로 종결"로 정정한다. 트랙 A가 단일 노드로만 검증해 남긴 물음을, 트랙 B의 3노드 클러스터가 파드 없는 두 노드 curl로 답했다.
+이 문서가 [a7](./a7-smoke-test#nodeport-reachability)의 열린 표면을 닫는다. a7의 NodePort REVIEW-REQUIRED를 "b3에서 파드 없는 노드 도달로 종결"로 정정한다. 트랙 A가 단일 노드로만 검증해 남긴 물음을, 트랙 B의 3노드 클러스터가 파드 없는 두 노드 curl로 답했다.
 
 > **제품으로 접히는 지점.** 콘솔의 설치 후 검증에 워크로드 배포와 서비스 도달성 확인을 넣으면, "노드가 Ready"를 넘어 "실제 트래픽이 파드까지 흐른다"를 배포 성공의 기준으로 삼는다. 노드 간 오버레이 도달과 저장 암호화 활성 확인이 InstallSvc 사후 점검 로직의 원형이다. 특히 저장 암호화는 설정이 실제로 걸렸는지를 배포 밖에서 증명하는 불변식이다.
 
