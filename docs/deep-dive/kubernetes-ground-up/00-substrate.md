@@ -6,7 +6,6 @@ author: "Davi"
 description: "kubeadm 클러스터를 세우기 전 물리·네트워크·스토리지 기반을 설계한다. 노드 사이징, Host-Only 네트워크와 CIDR 분리, etcd 디스크 전략, Ansible 기반 IaC 토폴로지, 베이스 VM 준비까지."
 section: "deep-dive"
 category: "deep-dive/kubernetes-ground-up"
-project: "kubernetes-ground-up"
 series: "kubernetes-ground-up"
 series_order: 0
 order: 0
@@ -20,7 +19,7 @@ ai_assistance:
   authorship: ai-drafted
   role: [drafting, research]
   model: ["claude-opus-4.8"]
-  review: reviewed
+  review: reviewing
 ---
 
 # Phase 0 ─ 기반 설계 (Substrate)
