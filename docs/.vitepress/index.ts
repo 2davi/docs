@@ -93,7 +93,7 @@ export function runDocLint(srcDir: string, isBuild: boolean): void {
 
   if (errorCount > 0 && isBuild) throw new Error(`[docLint] build 중단: ERROR ${errorCount}건`)
   if (errorCount > 0) console.log(`\n[docLint] dev 모드: ERROR ${errorCount}건 (build에서 중단됩니다)\n`)
-  else console.log(`[docLint] 중단 사유 없음\n`)
+  else console.log(`[docLint] pre-flight Complete.\n`)
 }
 
 // ── Vite 플러그인 ───────────────────────────────────────────────────────────
