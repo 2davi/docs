@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 416" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="734" height="390" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">순차 업그레이드와 안전망</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">etcd 스냅샷 → 서버 → 에이전트 · 실패 시 복구</text>
+<rect x="40" y="82" width="264" height="48" rx="10" stroke="#da7756" stroke-width="1.4" fill="#e8f3ee"/>
+<text x="52" y="102" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start">① etcd 스냅샷</text>
+<text x="52" y="119" font-size="9.2" fill="#6b6258" font-weight="normal" text-anchor="start">pre-upgrade (20M) · 안전망</text>
+<line x1="100" y1="130" x2="100" y2="178" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="108" y="158" font-size="8.6" fill="#6b6258" font-weight="normal" text-anchor="start">백업 후 착수</text>
+<rect x="40" y="182" width="126" height="62" rx="9" stroke="#5b86c4" stroke-width="1.2" fill="#eaf0f9"/>
+<text x="103.0" y="208" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="middle">② 서버</text>
+<text x="103.0" y="227" font-size="8.8" fill="#6b6258" font-weight="500" text-anchor="middle">v1.35.6 → v1.36.2</text>
+<line x1="166" y1="213.0" x2="182" y2="213.0" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="182" y="182" width="126" height="62" rx="9" stroke="#e0a64e" stroke-width="1.2" fill="#fdf3e3"/>
+<text x="245.0" y="208" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="middle">③ 게이트</text>
+<text x="245.0" y="227" font-size="8.8" fill="#6b6258" font-weight="500" text-anchor="middle">서버 Ready 확인</text>
+<line x1="308" y1="213.0" x2="324" y2="213.0" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="324" y="182" width="126" height="62" rx="9" stroke="#4a9d7f" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="387.0" y="208" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="middle">④ agent-0</text>
+<text x="387.0" y="227" font-size="8.8" fill="#6b6258" font-weight="500" text-anchor="middle">Ubuntu · tarball</text>
+<line x1="450" y1="213.0" x2="466" y2="213.0" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="466" y="182" width="126" height="62" rx="9" stroke="#e0a64e" stroke-width="1.2" fill="#fdf3e3"/>
+<text x="529.0" y="208" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="middle">⑤ agent-1</text>
+<text x="529.0" y="227" font-size="8.8" fill="#6b6258" font-weight="500" text-anchor="middle">Rocky · /usr/bin RPM</text>
+<line x1="592" y1="213.0" x2="608" y2="213.0" stroke="#6b6258" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="608" y="182" width="126" height="62" rx="9" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="671.0" y="208" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="middle">⑥ 검증</text>
+<text x="671.0" y="227" font-size="8.8" fill="#6b6258" font-weight="500" text-anchor="middle">전 노드 v1.36.2</text>
+<line x1="245.0" y1="244" x2="245.0" y2="302" stroke="#c0584f" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#aDeny)"/>
+<text x="253.0" y="290" font-size="9" fill="#c0584f" font-weight="600" text-anchor="start">실패 시</text>
+<rect x="118" y="302" width="330" height="48" rx="10" stroke="#eed4cf" stroke-width="1.3" fill="#f8ebe8"/>
+<text x="130" y="322" font-size="10.5" fill="#2b2722" font-weight="700" text-anchor="start">복구 · rke2 server --cluster-reset</text>
+<text x="130" y="339" font-size="8.6" fill="#c0584f" font-weight="normal" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">--cluster-reset-restore-path ← pre-upgrade 스냅샷</text>
+<text x="40" y="384" font-size="9.6" fill="#6b6258" font-weight="normal" text-anchor="start">서버 먼저 · 한 대씩 · 확인하고 다음. 스냅샷이 되돌릴 자리. Rocky는 /usr/bin(RPM), Ubuntu는 /usr/local/bin(tarball).</text>
+</svg>

@@ -1,0 +1,55 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="774" height="474" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="40" y="46" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">컨트롤 플레인 수렴</text>
+<text x="40" y="66" font-size="12" fill="#6b6258" font-weight="normal" text-anchor="start">a1·a2·a3가 apiserver로 배선 · etcd 홉만 평문 · apiserver는 0.0.0.0으로 노출</text>
+<rect x="286" y="150" width="266" height="250" rx="14" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="298" y="170" font-size="10" fill="#8a8076" font-weight="600" text-anchor="start">server · 컨트롤 플레인</text>
+<rect x="600" y="166" width="172" height="100" rx="12" stroke="#4a9d7f" stroke-width="1.4" fill="#e8f3ee"/>
+<text x="686" y="196" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="middle">워커 노드</text>
+<text x="686" y="216" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle">node-0 · node-1</text>
+<text x="686" y="235" font-size="9.5" fill="#8a8076" font-weight="normal" text-anchor="middle">(A5)</text>
+<rect x="46" y="150" width="190" height="54" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="56" y="172" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="start">a1 · 인증서 / CA</text>
+<text x="56" y="191" font-size="8.6" fill="#6b6258" font-weight="normal" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">--tls-cert-file · --client-ca-file</text>
+<rect x="46" y="214" width="190" height="54" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="56" y="236" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="start">a2 · 암호화 설정</text>
+<text x="56" y="255" font-size="8.6" fill="#6b6258" font-weight="normal" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">--encryption-provider-config</text>
+<rect x="46" y="278" width="190" height="54" rx="10" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="56" y="300" font-size="11.5" fill="#2b2722" font-weight="600" text-anchor="start">a3 · etcd</text>
+<text x="56" y="319" font-size="8.0" fill="#6b6258" font-weight="normal" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">--etcd-servers http://127.0.0.1:2379</text>
+<rect x="316" y="176" width="196" height="110" rx="12" stroke="#da7756" stroke-width="1.8" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="414" y="210" font-size="16" fill="#2b2722" font-weight="700" text-anchor="middle">kube-apiserver</text>
+<text x="414" y="231" font-size="9.3" fill="#6b6258" font-weight="normal" text-anchor="middle">정문 · 유일한 etcd 클라이언트</text>
+<text x="414" y="253" font-size="11" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">:6443 · 0.0.0.0</text>
+<rect x="298" y="322" width="132" height="66" rx="10" stroke="#8a8076" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="364" y="346" font-size="10.3" fill="#2b2722" font-weight="600" text-anchor="middle">controller-manager</text>
+<text x="364" y="365" font-size="8.4" fill="#6b6258" font-weight="normal" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">ca.key 서명 · 10.32.0.0/24</text>
+<rect x="442" y="322" width="104" height="66" rx="10" stroke="#8a8076" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="494" y="346" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">scheduler</text>
+<text x="494" y="365" font-size="8.6" fill="#6b6258" font-weight="normal" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">--config</text>
+<line x1="236" y1="177" x2="316" y2="206" stroke="#6b6258" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="236" y1="241" x2="316" y2="226" stroke="#6b6258" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="236" y1="305" x2="316" y2="250" stroke="#c0584f" stroke-width="1.5" marker-end="url(#aDeny)"/>
+<text x="262" y="296" font-size="8.5" fill="#c0584f" font-weight="600" text-anchor="start">평문</text>
+<line x1="378" y1="286" x2="362" y2="322" stroke="#6b6258" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="452" y1="286" x2="492" y2="322" stroke="#6b6258" stroke-width="1.2" marker-end="url(#arrow)"/>
+<line x1="512" y1="210" x2="600" y2="206" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<text x="556" y="199" font-size="8.8" fill="#da7756" font-weight="600" text-anchor="middle" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">:6443 노출</text>
+<text x="46" y="420" font-size="10.3" fill="#6b6258" font-weight="normal" text-anchor="start">apiserver는 0.0.0.0으로 워커에 열리고, etcd는 127.0.0.1에만 묶여 외부 도달 불가.</text>
+<text x="46" y="444" font-size="11" fill="#da7756" font-weight="700" text-anchor="start">A4는 새로 만들지 않는다. a1·a2·a3를 apiserver에 배선할 뿐. etcd 홉만 평문, 나머지는 TLS.</text>
+</svg>
