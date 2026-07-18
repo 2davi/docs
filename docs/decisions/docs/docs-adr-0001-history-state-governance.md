@@ -7,7 +7,7 @@ description: "문서 안에서 앵커 링크로 이동한 뒤 뒤로가기를 �
 slug: "docs-adr-0001-history-state-governance"
 
 section: "decisions"
-category: "docs"
+category: "decisions/docs"
 tags: [vitepress, history-api, scroll-restoration, architecture, ssot]
 
 # ── decisions 전용 필드 ──
