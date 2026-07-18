@@ -11,6 +11,7 @@ doc_type: "learning-guide"
 series: "rke2-bootstrap"
 series_order: 10
 order: 10
+status: wip
 draft: false
 search: true
 toc: true

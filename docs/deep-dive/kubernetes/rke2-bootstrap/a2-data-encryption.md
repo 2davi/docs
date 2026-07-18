@@ -1,7 +1,7 @@
 ---
 title: "[A2] 저장 데이터 암호화 설정"
 date: 2026-07-11
-lastmod: 2026-07-12
+lastmod: 2026-07-13
 author: "Davi"
 description: ""
 section: "deep-dive"
@@ -11,6 +11,7 @@ doc_type: "learning-guide"
 series: "rke2-bootstrap"
 series_order: 2
 order: 2
+status: active
 draft: false
 search: true
 toc: true
@@ -20,14 +21,14 @@ ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
   model: ["claude-opus-4.8"]
-  review: "reviewing"
+  review: "verified"
 ---
 
 # 저장 데이터 암호화 설정 {#data-encryption-config}
 
 ## 개요 {#overview}
 
-이 문서는 Kubernetes The Hard Way 트랙 A의 리포 06을 다룬다. 페이즈 1(기반과 신뢰)의 마지막 산출물이자 가장 짧은 구간이다. [인증서 신뢰 계층과 kubeconfig](./a1-pki-and-trust)까지 신원 계층이 섰으니, 여기서는 그 위에 저장 데이터 보호를 얹는다. 대칭 암호화 키를 하나 만들고, 그 키를 담은 암호화 설정 파일(`encryption-config.yaml`)을 만들어 server로 보낸다.
+이 문서는 Kubernetes The Hard Way 트랙 A의 [리포 06](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/06-data-encryption-keys.md)을 다룬다. 페이즈 1(기반과 신뢰)의 마지막 산출물이자 가장 짧은 구간이다. [인증서 신뢰 계층과 kubeconfig](./a1-pki-and-trust)까지 신원 계층이 섰으니, 여기서는 그 위에 저장 데이터 보호를 얹는다. 대칭 암호화 키를 하나 만들고, 그 키를 담은 암호화 설정 파일(`encryption-config.yaml`)을 만들어 server로 보낸다.
 
 이 설정 파일은 지금 만들어 두기만 하고, 실제로는 페이즈 2에서 apiserver가 `--encryption-provider-config` 플래그로 소비한다(리포 08). 즉 이 구간은 apiserver가 etcd에 Secret을 쓸 때 암호화하도록 미리 키와 설정을 준비하는 일이다.
 
@@ -35,7 +36,7 @@ ai_assistance:
 
 ---
 
-## 왜 저장 데이터 암호화인가 {#why-encryption-at-rest}
+## 01. 왜 저장 데이터 암호화인가 {#why-encryption-at-rest}
 
 쿠버네티스 Secret은 etcd에 저장되는데, 기본은 암호화가 아니라 base64 인코딩일 뿐이다. base64는 암호가 아니라 단순 표현 방식이라 누구나 되돌린다. 그래서 etcd 데이터에 닿을 수 있는 사람은 Secret을 사실상 평문으로 본다. etcd 디스크, 백업 스냅샷, 또는 etcd에 대한 직접 접근이 그 경로다.
 
@@ -43,7 +44,7 @@ ai_assistance:
 
 한계도 분명하다. 암호화 키는 컨트롤 플레인 호스트의 설정 파일에 평문으로 있다. 그래서 이 방식은 **etcd 유출은 막아도 호스트 자체가 뚫리면 키까지 함께 노출된다**. 호스트 침해까지 막으려면 외부 키 관리 서비스(KMS provider)로 키를 호스트 밖에 두는 별도 설계가 필요하다. Hard Way는 그 앞 단계인 로컬 키 방식을 다룬다.
 
-## 대칭 키 생성 {#symmetric-key}
+## 02. 대칭 키 생성 {#symmetric-key}
 
 암호화에 쓸 대칭 키(symmetric key)를 만든다. 대칭 키는 암호화와 복호화에 같은 키를 쓰는 방식이며, 인증서의 비대칭 키(공개키·개인키 쌍)와는 다른 종류다.
 
@@ -55,7 +56,7 @@ export ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
 
 `export`가 중요하다. 다음 절의 `envsubst`가 값을 환경(environment)에서 읽으므로, `export` 없이 그냥 대입하면 치환이 빈 값으로 나간다.
 
-## EncryptionConfig 구조 {#encryption-config-structure}
+## 03. EncryptionConfig 구조 {#encryption-config-structure}
 
 리포는 키를 채워 넣을 자리를 비워둔 템플릿 `configs/encryption-config.yaml`을 제공한다. 구조는 이렇다.
 
@@ -79,7 +80,7 @@ resources:
 
 > **논리적 추론에 따른 답.** 이 템플릿은 `kind: EncryptionConfig` / `apiVersion: v1` 형식이다. 현재 upstream 쿠버네티스 문서는 `kind: EncryptionConfiguration` / `apiVersion: apiserver.config.k8s.io/v1`을 쓴다. 리포가 고정한 형식을 그대로 따르되, 최신 클러스터·제품에서는 새 형식을 쓴다는 차이를 알아둔다. 정확한 대응은 착수 시 리포와 upstream 문서로 확인한다. ([Encrypting Confidential Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/))
 
-## envsubst 치환과 배포 {#envsubst-and-distribution}
+## 04. envsubst 치환과 배포 {#envsubst-and-distribution}
 
 템플릿의 `${ENCRYPTION_KEY}` 자리에 방금 만든 키를 치환해 실제 설정 파일을 만든다.
 

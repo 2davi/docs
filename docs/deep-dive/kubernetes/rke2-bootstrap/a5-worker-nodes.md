@@ -11,6 +11,7 @@ doc_type: "learning-guide"
 series: "rke2-bootstrap"
 series_order: 5
 order: 5
+status: wip
 draft: false
 search: true
 toc: true
@@ -27,15 +28,15 @@ ai_assistance:
 
 ## 개요 {#overview}
 
-이 문서는 Kubernetes The Hard Way 트랙 A의 리포 09를 다룬다. 페이즈 2의 세 번째 구간이며, 데이터 플레인이 처음 서는 지점이다. [컨트롤 플레인 부트스트랩](./a4-control-plane)까지 server 한 대에 세운 클러스터에, 이제 파드를 실제로 돌릴 워커 node-0·node-1을 붙인다.
+이 문서는 Kubernetes The Hard Way 트랙 A의 [리포 09](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/09-bootstrapping-kubernetes-workers.md)를 다룬다. 데이터 플레인이 처음 서는 지점이다. [컨트롤 플레인 부트스트랩](./a4-control-plane)까지 server 한 대에 세운 클러스터에, 이제 파드를 실제로 돌릴 워커 node-0·node-1을 붙인다.
 
-각 워커에 네 층을 얹는다. 컨테이너 런타임(containerd + runc), 파드 네트워크(CNI 플러그인 + 설정), 노드 에이전트(kubelet), 서비스 프록시(kube-proxy)다. [a1](./a1-pki-and-trust)에서 노드별로 발급한 kubelet 인증서(`system:node:node-0/1`)와 [a4](./a4-control-plane)에서 건 Node 인가자·kubelet 접근 RBAC가 여기서 실물이 된다.
+각 워커에 네 층을 얹는다. 컨테이너 런타임(containerd + runc), 파드 네트워크(CNI 플러그인 + 설정), 노드 에이전트(kubelet), 서비스 프록시(kube-proxy)다. [a1](./a1-pki-and-trust)에서 노드별로 발급한 kubelet 인증서(`system:node:node-0/1`)와 [a4](./a4-control-plane)에서 건 [Node 인가자·kubelet 접근 RBAC](./a4-control-plane.md#authz-and-kubelet-rbac)가 여기서 실물이 된다.
 
 배포는 점프박스(jumpbox)에서 두 노드를 순회(loop)하며 진행하고, 설치는 각 노드에 접속해 실행한다. 노드별로 다른 값(파드 서브넷)은 배송 전에 점프박스에서 치환해 넣는다.
 
 ---
 
-## 워커 스택 {#stack}
+## 01. 워커 스택 {#stack}
 
 워커는 아래에서 위로 네 층이다. ([Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/))
 
@@ -43,32 +44,34 @@ containerd(컨테이너 런타임)와 runc가 최하단이다. kubelet의 CRI(Co
 
 CNI 플러그인(`/opt/cni/bin`)과 CNI 설정(`/etc/cni/net.d`)이 파드에 네트워크를 붙인다. bridge 플러그인이 `cni0` 브리지를 만들고, host-local IPAM(IP Address Management, IP 주소 관리)이 그 노드 몫의 서브넷에서 파드 IP를 나눠준다.
 
-kubelet은 노드 에이전트다. apiserver에 노드를 등록하고, a1의 노드별 인증서로 인증하고, containerd에 파드를 지시하고, `10250`에서 서빙한다(a4에서 건 apiserver→kubelet RBAC가 이 포트를 친다).
+kubelet은 노드 에이전트다. apiserver에 노드를 등록하고, [a1](./a1-pki-and-trust.md#cert-distribution)의 노드별 인증서로 인증하고, containerd에 파드를 지시하고, `10250`에서 서빙한다. *([a4](./a4-control-plane.md#authz-and-kubelet-rbac)에서 건 apiserver→kubelet RBAC가 이 포트를 친다)*
 
 kube-proxy는 Service를 iptables 규칙으로 구현한다. apiserver를 감시하다 ClusterIP를 파드 IP로 로드밸런싱하는 규칙을 iptables에 새긴다.
 
-## 노드별 파드 서브넷 {#per-node-pod-subnet}
+## 02. 노드별 파드 서브넷 {#per-node-pod-subnet}
 
-A5의 핵심 설계는 파드 주소 대역을 노드마다 쪼개는 것이다. a4에서 controller-manager에 건 `--cluster-cidr=10.200.0.0/16`을 노드마다 `/24`로 나눈다. node-0은 `10.200.0.0/24`, node-1은 `10.200.1.0/24`다. 이 값은 `machines.txt`의 4번째 열에 있고, 점프박스가 그 값을 읽어 각 노드의 CNI 설정에 치환해 배송한다.
+a5의 핵심 설계는 <u>파드 주소 대역을 노드마다 쪼개는 것</u>이다. [a4](./a4-control-plane.md)에서 controller-manager에 건 `--cluster-cidr=10.200.0.0/16`을 노드마다 `/24`로 나눈다. node-0은 `10.200.0.0/24`, node-1은 `10.200.1.0/24`다. 이 값은 `machines.txt`의 4번째 열에 있고, 점프박스가 그 값을 읽어 각 노드의 CNI 설정에 치환해 배송한다.
 
 ![워커 데이터 플레인 도식: node-0(10.200.0.0/24)과 node-1(10.200.1.0/24)이 각각 kubelet·kube-proxy·containerd+runc·cni0 브리지·파드를 얹고 apiserver에 자기 등록하며, 두 노드의 파드 대역 사이에는 아직 라우트가 없어 A6에서 노드 간 라우트를 깔아야 하는 구조](./_embeds/img/a5-worker-nodes/a5-worker-dataplane.svg)
 
-그래서 node-0의 파드는 `10.200.0.x`, node-1의 파드는 `10.200.1.x`를 받는다. 그리고 여기가 A6의 씨앗이다. node-0의 파드가 node-1의 파드(`10.200.1.x`)로 가려면, 호스트에 "`10.200.1.0/24`는 node-1로"라는 라우트가 있어야 한다. 지금은 각 노드가 자기 `/24`만 안다. 노드 사이 라우트는 [파드 네트워크 라우트](#) 구간(리포 11)에서 깐다. "파드망은 결국 라우팅"이 여기서 시작된다.
+그래서 node-0의 파드는 `10.200.0.x`, node-1의 파드는 `10.200.1.x`를 받는다. 그리고 여기가 a6의 씨앗이다. node-0의 파드가 node-1의 파드(`10.200.1.x`)로 가려면, 호스트에 "`10.200.1.0/24`는 node-1로"라는 라우트가 있어야 한다. 지금은 각 노드가 자기 `/24`만 안다. 노드 사이 라우트는 [파드 네트워크 라우트](./a6-pod-network-dns.md#pod-routes) 구간([리포 11](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/11-pod-network-routes.md))에서 깐다. "파드망은 결국 라우팅"이 여기서 시작된다.
 
 > [!CAUTION] REVIEW-REQUIRED
 > 점프박스의 `sed "s|SUBNET|...|g"`는 `10-bridge.conf`와 `kubelet-config.yaml` 양쪽의 `SUBNET`을 채운다. `10-bridge.conf`의 `ipam.ranges.subnet`은 확인했으나, `kubelet-config.yaml` 쪽 `SUBNET` 필드가 `podCIDR`인지 실측으로 못박는다.
 
-## 브리지와 netfilter {#bridge-netfilter}
+## 03. 브리지와 netfilter {#bridge-netfilter}
 
-CNI bridge 설정(`10-bridge.conf`)은 `cni0` 브리지를 만들고, `isGateway`로 브리지에 게이트웨이 IP를 줘 파드의 기본 게이트웨이가 되게 하며, `ipMasq`로 파드가 클러스터 밖으로 나갈 때 노드 IP로 마스커레이드(masquerade, 출발지 NAT)한다.
+CNI bridge 설정(<u>[`10-bridge.conf`](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/configs/10-bridge.conf)</u>)은 `cni0` 브리지를 만들고, `isGateway`로 브리지에 게이트웨이 IP를 줘 **파드의 기본 게이트웨이가 되게 하며,** `ipMasq`로 파드가 클러스터 밖으로 나갈 때 노드 IP로 마스커레이드(masquerade, 출발지 NAT)한다.
 
 설치 중에 커널 쪽 준비가 하나 붙는다. `modprobe br-netfilter`와 `net.bridge.bridge-nf-call-iptables = 1`이다. 이것이 없으면 브리지(`cni0`)를 지나는 파드 트래픽이 iptables를 거치지 않아, kube-proxy가 새긴 Service 규칙이 파드에 먹지 않는다. 브리지 트래픽을 netfilter로 통과시키는 커널 스위치이며, 빠뜨리면 노드가 `Ready`로 떠도 Service 네트워킹이 조용히 깨진다. ([sysctl bridge-nf-call-iptables](https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt))
 
-## kubelet 신원과 등록 {#kubelet-identity}
+> [!WARNING] 머리에 안 들어옴 ^0^ (여기서부터 리뷰작업 진행 중...)
 
-`kubelet-config.yaml`이 kubelet의 인증·인가·런타임 연결을 잡는다. 인증은 익명(anonymous)을 끄고 x509 클라이언트 인증서(clientCAFile = a1의 `ca.crt`)와 webhook을 쓰며, 인가는 Webhook 모드다. 즉 kubelet은 들어오는 요청의 허가 여부를 apiserver에 되물어 판단한다. kubelet 자신의 신원은 a1의 노드별 `kubelet.crt`·`kubelet.key`이고, 런타임 연결은 `containerRuntimeEndpoint`로 containerd 소켓을 가리킨다.
+## 04. kubelet 신원과 등록 {#kubelet-identity}
 
-`registerNode: true`가 노드를 스스로 apiserver에 등록하게 한다. 그래서 kubelet이 뜨면 `kubectl get nodes`에 노드가 나타난다. 이때 a4에서 건 Node 인가자가 그 `system:node:<노드명>` 신원을 검문해, 각 kubelet이 자기 노드 것만 만지도록 가른다. `cgroupDriver: systemd`는 containerd와 맞춰야 하는 값이다.
+`kubelet-config.yaml`이 kubelet의 인증·인가·런타임 연결을 잡는다. 인증은 익명(anonymous)을 끄고 x509 클라이언트 인증서(clientCAFile = `ca.crt`)와 webhook을 쓰며, 인가는 Webhook 모드다. 즉 kubelet은 들어오는 요청의 허가 여부를 apiserver에 되물어 판단한다. kubelet 자신의 신원은 [a1](./a1-pki-and-trust.md)의 노드별 `kubelet.crt`·`kubelet.key`이고, 런타임 연결은 `containerRuntimeEndpoint`로 containerd 소켓을 가리킨다.
+
+`registerNode: true`가 노드를 스스로 apiserver에 등록하게 한다. 그래서 kubelet이 뜨면 **`kubectl get nodes`** 에 노드가 나타난다. 이때 a4에서 건 Node 인가자가 그 `system:node:<노드명>` 신원을 검문해, 각 kubelet이 자기 노드 것만 만지도록 가른다. `cgroupDriver: systemd`는 containerd와 맞춰야 하는 값이다.
 
 한 가지 짚을 것은 클러스터 DNS다. `kubelet-config.yaml`에 `clusterDNS`가 없어서, 지금 파드는 노드의 `resolv.conf`를 쓴다. 클러스터 내부 DNS(CoreDNS)는 이후 별도 DNS 애드온에서 얹는다.
 
