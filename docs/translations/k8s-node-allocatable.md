@@ -32,7 +32,7 @@ ai_assistance:
   authorship: "ai-drafted"
   role: [translation, research]
   model: ["claude-fable-5"]
-  review: "reviewed"
+  review: "reviewing"
 ---
 
 # 시스템 데몬을 위한 컴퓨트 자원 예약 {#k8s-node-allocatable}

@@ -1,0 +1,53 @@
+<svg viewBox="0 0 784 470" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="758" height="444" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">인가 판정 흐름</text>
+<text x="36" y="71" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">순서대로 검사하고, 허용·거부는 즉시 확정, 전부 무의견이면 기본 거부</text>
+<rect x="36" y="96" width="712" height="40" rx="8" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="392" y="121" font-size="11.5" fill="#3f8e70" font-weight="600" text-anchor="middle">허용(approve): 즉시 최종 허용 · 이후 인가자 조회 안 함</text>
+<rect x="36" y="346" width="712" height="40" rx="8" stroke="#eed4cf" stroke-width="1.0" fill="#f8ebe8"/>
+<text x="392" y="371" font-size="11.5" fill="#c0584f" font-weight="600" text-anchor="middle">거부(deny): 즉시 최종 거부 → HTTP 403 · 이후 인가자 조회 안 함</text>
+<rect x="40" y="214" width="96" height="54" rx="9" stroke="#e2dcd2" stroke-width="1.0" fill="#f1ede6"/>
+<text x="88" y="245" font-size="12.5" fill="#2b2722" font-weight="600" text-anchor="middle">요청</text>
+<rect x="168" y="214" width="120" height="54" rx="9" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="228" y="239" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">Node</text>
+<text x="228" y="256" font-size="9.5" fill="#6b6258" font-weight="normal" text-anchor="middle">인가자</text>
+<rect x="320" y="214" width="120" height="54" rx="9" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="380" y="239" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">RBAC</text>
+<text x="380" y="256" font-size="9.5" fill="#6b6258" font-weight="normal" text-anchor="middle">인가자</text>
+<rect x="472" y="214" width="120" height="54" rx="9" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="532" y="239" font-size="12" fill="#2b2722" font-weight="700" text-anchor="middle">Webhook</text>
+<text x="532" y="256" font-size="9.5" fill="#6b6258" font-weight="normal" text-anchor="middle">인가자</text>
+<rect x="624" y="214" width="124" height="54" rx="9" stroke="#eed4cf" stroke-width="1.0" fill="#f8ebe8"/>
+<text x="686" y="239" font-size="11.5" fill="#c0584f" font-weight="700" text-anchor="middle">기본 거부</text>
+<text x="686" y="256" font-size="9.5" fill="#c0584f" font-weight="normal" text-anchor="middle">HTTP 403</text>
+<line x1="136" y1="241" x2="168" y2="241" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<line x1="288" y1="241" x2="320" y2="241" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="304" y="233" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">무의견</text>
+<line x1="440" y1="241" x2="472" y2="241" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="456" y="233" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">무의견</text>
+<line x1="592" y1="241" x2="624" y2="241" stroke="#6b6258" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="608" y="233" font-size="8.5" fill="#8a8076" font-weight="normal" text-anchor="middle">무의견</text>
+<line x1="228" y1="214" x2="228" y2="138" stroke="#3f8e70" stroke-width="1.4" marker-end="url(#aAllow)"/>
+<line x1="228" y1="268" x2="228" y2="344" stroke="#c0584f" stroke-width="1.4" marker-end="url(#aDeny)"/>
+<line x1="380" y1="214" x2="380" y2="138" stroke="#3f8e70" stroke-width="1.4" marker-end="url(#aAllow)"/>
+<line x1="380" y1="268" x2="380" y2="344" stroke="#c0584f" stroke-width="1.4" marker-end="url(#aDeny)"/>
+<line x1="532" y1="214" x2="532" y2="138" stroke="#3f8e70" stroke-width="1.4" marker-end="url(#aAllow)"/>
+<line x1="532" y1="268" x2="532" y2="344" stroke="#c0584f" stroke-width="1.4" marker-end="url(#aDeny)"/>
+<line x1="36" y1="400" x2="748" y2="400" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="36" y="421" font-size="11" fill="#da7756" font-weight="600" text-anchor="start">접근은 기본적으로 거부된다. 어떤 인가자도 명시적으로 허용하지 않으면 요청은 통과하지 못한다.</text>
+</svg>

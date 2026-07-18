@@ -32,7 +32,7 @@ ai_assistance:
   authorship: "ai-drafted"
   role: [translation, research]
   model: ["Claude Opus 4.8"]
-  review: "reviewed"
+  review: "reviewing"
 ---
 
 # kubeadm join {#kubeadm-join}

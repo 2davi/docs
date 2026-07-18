@@ -1,0 +1,48 @@
+<svg viewBox="0 0 780 456" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="754" height="430" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">kubeadm reset의 정리 비대칭</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">reset가 자동으로 지우는 것과, 남아서 수동 정리가 필요한 것</text>
+<rect x="34" y="96" width="352" height="316" rx="12" stroke="#cfe6da" stroke-width="1.3" fill="#e8f3ee"/>
+<text x="52" y="122" font-size="13" fill="#3f8e70" font-weight="700" text-anchor="start">reset 자동 정리 · best effort</text>
+<text x="52" y="140" font-size="9" fill="#6b6258" font-weight="500" text-anchor="start">3개 페이즈가 노드 로컬 파일을 정리</text>
+<rect x="50" y="156" width="320" height="70" rx="9" stroke="#cfe6da" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="66" y="183" font-size="11" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">remove-etcd-member</text>
+<text x="66" y="204" font-size="9" fill="#6b6258" font-weight="500" text-anchor="start">로컬 스택 etcd 멤버를 etcd 클러스터에서 제거</text>
+<rect x="50" y="240" width="320" height="70" rx="9" stroke="#cfe6da" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="66" y="267" font-size="11" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">cleanup-node</text>
+<text x="66" y="288" font-size="9" fill="#6b6258" font-weight="500" text-anchor="start">/etc/kubernetes 파일 정리 (pki·admin.conf·매니페스트)</text>
+<rect x="50" y="324" width="320" height="70" rx="9" stroke="#cfe6da" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="66" y="351" font-size="11" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">--cleanup-tmp-dir</text>
+<text x="66" y="372" font-size="9" fill="#6b6258" font-weight="500" text-anchor="start">/etc/kubernetes/tmp 정리 (옵션 플래그)</text>
+<rect x="402" y="96" width="344" height="316" rx="12" stroke="#eed4cf" stroke-width="1.3" fill="#f8ebe8"/>
+<text x="420" y="122" font-size="13" fill="#c0584f" font-weight="700" text-anchor="start">수동 정리 필요 · reset가 안 지움</text>
+<text x="420" y="140" font-size="9" fill="#6b6258" font-weight="500" text-anchor="start">노드 재사용 전 직접 정리</text>
+<rect x="418" y="154" width="312" height="54" rx="9" stroke="#eed4cf" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="432" y="175" font-size="10" fill="#2b2722" font-weight="700" text-anchor="start">외부 etcd 데이터</text>
+<text x="432" y="194" font-size="9" fill="#c0584f" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">etcdctl del "" --prefix</text>
+<rect x="418" y="216" width="312" height="54" rx="9" stroke="#eed4cf" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="432" y="237" font-size="10" fill="#2b2722" font-weight="700" text-anchor="start">CNI 설정 · /etc/cni/net.d</text>
+<text x="432" y="256" font-size="9" fill="#c0584f" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">rm -rf /etc/cni/net.d</text>
+<rect x="418" y="278" width="312" height="54" rx="9" stroke="#eed4cf" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="432" y="299" font-size="10" fill="#2b2722" font-weight="700" text-anchor="start">네트워크 규칙 (iptables·nftables·IPVS)</text>
+<text x="432" y="318" font-size="9" fill="#c0584f" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kube-proxy --cleanup</text>
+<rect x="418" y="340" width="312" height="54" rx="9" stroke="#eed4cf" stroke-width="1.1" fill="#fcfbf9"/>
+<text x="432" y="361" font-size="10" fill="#2b2722" font-weight="700" text-anchor="start">$HOME/.kube/config (admin 자격 증명)</text>
+<text x="432" y="380" font-size="9" fill="#c0584f" font-weight="600" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">rm -rf $HOME/.kube</text>
+<text x="34" y="434" font-size="8.6" fill="#8a8076" font-weight="normal" text-anchor="start">reset는 '최선을 다하는(best effort)' 정리다. 오른쪽 항목은 남으니 노드 재사용 전 직접 정리한다. $HOME/.kube/config의 admin 자격 증명은 클러스터가 살아있으면 유효하게 남는다.</text>
+</svg>

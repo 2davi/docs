@@ -1,0 +1,52 @@
+<svg viewBox="0 0 780 448" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="754" height="422" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="34" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">join phase: 워커 vs 컨트롤 플레인 경로</text>
+<text x="34" y="70" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">워커 합류는 preflight·kubelet-start만, 나머지는 --control-plane 전용</text>
+<text x="108" y="112" font-size="11" fill="#6b6258" font-weight="600" text-anchor="start">페이즈 · 실행 순서</text>
+<text x="580" y="112" font-size="11" fill="#6b6258" font-weight="600" text-anchor="middle">워커</text>
+<text x="680" y="112" font-size="11" fill="#6b6258" font-weight="600" text-anchor="middle">CP</text>
+<line x1="84" y1="132" x2="84" y2="384" stroke="#da7756" stroke-width="2" marker-end="url(#aTerra)"/>
+<rect x="100" y="124" width="310" height="36" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="114" y="146.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">preflight</text>
+<circle cx="580" cy="142" r="4.5" fill="#da7756"/>
+<circle cx="680" cy="142" r="4.5" fill="#da7756"/>
+<rect x="100" y="170" width="310" height="36" rx="8" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="114" y="185" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">control-plane-prepare</text>
+<text x="114" y="200" font-size="8.5" fill="#6b6258" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">download-certs · certs · kubeconfig · control-plane</text>
+<line x1="573" y1="188" x2="587" y2="188" stroke="#8a8076" stroke-width="2.2"/>
+<circle cx="680" cy="188" r="4.5" fill="#da7756"/>
+<rect x="100" y="216" width="310" height="36" rx="8" stroke="#e2dcd2" stroke-width="1.2" fill="#fcfbf9"/>
+<text x="114" y="238.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">kubelet-start</text>
+<circle cx="580" cy="234" r="4.5" fill="#da7756"/>
+<circle cx="680" cy="234" r="4.5" fill="#da7756"/>
+<rect x="100" y="262" width="310" height="36" rx="8" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="114" y="284.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">etcd-join</text>
+<line x1="573" y1="280" x2="587" y2="280" stroke="#8a8076" stroke-width="2.2"/>
+<circle cx="680" cy="280" r="4.5" fill="#da7756"/>
+<rect x="100" y="308" width="310" height="36" rx="8" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="114" y="323" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">control-plane-join</text>
+<text x="114" y="338" font-size="8.5" fill="#6b6258" font-weight="500" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">mark-control-plane</text>
+<line x1="573" y1="326" x2="587" y2="326" stroke="#8a8076" stroke-width="2.2"/>
+<circle cx="680" cy="326" r="4.5" fill="#da7756"/>
+<rect x="100" y="354" width="310" height="36" rx="8" stroke="#da7756" stroke-width="1.7" fill="#fcfbf9"/>
+<text x="114" y="376.5" font-size="11.5" fill="#2b2722" font-weight="700" text-anchor="start" font-family="'D2Coding', 'D2Coding ligature', 'DejaVu Sans Mono', monospace">wait-control-plane</text>
+<line x1="573" y1="372" x2="587" y2="372" stroke="#8a8076" stroke-width="2.2"/>
+<circle cx="680" cy="372" r="4.5" fill="#da7756"/>
+<text x="100" y="410" font-size="9" fill="#8a8076" font-weight="500" text-anchor="start">●  실행       —  실행 안 함 (--control-plane 전용, 테두리 강조)</text>
+<text x="100" y="428" font-size="8.6" fill="#8a8076" font-weight="normal" text-anchor="start">워커 노드 = CP 경로에서 control-plane-prepare·etcd-join·control-plane-join·wait-control-plane를 뺀 것.</text>
+</svg>

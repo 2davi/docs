@@ -1,0 +1,60 @@
+<svg viewBox="0 0 720 560" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="694" height="534" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">복호화 키 회전 순서</text>
+<text x="36" y="71" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">새 키는 '읽기 가능' 상태를 거쳐야 '쓰기 사용'으로 올라간다</text>
+<rect x="40" y="92" width="640" height="60" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="58" y="118" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="start">① 초기 상태</text>
+<text x="58" y="138" font-size="9.8" fill="#6b6258" font-weight="normal" text-anchor="start">옛 키 하나로 암호화·복호화</text>
+<rect x="316" y="106" width="168" height="32" rx="7" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="400" y="126" font-size="10.3" fill="#8a8076" font-weight="600" text-anchor="middle">새 키 · 없음</text>
+<rect x="500" y="106" width="172" height="32" rx="7" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="586" y="126" font-size="10.3" fill="#3f8e70" font-weight="600" text-anchor="middle">옛 키 · 1번째 · 암호화</text>
+<line x1="360" y1="154" x2="360" y2="166" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<text x="360" y="180" font-size="9.6" fill="#6b6258" font-weight="normal" text-anchor="middle">새 키를 목록 2번째 항목으로 추가</text>
+<text x="360" y="193" font-size="9.6" fill="#6b6258" font-weight="normal" text-anchor="middle">→ 전 apiserver 재시작 → 새 키 백업</text>
+<rect x="40" y="200" width="640" height="60" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="58" y="226" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="start">② 읽기 대비</text>
+<text x="58" y="246" font-size="9.8" fill="#6b6258" font-weight="normal" text-anchor="start">모든 서버가 새 키를 복호화할 수 있게 됨</text>
+<rect x="316" y="214" width="168" height="32" rx="7" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="400" y="234" font-size="10.3" fill="#6b6258" font-weight="600" text-anchor="middle">새 키 · 2번째 · 복호화만</text>
+<rect x="500" y="214" width="172" height="32" rx="7" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="586" y="234" font-size="10.3" fill="#3f8e70" font-weight="600" text-anchor="middle">옛 키 · 1번째 · 암호화</text>
+<line x1="360" y1="262" x2="360" y2="274" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<text x="360" y="288" font-size="9.6" fill="#6b6258" font-weight="normal" text-anchor="middle">새 키를 목록 1번째 항목으로 승격</text>
+<text x="360" y="301" font-size="9.6" fill="#6b6258" font-weight="normal" text-anchor="middle">→ 전 apiserver 재시작</text>
+<rect x="40" y="308" width="640" height="60" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="58" y="334" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="start">③ 쓰기 전환</text>
+<text x="58" y="354" font-size="9.8" fill="#6b6258" font-weight="normal" text-anchor="start">새로 기록되는 리소스는 새 키로 암호화</text>
+<rect x="316" y="322" width="168" height="32" rx="7" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="400" y="342" font-size="10.3" fill="#3f8e70" font-weight="600" text-anchor="middle">새 키 · 1번째 · 암호화</text>
+<rect x="500" y="322" width="172" height="32" rx="7" stroke="#e2dcd2" stroke-width="1.2" fill="#f1ede6"/>
+<text x="586" y="342" font-size="10.3" fill="#6b6258" font-weight="600" text-anchor="middle">옛 키 · 2번째 · 복호화만</text>
+<line x1="360" y1="370" x2="360" y2="382" stroke="#da7756" stroke-width="1.8" marker-end="url(#aTerra)"/>
+<text x="360" y="396" font-size="9.6" fill="#6b6258" font-weight="normal" text-anchor="middle">replace로 기존 데이터 전량 재암호화</text>
+<text x="360" y="409" font-size="9.6" fill="#6b6258" font-weight="normal" text-anchor="middle">→ 구성에서 옛 키 제거</text>
+<rect x="40" y="416" width="640" height="60" rx="10" stroke="#e2dcd2" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="58" y="442" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="start">④ 완료</text>
+<text x="58" y="462" font-size="9.8" fill="#6b6258" font-weight="normal" text-anchor="start">기존 데이터까지 전부 새 키로 저장</text>
+<rect x="316" y="430" width="168" height="32" rx="7" stroke="#cfe6da" stroke-width="1.2" fill="#e8f3ee"/>
+<text x="400" y="450" font-size="10.3" fill="#3f8e70" font-weight="600" text-anchor="middle">새 키 · 단독 · 암호화</text>
+<rect x="500" y="430" width="172" height="32" rx="7" stroke="#eed4cf" stroke-width="1.2" fill="#f8ebe8"/>
+<text x="586" y="450" font-size="10.3" fill="#c0584f" font-weight="600" text-anchor="middle">옛 키 · 제거됨</text>
+<line x1="40" y1="486" x2="680" y2="486" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="40" y="508" font-size="10.8" fill="#da7756" font-weight="600" text-anchor="start">순서가 핵심이다. 새 키를 '복호화 가능(2번째)'으로 먼저 깔지 않고 바로 암호화에 쓰면,</text>
+<text x="40" y="526" font-size="10.8" fill="#da7756" font-weight="600" text-anchor="start">아직 새 키를 모르는 서버가 그 데이터를 복호화하지 못해 접근 오류가 난다.</text>
+</svg>

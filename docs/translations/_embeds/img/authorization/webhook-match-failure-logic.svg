@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 450" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="734" height="424" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">웹훅 matchConditions 평가와 실패 정책</text>
+<text x="36" y="71" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">조건 평가 결과에 따라 호출·건너뜀·거부가 갈린다</text>
+<rect x="288" y="96" width="184" height="46" rx="10" stroke="#da7756" stroke-width="1.6" fill="#fcfbf9"/>
+<text x="380" y="124" font-size="12" fill="#da7756" font-weight="700" text-anchor="middle">matchConditions 평가</text>
+<rect x="40" y="172" width="220" height="64" rx="10" stroke="#e2dcd2" stroke-width="1.0" fill="#f1ede6"/>
+<text x="150.0" y="197" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">조건 하나라도 FALSE</text>
+<text x="150.0" y="216" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="middle">→ 웹훅 건너뜀 (skip)</text>
+<rect x="290" y="172" width="180" height="64" rx="10" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="380.0" y="197" font-size="11" fill="#3f8e70" font-weight="600" text-anchor="middle">조건 모두 TRUE</text>
+<text x="380.0" y="216" font-size="10" fill="#3f8e70" font-weight="normal" text-anchor="middle">→ 웹훅 호출 (call)</text>
+<rect x="500" y="172" width="220" height="64" rx="10" stroke="#e2dcd2" stroke-width="1.0" fill="#f1ede6"/>
+<text x="610.0" y="197" font-size="10.5" fill="#2b2722" font-weight="600" text-anchor="middle">FALSE 없이 ERROR 발생</text>
+<text x="610.0" y="216" font-size="10" fill="#da7756" font-weight="normal" text-anchor="middle">→ failurePolicy에 따름</text>
+<line x1="380" y1="142" x2="150" y2="172" stroke="#6b6258" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="380" y1="142" x2="380" y2="172" stroke="#6b6258" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="380" y1="142" x2="610" y2="172" stroke="#6b6258" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="610" y1="236" x2="610" y2="286" stroke="#da7756" stroke-width="1.5" marker-end="url(#aTerra)"/>
+<line x1="36" y1="264" x2="724" y2="264" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="36" y="290" font-size="12" fill="#da7756" font-weight="700" text-anchor="start">ERROR 발생 시 failurePolicy 분기</text>
+<rect x="36" y="302" width="338" height="68" rx="10" stroke="#eed4cf" stroke-width="1.0" fill="#f8ebe8"/>
+<text x="56" y="330" font-size="12.5" fill="#c0584f" font-weight="700" text-anchor="start">failurePolicy: Deny</text>
+<text x="56" y="352" font-size="10" fill="#c0584f" font-weight="normal" text-anchor="start">웹훅이 요청을 거부 (무의견 아님)</text>
+<rect x="386" y="302" width="338" height="68" rx="10" stroke="#e2dcd2" stroke-width="1.0" fill="#f1ede6"/>
+<text x="406" y="330" font-size="12.5" fill="#2b2722" font-weight="700" text-anchor="start">failurePolicy: NoOpinion</text>
+<text x="406" y="352" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="start">오류 무시, 웹훅 건너뜀 → 다음 인가자로</text>
+<text x="36" y="400" font-size="10" fill="#6b6258" font-weight="normal" text-anchor="start">matchConditions가 비어 있으면 모든 요청이 웹훅으로 전달된다 (최대 64개).</text>
+</svg>

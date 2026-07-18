@@ -1,0 +1,59 @@
+<svg viewBox="0 0 784 440" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard Variable', Pretendard, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">
+<defs>
+  <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#000000" flood-opacity="0.10"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#6b6258"/></marker>
+  <marker id="arrowS" markerWidth="10" markerHeight="10" refX="0.5" refY="4" orient="auto">
+    <path d="M8,0 L0,4 L8,8 Z" fill="#6b6258"/></marker>
+  <marker id="aAllow" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#3f8e70"/></marker>
+  <marker id="aDeny" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#c0584f"/></marker>
+  <marker id="aTerra" markerWidth="10" markerHeight="10" refX="7.5" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 Z" fill="#da7756"/></marker>
+</defs>
+<rect x="13" y="13" width="758" height="414" rx="16" stroke="#e2dcd2" stroke-width="1.5" fill="#fcfbf9" filter="url(#soft)"/>
+<text x="36" y="50" font-size="18.5" fill="#2b2722" font-weight="700" text-anchor="start">인가 설정: 구성 파일 vs 커맨드라인</text>
+<text x="36" y="71" font-size="12.5" fill="#6b6258" font-weight="normal" text-anchor="start">둘은 상호 배타이며, 고급 기능은 구성 파일 전용이다</text>
+<rect x="36" y="92" width="712" height="40" rx="8" stroke="#da7756" stroke-width="1.4" fill="#fcfbf9"/>
+<text x="392" y="116" font-size="10" fill="#da7756" font-weight="600" text-anchor="middle">상호 배타: --authorization-config 와 --authorization-mode 를 동시에 지정하면 API 서버가 시작 중 오류로 종료</text>
+<text x="52" y="169" font-size="11" fill="#6b6258" font-weight="700" text-anchor="start">기능</text>
+<rect x="304" y="146" width="240" height="36" rx="7" stroke="#da7756" stroke-width="1.6" fill="#fcfbf9"/>
+<text x="424" y="169" font-size="11.5" fill="#da7756" font-weight="700" text-anchor="middle">구성 파일</text>
+<rect x="548" y="146" width="200" height="36" rx="7" stroke="#e2dcd2" stroke-width="1.0" fill="#f1ede6"/>
+<text x="648" y="169" font-size="11.5" fill="#6b6258" font-weight="700" text-anchor="middle">커맨드라인</text>
+<line x1="40" y1="185" x2="748" y2="185" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="52" y="210" font-size="10.5" fill="#2b2722" font-weight="normal" text-anchor="start">다중 웹훅</text>
+<rect x="382" y="192" width="84" height="26" rx="13" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="424" y="209" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">지원</text>
+<rect x="606" y="192" width="84" height="26" rx="13" stroke="#eed4cf" stroke-width="1.0" fill="#f8ebe8"/>
+<text x="648" y="209" font-size="10.5" fill="#c0584f" font-weight="600" text-anchor="middle">불가</text>
+<line x1="40" y1="225" x2="748" y2="225" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="52" y="250" font-size="10.5" fill="#2b2722" font-weight="normal" text-anchor="start">웹훅 실패 정책 (failurePolicy)</text>
+<rect x="382" y="232" width="84" height="26" rx="13" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="424" y="249" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">지원</text>
+<rect x="606" y="232" width="84" height="26" rx="13" stroke="#eed4cf" stroke-width="1.0" fill="#f8ebe8"/>
+<text x="648" y="249" font-size="10.5" fill="#c0584f" font-weight="600" text-anchor="middle">불가</text>
+<line x1="40" y1="265" x2="748" y2="265" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="52" y="290" font-size="10.5" fill="#2b2722" font-weight="normal" text-anchor="start">CEL 사전 필터 (matchConditions)</text>
+<rect x="382" y="272" width="84" height="26" rx="13" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="424" y="289" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">지원</text>
+<rect x="606" y="272" width="84" height="26" rx="13" stroke="#eed4cf" stroke-width="1.0" fill="#f8ebe8"/>
+<text x="648" y="289" font-size="10.5" fill="#c0584f" font-weight="600" text-anchor="middle">불가</text>
+<line x1="40" y1="305" x2="748" y2="305" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="52" y="330" font-size="10.5" fill="#2b2722" font-weight="normal" text-anchor="start">무중단 자동 리로드</text>
+<rect x="382" y="312" width="84" height="26" rx="13" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="424" y="329" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">지원</text>
+<rect x="606" y="312" width="84" height="26" rx="13" stroke="#eed4cf" stroke-width="1.0" fill="#f8ebe8"/>
+<text x="648" y="329" font-size="10.5" fill="#c0584f" font-weight="600" text-anchor="middle">불가</text>
+<line x1="40" y1="345" x2="748" y2="345" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="52" y="370" font-size="10.5" fill="#2b2722" font-weight="normal" text-anchor="start">여러 모드 조합</text>
+<rect x="382" y="352" width="84" height="26" rx="13" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="424" y="369" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">지원</text>
+<rect x="606" y="352" width="84" height="26" rx="13" stroke="#cfe6da" stroke-width="1.0" fill="#e8f3ee"/>
+<text x="648" y="369" font-size="10.5" fill="#3f8e70" font-weight="600" text-anchor="middle">지원</text>
+<line x1="36" y1="388" x2="748" y2="388" stroke="#e2dcd2" stroke-width="1.0"/>
+<text x="36" y="410" font-size="10.5" fill="#da7756" font-weight="600" text-anchor="start">고급 기능(다중 웹훅·실패 정책·CEL)이 필요하면 구성 파일을, 단순 조합만 필요하면 플래그를 쓴다. 플래그는 나열 순서가 우선순위다.</text>
+</svg>
