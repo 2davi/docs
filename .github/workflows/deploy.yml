@@ -38,7 +38,7 @@ jobs:
         run: npm ci
 
       - name: Build VitePress
-        run: npm run docs:build
+        run: npm run verify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

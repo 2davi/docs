@@ -10,7 +10,9 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "typecheck": "npx vue-tsc --noEmit"
+    "typecheck": "npx vue-tsc --noEmit",
+    "prepare": "husky",
+    "verify": "npm run typecheck && npm run docs:build"
   },
   "repository": {
     "type": "git",
@@ -27,12 +29,13 @@
   "devDependencies": {
     "@types/node": "^25.5.2",
     "gray-matter": "^4.0.3",
+    "husky": "^9.1.7",
     "mermaid": "^11.16.0",
     "typescript": "^6.0.3",
     "vitepress": "^1.x",
     "vitepress-plugin-mermaid": "^2.0.17",
     "vitepress-sidebar": "^1.33.1",
-    "vue-tsc": "^3.3.6"
+    "vue-tsc": "^3.3.7"
   },
   "dependencies": {
     "markdown-it": "^14.1.1",
