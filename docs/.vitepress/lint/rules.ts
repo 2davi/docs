@@ -62,9 +62,14 @@ const isDecisionRecord = (doc: DocFile) => sectionOf(doc) === 'decisions' && !do
 const isTranslation = (doc: DocFile) => sectionOf(doc) === 'translations' && !doc.path.endsWith('index.md')
 
 // category가 폴더 경로에서 섹션명을 뺀 값과 일치해야 하는 섹션.
-// ADR-0004 §2.2: notes 계열은 섹션명을 빼고(linux/proxmox), decisions·deep-dive는 넣는다(decisions/docs).
-// notes 계열은 ADR-0004 §2.2에서 category를 폴더 경로와 일치시키도록 규정했으나, linux/proxmox 카테고리는 개정된 규칙을 반영하지 못하고 있다.
-// 두 관례가 공존하므로 "접두사를 빼는" 섹션만 여기 등재하고, 이 목록에 없는 섹션은 category-folder-mismatch 검사를 건너뛴다.
+// ADR-0004 §2.2: 이 규칙은 category를 폴더 경로에 일치시킨다(예: kubernetes/node-runtime).
+//
+// notes는 이 목록에서 제외한다. 현재 notes/linux/proxmox/ 이하의 시리즈 문서군은
+// 숫자 접두사 폴더(01-setup 등)로 순서를 갖는 시리즈물이며, notes(단건 노트)가 아니라
+// deep-dive(시리즈·프로젝트 학습 기록) 대상이다. 섹션 이관이 예정된 부채이므로
+// (별도 ADR 필요) 그때까지 notes를 검사에서 제외한다. 이관이 끝나면 notes에는
+// 단건 노트만 남고, category-folder 일치를 notes에도 적용할 수 있다.
+//
 // 전 섹션 통일(ADR-0004 §4.3 유예)이 끝나면 이 상수를 제거하고 규칙을 일반화한다.
 const CATEGORY_PREFIXED_SECTIONS = new Set<string>(['translations'])
 

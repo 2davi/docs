@@ -3,7 +3,7 @@
 id: ~                     # 결정 기록이 아니므로 없음
 title: "문서 거버넌스 작업 관리 (WBS)"
 date: 2026-07-08
-lastmod: 2026-07-08
+lastmod: 2026-07-25
 author: "Davi"
 description: "docs 레포에서 세션마다 흩어져 진행된 결정 기록·구현·정합성 검수 작업을 작업 분해 구조(WBS)로 총괄하고, 관련 결정 기록과 커밋 이력을 한 자리에서 추적한다."
 slug: "docs-governance-wbs"
@@ -81,6 +81,10 @@ ai_assistance:
 7. **백로그.** 윈도우 인프라(WP-10)와 RDSM v2(WP-11)는 위가 정리된 다음에 착수한다.
 
 ## 작업 묶음 상세 {#work-packages}
+
+### 추가(2026-07-25)
+
+proxmox notes → deep-dive 이관 (ADR 필요, notes/deep-dive 경계 명문화 포함)
 
 ### WP-1 decisions 섹션 인프라 {#wp-1}
 
