@@ -2,6 +2,10 @@
 
 > ## 개정 이력
 >
+> - **2026-07-25**
+>   - `ai_assistance`의 `review` 필드 라벨 수정 → reviewed 폐기, verified | reviewing | unreviewed 삼단 구별로 확정.
+>   - 미반영된 컨벤션 문구 및 주석 수정.
+>
 > - **2026-07-06**
 >   - `decisions` 섹션 신설 → **§5** (id 단일 진실 원천, doc_type 명시 의무, decision_status 어휘, docLint 집행). 근거: DOCS-ADR-0002
 >   - 기존 §5 `ai_assistance` → **§6** 이동 (내용 무변경, 본문 참조 3곳 갱신)
@@ -55,7 +59,7 @@ tags: []                  # 소문자·하이픈 배열
 # ── 정렬 ─────────────────────────────────────────────
 order: 9999               # 섹션 내 수동 순서 (낮을수록 위)
 series: ~                 # 시리즈명 (없으면 ~)
-series_order: ~           # 시리즈 내 순서 (없으면 ~)
+series_order: ~           # 시리즈 내 순번으로 1부터. (order는 카테고리) 시리즈 간 순위를 넣지 않는다. (시리즈 끼리는 sortToc가 date에서 파생하여 빌드)
 
 # ── 상태 ─────────────────────────────────────────────
 status: "active"          # active | wip | archived
@@ -71,6 +75,10 @@ version: ~                # 대상 기술 버전 (notes에서 주로 사용)
 ai_assistance: ~          # AI 미사용 시 ~ 또는 생략
 ---
 ```
+
+### 0.1 `series` 와 `category`
+
+**시리즈와 카테고리는 별도의 축이다.** 한 카테고리에 복수 시리즈 및 낱개 문서가 공존한다. 시리즈 간 순서는 한 시리즈에 속한 문서들 중 `date` 필드의 최소값으로 오름차순 파생하며, 동일 시작일을 가진 시리즈끼리는 이름 오름차순으로 순서를 정한다. 낱개 문서는 최하단. 해당 알고리즘은 `docSort.ts`에서 구현한다.
 
 ---
 
@@ -340,7 +348,7 @@ ai_assistance:
   model: ["claude-opus-4.8"]
 
   # [축 4] 인간 검증 수준 — E-E-A-T 핵심
-  review: "verified"         # verified | reviewed | reviewing | unreviewed | pending
+  review: "verified"         # verified | reviewing | unreviewed
 
   # [선택] 모델 시점 — 모델명이 시점에 따라 달라지므로 추적용
   date: ~                    # 예: 2026-06-26 (생략 시 문서 date 따름)
@@ -348,23 +356,22 @@ ai_assistance:
 
 **축별 값 정의:**
 
-| 축           | 값            | 의미                                               |
-| ------------ | ------------- | -------------------------------------------------- |
-| `authorship` | `human`       | 본문 전부 직접 작성. AI는 메타데이터·리뷰만        |
-|              | `ai-drafted`  | 학습 후 AI가 초안 생성 → 직접 편집·재구성·보강     |
-|              | `co-authored` | 섹션별로 인간·AI 본문이 혼재                       |
-|              | `none`        | AI 전혀 미사용 (이 경우 블록 자체를 생략해도 됨)   |
-| `role`       | `drafting`    | 본문 초안 생성                                     |
-|              | `editing`     | 문장 다듬기·교정                                   |
-|              | `research`    | 자료 조사·개념 정리                                |
-|              | `review`      | 사실 정정·누락 지적                                |
-|              | `metadata`    | description·tags 등 메타데이터만                   |
-|              | `translation` | 번역 보조                                          |
-|              | `diagramming` | 다이어그램 생성 보조 (`image-rules.md` §D 참조)    |
-| `review`     | `verified`    | 전 내용을 직접 사실검증·재작성. **게시 기본 요건** |
-|              | `reviewed`    | 통독·수정했으나 일부 인용 잔존                     |
-|              | `reviewing`   | 검증 작업 진행 중.                                 |
-|              | `unreviewed`  | 미검증. **게시 비권장**                            |
+| 축           | 값            | 의미                                             |
+| ------------ | ------------- | ------------------------------------------------ |
+| `authorship` | `human`       | 본문 전부 직접 작성. AI는 메타데이터·리뷰만      |
+|              | `ai-drafted`  | 학습 후 AI가 초안 생성 → 직접 편집·재구성·보강   |
+|              | `co-authored` | 섹션별로 인간·AI 본문이 혼재                     |
+|              | `none`        | AI 전혀 미사용 (이 경우 블록 자체를 생략해도 됨) |
+| `role`       | `drafting`    | 본문 초안 생성                                   |
+|              | `editing`     | 문장 다듬기·교정                                 |
+|              | `research`    | 자료 조사·개념 정리                              |
+|              | `review`      | 사실 정정·누락 지적                              |
+|              | `metadata`    | description·tags 등 메타데이터만                 |
+|              | `translation` | 번역 보조                                        |
+|              | `diagramming` | 다이어그램 생성 보조 (`image-rules.md` §D 참조)  |
+| `review`     | `verified`    | 전 내용을 직접 사실검증·재작성. **게시 허용**    |
+|              | `reviewing`   | 검증 작업 진행 중. **조건부 발행**               |
+|              | `unreviewed`  | 미검증. **게시 차단**                            |
 
 ### 6.3 워크플로우 → 값 매핑 {#workflow-mapping}
 
