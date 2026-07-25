@@ -11,7 +11,7 @@ translator: "Davi"
 original_url: "https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-token/"
 original_lang: "en"
 translation_lang: "ko"
-translation_fidelity: "restructured"
+translation_fidelity: "faithful"
 
 license: "CC BY 4.0"
 license_url: "https://creativecommons.org/licenses/by/4.0/"
@@ -25,7 +25,7 @@ tags: [kubernetes, kubeadm, token]
 
 order: 120
 series: "Kube ADM"
-series_order: 100
+series_order: 10
 
 status: "active"
 toc: true
@@ -35,14 +35,16 @@ draft: false
 ai_assistance:
   authorship: "ai-drafted"
   role: [translation, research]
-  model: ["Claude Opus 4.8"]
+  model: ["claude-opus-4.8"]
   review: "reviewing"
 ---
 
 # kubeadm token {#kubeadm-token}
 
 > **원문:** [kubeadm token](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-token/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·적용)가 추가되었으며, 하위 명령·플래그는 원문에서 누락 없이 옮겼다.
+>
+> 이 문서는 원문의 절 순서와 계층을 보존해 옮기고 역자 주를 더했다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
+>
 > 원문 시점 2024-08-17 · 번역 2026-07-09
 
 ## 결론 {#conclusion}
@@ -131,10 +133,12 @@ ai_assistance:
 - 보안상 토큰 시크릿(뒷부분 16자)은 비밀이다. `kubeadm token list`로 노출된 토큰과 TTL을 점검하고, 불필요한 토큰은 `kubeadm token delete`로 지운다.
 - 시리즈 연결: `kubeadm init phase bootstrap-token`이 초기 토큰을 만들고, `kubeadm join`의 `--token`·`--discovery-token`이 이 토큰을 소비한다. join 문서의 양방향 신뢰 다이어그램이 그 흐름 전체다.
 
-<!-- REVIEW-REQUIRED: 아래 경험 슬롯을 실제 실습 결과로 채우거나 블록째 삭제할 것.
-     채우지 않은 채 draft를 해제하지 않는다. -->
+<!-- REVIEW-REQUIRED · 경험 슬롯
+     직접 실습·검증한 결과가 있으면 아래 블록의 주석을 풀고 1인칭으로 채운다.
+     없으면 이 주석 블록째로 삭제한다. 채우지 않은 채 draft를 해제하지 않는다.
 > **역자 주 · 적용(경험)**
-> (직접 실습·검증한 결과가 있을 때만 1인칭으로 기록)
+> <1차 경험을 1인칭으로>
+-->
 
 ## 참고 출처 {#references}
 

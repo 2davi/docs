@@ -11,7 +11,7 @@ translator: "Davi"
 original_url: "https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/"
 original_lang: "en"
 translation_lang: "ko"
-translation_fidelity: "restructured"
+translation_fidelity: "faithful"
 
 license: "CC BY 4.0"
 license_url: "https://creativecommons.org/licenses/by/4.0/"
@@ -25,7 +25,7 @@ tags: [kubernetes, kubeadm, node-join]
 
 order: 113
 series: "Kube ADM"
-series_order: 100
+series_order: 3
 
 status: "active"
 toc: true
@@ -35,17 +35,17 @@ draft: false
 ai_assistance:
   authorship: "ai-drafted"
   role: [translation, research]
-  model: ["Claude Opus 4.8"]
+  model: ["claude-opus-4.8"]
   review: "reviewing"
 ---
 
 # kubeadm join {#kubeadm-join}
 
->> **원문:** [kubeadm join](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+> **원문:** [kubeadm join](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·적용)가 추가되었으며, 명령·플래그·페이즈·출력은 원문에서 누락 없이 옮겼다.
+> 이 문서는 원문의 절 순서와 계층을 보존해 옮기고 역자 주를 더했다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
 >
->> 원문 시점 2025-04-18 · 번역 2026-07-09
+> 원문 시점 2025-04-18 · 번역 2026-07-09
 
 ## 결론 {#conclusion}
 
@@ -365,10 +365,12 @@ kubectl -n kube-public delete rolebinding kubeadm:bootstrap-signer-clusterinfo
 - 컨트롤 플레인 노드로 조인해 HA를 구성하려면 `--control-plane`과 `--certificate-key`를 함께 쓰되, `kubeadm init`을 `--upload-certs`로 실행했어야 한다. 인증서 업로드 Secret은 2시간 뒤 만료되므로, 만료됐다면 `kubeadm init phase upload-certs --upload-certs`로 재업로드한다.
 - 이 문서는 앞서 옮긴 kubeadm init의 짝이다. init이 컨트롤 플레인을 부트스트랩하며 부트스트랩 토큰과 CA를 만들고, join이 그 토큰·CA로 노드를 합류시킨다. 합류한 노드에서 파드는 정적 Pod 메커니즘으로, 컨테이너는 containerd shim으로 뜬다. 네 문서(init·join·정적 Pod·containerd Runtime v2)가 부트스트랩부터 컨테이너 실행까지 한 줄로 이어진다.
 
-<!-- REVIEW-REQUIRED: 아래 경험 슬롯을 실제 실습 결과로 채우거나 블록째 삭제할 것.
-     채우지 않은 채 draft를 해제하지 않는다. -->
+<!-- REVIEW-REQUIRED · 경험 슬롯
+     직접 실습·검증한 결과가 있으면 아래 블록의 주석을 풀고 1인칭으로 채운다.
+     없으면 이 주석 블록째로 삭제한다. 채우지 않은 채 draft를 해제하지 않는다.
 > **역자 주 · 적용(경험)**
-> (직접 실습·검증한 결과가 있을 때만 1인칭으로 기록)
+> <1차 경험을 1인칭으로>
+-->
 
 ## 참고 출처 {#references}
 

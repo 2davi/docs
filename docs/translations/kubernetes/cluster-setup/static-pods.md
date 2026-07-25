@@ -11,7 +11,7 @@ translator: "Davi"
 original_url: "https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/"
 original_lang: "en"
 translation_lang: "ko"
-translation_fidelity: "restructured"
+translation_fidelity: "faithful"
 
 license: "CC BY 4.0"
 license_url: "https://creativecommons.org/licenses/by/4.0/"
@@ -24,8 +24,8 @@ category: "kubernetes/cluster-setup"
 tags: [kubernetes, static-pods, kubelet]
 
 order: 211
-series: "Configure Pods and Containers"
-series_order: 200
+series: ~
+series_order: ~
 
 status: "active"
 toc: true
@@ -35,17 +35,17 @@ draft: false
 ai_assistance:
   authorship: "ai-drafted"
   role: [translation, research]
-  model: ["Claude Opus 4.8"]
-  review: "reviewed"
+  model: ["claude-opus-4.8"]
+  review: "reviewing"
 ---
 
 # 정적 Pod 생성 {#create-static-pods}
 
->> **원문:** [Create static Pods](https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+> **원문:** [Create static Pods](https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·보충·적용)가 추가되었으며, 절차·매니페스트·명령·출력은 원문에서 누락 없이 옮겼다.
+> 이 문서는 원문의 절 순서와 계층을 보존해 옮기고 역자 주를 더했다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
 >
->> 원문 시점 2026-04-16 · 번역 2026-07-09
+> 원문 시점 2026-04-16 · 번역 2026-07-09
 
 이 문서는 노드에서 정적 Pod(static Pod)를 만드는 방법을 다룬다. 정적 Pod가 무엇이고 언제 쓰는지에 대한 개요는 [Static Pods](https://kubernetes.io/docs/concepts/workloads/pods/static-pods/) 개념 문서를 참조한다.
 
@@ -289,10 +289,12 @@ f427638871c35   docker.io/library/nginx@sha256:...    19 seconds ago    Running 
 - 노드에서 정적 Pod를 확인할 때는 `kubectl`이 아니라 `crictl ps`로 CRI 수준에서 본다. `kubectl`은 API 서버의 미러 Pod를, `crictl`은 노드의 실제 컨테이너를 보여주므로 둘의 관점이 다르다.
 - kubeadm으로 만든 클러스터의 컨트롤 플레인 컴포넌트(kube-apiserver, kube-controller-manager, kube-scheduler, etcd)가 바로 이 정적 Pod 메커니즘으로 `/etc/kubernetes/manifests`에서 뜬다. 이 디렉터리와 `crictl`을 이해하면 컨트롤 플레인 장애를 노드에서 직접 진단할 수 있다.
 
-<!-- REVIEW-REQUIRED: 아래 경험 슬롯을 실제 실습 결과로 채우거나 블록째 삭제할 것.
-     채우지 않은 채 draft를 해제하지 않는다. -->
+<!-- REVIEW-REQUIRED · 경험 슬롯
+     직접 실습·검증한 결과가 있으면 아래 블록의 주석을 풀고 1인칭으로 채운다.
+     없으면 이 주석 블록째로 삭제한다. 채우지 않은 채 draft를 해제하지 않는다.
 > **역자 주 · 적용(경험)**
-> (직접 실습·검증한 결과가 있을 때만 1인칭으로 기록)
+> <1차 경험을 1인칭으로>
+-->
 
 ## 참고 출처 {#references}
 

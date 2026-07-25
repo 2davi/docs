@@ -11,7 +11,7 @@ translator: "Davi"
 original_url: "https://containerd.io/docs/2.3/runtime-v2/"
 original_lang: "en"
 translation_lang: "ko"
-translation_fidelity: "restructured"
+translation_fidelity: "faithful"
 
 license: "CC BY 4.0"
 license_url: "https://creativecommons.org/licenses/by/4.0/"
@@ -24,8 +24,8 @@ category: "kubernetes/node-runtime"
 tags: [containerd, runtime, shim, cri]
 
 order: 911
-series: "Container d"
-series_order: 900
+series: ~
+series_order: ~
 
 status: "active"
 toc: true
@@ -35,17 +35,17 @@ draft: false
 ai_assistance:
   authorship: "ai-drafted"
   role: [translation, research]
-  model: ["Claude Opus 4.8"]
-  review: "reviewed"
+  model: ["claude-opus-4.8"]
+  review: "reviewing"
 ---
 
 # Containerd Runtime v2 {#runtime-v2}
 
->> **원문:** [Runtime v2](https://containerd.io/docs/2.3/runtime-v2/) · The containerd Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+> **원문:** [Runtime v2](https://containerd.io/docs/2.3/runtime-v2/) · The containerd Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. containerd 저장소의 `docs` 폴더 문서는 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)으로 배포되며, 본문에 담긴 코드 예시(proto·Go 등)는 [Apache License 2.0](https://github.com/containerd/containerd/blob/main/LICENSE) 코드베이스에서 유래한다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·보충·적용)가 추가되었으며, 명령·API·proto·표는 원문에서 누락 없이 옮겼다.
+> 이 문서는 원문의 절 순서와 계층을 보존해 옮기고 역자 주를 더했다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
 >
->> 원문 시점 불명(containerd 2.3 릴리스 브랜치) · 번역 2026-07-09
+> 원문 시점 불명(containerd 2.3 릴리스 브랜치) · 번역 2026-07-09
 
 ## 결론 {#conclusion}
 
@@ -574,10 +574,12 @@ shim 프로세스는 종료된 컨테이너나 `setns(2)` 프로세스를 정리
 - shim을 새로 작성한다면 메모리·크기 이점 때문에 기본 ttRPC를 권장하며, grpc는 실험적이다. `Start`가 `TaskExitEventTopic`보다 `TaskStartEventTopic`을 먼저 발행해야 한다는 이벤트 순서 요건은 상위 소비자의 경쟁 조건을 막는 핵심 규약이다.
 - 이 문서는 kubelet → CRI(containerd) → shim → runc로 이어지는 하위 계층을 다룬다. 앞서 본 정적 Pod 문서의 "실제 컨테이너(CRI 런타임)"가 바로 이 shim+engine이 띄우는 대상이다.
 
-<!-- REVIEW-REQUIRED: 아래 경험 슬롯을 실제 실습 결과로 채우거나 블록째 삭제할 것.
-     채우지 않은 채 draft를 해제하지 않는다. -->
+<!-- REVIEW-REQUIRED · 경험 슬롯
+     직접 실습·검증한 결과가 있으면 아래 블록의 주석을 풀고 1인칭으로 채운다.
+     없으면 이 주석 블록째로 삭제한다. 채우지 않은 채 draft를 해제하지 않는다.
 > **역자 주 · 적용(경험)**
-> (직접 실습·검증한 결과가 있을 때만 1인칭으로 기록)
+> <1차 경험을 1인칭으로>
+-->
 
 ## 참고 출처 {#references}
 

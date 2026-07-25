@@ -25,7 +25,7 @@ tags: [kubernetes, kubeadm, init, phase]
 
 order: 112
 series: "Kube ADM"
-series_order: 100
+series_order: 2
 
 status: "active"
 toc: true
@@ -35,17 +35,17 @@ draft: false
 ai_assistance:
   authorship: "ai-drafted"
   role: [translation, research]
-  model: ["Claude Opus 4.8"]
+  model: ["claude-opus-4.8"]
   review: "reviewing"
 ---
 
 # kubeadm init phase {#kubeadm-init-phase}
 
->> **원문:** [kubeadm init phase](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init-phase/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+> **원문:** [kubeadm init phase](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init-phase/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치, 역자 주(검증·적용), 그리고 분량 관리를 위한 재구성이 추가되었다. **재구성 방식:** 모든 하위 명령에 반복되는 플래그를 아래 [공통 플래그](#common-flags) 표에 한 번만 싣고, 각 하위 명령에서는 플래그 이름만 나열한다(고유 플래그는 그 자리에서 설명). 상속 플래그 `--rootfs`는 [상속 플래그](#inherited-options)에 한 번만 싣는다. 하위 명령·플래그 정보는 누락 없이 보존했다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더했다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
 >
->> 원문 시점 2025-12-16 · 번역 2026-07-09
+> 원문 시점 2025-12-16 · 번역 2026-07-09
 
 ## 결론 {#conclusion}
 
@@ -554,10 +554,12 @@ v1beta4 설정의 각 필드에 대한 자세한 내용은 [API 레퍼런스 페
 - `--dry-run`으로 각 페이즈가 만들 파일을 실제 생성 없이 확인한다. `certs` 하위 명령은 대상 파일이 이미 있으면 건너뛰므로, 특정 인증서만 재발급하려면 그 파일을 먼저 지운다.
 - 이 페이즈들이 앞서 옮긴 문서들의 핵심을 만든다. `upload-config kubeadm`이 캡스톤의 `kubeadm-config` ConfigMap을 쓰고, `bootstrap-token`이 join 문서의 양방향 신뢰 입력을 만들며, `etcd local`·`control-plane`이 정적 Pod 문서가 다루는 그 매니페스트를 `/etc/kubernetes/manifests`에 만든다. init phase는 시리즈 전체의 부품 목록인 셈이다.
 
-<!-- REVIEW-REQUIRED: 아래 경험 슬롯을 실제 실습 결과로 채우거나 블록째 삭제할 것.
-     채우지 않은 채 draft를 해제하지 않는다. -->
+<!-- REVIEW-REQUIRED · 경험 슬롯
+     직접 실습·검증한 결과가 있으면 아래 블록의 주석을 풀고 1인칭으로 채운다.
+     없으면 이 주석 블록째로 삭제한다. 채우지 않은 채 draft를 해제하지 않는다.
 > **역자 주 · 적용(경험)**
-> (직접 실습·검증한 결과가 있을 때만 1인칭으로 기록)
+> <1차 경험을 1인칭으로>
+-->
 
 ## 참고 출처 {#references}
 
