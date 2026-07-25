@@ -103,9 +103,11 @@ Vite 플러그인의 buildStart 훅에 장착한다. dev 서버 기동과 build 
 | error | section-folder-mismatch | docLint | section과 폴더의 불일치. 이관 완료로 warn에서 승격 | 본 문서 §1.2 |
 | error | redirect-integrity | redirects(buildEnd) | 새 주소의 실존, 옛 주소의 비생존 | 0002 §2.8 |
 | error | dead-links | vitepress(위임) | 내부 링크 유효성 | 0002 §2.8 |
+| error | review-unreviewed-published | docLint | 발행 문서의 review가 unreviewed | CDR-0002 §2.4 |
 | warn | draft-inventory | docLint | draft: true 문서 목록 | 본 문서 §1.1 |
 | warn | outside-loader-glob | docLint | 로더 glob 밖 마크다운 목록 | 본 문서 §1.2 |
 | warn | search-excluded | docLint | search: false 문서 목록. 인덱스 페이지는 면제 | 노출 감사 |
+| warn  | review-backlog              | docLint | review: reviewing 발행 문서 목록 | CDR-0002 §2.4 |
 
 ### 2.7 배치와 출력 계약 {#placement-output}
 

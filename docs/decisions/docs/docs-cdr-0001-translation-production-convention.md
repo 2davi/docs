@@ -31,7 +31,7 @@ ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
   model: ["claude-opus-4.8"]
-  review: "unreviewed"
+  review: "verified"
 ---
 
 # DOCS-CDR-0001: 번역 산출 규약과 저작권 고지 기준 {#docs-cdr-0001}

@@ -27,6 +27,13 @@ toc: true
 draft: false
 search: true
 
+ai_assistance:
+  authorship: "ai-drafted"
+  role: [drafting, research]
+  model: ["claude-opus-4.8"]
+  review: "verified"
+---
+
 # DOCS-CDR-0002: series_order 축 교정과 review 게이트 3단계 {#docs-cdr-0002}
 
 | 항목 | 내용 |
