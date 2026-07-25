@@ -1,10 +1,20 @@
-# Frontmatter Convention (2026-07-07) {#title}
+# Frontmatter Convention (2026-07-25) {#title}
 
 > ## 개정 이력
 >
 > - **2026-07-25**
 >   - `ai_assistance`의 `review` 필드 라벨 수정 → reviewed 폐기, verified | reviewing | unreviewed 삼단 구별로 확정.
->   - 미반영된 컨벤션 문구 및 주석 수정.
+>   - **§4 전면 개정** — 폴더 계층·`category` 파생·`order` 정렬·시리즈 축·출처 필드의 docLint 집행을
+>     반영. 예시를 실제 발행분 기준으로 교체. 근거: DOCS-ADR-0004 §2.1~§2.3·§2.6, DOCS-CDR-0001 §2.2~§2.3,
+>     DOCS-CDR-0002 §2.1~§2.2
+>   - **부록 A 정정** — `scope` 행 삭제(별도 필드를 두지 않기로 결정, DOCS-ADR-0002 §2.3),
+>     `decider` → `deciders` 철자, `period` 설명을 start/end 객체로, `ai_assistance` 참조 §5 → §6,
+>     `order`·`series` 적용 섹션에 translations 반영, translations 필드 목록에서 `canonical` 제외
+>   - **잔여 §5 참조 정정** — 설계 원칙 1, §0 템플릿 주석 2곳, §3 예시 주석 1곳이 `ai_assistance`를
+>     §5로 가리키고 있었다. 2026-07-06 이동의 미완 구간이다. 전부 §6으로 교정
+>   - **`comments` 필드 폐기** — 로더도 테마도 읽지 않는 미사용 필드. 템플릿에서 제거
+>   - **`order` 비교 범위 명시** — 카테고리(사이드바 그룹) 내 정렬임을 §0 주석·§4.2·부록 A에 반영.
+>     기존 §0 주석은 "섹션 내"로 적혀 있어 같은 블록의 `series_order` 주석과 어긋났다
 >
 > - **2026-07-06**
 >   - `decisions` 섹션 신설 → **§5** (id 단일 진실 원천, doc_type 명시 의무, decision_status 어휘, docLint 집행). 근거: DOCS-ADR-0002
@@ -27,7 +37,7 @@
 이 컨벤션은 다음 네 가지 규칙 위에 서 있다. 필드를 추가·수정할 때 항상 이 원칙으로 회귀한다.
 
 1. **한 필드 = 한 축(orthogonal axes).** 하나의 필드가 둘 이상의 독립 정보를 뭉뚱그리지 않는다.
-   서로 직교하는 정보는 별도 필드로 쪼갠다. (§5 `ai_assistance`가 이 원칙의 대표 사례)
+   서로 직교하는 정보는 별도 필드로 쪼갠다. (§6 `ai_assistance`가 이 원칙의 대표 사례)
 2. **`author`는 항상 사람.** 도구·자동화는 author가 될 수 없다. AI 관여는 별도 블록(`ai_assistance`)으로 표기한다.
    ([Google 권고](https://developers.google.com/search/blog/2023/02/google-search-and-ai-content):
    AI에게 author byline을 부여하는 것은 제작 과정을 알리는 좋은 방법이 아니다.)
@@ -47,7 +57,7 @@
 title: ""
 date: 2026-06-26          # 최초 작성일 (정렬·표시 기준)
 lastmod: 2026-06-26       # 최종 수정일
-author: "Davi"            # 항상 사람. 도구는 ai_assistance(§5)로 표기
+author: "Davi"            # 항상 사람. 도구는 ai_assistance(§6)로 표기
 description: ""           # 150~160자 권장 (검색 스니펫·OG description)
 slug: ""                  # kebab-case, URL 식별자
 
@@ -57,9 +67,9 @@ category: ""              # 소문자·하이픈. 하위 분류는 "parent/sub" 
 tags: []                  # 소문자·하이픈 배열
 
 # ── 정렬 ─────────────────────────────────────────────
-order: 9999               # 섹션 내 수동 순서 (낮을수록 위)
+order: 9999               # 카테고리(사이드바 그룹) 내 정렬 순서 (낮을수록 위)
 series: ~                 # 시리즈명 (없으면 ~)
-series_order: ~           # 시리즈 내 순번으로 1부터. (order는 카테고리) 시리즈 간 순위를 넣지 않는다. (시리즈 끼리는 sortToc가 date에서 파생하여 빌드)
+series_order: ~           # 시리즈 내 순번, 1부터. 시리즈 간 순위는 넣지 않는다(sortToc가 date에서 파생)
 
 # ── 상태 ─────────────────────────────────────────────
 status: "active"          # active | wip | archived
@@ -71,7 +81,7 @@ toc: true
 difficulty: ~             # beginner | intermediate | advanced
 version: ~                # 대상 기술 버전 (notes에서 주로 사용)
 
-# ── AI 활용 표기 (선택, §5 참조) ───────────────────────
+# ── AI 활용 표기 (선택, §6 참조) ───────────────────────
 ai_assistance: ~          # AI 미사용 시 ~ 또는 생략
 ---
 ```
@@ -201,7 +211,7 @@ order: 1
 toc: true
 draft: false
 
-# 학습 대화를 초안으로 받았다면 AI 활용 표기 (§5)
+# 학습 대화를 초안으로 받았다면 AI 활용 표기 (§6)
 ai_assistance:
   authorship: "ai-drafted"
   role: [drafting, research]
@@ -216,45 +226,88 @@ ai_assistance:
 
 ## 4. `translations/` 번역 아티클 {#sec-translations}
 
-**이 섹션이 다른 이유:** 콘텐츠 본문이 **타인의 저작물**이다. 따라서 출처(provenance)와 저작권 준수가 핵심 축이다 — 원문 식별, 원저자/번역자 구분, 원문 라이선스 표기, 그리고 SEO 중복 회피를 위한 `canonical` 지정이 필수다.
+**이 섹션이 다른 이유:** 콘텐츠 본문이 **타인의 저작물**이다. 따라서 출처(provenance)와 저작권 준수가 핵심 축이다. 원문 식별, 원저자와 번역자의 구분, 원문 라이선스 표기가 필수이며, 이 세 가지는 docLint가 발행 시 error로 집행한다(DOCS-ADR-0004 §2.6).
 
-- `author`는 **원저자**, `translator`가 Davi다 (§설계원칙 2와 충돌하지 않음: 원문의 author는 사람인 원저자)
-- `canonical`은 미지정(자기 참조 기본), 원문 연결은 original_url·본문 attribution 담당
-- `license` / `license_url`은 원문 라이선스를 그대로 명시한다 (CC BY 등). 라이선스가 번역·재배포를 허용하는지 반드시 확인 후 게시
-- 번역에 AI를 썼다면 §5에서 `role: [translation]`으로 표기
+### 4.1 폴더 계층과 category {#translations-placement}
+
+경로는 `translations/<주제>/<하위 주제>/<slug>.md`이고 URL이 그대로 따라간다(DOCS-ADR-0004 §2.1).
+
+- 폴더명은 원문의 주제를 자연어로 쓴다. 학습 계층 같은 판단 축은 URL에 새기지 않는다. 판단 축은 재구획되며, URL에 새기면 재구획이 곧 전 문서 이사가 된다.
+- 깊이는 의미 구분에서 도출하고 숫자에 맞추지 않는다. 하위 주제 구분이 필요 없는 주제는 `translations/<주제>/<slug>.md`로 depth 1에 둔다.
+- 모든 폴더에 `index.md`를 둔다.
+- **`category`는 섹션명을 뺀 폴더 경로의 파생 표기다.** 독립 선언이 아니며, 설계 원칙 3("폴더가 섹션을 결정한다")의 한 단계 아래 연장이다. `translations/kubernetes/node-runtime/`에 있는 문서의 값은 `category: "kubernetes/node-runtime"`이다. docLint `category-folder-mismatch`가 error로 집행한다.
+- `translation`이라는 값은 `category`와 `tags` 양쪽에서 쓰지 않는다. 그 사실은 `section`과 `doc_type`이 이미 두 번 말한다.
+
+### 4.2 정렬과 시리즈 {#translations-sort}
+
+사이드바 정렬은 `order` 우선이다(DOCS-ADR-0004 §2.3). 날짜 역순은 인덱스 페이지가 담당한다.
+
+- **`order`는 카테고리 폴더 안에서의 정렬 순서다.** 사이드바가 카테고리 단위로 그룹을 만들므로 값의 비교 범위도 그 그룹 안이다. 다른 카테고리에 같은 값이 있어도 충돌하지 않는다.
+- **`order`를 전 문서에 기입한다.** 누락하면 로더 기본값 9999로 한 덩어리가 된다. docLint `order-missing`이 warn으로 노출한다.
+- 제목이나 파일명은 정렬에 관여하지 않는다. 정렬 축은 `order` 하나다.
+- 파일명 숫자 접두사(notes 방식)는 쓰지 않는다. 번역 문서는 원문 링크와 함께 외부에서 참조되므로, 사이 삽입마다 URL이 바뀌면 리다이렉트가 계속 쌓인다. 순서는 frontmatter가 담고 URL은 불변으로 둔다.
+- 읽는 순서를 갖는 연작에는 `series`와 `series_order`를 함께 부여한다. 한 카테고리 폴더 안에 여러 시리즈와 낱개 문서가 공존할 수 있고, 시리즈마다 최하위 폴더를 만들지 않는다(§0.1).
+- 구성 문서가 하나뿐인 시리즈는 시리즈가 아니다. `series`와 `series_order`를 모두 비운다(DOCS-CDR-0002 §2.1).
+
+### 4.3 출처와 저작권 {#translations-provenance}
+
+- `author`는 **원저자**, `translator`가 Davi다(설계 원칙 2와 충돌하지 않는다. 원문의 author는 사람인 원저자다).
+- `original_url`은 필수다. docLint `translations-original-url-required`가 error로 집행한다.
+- `license`와 `license_url`은 원문 라이선스를 그대로 명시한다. 둘 다 필수이며 docLint `translations-license-required`가 error로 집행한다. 번역과 재배포를 허용하는 라이선스인지 확인한 뒤 게시한다.
+- **`canonical`은 지정하지 않는다.** 자기 참조가 기본이고, 원문 연결은 `original_url`과 본문 attribution 블록이 담당한다. 지정하면 docLint `translations-canonical-set`이 warn으로 잡는다.
+- `original_published`는 번역 기준이 된 원문의 최종 수정 시점이다. 갱신된 원문과의 차이를 판정하는 기준점이므로 비워두지 않는다(DOCS-CDR-0001 §2.3). 원문이 시점을 밝히지 않으면 `~`로 두고 그 사실을 attribution 블록에 적는다.
+- `translation_fidelity`는 `faithful`과 `restructured` 둘 중 하나다. 원문에 없는 종합 결론, 다이어그램, 학습 인사이트를 더하면 절 순서를 지켰더라도 `restructured`다(DOCS-CDR-0001 §2.2). attribution 블록의 변경 표시 문구가 이 값과 일치해야 한다.
+- 번역에 AI를 썼다면 §6에서 `role: [translation]`으로 표기한다.
+
+본문 attribution 블록의 고지 항목과 문구, 라이선스 단일·분기 표기 기준은 DOCS-CDR-0001 §2.3이 정한다.
+
+### 4.4 템플릿 {#translations-template}
+
+발행분 `translations/kubernetes/node-runtime/k8s-node-allocatable.md`를 기준으로 적었다.
 
 ```yaml
 ---
-title: "Raft 합의 알고리즘 이해하기 (번역)"
-original_title: "In Search of an Understandable Consensus Algorithm"
-date: 2026-04-02
-lastmod: 2026-04-02
+title: "Reserve Compute Resources for System Daemons (번역)"
+original_title: "Reserve Compute Resources for System Daemons"
+date: 2026-07-08
+lastmod: 2026-07-08
+original_published: 2025-12-05        # 번역 기준이 된 원문의 최종 수정 시점
 
-author: "Diego Ongaro, John Ousterhout"   # 원저자
-translator: "Davi"                        # 번역자
+author: "The Kubernetes Authors"      # 원저자
+translator: "Davi"                    # 번역자
 
-original_url: "https://raft.github.io/raft.pdf"
-original_published: 2025-12-05
+original_url: "https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/"
 original_lang: "en"
-translation_fidelity: "restructured"           # faithful | restructed
 translation_lang: "ko"
+translation_fidelity: "restructured"  # faithful | restructured
 
-license: "CC BY 4.0"
+license: "CC BY 4.0"                  # 원문 라이선스를 그대로
 license_url: "https://creativecommons.org/licenses/by/4.0/"
 
-description: "Paxos보다 이해하기 쉬운 합의 알고리즘 Raft의 리더 선출, 로그 복제, 안전성 보장 메커니즘 번역"
-slug: "raft-consensus-algorithm-ko"
+description: "kubelet의 Node Allocatable로 시스템 데몬 몫의 CPU·메모리·스토리지를 예약하는 방법"
+slug: "k8s-node-allocatable"
 
 section: "translations"
-category: "translation"
-tags: [distributed-systems, consensus, raft, translation]
+category: "kubernetes/node-runtime"   # 섹션명을 뺀 폴더 경로. 독립 선언이 아니다
+tags: [kubernetes, kubelet, node-allocatable, resource-management]
+
+order: 111                            # 카테고리 내 정렬 순서. 필수, 누락 시 9999로 뭉친다
+series: "Administer a Cluster"        # 낱개 문서면 ~
+series_order: 1                       # 시리즈 내 순번, 1부터. 낱개면 ~
 
 status: "active"
 toc: true
-comments: false
 draft: false
+
+ai_assistance:
+  authorship: "ai-drafted"
+  role: [translation, research]
+  model: ["claude-fable-5"]
+  review: "reviewing"                 # verified | reviewing | unreviewed (§6.2)
 ---
 ```
+
+`canonical`은 이 템플릿에 없다. 미지정이 정책이다(§4.3).
 
 ---
 
@@ -403,33 +456,32 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 
 ## 부록 A. 필드 레퍼런스 (요약) {#sec-a}
 
-| 필드                                                   | 타입               | 섹션                | 비고                                        |
-| ------------------------------------------------------ | ------------------ | ------------------- | ------------------------------------------- |
-| `title`                                                | string             | 전체                |                                             |
-| `date` / `lastmod`                                     | date               | 전체                | 작성일 / 수정일                             |
-| `author`                                               | string             | 전체                | 항상 사람                                   |
-| `description`                                          | string             | 전체                | 150~160자                                   |
-| `slug`                                                 | string             | 전체                | kebab-case                                  |
-| `section`                                              | enum               | 전체                | 폴더명과 일치                               |
-| `category`                                             | string             | 전체                | 단수. `parent/sub` 가능                     |
-| `tags`                                                 | string[]           | 전체                |                                             |
-| `order`                                                | number             | 전체                | deep-dive 정렬 1순위                        |
-| `series` / `series_order`                              | string / number    | deep-dive 주로      |                                             |
-| `status`                                               | enum               | 전체                | active/wip/archived                         |
-| `draft` / `search`                                     | bool               | 전체                |                                             |
-| `version`                                              | string             | **notes**           | 대상 기술 버전                              |
-| `cover`                                                | object             | **articles**        | OG 이미지                                   |
-| `project` / `doc_type` / `milestone`                   | —                  | **deep-dive**       |                                             |
-| `original_*` / `translator` / `canonical` / `license*` | —                  | **translations**    | provenance                                  |
-| `ai_assistance`                                        | object             | 전체(선택)          | §5                                          |
-| `id`                                                   | string             | **decisions**       | `id`는 결정 ID의 SSOT, `<SCOPE>-ADR-<NNNN>` |
-| `scope`                                                | string             | **decisions**       | 이니셜(DOCS, CORE, RDSM)                    |
-| `decision_status`                                      | string             | **decisions**       | {#sec-decisions} 참조                       |
-| `decider`                                              | string[]           | **decisions**       | 결정기록 참여자 배열                        |
-| `period`                                               | date               | **decisions**       | 단일 결정일                                 |
-| `issue` / `issue_url`                                  | string             | **decisions**(선택) | 결정이 참조하는 티켓/이슈 ID 및 URL         |
-| `supersedes` / `superseded_by`                         | string \| string[] | **decisions**(선택) | 결정 간 상호 대체 관계를 나타내는 참조      |
-| `related_decisions`                                    | string[]           | decisions·deep-dive | 결정 참조 정본                              |
+| 필드                                                       | 타입               | 섹션                   | 비고                                        |
+| ---------------------------------------------------------- | ------------------ | ---------------------- | ------------------------------------------- |
+| `title`                                                    | string             | 전체                   |                                             |
+| `date` / `lastmod`                                         | date               | 전체                   | 작성일 / 수정일                             |
+| `author`                                                   | string             | 전체                   | 항상 사람                                   |
+| `description`                                              | string             | 전체                   | 150~160자                                   |
+| `slug`                                                     | string             | 전체                   | kebab-case                                  |
+| `section`                                                  | enum               | 전체                   | 폴더명과 일치                               |
+| `category`                                                 | string             | 전체                   | 단수. 폴더 경로 파생(§4.1)                  |
+| `tags`                                                     | string[]           | 전체                   |                                             |
+| `order`                                                    | number             | 전체                   | 카테고리 내 정렬 순서(§4.2)                 |
+| `series` / `series_order`                                  | string / number    | deep-dive·translations | 시리즈명 / 시리즈 내 순번(§0.1)             |
+| `status`                                                   | enum               | 전체                   | active/wip/archived                         |
+| `draft` / `search`                                         | bool               | 전체                   |                                             |
+| `version`                                                  | string             | **notes**              | 대상 기술 버전                              |
+| `cover`                                                    | object             | **articles**           | OG 이미지                                   |
+| `project` / `doc_type` / `milestone`                       | —                  | **deep-dive**          |                                             |
+| `original_*` / `translator` / `license*` / `translation_*` | —                  | **translations**       | provenance. `canonical`은 미지정이 정책     |
+| `ai_assistance`                                            | object             | 전체(선택)             | §6                                          |
+| `id`                                                       | string             | **decisions**          | `id`는 결정 ID의 SSOT, `<SCOPE>-ADR-<NNNN>` |
+| `decision_status`                                          | string             | **decisions**          | {#sec-decisions} 참조                       |
+| `deciders`                                                 | string[]           | **decisions**          | 결정기록 참여자 배열                        |
+| `period`                                                   | object             | **decisions**          | `start` / `end` 두 키                       |
+| `issue` / `issue_url`                                      | string             | **decisions**(선택)    | 결정이 참조하는 티켓/이슈 ID 및 URL         |
+| `supersedes` / `superseded_by`                             | string \| string[] | **decisions**(선택)    | 결정 간 상호 대체 관계를 나타내는 참조      |
+| `related_decisions`                                        | string[]           | decisions·deep-dive    | 결정 참조 정본                              |
 
 ## 부록 B. 로더 연동 주의 {#sec-b}
 

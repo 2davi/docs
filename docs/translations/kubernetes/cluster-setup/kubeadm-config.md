@@ -11,7 +11,7 @@ translator: "Davi"
 original_url: "https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-config/"
 original_lang: "en"
 translation_lang: "ko"
-translation_fidelity: "faithful"
+translation_fidelity: "restructured"
 
 license: "CC BY 4.0"
 license_url: "https://creativecommons.org/licenses/by/4.0/"
@@ -29,7 +29,6 @@ series_order: 9
 
 status: "active"
 toc: true
-comments: false
 draft: false
 
 ai_assistance:
@@ -43,7 +42,7 @@ ai_assistance:
 
 > **원문:** [kubeadm config](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-config/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문의 절 순서와 계층을 보존해 옮기고 역자 주를 더했다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
+> 이 문서는 원문을 학습 목적으로 재구성하고 역자 주와 다이어그램을 더했다. 두괄식 종합 결론을 선두에 두고 대응 도형 없는 다이어그램을 실었다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
 >
 > 원문 시점 2024-08-17 · 번역 2026-07-09
 

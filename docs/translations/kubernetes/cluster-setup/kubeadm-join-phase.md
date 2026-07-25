@@ -29,7 +29,6 @@ series_order: 4
 
 status: "active"
 toc: true
-comments: false
 draft: false
 
 ai_assistance:
@@ -43,7 +42,7 @@ ai_assistance:
 
 > **원문:** [kubeadm join phase](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join-phase/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더했다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
+> 이 문서는 원문을 학습 목적으로 재구성하고 역자 주와 다이어그램을 더했다. 원문에 흩어진 플래그·페이즈 정보를 집약 절로 모으고 대응 도형 없는 다이어그램을 실었다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 비공식 번역이며 원저작자와 프로젝트의 공인을 받지 않았다. 원문과 번역이 어긋날 경우 원문이 우선한다.
 >
 > 원문 시점 2025-12-16 · 번역 2026-07-09
 
