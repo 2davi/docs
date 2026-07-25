@@ -76,7 +76,7 @@ ai_assistance: ~          # AI 미사용 시 ~ 또는 생략
 ---
 ```
 
-### 0.1 `series` 와 `category`
+### 0.1 시리즈 축과 카테고리 축의 분리 {#series-category-axes}
 
 **시리즈와 카테고리는 별도의 축이다.** 한 카테고리에 복수 시리즈 및 낱개 문서가 공존한다. 시리즈 간 순서는 한 시리즈에 속한 문서들 중 `date` 필드의 최소값으로 오름차순 파생하며, 동일 시작일을 가진 시리즈끼리는 이름 오름차순으로 순서를 정한다. 낱개 문서는 최하단. 해당 알고리즘은 `docSort.ts`에서 구현한다.
 
@@ -279,9 +279,9 @@ draft: false
 | chr      | proposed, active, completed, withdrawn, superseded   |
 
 - 참조 필드의 정본은 `related_decisions`다(§2.6). 대체 관계는 `supersedes` / `superseded_by`로 양방향 기록한다.
-- `review: unreviewed`인 동안 `draft: true`를 유지한다(§6 게이트 규칙). draft 해제는 곧 아래 검사의 통과 신청이다.
+- `review` 게이트(§6.4): `unreviewed`는 `draft: true`로 묶어 게시를 차단하고, `reviewing`은 검증 미완이나 발행을 허용하며, `verified`가 종착이다. draft 해제는 곧 아래 검사의 통과 신청이다.
 - 발행(`draft: false`) 문서에 docLint가 error로 집행하는 항목: doc_type 누락, id 누락,
-  id와 경로·파일명의 불일치, decision_status 어휘 이탈(DOCS-ADR-0003 §2.6).
+  id와 경로·파일명의 불일치, decision_status 어휘 이탈, `review`가 `unreviewed`인 채 발행(DOCS-ADR-0003 §2.6).
 - 문서를 이동하거나 개명하면 구 URL을 리다이렉트 레지스트리에 등록한다(§2.8).
 
 ```yaml
@@ -392,7 +392,8 @@ ai_assistance: { authorship: human, role: [metadata], model: ["claude-opus-4.8"]
 
 - **`author`는 절대 AI로 바꾸지 않는다.** `ai-drafted`여도 검수·게시 책임자는 사람이므로 author는 사람이다.
 - **본문 미관여 시(C) 오해 방지:** `role: [metadata]`로 본문에 AI가 닿지 않았음을 명시한다. 모호하면 블록을 생략한다.
-- **`review: unreviewed` 문서는 `draft: true`로 묶고 게시하지 않는다.**
+- **`review: unreviewed` 문서는 `draft: true`로 묶고 게시하지 않는다.** docLint가 발행 시 error로 잡는다.
+- **`reviewing` 문서는 발행할 수 있다.** 검증이 끝나지 않았으나, 읽으며 검토하는 운영을 위해 게시를 허용한다. docLint가 `review-backlog` warn으로 검토 대기열을 상시 노출하며, 검증을 마치면 `verified`로 올린다(DOCS-CDR-0002 §2.3, §2.4).
 - **확장 슬롯(축 직교 보장):** 필요 시 다음 필드를 무손상으로 추가할 수 있다.
   - `prompt_ref:` — 학습에 쓴 대화 영구링크 (재현성·투명성)
   - `sections:` — 섹션별 attribution이 필요해질 때 (co-authored 세분화)
