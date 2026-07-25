@@ -82,6 +82,20 @@ export const RULES: readonly LintRule[] = [
     applies: d => !d.path.endsWith('index.md'),
     check: d => d.fm.search === false ? '검색 제외' : null,
   },
+  {
+    id: 'review-unreviewed-published',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: '발행 문서의 review가 unreviewed (DOCS-CDR-0002 §2.4)',
+    applies: d => 'ai_assistance' in d.fm,
+    check: d => d.fm.ai_assistance?.review === 'unreviewed' ? 'AI 산출물 미검토 상태로 발행됨' : null,
+  },
+  {
+    id: 'review-backlog',
+    severity: 'warn', engine: 'doclint', enabled: true,
+    summary: 'review: reviewing 발행 문서 목록 (검토 대기열)',
+    applies: d => d.fm.draft !== true && 'ai_assistance' in d.fm,
+    check: d => d.fm.ai_assistance?.review === 'reviewing' ? '검토 진행 중' : null,
+  },
 
   // ── 위임 규칙: 집행은 각 소유자가, 등재와 가시성은 이 대장이 ────────────────
   // 값 파생 배선(ignoreDeadLinks ← 대장)은 3차 파동에서 연결한다.
