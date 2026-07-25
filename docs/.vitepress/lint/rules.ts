@@ -59,6 +59,14 @@ const STANDALONE_PAGES = new Set<string>([
 const sectionOf    = (doc: DocFile) => doc.path.split('/')[0]
 const inLoaderGlob = (doc: DocFile) => (SECTIONS as readonly string[]).includes(sectionOf(doc))
 const isDecisionRecord = (doc: DocFile) => sectionOf(doc) === 'decisions' && !doc.path.endsWith('index.md')
+const isTranslation = (doc: DocFile) => sectionOf(doc) === 'translations' && !doc.path.endsWith('index.md')
+
+// category가 폴더 경로에서 섹션명을 뺀 값과 일치해야 하는 섹션.
+// ADR-0004 §2.2: notes 계열은 섹션명을 빼고(linux/proxmox), decisions·deep-dive는 넣는다(decisions/docs).
+// notes 계열은 ADR-0004 §2.2에서 category를 폴더 경로와 일치시키도록 규정했으나, linux/proxmox 카테고리는 개정된 규칙을 반영하지 못하고 있다.
+// 두 관례가 공존하므로 "접두사를 빼는" 섹션만 여기 등재하고, 이 목록에 없는 섹션은 category-folder-mismatch 검사를 건너뛴다.
+// 전 섹션 통일(ADR-0004 §4.3 유예)이 끝나면 이 상수를 제거하고 규칙을 일반화한다.
+const CATEGORY_PREFIXED_SECTIONS = new Set<string>(['translations'])
 
 export const RULES: readonly LintRule[] = [
   // ── warn: 노출 감사 채널 ────────────────────────────────────────────────
@@ -81,6 +89,23 @@ export const RULES: readonly LintRule[] = [
     summary: 'search: false 문서 목록',
     applies: d => !d.path.endsWith('index.md'),
     check: d => d.fm.search === false ? '검색 제외' : null,
+  },
+  {
+    id: 'translations-canonical-set',
+    severity: 'warn', engine: 'doclint', enabled: true,
+    summary: 'translations 문서에 canonical이 지정됨 (frontmatter-conventions §4: 미지정이 정책)',
+    applies: d => isTranslation(d),
+    check: d => d.fm.canonical != null ? `canonical 지정됨: "${d.fm.canonical}" (자기 참조 기본을 벗어남)` : null,
+  },
+  {
+    id: 'order-missing',
+    severity: 'warn', engine: 'doclint', enabled: true,
+    summary: 'order 정렬 섹션에서 order 누락 (DOCS-ADR-0004 §2.3)',
+    // order로 정렬하는 섹션에서 order가 없으면 로더 기본값 9999로 뭉친다.
+    // translations는 order 정렬로 전환됐다(ADR-0004 §2.3). deep-dive도 order 정렬이나
+    // 이 규칙은 이번 근거(§2.3) 대상인 translations로 한정한다.
+    applies: d => isTranslation(d),
+    check: d => d.fm.order == null ? 'order 누락 (사이드바에서 9999로 뭉침)' : null,
   },
   {
     id: 'review-unreviewed-published',
@@ -169,6 +194,43 @@ export const RULES: readonly LintRule[] = [
       return d.fm.decision_status in vocab
         ? null
         : `미등록 상태 값: "${d.fm.decision_status}"`
+    },
+  },
+  {
+    id: 'translations-license-required',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: '발행된 translations 문서의 license·license_url 필수 (DOCS-ADR-0004 §2.6)',
+    applies: d => isTranslation(d),
+    check: d => {
+      const missing: string[] = []
+      if (!d.fm.license)     missing.push('license')
+      if (!d.fm.license_url) missing.push('license_url')
+      return missing.length ? `저작권 필드 누락: ${missing.join(', ')}` : null
+    },
+  },
+  {
+    id: 'translations-original-url-required',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: '발행된 translations 문서의 original_url 필수 (DOCS-ADR-0004 §2.6)',
+    applies: d => isTranslation(d),
+    check: d => d.fm.original_url ? null : 'original_url 누락 (원문 출처 표기 의무)',
+  },
+  {
+    id: 'category-folder-mismatch',
+    severity: 'error', engine: 'doclint', enabled: true,
+    summary: 'category가 섹션 아래 폴더 경로와 일치 (DOCS-ADR-0004 §2.2)',
+    // 접두사를 빼는 섹션만 대상. category와 section이 모두 있어야 판정 가능.
+    applies: d =>
+      CATEGORY_PREFIXED_SECTIONS.has(sectionOf(d)) &&
+      typeof d.fm.category === 'string' &&
+      !d.path.endsWith('index.md'),
+    check: d => {
+      // 기대값: 파일 경로에서 [섹션명]과 [파일명]을 뺀 중간 폴더 경로.
+      // 예) translations/kubernetes/node-runtime/k8s-node-allocatable.md
+      //     → 기대 category = "kubernetes/node-runtime"
+      const segs = d.path.split('/')
+      const folderPath = segs.slice(1, -1).join('/')  // 섹션·파일명 제외
+      return d.fm.category === folderPath ? null : `category "${d.fm.category}" 이 폴더 경로 "${folderPath}" 와 다름`
     },
   },
 ]

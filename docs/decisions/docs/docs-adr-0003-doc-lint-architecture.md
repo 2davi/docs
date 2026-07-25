@@ -1,7 +1,7 @@
 ---
 title: "문서 거버넌스 린터 docLint 도입"
 date: 2026-07-06
-lastmod: 2026-07-09
+lastmod: 2026-07-25
 author: "Davi"
 description: "'URL로는 열리는데 목록엔 없다'는 유령 문서 경험을 기동 시 콘솔 감사로 상시 보이게 만들고, DOCS-ADR-0002가 정한 frontmatter 규칙을 빌드 게이트로 집행하는 린터의 구조를 정한다. 규칙 레지스트리를 단일 대장으로 삼고, VitePress 고유 관문은 위임 엔트리로 흡수한다."
 slug: "docs-adr-0003-doc-lint-architecture"
@@ -35,6 +35,17 @@ ai_assistance:
 ---
 
 # DOCS-ADR-0003: 문서 거버넌스 린터 docLint 도입 {#docs-adr-0003}
+
+> ## 개정 이력
+>
+> 채택 이후의 규칙 목록(§2.6) 갱신 내역이다. 이 문서의 결정 내용(맥락·결정·근거)은
+> 채택 시점 그대로이며, §2.6은 rules.ts 대장과 동기화되는 집행 현황이라 규칙이 늘 때
+> 함께 갱신된다(§2.2).
+>
+> - **2026-07-25**: §2.6에 translations 규칙 5건 추가(error 3 · warn 2). 근거 DOCS-ADR-0004
+>   §2.2·§2.3·§2.6. 표에서 해당 행을 강조 표기하고 표 하단에 재명시했다.
+> - **2026-07-24**: §2.6에 review 게이트 규칙 2건 추가(`review-unreviewed-published` error,
+>   `review-backlog` warn). 근거 DOCS-CDR-0002 §2.4.
 
 | 항목 | 내용 |
 | --- | --- |
@@ -102,19 +113,26 @@ Vite 플러그인의 buildStart 훅에 장착한다. dev 서버 기동과 build 
 | error | decision-status-in-vocab | docLint | decision_status가 doc_type의 등록 어휘에 속함 | 0002 §2.5 |
 | error | section-folder-mismatch | docLint | section과 폴더의 불일치. 이관 완료로 warn에서 승격 | 본 문서 §1.2 |
 | error | review-unreviewed-published | docLint | 발행 문서의 review가 unreviewed | CDR-0002 §2.4 |
+| ***error*** | ***translations-license-required*** | ***docLint*** | ***발행 translations의 license·license_url 필수*** | ***0004 §2.6*** |
+| ***error*** | ***translations-original-url-required*** | ***docLint*** | ***발행 translations의 original_url 필수*** | ***0004 §2.6*** |
+| ***error*** | ***category-folder-mismatch*** | ***docLint*** | ***category가 섹션 아래 폴더 경로와 일치*** | ***0004 §2.2*** |
 | error | redirect-integrity | redirects(buildEnd) | 새 주소의 실존, 옛 주소의 비생존 | 0002 §2.8 |
 | error | dead-links | vitepress(위임) | 내부 링크 유효성 | 0002 §2.8 |
 | warn | draft-inventory | docLint | draft: true 문서 목록 | 본 문서 §1.1 |
 | warn | outside-loader-glob | docLint | 로더 glob 밖 마크다운 목록 | 본 문서 §1.2 |
 | warn | search-excluded | docLint | search: false 문서 목록. 인덱스 페이지는 면제 | 노출 감사 |
+| ***warn*** | ***translations-canonical-set*** | ***docLint*** | ***translations에 canonical 지정됨(미지정이 정책)*** | ***0004 §2.6*** |
+| ***warn*** | ***order-missing*** | ***docLint*** | ***order 정렬 섹션에서 order 누락*** | ***0004 §2.3*** |
 | warn | review-backlog | docLint | review: reviewing 발행 문서 목록 | CDR-0002 §2.4 |
+
+**2026-07-25 추가분(강조 표기)** — DOCS-ADR-0004가 정한 translations 전용 규칙 5건이다. 발행 translations 문서의 저작권·출처 필드를 error로 강제하고(`translations-license-required`, `translations-original-url-required`), category와 폴더 경로의 일치를 검사하며(`category-folder-mismatch`), canonical 지정과 order 누락을 warn으로 노출한다(`translations-canonical-set`, `order-missing`). 세 error 규칙은 배열에서 docLint error 그룹의 끝, 위임 규칙(redirect-integrity·dead-links) 앞에 위치한다.
 
 ### 2.7 배치와 출력 계약 {#placement-output}
 
 모듈은 `.vitepress/lint/`의 노드 전용 자리에 두고 `config.mts`의 vite.plugins로 장착한다. 레지스트리와 검사기는 Vue와 클라이언트 런타임에 기대지 않는 순수 TS로 유지해 클라이언트 번들과 격리한다. 출력 계약은 네 부분이다: 기동 헤더(문서 수와 규칙 수), 규칙별 블록(심각도, 규칙 id, 메시지, 해당 파일 목록), 위임 규칙 목록, 말미 요약(중단 여부).
 
 ```bash
-[docLint] 문서 144건(발행 130) · 규칙 13개(위임 2)
+[docLint] 문서 144건(발행 130) · 규칙 18개(위임 2)
 
 ERROR  decisions-doctype-required · 결정 기록의 doc_type 명시 의무 · 1건
   · decisions/index.md  (doc_type 누락 또는 미등록: "(없음)")
