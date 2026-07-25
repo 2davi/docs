@@ -20,13 +20,17 @@ description: "kubeadm init·join이 호스트에 가한 변경을 되돌리는 k
 slug: "kubeadm-reset"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, kubeadm, reset, translation]
+category: "kubernetes/cluster-setup"
+tags: [kubernetes, kubeadm, reset]
 
-status: "wip"
+order: 118
+series: "Kube ADM"
+series_order: 100
+
+status: "active"
 toc: true
 comments: false
-draft: true
+draft: false
 
 ai_assistance:
   authorship: "ai-drafted"
@@ -38,7 +42,7 @@ ai_assistance:
 # kubeadm reset {#kubeadm-reset}
 
 > **원문:** [kubeadm reset](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-reset/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을, 코드·명령 예시는 [Apache License 2.0](https://github.com/kubernetes/website/blob/main/LICENSE)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·적용)가 추가되었으며, 명령·플래그·정리 절차는 원문에서 누락 없이 옮겼다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·적용)가 추가되었으며, 명령·플래그·정리 절차는 원문에서 누락 없이 옮겼다.
 > 원문 시점 2026-02-16 · 번역 2026-07-09
 
 ## 결론 {#conclusion}

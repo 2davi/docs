@@ -20,10 +20,14 @@ description: "쿠버네티스 API 리소스는 기본적으로 etcd에 평문으
 slug: "encrypting-data-at-rest"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, security, encryption, etcd, secret, translation]
+category: "kubernetes/security"
+tags: [kubernetes, security, encryption, etcd, secret]
 
-status: "wip"
+order: 111
+series: "Administer a Cluster"
+series_order: 100
+
+status: "active"
 toc: true
 comments: false
 draft: false
@@ -38,7 +42,7 @@ ai_assistance:
 # 저장된 기밀 데이터 암호화 {#data-at-rest-encryption}
 
 > **원문:** [Encrypting Confidential Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 원문 코드 샘플은 원문 저장소 기준 [Apache License 2.0](https://github.com/kubernetes/website/blob/main/LICENSE)이다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다.
 > 원문 시점 2025-05-09 · 번역 2026-07-13
 
 ## 결론 {#conclusion}

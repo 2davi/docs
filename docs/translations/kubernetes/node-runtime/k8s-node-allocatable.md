@@ -20,10 +20,14 @@ description: "kubelet의 Node Allocatable로 시스템 데몬 몫의 CPU·메모
 slug: "k8s-node-allocatable"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, kubelet, node-allocatable, resource-management, translation]
+category: "kubernetes/node-runtime"
+tags: [kubernetes, kubelet, node-allocatable, resource-management]
 
-status: "wip"
+order: 111
+series: "Administer a Cluster"
+series_order: 100
+
+status: "active"
 toc: true
 comments: false
 draft: false
@@ -39,7 +43,7 @@ ai_assistance:
 
 >> **원문:** [Reserve Compute Resources for System Daemons](https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문의 라이선스는 CC BY 4.0([kubernetes/website](https://github.com/kubernetes/website))이고, 원문에 수록된 설정 예시의 라이선스는 Apache 2.0이다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문의 라이선스는 CC BY 4.0([kubernetes/website](https://github.com/kubernetes/website))이다.
 >
 >> 원문 시점 2025-12-05 · 번역 2026-07-08
 

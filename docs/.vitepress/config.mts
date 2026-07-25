@@ -89,9 +89,9 @@ defineConfig({
 
         // ── Translations: 날짜 역순, 단일 depth ──────────────────
         entry('translations', '/translations/', {
-          sortMenusByFrontmatterDate: true,
-          sortMenusOrderByDescending: true,
-          collapsed:                  false,
+          sortMenusByFrontmatterOrder: true,
+          collapsed:                   true,
+          collapseDepth:               2,
         }),
       ].filter(Boolean) as VitePressSidebarOptions []
     ),

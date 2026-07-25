@@ -20,10 +20,14 @@ description: "쿠버네티스 컨트롤 플레인 노드를 부트스트랩하�
 slug: "kubeadm-init"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, kubeadm, control-plane, translation]
+category: "kubernetes/cluster-setup"
+tags: [kubernetes, kubeadm, control-plane]
 
-status: "wip"
+order: 111
+series: "Kube ADM"
+series_order: 100
+
+status: "active"
 toc: true
 comments: false
 draft: false
@@ -39,7 +43,7 @@ ai_assistance:
 
 >> **원문:** [kubeadm init](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을, 코드·명령 예시는 [Apache License 2.0](https://github.com/kubernetes/website/blob/main/LICENSE)을 따른다. 변경 사항으로 결론 선행 재배치와 5유형 역자 주가 추가되었으며, 명령·플래그·피처 게이트 정보는 원문에서 누락 없이 옮겼다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치와 5유형 역자 주가 추가되었으며, 명령·플래그·피처 게이트 정보는 원문에서 누락 없이 옮겼다.
 >
 >> 원문 시점 2025-12-16 · 번역 2026-07-09
 

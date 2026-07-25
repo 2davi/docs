@@ -20,10 +20,14 @@ description: "노드의 kubelet이 직접 관리하는 정적 Pod를 파일시�
 slug: "static-pods"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, static-pods, kubelet, translation]
+category: "kubernetes/cluster-setup"
+tags: [kubernetes, static-pods, kubelet]
 
-status: "wip"
+order: 211
+series: "Configure Pods and Containers"
+series_order: 200
+
+status: "active"
 toc: true
 comments: false
 draft: false
@@ -39,7 +43,7 @@ ai_assistance:
 
 >> **원문:** [Create static Pods](https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을, 코드·명령 예시는 [Apache License 2.0](https://github.com/kubernetes/website/blob/main/LICENSE)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·보충·적용)가 추가되었으며, 절차·매니페스트·명령·출력은 원문에서 누락 없이 옮겼다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·보충·적용)가 추가되었으며, 절차·매니페스트·명령·출력은 원문에서 누락 없이 옮겼다.
 >
 >> 원문 시점 2026-04-16 · 번역 2026-07-09
 

@@ -20,10 +20,14 @@ description: "새 노드를 kubeadm 클러스터에 합류시키는 kubeadm join
 slug: "kubeadm-join"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, kubeadm, node-join, translation]
+category: "kubernetes/cluster-setup"
+tags: [kubernetes, kubeadm, node-join]
 
-status: "wip"
+order: 113
+series: "Kube ADM"
+series_order: 100
+
+status: "active"
 toc: true
 comments: false
 draft: false
@@ -39,7 +43,7 @@ ai_assistance:
 
 >> **원문:** [kubeadm join](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 >
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을, 코드·명령 예시는 [Apache License 2.0](https://github.com/kubernetes/website/blob/main/LICENSE)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·적용)가 추가되었으며, 명령·플래그·페이즈·출력은 원문에서 누락 없이 옮겼다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치와 역자 주(검증·적용)가 추가되었으며, 명령·플래그·페이즈·출력은 원문에서 누락 없이 옮겼다.
 >
 >> 원문 시점 2025-04-18 · 번역 2026-07-09
 

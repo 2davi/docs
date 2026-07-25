@@ -20,10 +20,14 @@ description: "kubeadm join의 합류 단계를 개별 실행 서브명령으로 
 slug: "kubeadm-join-phase"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, kubeadm, join, phase, translation]
+category: "kubernetes/cluster-setup"
+tags: [kubernetes, kubeadm, join, phase]
 
-status: "wip"
+order: 114
+series: "Kube ADM"
+series_order: 100
+
+status: "active"
 toc: true
 comments: false
 draft: false
@@ -38,7 +42,7 @@ ai_assistance:
 # kubeadm join phase {#kubeadm-join-phase}
 
 > **원문:** [kubeadm join phase](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join-phase/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을, 코드·명령 예시는 [Apache License 2.0](https://github.com/kubernetes/website/blob/main/LICENSE)을 따른다. 변경 사항으로 결론 선행 재배치, 역자 주(검증·정정·적용), 그리고 분량 관리를 위한 재구성이 추가되었다. **재구성 방식:** 모든 하위 명령에 반복되는 플래그를 아래 [공통 플래그](#common-flags) 표에 한 번만 싣고, 각 하위 명령에서는 플래그 이름만 나열한다. 상속 플래그 `--rootfs`는 [상속 플래그](#inherited-options)에 한 번만 싣는다. 하위 명령·플래그 정보는 누락 없이 보존했다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 문서 본문은 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)을 따른다. 변경 사항으로 결론 선행 재배치, 역자 주(검증·정정·적용), 그리고 분량 관리를 위한 재구성이 추가되었다. **재구성 방식:** 모든 하위 명령에 반복되는 플래그를 아래 [공통 플래그](#common-flags) 표에 한 번만 싣고, 각 하위 명령에서는 플래그 이름만 나열한다. 상속 플래그 `--rootfs`는 [상속 플래그](#inherited-options)에 한 번만 싣는다. 하위 명령·플래그 정보는 누락 없이 보존했다.
 > 원문 시점 2025-12-16 · 번역 2026-07-09
 
 ## 결론 {#conclusion}

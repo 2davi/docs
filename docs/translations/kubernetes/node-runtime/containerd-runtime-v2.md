@@ -20,10 +20,14 @@ description: "containerd의 Runtime v2 shim API 명세를 한국어로 옮긴 �
 slug: "containerd-runtime-v2"
 
 section: "translations"
-category: "translation"
-tags: [containerd, runtime, shim, cri, translation]
+category: "kubernetes/node-runtime"
+tags: [containerd, runtime, shim, cri]
 
-status: "wip"
+order: 911
+series: "Container d"
+series_order: 900
+
+status: "active"
 toc: true
 comments: false
 draft: false

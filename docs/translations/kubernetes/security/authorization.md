@@ -20,10 +20,14 @@ description: "쿠버네티스 인가는 인증 다음 단계로 API 서버 안�
 slug: "authorization"
 
 section: "translations"
-category: "translation"
-tags: [kubernetes, security, authorization, rbac, access-control, translation]
+category: "kubernetes/security"
+tags: [kubernetes, security, authorization, rbac, access-control]
 
-status: "wip"
+order: 911
+series: "API Access Control"
+series_order: 900
+
+status: "active"
 toc: true
 comments: false
 draft: false
@@ -38,7 +42,7 @@ ai_assistance:
 # 인가(Authorization) {#authorization}
 
 > **원문:** [Authorization](https://kubernetes.io/docs/reference/access-authn-authz/authorization/) · The Kubernetes Authors · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다. 원문 코드 샘플은 원문 저장소 기준 [Apache License 2.0](https://github.com/kubernetes/website/blob/main/LICENSE)이다.
+> 이 문서는 원문을 한국어로 옮기며 두괄식으로 재구성하고 역자 주를 더한 것이다.
 > 원문 시점 2026-04-07 · 번역 2026-07-13
 
 ## 결론 {#conclusion}
