@@ -101,20 +101,20 @@ Vite 플러그인의 buildStart 훅에 장착한다. dev 서버 기동과 build 
 | error | section-registered | docLint | section 값이 SECTIONS 레지스트리에 존재 | 0002 §2.7 |
 | error | decision-status-in-vocab | docLint | decision_status가 doc_type의 등록 어휘에 속함 | 0002 §2.5 |
 | error | section-folder-mismatch | docLint | section과 폴더의 불일치. 이관 완료로 warn에서 승격 | 본 문서 §1.2 |
+| error | review-unreviewed-published | docLint | 발행 문서의 review가 unreviewed | CDR-0002 §2.4 |
 | error | redirect-integrity | redirects(buildEnd) | 새 주소의 실존, 옛 주소의 비생존 | 0002 §2.8 |
 | error | dead-links | vitepress(위임) | 내부 링크 유효성 | 0002 §2.8 |
-| error | review-unreviewed-published | docLint | 발행 문서의 review가 unreviewed | CDR-0002 §2.4 |
 | warn | draft-inventory | docLint | draft: true 문서 목록 | 본 문서 §1.1 |
 | warn | outside-loader-glob | docLint | 로더 glob 밖 마크다운 목록 | 본 문서 §1.2 |
 | warn | search-excluded | docLint | search: false 문서 목록. 인덱스 페이지는 면제 | 노출 감사 |
-| warn  | review-backlog              | docLint | review: reviewing 발행 문서 목록 | CDR-0002 §2.4 |
+| warn | review-backlog | docLint | review: reviewing 발행 문서 목록 | CDR-0002 §2.4 |
 
 ### 2.7 배치와 출력 계약 {#placement-output}
 
 모듈은 `.vitepress/lint/`의 노드 전용 자리에 두고 `config.mts`의 vite.plugins로 장착한다. 레지스트리와 검사기는 Vue와 클라이언트 런타임에 기대지 않는 순수 TS로 유지해 클라이언트 번들과 격리한다. 출력 계약은 네 부분이다: 기동 헤더(문서 수와 규칙 수), 규칙별 블록(심각도, 규칙 id, 메시지, 해당 파일 목록), 위임 규칙 목록, 말미 요약(중단 여부).
 
 ```bash
-[docLint] 문서 144건(발행 130) · 규칙 11개(위임 2)
+[docLint] 문서 144건(발행 130) · 규칙 13개(위임 2)
 
 ERROR  decisions-doctype-required · 결정 기록의 doc_type 명시 의무 · 1건
   · decisions/index.md  (doc_type 누락 또는 미등록: "(없음)")
