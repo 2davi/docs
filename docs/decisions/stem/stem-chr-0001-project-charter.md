@@ -16,7 +16,7 @@ doc_type: "chr"
 decision_status: "active"
 deciders: ["Davi"]
 period:
-  start: 2026-10-20
+  start: 2026-10-19
   end: ~
 related_decisions: []
 supersedes: ~
@@ -25,7 +25,7 @@ superseded_by: ~
 status: "active"
 toc: true
 draft: false
-search: false
+search: true
 
 ai_assistance:
   authorship: "co-authored"
@@ -216,6 +216,7 @@ Stemma는 `blog.the2davi.dev` 도메인으로 구동할 블로그 엔진의 개�
 | --- | --- | --- |
 | 2026-09-24 | 초안 작성 | 없음 |
 | 2026-10-19 | 요약, 문서의 역할, 목적, 개발 단계, 이해관계자, 규모와 제약, 범위, 위험, 완료와 철회, 출처 | 없음 |
+| 2026-10-19 | 발효(proposed → active) | 없음 |
 
 ## 출처 {#sources}
 
