@@ -165,6 +165,15 @@ defineConfig({
     ...EXCLUDED_DIR_NAMES.map(d => `**/${d}/**`),
     `**/${EXCLUDED_FILE_PREFIX}*.md`,
   ],
-  vite: { plugins: [docLint(docRoot)] },
+  vite: {
+    plugins: [docLint(docRoot)],
+    // mermaid 11.17부터 UMD 패키지인 fastdom을 가져온다. mermaid는 플러그인(node_modules 안)이 가져오므로
+    // 개발 서버가 사전 번들하지 않고 원본 그대로 내보내고, mermaid가 가져오는 fastdom도 원본 UMD로 나가서
+    // 브라우저가 default export를 찾지 못한다. mermaid가 쓰는 두 진입점을 직접 사전 번들 목록에 넣는다.
+    // withMermaid는 이 목록 뒤에 자기 목록을 이어 붙이므로 여기 적은 항목은 그대로 유지된다.
+    optimizeDeps: {
+      include: ['fastdom', 'fastdom/extensions/fastdom-promised.js'],
+    },
+  },
 })
 )
