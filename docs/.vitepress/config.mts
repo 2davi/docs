@@ -95,8 +95,21 @@ defineConfig({
         }),
       ].filter(Boolean) as VitePressSidebarOptions []
     ),
-
-    search:      { provider: 'local' },
+    search: {
+      provider: 'local',
+      options: {
+        // draft 문서를 로컬 검색 색인에서 뺀다. 사이드바와 목록은 이미 draft를 빼는데
+        // 검색만 frontmatter의 search 값을 보고 있었다.
+        // _render를 직접 넘기면 search: false 처리도 여기서 직접 해야 한다(VitePress 1.x 문서).
+        // env.frontmatter는 md.render를 부른 뒤에 채워지므로 검사는 그 다음에 한다.
+        _render(src, env, md) {
+          const html = md.render(src, env)
+          if (env.frontmatter?.search === false) return ''
+          if (env.frontmatter?.draft === true) return ''
+          return html
+        },
+      },
+    },
     socialLinks: [{ icon: 'github', link: 'https://github.com/2davi' }],
   },
 
