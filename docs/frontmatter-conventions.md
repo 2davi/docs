@@ -1,6 +1,9 @@
-# Frontmatter Convention (2026-07-25) {#title}
+# Frontmatter Convention (2026-10-19) {#title}
 
 > ## 개정 이력
+>
+> - **2026-10-19**
+>   - 결정 스코프 `stem` 등록 → **§5** 디렉터리 규칙에 반영. 근거: CORE-ADR-0001 §2.2, STEM-CHR-0001
 >
 > - **2026-07-25**
 >   - `ai_assistance`의 `review` 필드 라벨 수정 → reviewed 폐기, verified | reviewing | unreviewed 삼단 구별로 확정.
@@ -316,7 +319,7 @@ ai_assistance:
 **이 섹션이 다른 이유:** 문서가 곧 제도다. 채택된 기록의 본문은 원칙적으로 불변이고(수정 대신 대체),
 `id`로 영구 참조되며, frontmatter 규칙 위반이 빌드 실패로 이어지는 유일한 섹션이다(집행: docLint, DOCS-ADR-0003).
 
-- 디렉터리는 `decisions/<scope>/`, scope는 소문자 `core | rdsm | docs`. 폴더가 섹션과 스코프를 함께
+- 디렉터리는 `decisions/<scope>/`, scope는 소문자 `core | rdsm | docs | stem`. 폴더가 섹션과 스코프를 함께
   결정한다(설계 원칙 3의 연장). 별도 `scope` 필드는 두지 않는다. 경로와 `id`에 이미 있는 사실의
   세 번째 사본이기 때문이다(DOCS-ADR-0002 §2.3).
 - `id`는 `<SCOPE>-<TYPE>-<NNNN>` 대문자 표기이며 **결정 ID의 단일 진실 원천**이다.

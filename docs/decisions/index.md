@@ -1,6 +1,6 @@
 ---
 title: Decisions
-description: 결정 기록 아카이브. CORE·RDSM·DOCS 스코프의 ADR·CDR·CHR
+description: 결정 기록 아카이브. CORE·RDSM·DOCS·STEM 스코프의 ADR·CDR·CHR
 section: decisions
 search: false
 ---

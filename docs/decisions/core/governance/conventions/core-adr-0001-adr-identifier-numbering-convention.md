@@ -1,7 +1,7 @@
 ---
 title: "ADR 식별자 및 넘버링 규칙"
 date: 2026-06-30
-lastmod: 2026-06-30
+lastmod: 2026-10-19
 author: "Davi"
 description: "여러 프로젝트를 가로지르는 결정 기록의 전역 유일 식별자 문법 <SCOPE>-<TYPE>-<NNNN>, SCOPE/TYPE 레지스트리, 4자리 단조 넘버링, 파일·디렉터리·상호참조 규칙을 정의한다."
 slug: "core-adr-0001-adr-identifier-numbering-convention"
@@ -90,6 +90,7 @@ SCOPE는 4글자 대문자 코드이며, 다음 표를 단일 진실 공급원(S
 | `CORE` | 교차 관심사 거버넌스 — 모든 스코프를 다스리는 근간 결정 | 물리적으로 분리 보관(§2.6) |
 | `RDSM` | REST Domain State Manager | 기존 ARD/CDR 소급 개명(§4) |
 | `DOCS` | 데브로그 플랫폼 자체의 기능·인프라 결정 | |
+| `STEM` | Stemma 블로그 엔진(`blog.the2davi.dev`) | 2026-10-19 등록. 헌장 STEM-CHR-0001 |
 
 **SCOPE 규칙**
 

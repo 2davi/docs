@@ -45,7 +45,7 @@ export function isSection(v: unknown): v is Section {
 
 // ── 2. 결정 축 ─────────────────────────────────────────────────────────────
 // 결정 기록 식별자 <SCOPE>-<TYPE>-<NNNN> 의 두 어휘. (제도 정의: CORE-ADR-0001)
-export const DECISION_SCOPES = ['core', 'rdsm', 'docs'] as const
+export const DECISION_SCOPES = ['core', 'rdsm', 'docs', 'stem'] as const
 export type DecisionScope = typeof DECISION_SCOPES[number]
 
 // rfc는 등재하지 않는다. (DOCS-ADR-0002 §2.6 폐기. 부활이 필요해지면 여기 한 줄이 전부다)
